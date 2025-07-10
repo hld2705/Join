@@ -1,32 +1,34 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="./summary/summary-styles.css">
-    <link rel="icon" type="image/x-icon" href="./assets/icons/favicon.svg">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./summary/summary-styles.css" />
+    <link rel="icon" type="image/x-icon" href="./assets/icons/favicon.svg" />
     <title>Join</title>
 </head>
 <body>
     <section class="left-side">
-        <a href="./index.html"><img class="join-logo" src="./assets/logo_white.svg" alt="Join"></a>
+        <a href="./index.html">
+            <img class="join-logo" src="./assets/logo_white.svg" alt="Join" />
+        </a>
 
         <nav>
             <a href="./summary.html">
-                <img src="./assets/summary.svg">
+                <img src="./assets/summary.svg" alt="Summary Icon" />
                 <p>Summary</p>
             </a>
             <a href="./add_task.html">
-                <img src="./assets/Add-task.svg">
+                <img src="./assets/Add-task.svg" alt="Add Task Icon" />
                 <p>Add Task</p>
             </a>
             <a href="">
-                <img src="./assets/Board.svg">
+                <img src="./assets/Board.svg" alt="Board Icon" />
                 <p>Board</p>
             </a>
             <a href="">
-                <img src="./assets/contacts.svg">
+                <img src="./assets/contacts.svg" alt="Contacts Icon" />
                 <p>Contacts</p>
             </a>
         </nav>
@@ -36,7 +38,7 @@
                 <p>Privacy Policy</p>
             </a>
             <a href="">
-                <p>Legal notice</p> 
+                <p>Legal notice</p>
             </a>
         </footer>
     </section>
@@ -50,11 +52,21 @@
             </div>
         </header>
 
-        <div class="content"></div>
+             
+        <div class="content">
+            <h1>Join 360</h1>
+            <span>Key Metrics at a Glance</span>
+            <div class="split-view">
+                <div class="task"></div>
+                <div id="task-container">
+                    <div id="greeting"></div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    </section>    
-    
+    <script type="module" src="./summary/template-summary.js"></script>
+    <script type="module" src="./db.js"></script>
+    <script type="module" src="./firstdata.js"></script>
 </body>
-<script type="module" src="db.js"></script>
-<script type="module"  src="./firstdata.js"></script>
 </html>

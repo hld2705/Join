@@ -54,7 +54,7 @@ export async function initializeDefaultData() {
     }
   }
 
-  // Daten nach dem Schreiben nochmal neu laden
+  // Reload data after writing
   await loadData();
 }
 
@@ -63,7 +63,7 @@ window.onload = async () => {
   console.log('Daten wurden geladen und/oder initialisiert.');
 };
 
-// Getter-Funktionen
+// Getter-function
 export function getUsers() {
   return users;
 }
