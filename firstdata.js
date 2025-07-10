@@ -6,7 +6,7 @@ export const join = {"users": [
     phone: "",
     password: "",
     login: 0,
-    badge: "./assets/icons/profilebadge/guest.svg",
+    badge: "./assets/profilebadge/guest.svg",
   },
   {
     id: 1,
@@ -15,7 +15,7 @@ export const join = {"users": [
     phone: "+49 2222222222",
     password: "mypassword123",
     login: 0,
-    badge: "./assets/icons/profilebadge/anja.svg",
+    badge: "./assets/profilebadge/anja.svg",
   },
   {
     id: 2,
@@ -24,7 +24,7 @@ export const join = {"users": [
     phone: "+49 3333333333",
     password: "mypassword123",
     login: 0,
-    badge: "./assets/icons/profilebadge/benedikt.svg",
+    badge: "./assets/profilebadge/benedikt.svg",
   },
   {
     id: 3,
@@ -33,7 +33,7 @@ export const join = {"users": [
     phone: "+49 4444444444",
     password: "mypassword123",
     login: 0,
-    badge: "./assets/icons/profilebadge/david.svg",
+    badge: "./assets/profilebadge/david.svg",
   },
   {
     id: 4,
@@ -42,7 +42,7 @@ export const join = {"users": [
     phone: "+49 5555555555",
     password: "mypassword123",
     login: 0,
-    badge: "./assets/icons/profilebadge/eva.svg",
+    badge: "./assets/profilebadge/eva.svg",
   },
   {
     id: 5,
@@ -51,7 +51,7 @@ export const join = {"users": [
     phone: "+49 6666666666",
     password: "mypassword123",
     login: 0,
-    badge: "./assets/icons/profilebadge/emmanuel.svg",
+    badge: "./assets/profilebadge/emmanuel.svg",
   },
   {
     id: 6,
@@ -60,7 +60,7 @@ export const join = {"users": [
     phone: "+49 7777777777",
     password: "mypassword123",
     login: 0,
-    badge: "./assets/icons/profilebadge/marcel.svg",
+    badge: "./assets/profilebadge/marcel.svg",
   },
   {
     id: 7,
@@ -69,7 +69,7 @@ export const join = {"users": [
     phone: "+49 8888888888",
     password: "mypassword123",
     login: 0,
-    badge: "./assets/icons/profilebadge/tatjana.svg",
+    badge: "./assets/profilebadge/tatjana.svg",
   }, {
     id: 8,
     name: "Anton Mayer",
@@ -77,7 +77,7 @@ export const join = {"users": [
     phone: "+49 1111111111",
     password: "mypassword123",
     login: 0,
-    badge: "./assets/icons/profilebadge/anton.svg",
+    badge: "./assets/profilebadge/anton.svg",
   }
 ], 
 "tasks": [
