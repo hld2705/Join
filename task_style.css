@@ -1,0 +1,137 @@
+body {
+    font-size: 16px;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+}
+
+.task-content-container {
+    flex: 1;
+    width: 100%;
+    background-color: #f5f6f7;
+    background: linear-gradient(0deg, rgba(245, 246, 247, 1) 99%, rgb(223, 224, 225) 100%);
+    display: flex;
+    align-items: center;
+    position: relative;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.left-task {
+    display: flex;
+    flex-direction: column;
+    margin-left: 140px;
+    z-index: 9999;
+}
+
+.right-task {
+    display: flex;
+    flex-direction: column;
+    z-index: 9999;
+}
+
+.task-title {
+    font-size: 36px;
+    position: absolute;
+    top: 140px;
+}
+
+.input {
+    border: 1px solid #ccc;
+    border-color: #dddddd;
+    outline: none;
+    border-radius: 10px;
+    padding: 10px 100px 10px 20px;
+    background-color: #ffffff;
+    text-align: left;
+}
+
+textarea {
+    resize: vertical;
+    width: 182px;
+    height: 70px;
+}
+
+::placeholder {
+    color: rgb(155, 154, 154);
+    opacity: 1;
+}
+
+
+.date-container {
+    position: relative;
+}
+
+.padding-top20 {
+    padding-top: 20px;
+}
+
+
+.em-05 {
+    margin-block-start: 0em;
+    margin-block-end: 0.5em;
+}
+
+.date-icon {
+    width: 19px;
+    position: absolute;
+    top: 533px;
+    left: 416px;
+}
+
+.vertical-line {
+    border: 1px;
+    height: 300px;
+    width: 1px;
+    background-color: #ccc;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+
+.priority-input-container {
+    display: flex;
+    gap: 10px;
+}
+
+.priority-input {
+    text-align: center;
+    padding: 10px 20px 10px 10px !important;
+    width: 60px;
+}
+
+.priority-input::placeholder {
+    color: black;
+}
+
+.bg-orange {
+    background-color: #FFA800
+}
+
+.bg-orange::placeholder {
+    color: white;
+}
+
+.clear-button {
+    background-color: #F6F7F8;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 16px;
+    gap: 4px;
+}
+
+.create-task-button {
+    background-color: #2A3647;
+    color: white;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 16px 20px;
+    gap: 4px;
+}
+
+.task-button-container {
+    position: absolute;
+    top: 520px;
+    left: 670px;
+    gap: 16px;
+}
