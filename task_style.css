@@ -5,6 +5,7 @@ body {
     font-weight: 700;
 }
 
+
 .task-content-container {
     flex: 1;
     width: 100%;
@@ -13,7 +14,6 @@ body {
     display: flex;
     align-items: center;
     position: relative;
-    font-size: 12px;
     font-weight: 400;
 }
 
@@ -31,24 +31,25 @@ body {
 }
 
 .task-title {
-    font-size: 36px;
+    font-size: 60px;
     position: absolute;
-    top: 140px;
+    top: 100px;
 }
 
 .input {
+    font-size: 16px;
     border: 1px solid #ccc;
     border-color: #dddddd;
     outline: none;
     border-radius: 10px;
-    padding: 10px 100px 10px 20px;
+    padding: 20px 200px 20px 20px;
     background-color: #ffffff;
     text-align: left;
 }
 
 textarea {
     resize: vertical;
-    width: 182px;
+    width: 222px;
     height: 70px;
 }
 
@@ -75,28 +76,28 @@ textarea {
 .date-icon {
     width: 19px;
     position: absolute;
-    top: 533px;
-    left: 416px;
+    top: 564px;
+    left: 540px;
 }
 
 .vertical-line {
     border: 1px;
-    height: 300px;
+    height: 348px;
     width: 1px;
     background-color: #ccc;
-    margin-left: 40px;
-    margin-right: 40px;
+    margin-left: 60px;
+    margin-right: 60px;
 }
 
 
 .priority-input-container {
     display: flex;
-    gap: 10px;
+    gap: 26px;
 }
 
 .priority-input {
     text-align: center;
-    padding: 10px 20px 10px 10px !important;
+    padding: 15px 49px 15px 20px !important;
     width: 60px;
 }
 
@@ -115,9 +116,9 @@ textarea {
 .clear-button {
     background-color: #F6F7F8;
     border: 1px solid;
+    border-color: #2A3647;
     border-radius: 10px;
-    padding: 16px;
-    gap: 4px;
+    padding: 16px 24px;
 }
 
 .create-task-button {
@@ -127,11 +128,66 @@ textarea {
     border-radius: 10px;
     padding: 16px 20px;
     gap: 4px;
+    font-weight: 700;
 }
 
 .task-button-container {
     position: absolute;
-    top: 520px;
-    left: 670px;
-    gap: 16px;
+    top: 700px;
+    left: 960px;
+}
+
+.priority-container {
+    overflow: visible !important;
+}
+
+.urgent-container {
+    position: relative;
+
+}
+
+.urgent-container:hover {
+    box-shadow: 10px 10px 5px 12px lightblue;
+}
+
+.double-up-arrow {
+    width: 20px;
+    position: absolute;
+    top: 18px;
+    right: 22px;
+}
+
+.medium-container {
+    position: relative;
+    box-shadow: 10px 10px 5px 12px lightblue;
+    overflow: visible !important;
+}
+
+.equals-icon {
+    width: 20px;
+    position: absolute;
+    top: 23px;
+    right: 18px;
+}
+
+.low-container {
+    position: relative;
+}
+
+.double-down {
+    width: 20px;
+    position: absolute;
+    top: 20px;
+    right: 28px;
+}
+
+.required-text {
+    font-size: 12px;
+    position: absolute;
+    bottom: 100px;
+}
+
+.asterisk {
+    color: #FF8190;
+    font-size: 14px;
 }
