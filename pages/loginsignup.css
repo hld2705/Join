@@ -1,0 +1,124 @@
+.logo{
+    position: relative;
+    top: 80px;
+    left: 77px;
+}
+.login{
+    position: relative;
+    background-color: white;
+    border-radius: 30px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
+    padding: 48px 115px 48px 115px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.back-arrow {
+    position: absolute;
+    top: 48px;
+    left: 32px; 
+    cursor: pointer;
+}
+
+.userinput{
+    display: flex;
+    justify-content: center;
+    flex-direction: column; 
+    align-items: center;
+    gap: 32px;
+    padding-bottom: 15px;
+}
+.userinputcustom{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 2px solid rgba(217, 217, 217, 1);
+    border-radius: 10px;
+    padding: 6px;
+    padding-left: 11px;
+    padding-right: 11px;
+}
+h1{
+    margin: 0px;
+}
+.inputfield{
+    border: none;
+  outline: none;
+  font-size: 16px;
+  color: #000;
+  padding: 10px 0;
+  line-height: 1;
+  background-color: transparent;
+  flex: 1;
+}
+.buttonlogin{
+    background-color: rgba(42, 54, 71, 1);
+    color: white;
+    border-radius: 8px;
+    padding: 5px;
+    font-size: 21px;
+    cursor: pointer;
+}
+.buttonlogin:disabled {
+  background-color: rgba(42, 54, 71, 0.3); /* lighter version */
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+.buttonguestlogin{
+    border-radius: 8px;
+    background-color: white;
+    color: black;
+    font-size: 21px;
+    padding: 5px;
+    cursor: pointer;
+    border: 1px solid;
+}
+.buttons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 32px;
+}
+header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.headerwriting{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 35px;
+    font-size: 20px;
+}
+.buttonsignup{
+    background-color: rgba(42, 54, 71, 1);
+    color: white;
+    border-radius: 8px;
+    padding: 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.links{
+    font-size: 16px;
+    color: rgba(168, 168, 168, 1);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.linksdiv{
+    position: fixed;
+    top: 95%;
+    right: 45%;
+    display: flex;
+    gap: 30px;
+}
+.signuppage{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
