@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" type="image/x-icon" href="./assets/icons/favicon.svg">
     <link rel="stylesheet" href="task_style.css">
+    <script src="add_task.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,8 +15,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
-
-
     <title>Join</title>
 </head>
 
@@ -88,13 +87,13 @@
                 <div class="priority-container">
                     <div class="em-05">Priority</div>
                     <div class="priority-input-container">
-                        <div class="urgent-container">
-                            <input class="input priority-input" placeholder="Urgent" readonly>
-                            <img class="double-up-arrow" src="./add_task_assets/Prio alta.svg">
+                        <div id="urg-container" onclick="changePriorityBackgroundolor()" class="urgent-container">
+                            <input id="urgent" class="input priority-input" placeholder="Urgent" readonly>
+                            <img id="double-arrow" class="double-up-arrow" src="./add_task_assets/Prio alta.svg">
                         </div>
                         <div class="medium-container">
-                            <input class="input priority-input bg-orange" placeholder="Medium" readonly>
-                            <img class="equals-icon" src="./add_task_assets/img/Capa 2.svg">
+                            <input class="input priority-input" placeholder="Medium" readonly>
+                            <img id="equal" class="equals-icon" src="./assets/Prio media.svg">
                         </div>
                         <div class="low-container">
                             <input class="input priority-input" placeholder="Low" readonly>
@@ -103,20 +102,22 @@
                     </div>
                 </div>
                 <div class="assigned-to-container">
-                    <div class="em-05">Assigned to</div>
+                    <div class="em-05 padding-top20">Assigned to</div>
                     <input type="text" class="input" placeholder="Select contact to assign" readonly>
                 </div>
                 <div class="date-container">
-                    <div class="em-05">Category</div>
+                    <div class="em-05 padding-top20">Category</div>
                     <input class="input" placeholder="Select task category" readonly>
                 </div>
                 <div>
-                    <div class="em-05">Subtasks</div>
+                    <div class="em-05 padding-top20">Subtasks</div>
                     <input class="input" placeholder="Add new subtask" readonly>
                 </div>
                 <div class="task-button-container">
                     <button class="clear-button">Clear</button>
+                    <img class="cancel-icon" src="./assets/iconoir_cancel.svg">
                     <button class="create-task-button">Create Task</button>
+                    <img class="check-icon" src="./assets/check.svg">
                 </div>
             </div>
         </div>
