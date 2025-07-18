@@ -78,8 +78,10 @@
                     <input class="input" placeholder="dd/mm/yyyy">
                     <img class="date-icon" src="add_task_assets/img/event.svg">
                 </div>
+
                 <span class="required-text"><span class="asterisk">*</span>This field ist required</span>
             </div>
+
 
             <div class="vertical-line"></div>
 
@@ -87,17 +89,17 @@
                 <div class="priority-container">
                     <div class="em-05">Priority</div>
                     <div class="priority-input-container">
-                        <div id="urg-container" onclick="changePriorityBackgroundolor()" class="urgent-container">
+                        <div id="urg-container" onclick="changeUrgentColor()" class="urgent-container">
                             <input id="urgent" class="input priority-input" placeholder="Urgent" readonly>
-                            <img id="double-arrow" class="double-up-arrow" src="./add_task_assets/Prio alta.svg">
+                            <img id="double-arrow" class="double-up-arrow" src="./assets/Prio alta.svg">
                         </div>
-                        <div class="medium-container">
-                            <input class="input priority-input" placeholder="Medium" readonly>
+                        <div onclick="changeMediumColor()" class="medium-container">
+                            <input id="medium-input" class="input priority-input" placeholder="Medium" readonly>
                             <img id="equal" class="equals-icon" src="./assets/Prio media.svg">
                         </div>
-                        <div class="low-container">
-                            <input class="input priority-input" placeholder="Low" readonly>
-                            <img class="double-down" src="./add_task_assets/img/double-down.svg">
+                        <div onclick="changeLowColor()" id="low-container" class="low-container">
+                            <input id="low-input" class="input priority-input" placeholder="Low" readonly>
+                            <img id="double-down" class="double-down" src="./assets/double-down.svg">
                         </div>
                     </div>
                 </div>
@@ -105,9 +107,14 @@
                     <div class="em-05 padding-top20">Assigned to</div>
                     <input type="text" class="input" placeholder="Select contact to assign" readonly>
                 </div>
-                <div class="date-container">
-                    <div class="em-05 padding-top20">Category</div>
-                    <input class="input" placeholder="Select task category" readonly>
+                <div>
+                    <label class="em-05 padding-top20" for="category-select"
+                        style="display:block; margin-bottom:4px;">Category</label>
+                    <select class="category-select-dropdown" name="category" id="category-select">
+                        <option  value="" disabled selected hidden>Select task category</option>
+                        <option class="black-text" value="Technical Task">Technical Task</option>
+                        <option class="black-text" value="User Story">User Story</option>
+                    </select>
                 </div>
                 <div>
                     <div class="em-05 padding-top20">Subtasks</div>
@@ -120,6 +127,7 @@
                     <img class="check-icon" src="./assets/check.svg">
                 </div>
             </div>
+        </div>
         </div>
     </section>
 </body>
