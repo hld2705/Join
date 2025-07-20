@@ -9,42 +9,48 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sawarabi+Gothic&display=swap"
         rel="stylesheet">
-    <link href="/pages/loginsignup.css" rel="stylesheet">
+    <link href="pages/loginsignup.css" rel="stylesheet">
     <link href="style_login.css" rel="stylesheet">
     <script src="script_login_template.js"></script>
     <script src="script_login.js"></script>
+    <script src="db.js"></script>
+    <script src="firstdata.js"></script>
     <title>Join</title>
 </head>
 
-<body>
+<body onload="renderFunc()">
 
-    <header><div><a href="index.html"><img class="logo" src="/assets/icons/Capa 2.svg"></a></div>
+    <header>
+    <div class="logocontainer" id="mainlogoposition"><a href="index.html"><img class="logo" src="assets/icons/Capa 2.svg"></a></div>
     <div class="headerwriting"><p>Not a Join user?</p><button class="buttonsignup" onclick="logIn()">Sign up</button></div>
     </header>
     
-    <div style="display: flex; justify-content: center; align-items: center;">
+    <div class="mainlogin">
         <div class="login" id="login">
-            <div style="padding-bottom: 30px; display:flex; justify-content: center; align-items:center; flex-direction: column;">
-                <h1 style="font-weight: 700; font-size: 61px;">Log in</h1> <img src="/assets/icons/Vector 5.svg">
+            <div class="loginwriting">
+                <h1 style="font-weight: 700; font-size: 61px;">Log in</h1> <img src="assets/icons/Vector 5.svg">
             </div>
 
             <div class="userinput">
                 <div class="userinputcustom"><input class="inputfield" id="email" type="email" placeholder="Email"
-                        required> <img src="/assets/icons/mail.svg"></div>
+                        required> <img src="assets/icons/mail.svg"></div>
                 <div class="userinputcustom"><input class="inputfield" id="password" type="password"
-                        placeholder="Password" required> <img src="/assets/icons/lock.svg"></div>
+                        placeholder="Password" required> <img src="assets/icons/lock.svg"></div>
             </div>
             <div class="buttons">
-                <button class="buttonlogin">Log in</button>
-                <button class="buttonguestlogin">Guest Log in</button>
+                <button class="buttonlogin" onclick="loginUserPushedInfo()">Log in</button>
+                <a href="summary.html"><button class="buttonguestlogin">Guest Log in</button></a>
             </div>
         </div>
     </div>
+
     <div class="linksdiv">
     <a class="links" href="#">Privacy Policy</a>
     <a class="links" href="#">Legal Notice</a>
     </div>
 
+    <div id="loadingscreen"></div>
+    <div id="loadingscreenmobile"></div>
 </body>
 
 </html>
