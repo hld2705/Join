@@ -11,7 +11,7 @@ export async function loadData() {
     const usersRes = await fetch(`${BASE_URL}/users.json`);
     const usersJson = await usersRes.json();
     users = usersJson ? Object.values(usersJson) : [];
-
+    
     const tasksRes = await fetch(`${BASE_URL}/tasks.json`);
     const tasksJson = await tasksRes.json();
     tasks = tasksJson ? Object.values(tasksJson) : [];

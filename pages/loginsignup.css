@@ -2,6 +2,8 @@
     position: relative;
     top: 80px;
     left: 77px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 .login{
     position: relative;
@@ -121,4 +123,38 @@ header{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.mainlogin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.loginwriting{
+    padding-bottom: 30px;
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    flex-direction: column;
+}
+
+.loadingscreen{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logoanimation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(4);
+  animation: logoanimation 2s ease-in-out forwards;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+@keyframes logoanimation {
+  to {
+    transform: translate(-50%, -50%) translate(-35vw, -34vh) scale(1);
+  }
 }
