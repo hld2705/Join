@@ -12,6 +12,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
@@ -65,21 +67,28 @@
 
             <div class="left-task">
                 <h1 class="task-title">Add Task</h1>
-                <div class="title-container">
-                    <div class="em-05">Title</div>
-                    <input class="input" placeholder="Enter a title">
-                </div>
-                <div class="padding-top20">
-                    <div class="em-05">Description</div>
-                    <textarea class="input" placeholder="Enter a Description"></textarea>
-                </div>
-                <div class="padding-top20">
-                    <div class="em-05">Due date</div>
-                    <input class="input" placeholder="dd/mm/yyyy">
-                    <img class="date-icon" src="add_task_assets/img/event.svg">
-                </div>
-                <span class="required-text"><span class="asterisk">*</span>This field ist required</span>
+                <form novalidate onsubmit="checkRequired(); return false;">
+                    <div class="title-container">
+                        <div class="em-05">Title<span class="asterisk">*</span></div>
+                        <input required id="title-input" class="input" type="text" placeholder="Enter a title">
+                        <p class="required-mssg" id="required-message-title"></p>
+                    </div>
+                    <div class="padding-top20">
+                        <div class="em-05">Description</div>
+                        <textarea class="input" placeholder="Enter a Description"></textarea>
+                    </div>
+                    <div class="padding-top20">
+                        <div class="em-05">Due date<span class="asterisk">*</span></div>
+                        <label for="date-input" style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                            <input required id="date-input" class="input" placeholder="dd/mm/yyyy">
+                            <img onclick="openCalendar()"  class="date-icon" src="add_task_assets/img/event.svg">
+                        </label>
+                        <p class="required-mssg" id="required-message-date"></p>
+                    </div>
+
+                    <span class="required-text"><span class="asterisk">*</span>This field ist required</span>
             </div>
+
 
             <div class="vertical-line"></div>
 
@@ -87,17 +96,17 @@
                 <div class="priority-container">
                     <div class="em-05">Priority</div>
                     <div class="priority-input-container">
-                        <div id="urg-container" onclick="changePriorityBackgroundolor()" class="urgent-container">
+                        <div id="urg-container" onclick="changeUrgentColor()" class="urgent-container">
                             <input id="urgent" class="input priority-input" placeholder="Urgent" readonly>
-                            <img id="double-arrow" class="double-up-arrow" src="./add_task_assets/Prio alta.svg">
+                            <img id="double-arrow" class="double-up-arrow" src="./assets/Prio alta.svg">
                         </div>
-                        <div class="medium-container">
-                            <input class="input priority-input" placeholder="Medium" readonly>
+                        <div onclick="changeMediumColor()" class="medium-container">
+                            <input id="medium-input" class="input priority-input" placeholder="Medium" readonly>
                             <img id="equal" class="equals-icon" src="./assets/Prio media.svg">
                         </div>
-                        <div class="low-container">
-                            <input class="input priority-input" placeholder="Low" readonly>
-                            <img class="double-down" src="./add_task_assets/img/double-down.svg">
+                        <div onclick="changeLowColor()" id="low-container" class="low-container">
+                            <input id="low-input" class="input priority-input" placeholder="Low" readonly>
+                            <img id="double-down" class="double-down" src="./assets/double-down.svg">
                         </div>
                     </div>
                 </div>
@@ -105,9 +114,14 @@
                     <div class="em-05 padding-top20">Assigned to</div>
                     <input type="text" class="input" placeholder="Select contact to assign" readonly>
                 </div>
-                <div class="date-container">
-                    <div class="em-05 padding-top20">Category</div>
-                    <input class="input" placeholder="Select task category" readonly>
+                <div>
+                    <label class="em-05 padding-top20" for="category-select"
+                        style="display:block; margin-bottom:4px;">Category</label>
+                    <select class="category-select-dropdown" name="category" id="category-select">
+                        <option value="" disabled selected hidden>Select task category</option>
+                        <option class="black-text" value="Technical Task">Technical Task</option>
+                        <option class="black-text" value="User Story">User Story</option>
+                    </select>
                 </div>
                 <div>
                     <div class="em-05 padding-top20">Subtasks</div>
@@ -116,10 +130,12 @@
                 <div class="task-button-container">
                     <button class="clear-button">Clear</button>
                     <img class="cancel-icon" src="./assets/iconoir_cancel.svg">
-                    <button class="create-task-button">Create Task</button>
+                    <button onclick="checkRequired()" type="submit" class="create-task-button">Create Task</button>
                     <img class="check-icon" src="./assets/check.svg">
+                    </form>
                 </div>
             </div>
+        </div>
         </div>
     </section>
 </body>

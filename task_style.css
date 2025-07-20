@@ -46,7 +46,7 @@ body {
     border-color: #dddddd;
     outline: none;
     border-radius: 10px;
-    padding: 20px 200px 20px 20px;
+    padding: 14px 200px 14px 20px;
     background-color: #ffffff;
     text-align: left;
 }
@@ -78,10 +78,10 @@ textarea {
 }
 
 .date-icon {
-    width: 19px;
+    width: 24px;
     position: absolute;
-    top: 564px;
-    left: 540px;
+    top: 554px;
+    left: 550px;
 }
 
 .vertical-line {
@@ -113,14 +113,33 @@ textarea {
     background-color: #FFA800
 }
 
+.bg-orange::placeholder {
+    color: white;
+}
+
 .bg-red {
     background-color: #FF3D00;
-    color: white !important;
+}
+
+.bg-green {
+    background-color: #7AE229;
+}
+
+.bg-green::placeholder {
+    color: white;
+}
+
+.bg-red::placeholder {
+    color: white;
 }
 
 
 .bg-orange::placeholder {
     color: white;
+}
+
+.black-text {
+    color: black;
 }
 
 .clear-button {
@@ -164,13 +183,13 @@ textarea {
     left: 960px;
 }
 
-.priority-container {
-    overflow: visible !important;
-}
 
 .urgent-container {
     position: relative;
+}
 
+.urgent-container input {
+    cursor: pointer;
 }
 
 .urgent-container:hover {
@@ -190,6 +209,10 @@ textarea {
     position: relative;
 }
 
+.medium-container input {
+    cursor: pointer;
+}
+
 .medium-container:hover {
     box-shadow: 0px 4px 10px -4px rgb(0, 0, 0);
     border-radius: 12px;
@@ -205,6 +228,10 @@ textarea {
 
 .low-container {
     position: relative;
+}
+
+.low-container input {
+    cursor: pointer;
 }
 
 .low-container:hover {
@@ -244,3 +271,41 @@ textarea {
     left: 216px;
 }
 
+#arrow.active {
+    border-color: red;
+}
+
+.category-select-dropdown {
+    cursor: pointer;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-color: #dddddd;
+    outline: none;
+    border-radius: 10px;
+    padding: 14px 270px 14px 20px;
+    background-color: #ffffff;
+    text-align: left;
+    opacity: 1;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'><path fill='black' d='M0 0l5 6 5-6z'/></svg> ");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    z-index: 0;
+
+}
+
+.category-select-dropdown:hover {
+    box-shadow: 0px 2px 8px -5px rgb(0, 0, 0);
+}
+
+.submit {
+    border-color: #FF8190;
+}
+
+.required-mssg {
+    color: #FF8190;
+    font-size: 12px;
+}
