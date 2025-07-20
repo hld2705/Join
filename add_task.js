@@ -53,3 +53,36 @@ function changeLowColor() {
 }
 
 // bei der Priority-Kategorie wird die Farbe der Buttons geswitched, je nachdem auf welchen man klickt.
+
+function checkRequired() {
+    let titleInput = document.getElementById('title-input');
+    let dateInput = document.getElementById('date-input');
+    let message1 = document.getElementById('required-message-title');
+    let message2 = document.getElementById('required-message-date');
+    if (!titleInput.checkValidity()) {
+        titleInput.classList.add('submit');
+        document.getElementById('required-message-title').innerHTML = "This field ist required"
+    } else {
+        titleInput.classList.remove('submit');
+        message1.innerHTML = "";
+    }
+    if (!dateInput.checkValidity()) {
+        dateInput.classList.add('submit');
+        document.getElementById('required-message-date').innerHTML = "This field ist required"
+    } else {
+        dateInput.classList.remove('submit');
+        message2.innerHTML = "";
+    }
+}
+
+function openCalendar() {
+    let dateInput = document.getElementById('date-input');
+    let calendar = flatpickr(dateInput, {
+        dateFormat: "d.m.Y",
+
+    });
+    document.getElementById('calendar-icon').addEventListener('click', () => {
+        calendar.open();
+    });
+}
+
