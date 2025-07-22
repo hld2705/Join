@@ -7,20 +7,22 @@
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" type="image/x-icon" href="./assets/icons/favicon.svg">
     <link rel="stylesheet" href="task_style.css">
-    <script src="add_task.js"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
     <link
         href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
+    <script src="add_task.js"></script>
     <title>Join</title>
 </head>
 
-<body>
+<body onload="init()">
     <section class="left-side">
         <a href="./index.html"><img class="join-logo" src="./assets/logo_white.svg" alt="Join"></a>
 
@@ -75,13 +77,13 @@
                     </div>
                     <div class="padding-top20">
                         <div class="em-05">Description</div>
-                        <textarea class="input" placeholder="Enter a Description"></textarea>
+                        <textarea id="description-input" class="input" placeholder="Enter a Description"></textarea>
                     </div>
                     <div class="padding-top20">
                         <div class="em-05">Due date<span class="asterisk">*</span></div>
                         <label for="date-input" style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
                             <input required id="date-input" class="input" placeholder="dd/mm/yyyy">
-                            <img onclick="openCalendar()"  class="date-icon" src="add_task_assets/img/event.svg">
+                            <img onclick="openCalendar()" class="date-icon" src="add_task_assets/img/event.svg">
                         </label>
                         <p class="required-mssg" id="required-message-date"></p>
                     </div>
@@ -110,28 +112,44 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="assigned-to-container">
                     <div class="em-05 padding-top20">Assigned to</div>
-                    <input type="text" class="input" placeholder="Select contact to assign" readonly>
+                    <input onclick="renderCategoryDropdown()" type="text" class="input cursorPointer"
+                        placeholder="Select contact to assign" readonly>
                 </div>
-                <div>
-                    <label class="em-05 padding-top20" for="category-select"
-                        style="display:block; margin-bottom:4px;">Category</label>
-                    <select class="category-select-dropdown" name="category" id="category-select">
-                        <option value="" disabled selected hidden>Select task category</option>
-                        <option class="black-text" value="Technical Task">Technical Task</option>
-                        <option class="black-text" value="User Story">User Story</option>
-                    </select>
-                </div>
+                <div id="dropdownList" class="dropdown-list hidden"></div>
+
+                <label class="em-05 padding-top20" for="category-select"
+                    style="display:block; margin-bottom:4px;">Category</label>
+                <select class="category-select-dropdown" name="category" id="category-select">
+                    <option value="" disabled selected hidden>Select task category</option>
+                    <option class="black-text" value="Technical Task">Technical Task</option>
+                    <option class="black-text" value="User Story">User Story</option>
+                </select>
                 <div>
                     <div class="em-05 padding-top20">Subtasks</div>
                     <input class="input" placeholder="Add new subtask" readonly>
                 </div>
                 <div class="task-button-container">
-                    <button class="clear-button">Clear</button>
-                    <img class="cancel-icon" src="./assets/iconoir_cancel.svg">
-                    <button onclick="checkRequired()" type="submit" class="create-task-button">Create Task</button>
-                    <img class="check-icon" src="./assets/check.svg">
+                    <div class="clearBtn-svg-container" onclick="addNewTask()">
+                        <button class="clear-button">Clear</button>
+                        <svg class="cancel-icon" width="25" height="24" viewBox="0 0 25 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12.0692 12.0001L17.3122 17.2431M6.82617 17.2431L12.0692 12.0001L6.82617 17.2431ZM17.3122 6.75708L12.0682 12.0001L17.3122 6.75708ZM12.0682 12.0001L6.82617 6.75708L12.0682 12.0001Z"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <div class="createTaskBtn-svg-container">
+                        <button onclick="checkRequired()" type="submit" class="create-task-button">Create Task</button>
+                        <svg class="check-icon" width="14" height="12" viewBox="0 0 16 12" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke="currentColor"
+                                d="M5.61905 9.15L14.0941 0.675C14.2941 0.475 14.5316 0.375 14.8066 0.375C15.0816 0.375 15.3191 0.475 15.5191 0.675C15.7191 0.875 15.8191 1.1125 15.8191 1.3875C15.8191 1.6625 15.7191 1.9 15.5191 2.1L6.31905 11.3C6.11905 11.5 5.88572 11.6 5.61905 11.6C5.35239 11.6 5.11905 11.5 4.91905 11.3L0.619055 7C0.419055 6.8 0.323221 6.5625 0.331555 6.2875C0.339888 6.0125 0.444055 5.775 0.644055 5.575C0.844055 5.375 1.08155 5.275 1.35655 5.275C1.63155 5.275 1.86905 5.375 2.06905 5.575L5.61905 9.15Z"
+                                fill="white" />
+                        </svg>
+                    </div>
                     </form>
                 </div>
             </div>

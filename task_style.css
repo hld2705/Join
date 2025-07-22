@@ -10,11 +10,11 @@ body {
 }
 
 .task-content-container {
+    display: flex;
     flex: 1;
     width: 100%;
     background-color: #f5f6f7;
     background: linear-gradient(0deg, rgba(245, 246, 247, 1) 99%, rgb(223, 224, 225) 100%);
-    display: flex;
     align-items: center;
     position: relative;
     font-weight: 400;
@@ -152,35 +152,60 @@ textarea {
     font-weight: 300
 }
 
-.clear-button:hover {
-    border-color: #29ABE2;
+.clearBtn-svg-container:hover .cancel-icon {
     color: #29ABE2;
-    box-shadow: 0px 4px 10px -4px rgb(0, 0, 0);
     transition: 0.2s;
 }
+
+.clearBtn-svg-container:hover .clear-button {
+    color: #29ABE2;
+    border-color: #29ABE2;
+    transition: 0.2s;
+}
+
+.createTaskBtn-svg-container:hover .create-task-button {
+    background-color: #29ABE2;
+    box-shadow: 0px 4px 10px -4px rgb(0, 0, 0);
+    border-color: transparent;
+    transition: 0.2s;
+}
+
+.cancel-icon {
+    position: absolute;
+    top: 15px;
+    left: 58px;
+    color: #2A3647
+}
+
 
 .create-task-button {
     font-size: 18px;
     background-color: #2A3647;
     color: white;
-    border: 1px solid;
+    border: 1px solid transparent;
     border-radius: 10px;
-    padding: 16px 36px 16px 12px;
+    padding: 15px 36px 15px 12px;
     gap: 4px;
     font-weight: 600;
 }
 
-.create-task-button:hover {
-    background-color: #29ABE2;
-    box-shadow: 0px 4px 10px -4px rgb(0, 0, 0);
-    border: none;
-    transition: 0.2s;
+.cursorPointer {
+    cursor:pointer;
+}
+
+.check-icon {
+    position: absolute;
+    top: 21px;
+    left: 216px;
+    color: white;
 }
 
 .task-button-container {
+    display: flex;
     position: absolute;
     top: 700px;
-    left: 960px;
+    left: 908px;
+    gap: 4px;
 }
 
 
@@ -259,17 +284,9 @@ textarea {
     font-size: 14px;
 }
 
-.cancel-icon {
-    position: absolute;
-    top: 15px;
-    left: 58px;
-}
 
-.check-icon {
-    position: absolute;
-    top: 21px;
-    left: 216px;
-}
+
+
 
 #arrow.active {
     border-color: red;

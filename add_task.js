@@ -1,6 +1,15 @@
 let urgentActive = false;
 let mediumActive = false;
 let lowActive = false;
+let task = [];
+let Users = [
+    "Anja", "Peter", "Ralf", "Lisa", "Raphael", "Paul",
+]
+
+
+function init() {
+    removeRequired();
+}
 
 function resetAllButton() {
     document.getElementById('urgent').classList.remove('bg-red');
@@ -75,6 +84,24 @@ function checkRequired() {
     }
 }
 
+// "This field ist required" und eine rote Umrandung werden angezeigt, wenn nichts in "Title" oder "Date" eingegeben wurde.
+
+function removeRequired() {
+    let titleInput = document.getElementById('title-input');
+    let dateInput = document.getElementById('date-input');
+
+    titleInput.addEventListener('input', () => {
+        titleInput.classList.remove('submit');
+        document.getElementById('required-message-title').innerHTML = "";
+    });
+    dateInput.addEventListener('input', () => {
+        dateInput.classList.remove('submit');
+        document.getElementById('required-message-date').innerHTML = "";
+    });
+}
+
+// Das "this field is required" Feld und die rote Umrandung werden bei Eingabe wieder gelöscht.
+
 function openCalendar() {
     let dateInput = document.getElementById('date-input');
     let calendar = flatpickr(dateInput, {
@@ -86,3 +113,27 @@ function openCalendar() {
     });
 }
 
+// Kalendar wird geöffnet 
+
+function addNewTask() {
+    let title = document.getElementById('title-input');
+    let description = document.getElementById('description-input');
+    let date = document.getElementById('date-input');
+    let newTask = {
+        "title": title.value,
+        "description": description.value,
+        "date": date.value,
+    };
+    task.push(newTask);
+    console.log(task);
+    title.value = "";
+    description.value = "";
+    date.value = "";
+}
+
+// Werte von Title, Date und Description werden genommen und sollen ausgelesen werden. Werte werden gelöscht wenn der "Clear" Button betätigt wird.
+
+function renderCategoryDropdown() {
+    let list = document.getElementById('dropdownList')
+    list.innerHTML = "Hanlo" 
+}
