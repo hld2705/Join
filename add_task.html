@@ -115,9 +115,11 @@
 
                 <div class="assigned-to-container">
                     <div class="em-05 padding-top20">Assigned to</div>
-                    <input onclick="renderCategoryDropdown()" type="text" class="input cursorPointer"
+                    <input id="assign-input" onclick="renderCategoryDropdown(), inputBorderColorSwitch()" type="text" class="input cursorPointer"
                         placeholder="Select contact to assign" readonly>
+                        <img id="drop-down-svg" class="drop-down-arrow-svg" src="./assets/arrow_drop_down.svg">
                 </div>
+        
                 <div id="dropdownList" class="dropdown-list hidden"></div>
 
                 <label class="em-05 padding-top20" for="category-select"

@@ -133,7 +133,22 @@ function addNewTask() {
 
 // Werte von Title, Date und Description werden genommen und sollen ausgelesen werden. Werte werden gelöscht wenn der "Clear" Button betätigt wird.
 
+function inputBorderColorSwitch() {
+    let assignInput = document.getElementById('assign-input');
+
+    assignInput.classList.toggle("borderColorBlue");
+}
+
 function renderCategoryDropdown() {
-    let list = document.getElementById('dropdownList')
-    list.innerHTML = "Hanlo" 
+    let arrowIcon = document.getElementById('drop-down-svg');
+    let currentSrc = arrowIcon.src;
+    let dropdownList = document.getElementById('dropdownList');
+
+    if (currentSrc.includes("arrow_drop_down.svg")) {
+        arrowIcon.src = "./assets/arrow_drop_down2.svg";
+        dropdownList.classList.remove("hidden");
+    } else {
+        arrowIcon.src = "./assets/arrow_drop_down.svg";
+        dropdownList.classList.add("hidden");
+    }
 }

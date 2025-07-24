@@ -20,6 +20,17 @@ body {
     font-weight: 400;
 }
 
+.assigned-to-container {
+    position: relative;
+}
+
+.drop-down-arrow-svg {
+    cursor: pointer;
+    position: absolute;
+    top: 72px;
+    right: 14px;
+}
+
 .left-task {
     display: flex;
     flex-direction: column;
@@ -190,7 +201,7 @@ textarea {
 }
 
 .cursorPointer {
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .check-icon {
@@ -284,9 +295,9 @@ textarea {
     font-size: 14px;
 }
 
-
-
-
+.borderColorBlue {
+    border-color: #29ABE2;
+}
 
 #arrow.active {
     border-color: red;
@@ -311,7 +322,6 @@ textarea {
     background-position: right 10px center;
     background-size: 12px;
     z-index: 0;
-
 }
 
 .category-select-dropdown:hover {
@@ -325,4 +335,27 @@ textarea {
 .required-mssg {
     color: #FF8190;
     font-size: 12px;
+}
+
+.dropdown-list {
+    overflow: hidden;
+    height: 200px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0px 0px 13px -11px rgb(0, 0, 0);
+    transition: max-height 0.3s ease;
+}
+
+
+
+.hidden {
+    display: none;
+}
+
+input:focus::-webkit-input-placeholder {
+    color: transparent;
+}
+
+textarea:focus::-webkit-input-placeholder {
+    color: transparent;
 }
