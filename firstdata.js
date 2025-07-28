@@ -14,7 +14,7 @@ export const join = {"users": [
     email: "schulz@hotmail.com",
     phone: "+49 2222222222",
     password: "mypassword123",
-    login: 0,
+    login: 1,
     badge: "./assets/profilebadge/anja.svg",
   },
   {

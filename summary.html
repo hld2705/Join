@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./summary/summary-styles.css" />
-    <link rel="icon" type="image/x-icon" href="./assets/icons/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.svg" />
     <title>Join</title>
 </head>
 <body>
@@ -23,21 +23,21 @@
                 <img src="./assets/Add-task.svg" alt="Add Task Icon" />
                 <p>Add Task</p>
             </a>
-            <a href="">
+            <a href="#">
                 <img src="./assets/Board.svg" alt="Board Icon" />
                 <p>Board</p>
             </a>
-            <a href="">
+            <a href="#">
                 <img src="./assets/contacts.svg" alt="Contacts Icon" />
                 <p>Contacts</p>
             </a>
         </nav>
 
         <footer>
-            <a href="">
+            <a href="#">
                 <p>Privacy Policy</p>
             </a>
-            <a href="">
+            <a href="#">
                 <p>Legal notice</p>
             </a>
         </footer>
@@ -47,15 +47,20 @@
         <header>
             <h3>Kanban Project Management Tool</h3>
             <div class="user-info">
-                <img src="./assets/help.svg" alt="help">
-               <img class="profil" src="assets/sofia.svg" alt="Profilbild"></div>
+                <img src="./assets/help.svg" alt="Hilfe">
+                <img class="profil" src="./assets/sofia.svg" alt="badges-header">
+                  <div id="log-out-menu"></div>
             </div>
         </header>
 
-             
-        <div class="content">
-            <h1>Join 360</h1>
-            <span>Key Metrics at a Glance</span>
+     
+          <div class="content">
+            <div class="summary-header">
+                <h1>Join 360</h1>
+              <p>|</p>
+                <span>Key Metrics at a Glance</span>
+            </div>
+       
             <div class="split-view">
                 <div class="task"></div>
                 <div id="task-container">
@@ -63,10 +68,13 @@
                 </div>
             </div>
         </div>
+          
+    
     </section>
-
+      <script type="module" src="./db.js"></script>
+    <script type="module" src="./summary/script-summary.js"></script>
     <script type="module" src="./summary/template-summary.js"></script>
-    <script type="module" src="./db.js"></script>
     <script type="module" src="./firstdata.js"></script>
+ 
 </body>
 </html>
