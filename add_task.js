@@ -154,6 +154,7 @@ function removeRequired() {
 
 function openCalendar() {
     let dateInput = document.getElementById('date-input');
+    let calendarIcon = document.getElementById('calendar-icon')
     let calendar = flatpickr(dateInput, {
         dateFormat: "d.m.Y",
 
@@ -189,8 +190,8 @@ function inputBorderColorSwitch() {
     assignInput.classList.toggle("borderColorBlue");
 }
 
-function renderAssingDropdown() {
-    let arrowIcon = document.getElementById('drop-down-svg');
+function renderAssignDropdown() {
+    let arrowIcon = document.getElementById('drop-down-svg-assign');
     let currentSrc = arrowIcon.src;
     let dropdownList = document.getElementById('dropdownList');
 
@@ -204,6 +205,22 @@ function renderAssingDropdown() {
 }
 
 // Das Assigned to Input wird gerendert und befüllt mit den User Daten aus der Firebase Datenbank.
+
+function renderCategoryDropdown() {
+    let arrowIcon = document.getElementById('drop-down-svg-category');
+    let currentSrc = arrowIcon.src;
+    let dropdownListCategory = document.getElementById('dropdownListCategory');
+
+    if (currentSrc.includes("arrow_drop_down.svg")) {
+        arrowIcon.src = "./assets/arrow_drop_down2.svg";
+        dropdownListCategory.classList.toggle('open');
+    } else {
+        arrowIcon.src = "./assets/arrow_drop_down.svg";
+        dropdownListCategory.classList.remove('open');
+    }
+}
+
+
 
 function CheckButton() {
    let checkButton = document.createElement("img")
