@@ -86,7 +86,7 @@ export const join = {"users": [
     main: 'userstory',
     title: 'Kochwelt Page & Recipe Recommender',
     description: 'Build start page with recipe recommendation...',
-    enddate: '2025-03-30',
+    enddate: '2025-09-30',
     assigned: {
       id: 0,
     },
@@ -99,7 +99,7 @@ export const join = {"users": [
     main: 'techtask',
     title: 'HTML Base Template Creation',
     description: 'Create reusable HTML base templates...',
-    enddate: '2025-03-30',
+    enddate: '2025-09-30',
     assigned: {
       id: 0,
     },
@@ -112,7 +112,7 @@ export const join = {"users": [
     main: 'userstory',
     title: 'Contact Form & Impring',
     description: 'Create a contact form and impring page...',
-    enddate: '2025-03-30',
+    enddate: '2025-09-30',
     assigned: {
       id: 0,
     },
@@ -125,7 +125,7 @@ export const join = {"users": [
     main: 'techtask',
     title: 'CSS Architecture Planning',
     description: 'Define CSS naming conventions and structure...',
-    enddate: '2025-03-30',
+    enddate: '2025-09-30',
     assigned: {
       id: 0,
     },
@@ -137,7 +137,7 @@ export const join = {"users": [
     main: 'userstory',
     title: 'Daily Kochwelt Recipe',
     description: 'Implement daily recipe and portion calculator...',
-    enddate: '2025-03-30',
+    enddate: '2025-09-30',
     assigned: {
       id: 0,
     },

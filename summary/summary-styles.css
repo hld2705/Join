@@ -82,8 +82,8 @@
 
 .vector {
     height: 120px;
-    margin: 0 auto;
     display: block;
+    margin-left: 50px;
 }
 
 .join span {
@@ -112,7 +112,10 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
+.status-left{
+    display: flex;
+    flex-direction: row;
+}
 .summary-todo{
 
     width: 264px;
@@ -136,6 +139,8 @@
 .icon-summary {
     width: 69px;
     height: 69px;
+    margin-top: 20px;
+    margin-left: 20px;
 }
 
 .summary-todo:hover .icon-summary {
@@ -198,7 +203,7 @@
 }
 
 .info-date {
-    margin-left: 30px;
+
     display: flex;
     flex-direction: column;
 }
@@ -206,6 +211,7 @@
 .date {
     font-size: 21px;
     margin-bottom: 10px;
+    font-weight: bold;
 }
 
 .info {
