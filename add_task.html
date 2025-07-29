@@ -14,8 +14,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
@@ -83,8 +83,9 @@
                     <div class="padding-top20">
                         <div class="em-05">Due date<span class="asterisk">*</span></div>
                         <label for="date-input" style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
-                            <input required id="date-input" class="input" placeholder="dd/mm/yyyy">
-                            <img onclick="openCalendar()" class="date-icon" src="add_task_assets/img/event.svg">
+                            <input type="text" required id="date-input" class="input" placeholder="dd/mm/yyyy">
+                            <img id="calendar-icon" onclick="openCalendar()" class="date-icon"
+                                src="add_task_assets/img/event.svg">
                         </label>
                         <p class="required-mssg" id="required-message-date"></p>
                     </div>
@@ -116,20 +117,26 @@
 
                 <div class="assigned-to-container">
                     <div class="em-05 padding-top20">Assigned to</div>
-                    <input id="assign-input" onclick="renderAssingDropdown(), inputBorderColorSwitch(), showUserName()" type="text"
-                        class="input cursorPointer" placeholder="Select contact to assign" readonly>
-                    <img id="drop-down-svg" class="drop-down-arrow-svg" src="./assets/arrow_drop_down.svg">
+                    <input id="assign-input" onclick="renderAssignDropdown(), inputBorderColorSwitch(), showUserName()"
+                        type="text" class="input assign-Input cursorPointer" placeholder="Select contact to assign" readonly>
+                    <img onclick="renderAssignDropdown()" id="drop-down-svg-assign" class="drop-down-arrow-svg" src="./assets/arrow_drop_down.svg">
                 </div>
 
                 <div id="dropdownList" class="dropdown-list"></div>
-                <label class="em-05 padding-top20" for="category-select"
-                    style="display:block; margin-bottom:4px;">Category</label>
-                <select class="category-select-dropdown" name="category" id="category-select">
-                    <option value="" disabled selected hidden>Select task category</option>
-                    <option class="black-text" value="Technical Task">Technical Task</option>
-                    <option class="black-text" value="User Story">User Story</option>
-                </select>
+
+                <div class="category-container">
+                    <div class="em-05 padding-top20">Category</div>
+                    <input id="category-input" onclick="renderCategoryDropdown()" type="text" class="input category-input cursorPointer"
+                        placeholder="Select task category" readonly>
+                    <img onclick=" renderCategoryDropdown()" id="drop-down-svg-category" class="drop-down-arrow-svg-category" src="./assets/arrow_drop_down.svg">
+                </div>
+
                 <div>
+                    <div id="dropdownListCategory" class="dropdown-list">
+                        <div class="category-option">Technical Task</div>
+                        <div class="category-option">User Story</div>
+                    </div>
+
                     <div class="em-05 padding-top20">Subtasks</div>
                     <input class="input" placeholder="Add new subtask" readonly>
                 </div>

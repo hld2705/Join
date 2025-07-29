@@ -31,6 +31,17 @@ body {
     right: 14px;
 }
 
+.category-container {
+    position: relative;
+}
+
+.drop-down-arrow-svg-category {
+    position: absolute;
+    top: 72px;
+    right: 14px;
+    cursor: pointer;
+}
+
 .left-task {
     display: flex;
     flex-direction: column;
@@ -136,6 +147,10 @@ textarea {
     background-color: #7AE229;
 }
 
+.bg-green:hover {
+    box-shadow: none !important;
+}
+
 .bg-green::placeholder {
     color: white;
 }
@@ -239,6 +254,7 @@ textarea {
     position: absolute;
     top: 18px;
     right: 22px;
+    cursor: pointer;
 }
 
 .medium-container {
@@ -260,6 +276,7 @@ textarea {
     position: absolute;
     top: 23px;
     right: 18px;
+    cursor: pointer;
 }
 
 .low-container {
@@ -282,6 +299,7 @@ textarea {
     position: absolute;
     top: 20px;
     right: 28px;
+    cursor: pointer;
 }
 
 .required-text {
@@ -372,6 +390,14 @@ textarea:focus::-webkit-input-placeholder {
     border-radius: 10px;
 }
 
+.assign-Input {
+    box-shadow: inset 1px -1px 2px #bebebe, inset -1px -1px 5px #ffffff;
+}
+
+.assign-Input:hover {
+    box-shadow: inset 1px -1px 0px #bebebe, inset -1px -1px 0px #ffffff;
+}
+
 .check-button {
     width: 20px;
     margin-left: auto;
@@ -382,4 +408,34 @@ textarea:focus::-webkit-input-placeholder {
     color: #29ABE2;
     border-color: #29ABE2;
     transition: 0.2s;
+}
+
+input:focus::placeholder {
+    opacity: 0;
+}
+
+input.priority-input:focus::placeholder {
+    opacity: 1;
+}
+
+.category-option {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-left: 10px;
+}
+
+.category-input {
+    box-shadow: inset 1px -1px 2px #bebebe, inset -1px -1px 5px #ffffff;
+}
+
+.category-input:hover {
+    box-shadow: inset 1px -1px 0px #bebebe, inset -1px -1px 0px #ffffff;
+}
+
+.category-option:hover {
+    background-color: rgb(123, 124, 124, 0.2);
+    border-radius: 10px;
 }
