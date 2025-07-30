@@ -76,33 +76,21 @@ async function displayTasksUntilNextDeadline(userId) {
   `;
 }
 
-function openLogOutMenu() {
-  const profileBadge = document.getElementById('profile-badge');
-  const logOutMenu = document.getElementById('log-out-menu');
-  if (!profileBadge || !logOutMenu) return;
+ const profilImg = document.querySelector('.profil');
+  const navbar = document.getElementById('navbar');
 
-  profileBadge.addEventListener("click", () => {
-    logOutMenu.innerHTML = loadMenu();
-    logOutMenu.classList.toggle("active");
-    logout();
+  profilImg.addEventListener('click', () => {
+    navbar.style.display = (navbar.style.display === 'block') ? 'none' : 'block';
   });
 
-  closeLogOutMenu(logOutMenu, profileBadge);
-}
-
-function logout() {
-  const logOut = document.getElementById('log-out');
-  if (logOut) {
-    logOut.addEventListener("click", () => {
-      localStorage.removeItem('user');
-    });
-  }
-}
-
-function closeLogOutMenu(logOutMenu, profileBadge) {
-  document.addEventListener("click", (event) => {
-    if (!logOutMenu.contains(event.target) && !profileBadge.contains(event.target)) {
-      logOutMenu.classList.remove("active");
+  // Klick außerhalb schließt die Navbar
+  document.addEventListener('click', (e) => {
+    if (!profilImg.contains(e.target) && !navbar.contains(e.target)) {
+      navbar.style.display = 'none';
     }
   });
-}
+
+  document.getElementById('logout-link')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  window.location.href = "index.html";
+});

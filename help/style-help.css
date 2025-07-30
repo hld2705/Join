@@ -1,0 +1,43 @@
+.arrow{
+    display: flex;
+    justify-content: space-between;
+}
+
+.join{
+    color:rgba(41, 171, 226, 1);
+}
+
+h1{
+
+    font-size: 61px;
+    margin-bottom: 32px;
+}
+
+p{
+    font-size: 16px;
+
+}
+
+h2{
+    font-size: 24px;
+    gap: 16px;
+}
+
+h3{
+    font-size: 20px;
+    font-weight: bold;
+   margin-bottom: 20px;
+}
+
+p{
+    margin-bottom: 20px;
+}
+.nr{
+    margin-right: 35px;
+    font-size: 27px;
+    font-weight: bold;
+}
+.edit-right{
+    margin-left: 96px;
+    margin-top: 110px;
+}
