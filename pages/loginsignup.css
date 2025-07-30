@@ -1,12 +1,15 @@
-.logo{
-    position: relative;
+.logo {
+    position: absolute;
     top: 80px;
-    left: 77px;
+    left: 70px;
+    height: 78px;
+    width: 64px;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.5s ease;
 }
 .login{
-    position: relative;
+    position: absolute;
+    bottom: 30vh;
     background-color: white;
     border-radius: 30px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
@@ -18,9 +21,6 @@
 }
 
 .back-arrow {
-    position: absolute;
-    top: 48px;
-    left: 32px; 
     cursor: pointer;
 }
 
@@ -64,7 +64,7 @@ h1{
     cursor: pointer;
 }
 .buttonlogin:disabled {
-  background-color: rgba(42, 54, 71, 0.3); /* lighter version */
+  background-color: rgba(42, 54, 71, 0.3);
   cursor: not-allowed;
   opacity: 0.7;
 }
@@ -84,11 +84,7 @@ h1{
     flex-direction: row;
     gap: 32px;
 }
-header{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
+
 .headerwriting{
     display: flex;
     align-items: center;
@@ -96,6 +92,10 @@ header{
     flex-direction: row;
     gap: 35px;
     font-size: 20px;
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    height: 78px;
 }
 .buttonsignup{
     background-color: rgba(42, 54, 71, 1);
@@ -111,13 +111,13 @@ header{
     text-decoration: none;
     cursor: pointer;
 }
-
-.linksdiv{
-    position: fixed;
-    top: 95%;
-    right: 45%;
-    display: flex;
-    gap: 30px;
+.linksdiv {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 30px;
 }
 .signuppage{
     display: flex;
@@ -144,17 +144,57 @@ header{
 }
 
 .logoanimation {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(4);
-  animation: logoanimation 2s ease-in-out forwards;
-  z-index: 1000;
-  pointer-events: none;
+    position: absolute;
+    width: 160px;
+    height: auto;
+    animation: logoanimation 2.5s ease forwards;
+}
+.d_none{
+    display: none;
+}
+.signup{
+    background-color: white;
+    border-radius: 30px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
+    padding: 20px 95px 20px 95px;
+    width: fit-content;
+    position: relative;
+}
+.signuptitleandarrow{
+    margin-bottom: 30px;
+    display:flex;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
+.loadingscreen {
+    position: fixed;
+    inset: 0;
+    background-color: #f6f7f8;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+@media screen and (max-width: 780px) {
+    .logo {
+        top: 80px;
+        left: 70px;
+        height: 64px;
+        width: 50px;
+    }
+}
 @keyframes logoanimation {
-  to {
-    transform: translate(-50%, -50%) translate(-35vw, -34vh) scale(1);
-  }
+ 0% {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 1;
+    }
+    100% {
+        top: 40px;
+        left: 40px;
+        transform: translate(0, 0) scale(0.5);
+        opacity: 1;
+    }
 }

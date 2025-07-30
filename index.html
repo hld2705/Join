@@ -9,48 +9,84 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sawarabi+Gothic&display=swap"
         rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.svg">
+    <script src="firstdata.js" type="module"></script>
+    <script src="db.js" type="module"></script>
+    <script src="script_login.js" defer></script>
+    <script src="script_login.data.js" type="module" defer></script>
     <link href="pages/loginsignup.css" rel="stylesheet">
     <link href="style_login.css" rel="stylesheet">
-    <script src="script_login_template.js"></script>
-    <script src="script_login.js"></script>
-    <script src="db.js"></script>
-    <script src="firstdata.js"></script>
+    <script src="script_login_template.js" defer></script>
     <title>Join</title>
 </head>
 
-<body onload="renderFunc()">
+<body>
+    <div class="responsivnessheaderwritting"> 
+            <div class="logocontainer" id="mainlogoposition"><a href="index.html"><img class="logo"
+                        src="assets/icons/Capa 2.svg"></a></div>
+        <div class="mainlogin">
+            <div class="login" id="login">
+                <div class="loginwriting">
+                    <h1 style="font-weight: 700; font-size: 61px;">Log in</h1> <img src="assets/icons/Vector 5.svg">
+                </div>
 
-    <header>
-    <div class="logocontainer" id="mainlogoposition"><a href="index.html"><img class="logo" src="assets/icons/Capa 2.svg"></a></div>
-    <div class="headerwriting"><p>Not a Join user?</p><button class="buttonsignup" onclick="logIn()">Sign up</button></div>
-    </header>
-    
-    <div class="mainlogin">
-        <div class="login" id="login">
-            <div class="loginwriting">
-                <h1 style="font-weight: 700; font-size: 61px;">Log in</h1> <img src="assets/icons/Vector 5.svg">
+                <div class="userinput">
+                    <div class="userinputcustom"><input class="inputfield" id="email" type="email" placeholder="Email"
+                            required> <img src="assets/icons/mail.svg"></div>
+                    <div class="userinputcustom"><input class="inputfield" id="password" type="password"
+                            placeholder="Password" required> <img src="assets/icons/lock.svg"></div>
+                </div>
+                <div class="buttons">
+                    <button class="buttonlogin" onclick="loginUserPushedInfo()">Log in</button>
+                    <a href="summary.html"><button class="buttonguestlogin"><a
+                                style="text-decoration: none; color:black;" href="summary.html">Guest Log
+                                in</a></button></a>
+                </div>
             </div>
-
-            <div class="userinput">
-                <div class="userinputcustom"><input class="inputfield" id="email" type="email" placeholder="Email"
-                        required> <img src="assets/icons/mail.svg"></div>
-                <div class="userinputcustom"><input class="inputfield" id="password" type="password"
-                        placeholder="Password" required> <img src="assets/icons/lock.svg"></div>
+        </div>
+        <div class="headerwriting">
+                <p>Not a Join user?</p><button class="buttonsignup" onclick="signUp()">Sign up</button>
             </div>
-            <div class="buttons">
-                <button class="buttonlogin" onclick="loginUserPushedInfo()">Log in</button>
-                <a href="summary.html"><button class="buttonguestlogin">Guest Log in</button></a>
+    </div>
+    <div style="display:flex; justify-content: center; align-items: center;">
+        <div id="signupPage" class="signup d_none">
+            <div class="signuppage signuptitleandarrow">
+                <div>
+                    <img style="cursor: pointer; position: absolute; left: 20px;" class="back-arrow"
+                        src="/assets/icons/arrow-left-line.svg" onclick="goBack()">
+                </div>
+                <div style="display:flex; justify-content: center; align-items:center; flex-direction: column;">
+                    <h1 style="font-size: 61px;">Signup</h1>
+                    <img src="/assets/icons/Vector 5.svg">
+                </div>
+            </div>
+            <div>
+                <div class="userinput">
+                    <div class="userinputcustom"><input class="inputfield" id="name_sign_up" type="email"
+                            placeholder="Name" required> <img src="/assets/icons/person.svg"></div>
+                    <div class="userinputcustom"><input class="inputfield" id="email_sign_up" type="email"
+                            placeholder="Email" required> <img src="/assets/icons/mail.svg"></div>
+                    <div class="userinputcustom"><input class="inputfield" id="password_sign_up" type="password"
+                            placeholder="Password" required> <img src="/assets/icons/lock.svg"></div>
+                    <div class="userinputcustom"><input class="inputfield" id="confirmation_password_sign_up"
+                            type="password" placeholder="Confirm Password" required> <img src="/assets/icons/lock.svg">
+                    </div>
+                </div>
+            </div>
+            <div style="display:flex; justify-content: center; align-items:center; flex-direction:column;">
+                <div style="margin-bottom: 15px;">
+                    <input type="checkbox" id="requiredcheckbox" onclick="toggleButton()" required>I accept the <a
+                        style="text-decoration:none; color:rgba(41, 171, 226, 1);" href="#">Privacy policy</a>
+                </div>
+                <button class="buttonlogin" id="signUpButton" onclick="logIn()" disabled>Sign Up</button>
             </div>
         </div>
     </div>
-
     <div class="linksdiv">
-    <a class="links" href="#">Privacy Policy</a>
-    <a class="links" href="#">Legal Notice</a>
+        <a class="links" href="#">Privacy Policy</a>
+        <a class="links" href="#">Legal Notice</a>
     </div>
-
-    <div id="loadingscreen"></div>
-    <div id="loadingscreenmobile"></div>
+    <div class="loadingscreen" id="loadingscreen"></div>
 </body>
 
 </html>
