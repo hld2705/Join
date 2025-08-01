@@ -80,7 +80,7 @@
                         <div class="em-05">Description</div>
                         <textarea id="description-input" class="input" placeholder="Enter a Description"></textarea>
                     </div>
-                    <div class="padding-top20">
+                    <div class="due-date-container padding-top20">
                         <div class="em-05">Due date<span class="asterisk">*</span></div>
                         <label for="date-input" style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
                             <input type="text" required id="date-input" class="input" placeholder="dd/mm/yyyy">
@@ -118,17 +118,21 @@
                 <div class="assigned-to-container">
                     <div class="em-05 padding-top20">Assigned to</div>
                     <input id="assign-input" onclick="renderAssignDropdown(), inputBorderColorSwitch(), showUserName()"
-                        type="text" class="input assign-Input cursorPointer" placeholder="Select contact to assign" readonly>
-                    <img onclick="renderAssignDropdown()" id="drop-down-svg-assign" class="drop-down-arrow-svg" src="./assets/arrow_drop_down.svg">
+                        type="text" class="input assign-Input cursorPointer" placeholder="Select contact to assign"
+                        readonly>
+                    <img onclick="renderAssignDropdown()" id="drop-down-svg-assign" class="drop-down-arrow-svg"
+                        src="./assets/arrow_drop_down.svg">
+                    <div id="dropdownList" class="dropdown-list"></div>
                 </div>
 
-                <div id="dropdownList" class="dropdown-list"></div>
+
 
                 <div class="category-container">
                     <div class="em-05 padding-top20">Category</div>
-                    <input id="category-input" onclick="renderCategoryDropdown()" type="text" class="input category-input cursorPointer"
-                        placeholder="Select task category" readonly>
-                    <img onclick=" renderCategoryDropdown()" id="drop-down-svg-category" class="drop-down-arrow-svg-category" src="./assets/arrow_drop_down.svg">
+                    <input id="category-input" onclick="renderCategoryDropdown()" type="text"
+                        class="input category-input cursorPointer" placeholder="Select task category" readonly>
+                    <img onclick=" renderCategoryDropdown()" id="drop-down-svg-category"
+                        class="drop-down-arrow-svg-category" src="./assets/arrow_drop_down.svg">
                 </div>
 
                 <div>

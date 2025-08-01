@@ -12,10 +12,10 @@ body {
 .task-content-container {
     display: flex;
     flex: 1;
+    height: 100vh;
     width: 100%;
     background-color: #f5f6f7;
     background: linear-gradient(0deg, rgba(245, 246, 247, 1) 99%, rgb(223, 224, 225) 100%);
-    align-items: center;
     position: relative;
     font-weight: 400;
 }
@@ -45,6 +45,7 @@ body {
 .left-task {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     margin-left: 140px;
     z-index: 9999;
 }
@@ -52,9 +53,11 @@ body {
 .right-task {
     display: flex;
     flex-direction: column;
-    z-index: 9999;
-    margin-top: 44px;
+    justify-content: center;
+    position: relative;
 }
+
+
 
 .task-title {
     font-size: 60px;
@@ -85,7 +88,7 @@ textarea {
 }
 
 
-.date-container {
+.due-date-container {
     position: relative;
 }
 
@@ -102,17 +105,18 @@ textarea {
 .date-icon {
     width: 24px;
     position: absolute;
-    top: 553px;
-    left: 550px;
+    top: 62px;
+    left: 407px;
 }
 
 .vertical-line {
-    height: 414px;
+    display: flex;
+    height: 450px;
     width: 1px;
     background-color: #ccc;
     margin-left: 60px;
     margin-right: 60px;
-    margin-top: 54px;
+    margin-top: 250px;
 }
 
 
@@ -139,6 +143,12 @@ textarea {
     color: white;
 }
 
+.bg-grey {
+    background-color: #2A3647;
+    border-radius: 10px;
+    color:white;
+}
+
 .bg-red {
     background-color: #FF3D00;
 }
@@ -158,7 +168,6 @@ textarea {
 .bg-red::placeholder {
     color: white;
 }
-
 
 .bg-orange::placeholder {
     color: white;
@@ -230,7 +239,7 @@ textarea {
     display: flex;
     position: absolute;
     top: 700px;
-    left: 908px;
+    left: 174px;
     gap: 4px;
 }
 
@@ -356,17 +365,20 @@ textarea {
 }
 
 .dropdown-list {
-    background: #fff;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background: white;
     border-radius: 12px;
-    box-shadow: 8px 2px 9px -9px rgb(0, 0, 0);
-    max-height: 0;
-    overflow: scroll;
-    transition: max-height 0.1s ease;
-    overflow-x: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 10;
 }
 
 .dropdown-list.open {
-    max-height: 200px;
+    display: block;
 }
 
 .hidden {
@@ -378,6 +390,7 @@ textarea:focus::-webkit-input-placeholder {
 }
 
 .Assigned-dropdown-username {
+    cursor: pointer;
     height: 50px;
     display: flex;
     align-items: center;
@@ -390,6 +403,10 @@ textarea:focus::-webkit-input-placeholder {
     border-radius: 10px;
 }
 
+.Assigned-dropdown-username.bg-grey {
+   background-color: #2A3647 !important;
+}
+
 .assign-Input {
     box-shadow: inset 1px -1px 2px #bebebe, inset -1px -1px 5px #ffffff;
 }
@@ -398,16 +415,24 @@ textarea:focus::-webkit-input-placeholder {
     box-shadow: inset 1px -1px 0px #bebebe, inset -1px -1px 0px #ffffff;
 }
 
-.check-button {
-    width: 20px;
+.check-button-container {
     margin-left: auto;
     margin-right: 20px;
 }
 
-.check-button:hover {
-    color: #29ABE2;
+.check-button-svg:hover rect{
+    stroke: #29ABE2;
     border-color: #29ABE2;
     transition: 0.2s;
+}
+
+.check-button{
+    width: 20px;
+}
+
+
+.check-button-white {
+  stroke: white;
 }
 
 input:focus::placeholder {

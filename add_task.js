@@ -54,12 +54,23 @@ async function showUserName() {
 
         div.appendChild(img);
         div.appendChild(name);
-        div.appendChild(CheckButton());
+        div.appendChild(renderCheckButton());
         dropList.appendChild(div);
     }
 }
 
 // Es wird pro Name in der Datenbank eine div mit dem Namen und dem Badge generiert und der Checkbutton eingefügt.
+
+document.addEventListener("click", function (e) {
+
+    if (e.target.classList.contains('Assigned-dropdown-username'))
+        e.target.classList.toggle('bg-grey');
+    if (e.target.classList.contains('Assigned-dropdown-username')) {
+        let checkButton = document.querySelector('.check-button')
+        checkButton.classList.toggle("check-button-white");
+    }});
+
+// Wenn auf das div mit dem Username geklickt wird, soll die div markiert werden.
 
 function resetAllButton() {
     document.getElementById('urgent').classList.remove('bg-red');
@@ -74,6 +85,8 @@ function resetAllButton() {
     document.getElementById('double-down').src = "./assets/double-down.svg"
     lowActive = false;
 }
+
+
 
 function changeUrgentColor() {
     if (urgentActive) {
@@ -197,7 +210,7 @@ function renderAssignDropdown() {
 
     if (currentSrc.includes("arrow_drop_down.svg")) {
         arrowIcon.src = "./assets/arrow_drop_down2.svg";
-        dropdownList.classList.toggle('open');
+        dropdownList.classList.add('open');
     } else {
         arrowIcon.src = "./assets/arrow_drop_down.svg";
         dropdownList.classList.remove('open');
@@ -222,10 +235,12 @@ function renderCategoryDropdown() {
 
 
 
-function CheckButton() {
-   let checkButton = document.createElement("img")
-   checkButton.classList.add("check-button");
-   checkButton.src = "./assets/Check button.svg";
-   return checkButton;
+function renderCheckButton() {
+    let checkButton = document.createElement("div")
+    checkButton.classList.add("check-button-container");
+    checkButton.innerHTML = `<svg class="check-button-svg" width="18" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect class="check-button" x="4" y="4" width="12" height="18" rx="3" stroke="#2A3647" stroke-width="2"/>
+</svg>`
+    return checkButton;
 }
 
