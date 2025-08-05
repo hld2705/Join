@@ -13,3 +13,31 @@ h2{
 .subtitle1{
     margin-bottom: 40px;
 }
+
+.d_none{
+    display:none;
+}
+
+.left-side {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 232px;
+    background-color: #2A3647;
+    position: relative;
+}
+
+nav {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 15px;
+}
+
+nav a {
+    padding-left: 25%;
+}
+
+nav a:hover {
+    background-color: #2A3D59
+}

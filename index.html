@@ -17,6 +17,7 @@
     <link href="pages/loginsignup.css" rel="stylesheet">
     <link href="style_login.css" rel="stylesheet">
     <script src="script_login_template.js" defer></script>
+    <script src="/privacy_policy/privacy_policy.js" ></script>
     <title>Join</title>
 </head>
 
@@ -82,9 +83,9 @@
             </div>
         </div>
     </div>
-    <div class="linksdiv">
-        <a class="links" href="#">Privacy Policy</a>
-        <a class="links" href="#">Legal Notice</a>
+    <div class="linksdiv" id="nonloginview" onclick="nonLoginEntry()">
+        <a class="links" href="./privacy_policy.html?nonlogin=true">Privacy Policy</a>
+        <a class="links" href="./legal_notice.html?nonlogin=true">Legal Notice</a>
     </div>
     <div class="loadingscreen" id="loadingscreen"></div>
 </body>
