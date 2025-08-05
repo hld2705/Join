@@ -1,21 +1,23 @@
-.mainsection{
+.mainsection {
     padding: 80px;
 }
 
-h1{
+h1 {
     font-size: 40px;
     margin-bottom: 20px;
 }
-h2{
+
+h2 {
     font-size: 24px;
     margin-bottom: 10px;
 }
-.subtitle1{
+
+.subtitle1 {
     margin-bottom: 40px;
 }
 
-.d_none{
-    display:none;
+.d_none {
+    display: none;
 }
 
 .left-side {
@@ -40,4 +42,108 @@ nav a {
 
 nav a:hover {
     background-color: #2A3D59
+}
+
+.responsiveheader {
+    display: none;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: auto;
+    width: 100vw;
+    height: 80px;
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.responsiveheaderimage {
+    width: 32px;
+    height: 40px;
+    margin-left: 20px;
+}
+
+.footerresponsive {
+    display: none;
+}
+
+.arrowleftresponsive {
+    display: none;
+}
+
+@media screen and (max-width: 780px) {
+    .arrowleftresponsive {
+        display: flex;
+    }
+
+    .footerresponsive {
+        display: flex;
+        align-items: center;
+    }
+
+    .footerresponsive p {
+        font-size: 14px;
+    }
+
+    .mainsection {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .responsivearrow {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-align: left;
+        width: 100%;
+    }
+
+    .responsiveheader {
+        display: flex;
+    }
+
+    .join-logo {
+        display: none;
+    }
+
+    .left-side {
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        width: 100vw;
+        height: 70px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        top: auto;
+        transform: none;
+        z-index: 1000;
+    }
+
+    nav {
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        gap: 0px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    nav a {
+        padding-left: 0;
+        padding: 5px;
+        font-size: 12px;
+    }
+
+    footer {
+        display: none;
+    }
+
+    .mainsection {
+        margin: 0;
+        padding: 80px 20px 100px 20px;
+        /* leave space for bottom bar */
+    }
 }

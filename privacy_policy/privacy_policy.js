@@ -1,10 +1,19 @@
 window.onload = function () {
-  let url = window.location.href;
-  if (url.includes("nonlogin=true")) {
-    let fullNav = document.getElementById("togglednone");
-    let loginNav = document.getElementById("loginnav");
+  const fullNav = document.getElementById("togglednone");
+  const loginNav = document.getElementById("loginnav"); 
+  const isNonLogin = window.location.search.includes("nonlogin=true");
 
+  if (isNonLogin) {
     if (fullNav) fullNav.style.display = "none";
-    if (loginNav) loginNav.style.display = "flex";
+    if (loginNav) {
+      loginNav.style.display = "flex";
+      loginNav.style.cursor = "default";
+    }
+  } else {
+    if (loginNav) {
+      loginNav.style.display = "none";
+      loginNav.style.cursor = "default";
+    }
+    if (fullNav) fullNav.style.display = "flex";
   }
 };

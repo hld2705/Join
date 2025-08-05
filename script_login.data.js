@@ -20,7 +20,6 @@ function loginUserPushedInfo() {
   console.log("user added:", newUser);
   console.log("All users now:", join.users);
   window.loginUserPushedInfo = loginUserPushedInfo;
-  localStorage.setItem("LoggedInUser", JSON.stringify(newUser));
 }
 
 window.logIn = function logIn(){
@@ -38,6 +37,5 @@ window.logIn = function logIn(){
   };
   join.users.push(newSignedUser);
   console.log(newSignedUser)
-   localStorage.setItem("SignedInUser", JSON.stringify(newSignedUser));
   confirmationSignTemplate();
 }
