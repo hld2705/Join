@@ -146,7 +146,7 @@ textarea {
 .bg-grey {
     background-color: #2A3647;
     border-radius: 10px;
-    color:white;
+    color: white;
 }
 
 .bg-red {
@@ -404,7 +404,7 @@ textarea:focus::-webkit-input-placeholder {
 }
 
 .Assigned-dropdown-username.bg-grey {
-   background-color: #2A3647 !important;
+    background-color: #2A3647 !important;
 }
 
 .assign-Input {
@@ -420,19 +420,30 @@ textarea:focus::-webkit-input-placeholder {
     margin-right: 20px;
 }
 
-.check-button-svg:hover rect{
+.check-button-svg:hover rect {
     stroke: #29ABE2;
     border-color: #29ABE2;
     transition: 0.2s;
 }
 
-.check-button{
+.check-button {
     width: 20px;
+}
+
+.assignedTo-check-button-container {
+    position: relative;
+}
+
+.check-icon-assignedTo {
+    width: 13px;
+    position: absolute;
+    top: 5px;
+    right: 1px;
 }
 
 
 .check-button-white {
-  stroke: white;
+    stroke: white;
 }
 
 input:focus::placeholder {
@@ -463,4 +474,21 @@ input.priority-input:focus::placeholder {
 .category-option:hover {
     background-color: rgb(123, 124, 124, 0.2);
     border-radius: 10px;
+}
+
+#overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(223, 223, 223, 0.5);
+    width: 80vw;
+    height: 80vh;
+    border-radius: 12px;
+    border: 1px solid rgba(116, 116, 116, 0.5);
+}
+
+.check-icon-black path{
+    stroke: black;
+    fill: black;
 }

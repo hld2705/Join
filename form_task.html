@@ -1,0 +1,104 @@
+<form novalidate onsubmit="checkRequired(); return false;" class="task-form">
+    <div class="task-content-container">
+        <div class="left-task">
+            <h1 class="task-title">Add Task</h1>
+
+            <div class="title-container">
+                <div class="em-05">Title<span class="asterisk">*</span></div>
+                <input required id="title-input" class="input" type="text" placeholder="Enter a title">
+                <p class="required-mssg" id="required-message-title"></p>
+            </div>
+            <div class="padding-top20">
+                <div class="em-05">Description</div>
+                <textarea id="description-input" class="input" placeholder="Enter a Description"></textarea>
+            </div>
+            <div class="due-date-container padding-top20">
+                <div class="em-05">Due date<span class="asterisk">*</span></div>
+                <label for="date-input" style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                    <input type="text" required id="date-input" class="input" placeholder="dd/mm/yyyy">
+                    <img id="calendar-icon" onclick="openCalendar()" class="date-icon"
+                        src="add_task_assets/img/event.svg">
+                </label>
+                <p class="required-mssg" id="required-message-date"></p>
+            </div>
+
+            <span class="required-text"><span class="asterisk">*</span>This field ist required</span>
+        </div>
+
+
+        <div class="vertical-line"></div>
+
+        <div class="right-task">
+            <div class="priority-container">
+                <div class="em-05">Priority</div>
+                <div class="priority-input-container">
+                    <div id="urg-container" onclick="changeUrgentColor()" class="urgent-container">
+                        <input id="urgent" class="input priority-input" placeholder="Urgent" readonly>
+                        <img id="double-arrow" class="double-up-arrow" src="./assets/Prio alta.svg">
+                    </div>
+                    <div onclick="changeMediumColor()" class="medium-container">
+                        <input id="medium-input" class="input priority-input" placeholder="Medium" readonly>
+                        <img id="equal" class="equals-icon" src="./assets/Prio media.svg">
+                    </div>
+                    <div onclick="changeLowColor()" id="low-container" class="low-container">
+                        <input id="low-input" class="input priority-input" placeholder="Low" readonly>
+                        <img id="double-down" class="double-down" src="./assets/double-down.svg">
+                    </div>
+                </div>
+            </div>
+
+            <div class="assigned-to-container">
+                <div class="em-05 padding-top20">Assigned to</div>
+                <input id="assign-input" onclick="renderAssignDropdown(), inputBorderColorSwitch(), showUserName()"
+                    type="text" class="input assign-Input cursorPointer" placeholder="Select contact to assign"
+                    readonly>
+                <img onclick="renderAssignDropdown()" id="drop-down-svg-assign" class="drop-down-arrow-svg"
+                    src="./assets/arrow_drop_down.svg">
+                <div id="dropdownList" class="dropdown-list"></div>
+            </div>
+<div id="filteredBadgesContainer"></div>
+                <a href="./test.html">Hier drücken zum testen</a>
+
+
+            <div class="category-container">
+                <div class="em-05 padding-top20">Category</div>
+                <input id="category-input" onclick="renderCategoryDropdown()" type="text"
+                    class="input category-input cursorPointer" placeholder="Select task category" readonly>
+                <img onclick=" renderCategoryDropdown()" id="drop-down-svg-category"
+                    class="drop-down-arrow-svg-category" src="./assets/arrow_drop_down.svg">
+            </div>
+
+            <div>
+                <div id="dropdownListCategory" class="dropdown-list">
+                    <div class="category-option">Technical Task</div>
+                    <div class="category-option">User Story</div>
+                </div>
+
+                <div class="em-05 padding-top20">Subtasks</div>
+                <input class="input" placeholder="Add new subtask" readonly>
+            </div>
+            <div class="task-button-container">
+                <div class="clearBtn-svg-container" onclick="addNewTask()">
+                    <button class="clear-button">Clear</button>
+                    <svg class="cancel-icon" width="25" height="24" viewBox="0 0 25 24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12.0692 12.0001L17.3122 17.2431M6.82617 17.2431L12.0692 12.0001L6.82617 17.2431ZM17.3122 6.75708L12.0682 12.0001L17.3122 6.75708ZM12.0682 12.0001L6.82617 6.75708L12.0682 12.0001Z"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <div class="createTaskBtn-svg-container">
+                    <button onclick="checkRequired()" type="submit" class="create-task-button">Create
+                        Task</button>
+                    <svg class="check-icon" width="14" height="12" viewBox="0 0 16 12" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke="currentColor"
+                            d="M5.61905 9.15L14.0941 0.675C14.2941 0.475 14.5316 0.375 14.8066 0.375C15.0816 0.375 15.3191 0.475 15.5191 0.675C15.7191 0.875 15.8191 1.1125 15.8191 1.3875C15.8191 1.6625 15.7191 1.9 15.5191 2.1L6.31905 11.3C6.11905 11.5 5.88572 11.6 5.61905 11.6C5.35239 11.6 5.11905 11.5 4.91905 11.3L0.619055 7C0.419055 6.8 0.323221 6.5625 0.331555 6.2875C0.339888 6.0125 0.444055 5.775 0.644055 5.575C0.844055 5.375 1.08155 5.275 1.35655 5.275C1.63155 5.275 1.86905 5.375 2.06905 5.575L5.61905 9.15Z"
+                            fill="white" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
