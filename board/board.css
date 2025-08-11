@@ -13,7 +13,7 @@ body{background:var(--bg);}
 .hidden{ display:none !important; }
 body.no-scroll{ overflow:hidden; }
 
-/* ===== Headerbereich im Content ===== */
+/* ===== Header i/ Content ===== */
 .title-and-search{
   display:flex; justify-content:space-between; align-items:center;
   gap:16px;
@@ -23,7 +23,7 @@ body.no-scroll{ overflow:hidden; }
   margin:0; font:800 48px/1.1 system-ui, sans-serif; color:#111827;
 }
 
-/* ===== Suche + Add Task ===== */
+/* ===== Search + Add Task ===== */
 .board-find-task{ display:flex; align-items:center; gap:12px; }
 .input-find{ position:relative; flex:1 1 auto; }
 #input-find-task{
@@ -49,7 +49,7 @@ body.no-scroll{ overflow:hidden; }
 }
 #bt-add-task:hover{ background:var(--primary-hover); }
 
-/* ===== Board / Spalten ===== */
+/* ===== Board ===== */
 .board{ display:flex; gap:20px; justify-content:space-between; margin-top: 100px; }
 .columns{ width:255px; min-width:255px; display:flex; flex-direction:column; }
 .column-titles{
@@ -67,10 +67,10 @@ body.no-scroll{ overflow:hidden; }
   color:#6B7280; font-size:12px;
 }
 
-/* Drag-Highlight optional */
+/* Drag-Highlight */
 .columns-content.highlight{ background:rgba(41,171,226,.1); border:2px dashed var(--primary-hover); }
 
-/* ===== Karten ===== */
+/* ===== cards ===== */
 .board-card{
   background:var(--card); border:1px solid #EEF0F2; border-radius:14px;
   box-shadow:var(--shadow); padding:12px;
@@ -102,7 +102,7 @@ body.no-scroll{ overflow:hidden; }
   box-shadow:0 12px 30px rgba(0,0,0,.2);
 }
 
-/* ===== Navbar/Profil ===== */
+/* ===== Navbar ===== */
 .profil{ width:36px; height:36px; border-radius:50%; object-fit:cover; cursor:pointer; }
 #navbar{
   position:absolute; top:48px; right:0; display:none;
