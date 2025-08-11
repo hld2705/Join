@@ -11,6 +11,9 @@
         href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
     <title>Join</title>
+
+</script>
+
 </head>
 
 <body>
@@ -64,61 +67,96 @@
         </header>
 
 
-        <div class="content">
-            <div class="board-header">
-                   <h1>Board</h1> 
-            <div class="board-header1">
-             <div class="search-box">
-            <input type="text" placeholder="Find Task" id="search-input" />
-             </div>
-             <button class="add">Add Task +</button>
-             </div>
-            </div>
-            <div class="board">
-                <div class="task">
-  <div class="column" data-status="todo">"
-    <div class="column-header">To do <button class="plus">＋</button></div>
-    <div class="card-container"></div>
-  </div>
+           <div class="content">
+            <div class="display-position">
+                <div class="content-board">
+                    <div class="header-board">
+                        <h1>Board</h1>
+                        <div class="board-find-task">
+                            <div class="input-find">
+                                <input id="input-find-task" type="text" placeholder="Find Task">
+                                <div class="input-find-icon">
+                                    <div id="separator"></div>
+                                    <div>
+                                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <mask id="mask0_307891_6090" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32">
+                                            <rect width="32" height="32" fill="#D9D9D9"/>
+                                            </mask>
+                                            <g mask="url(#mask0_307891_6090)">
+                                            <path d="M13.7118 20.2137C11.8946 20.2137 10.3567 19.5843 9.098 18.3256C7.83931 17.0669 7.20996 15.529 7.20996 13.7118C7.20996 11.8946 7.83931 10.3567 9.098 9.098C10.3567 7.83931 11.8946 7.20996 13.7118 7.20996C15.529 7.20996 17.0669 7.83931 18.3256 9.098C19.5843 10.3567 20.2137 11.8946 20.2137 13.7118C20.2137 14.4454 20.097 15.1372 19.8636 15.7874C19.6302 16.4376 19.3134 17.0127 18.9133 17.5129L24.5149 23.1145C24.6983 23.2979 24.79 23.5313 24.79 23.8147C24.79 24.0981 24.6983 24.3315 24.5149 24.5149C24.3315 24.6983 24.0981 24.79 23.8147 24.79C23.5313 24.79 23.2979 24.6983 23.1145 24.5149L17.5129 18.9133C17.0127 19.3134 16.4376 19.6302 15.7874 19.8636C15.1372 20.097 14.4454 20.2137 13.7118 20.2137ZM13.7118 18.2131C14.9622 18.2131 16.025 17.7755 16.9002 16.9002C17.7755 16.025 18.2131 14.9622 18.2131 13.7118C18.2131 12.4615 17.7755 11.3987 16.9002 10.5234C16.025 9.64815 14.9622 9.21053 13.7118 9.21053C12.4615 9.21053 11.3987 9.64815 10.5234 10.5234C9.64815 11.3987 9.21053 12.4615 9.21053 13.7118C9.21053 14.9622 9.64815 16.025 10.5234 16.9002C11.3987 17.7755 12.4615 18.2131 13.7118 18.2131Z" fill="#2A3647"/>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                           <div id="bt-add-task">
+  <p>Add Task</p>
+  <img src="./assets/plus add task.svg" alt="Add" />
 
-  <div class="column" data-status="in-progress">
-    <div class="column-header">In progress <button class="plus">＋</button></div>
-    <div class="card-container"></div>
-  </div>
-
-  <div class="column" data-status="await-feedback">
-    <div class="column-header">Await feedback <button class="plus">＋</button></div>
-    <div class="card-container"></div>
-  </div>
-
-  <div class="column" data-status="done">
-    <div class="column-header">Done </div>
-    <div class="card-container"></div>
+  <!-- Overlay-Häkchen -->
+  <div class="check-overlay hidden">
+    <svg width="14" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path stroke="white"
+        d="M5.61905 9.15L14.0941 0.675C14.2941 0.475 14.5316 0.375 14.8066 0.375C15.0816 0.375 15.3191 0.475 15.5191 0.675C15.7191 0.875 15.8191 1.1125 15.8191 1.3875C15.8191 1.6625 15.7191 1.9 15.5191 2.1L6.31905 11.3C6.11905 11.5 5.88572 11.6 5.61905 11.6C5.35239 11.6 5.11905 11.5 4.91905 11.3L0.619055 7C0.419055 6.8 0.323221 6.5625 0.331555 6.2875C0.339888 6.0125 0.444055 5.775 0.644055 5.575C0.844055 5.375 1.08155 5.275 1.35655 5.275C1.63155 5.275 1.86905 5.375 2.06905 5.575L5.61905 9.15Z"
+        fill="white" />
+    </svg>
   </div>
 </div>
-</div>
-        </div>
 
-
-<!-- TEMPLATE FÜR TASK-KARTE -->
-<template id="task-template">
-  <div class="card">
-    <span class="tag"></span>
-    <h4 class="title"></h4>
-    <p class="description"></p>
-    <div class="progress-bar"><div class="progress"></div></div>
-    <div class="card-footer">
-      <div class="avatars"></div>
-      <span class="icon">≡</span>
-    </div>
-  </div>
-
+                    <div class="board">
+                        
+                        <div class="columns">
+                            <div class="column-titles">
+                                <p>To do</p>
+                                <div onclick="openOverlay()" >
+                                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="1" y="1.5" width="22" height="22" rx="7" stroke="#2A3647" stroke-width="2"/>
+                                        <path d="M12 8.5V16.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
+                                        <path d="M16 12.5754L8 12.5754" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="columns-content" id="todo" ondrop="moveToColumn('todo')" ondragleave="removeHighlight('todo')" ondragover="dragoverHandler(event); highlight('todo')"></div>
+                        </div>
+                        
+                        <div class="columns">
+                            <div class="column-titles">
+                                <p>In progress</p>
+                                <div onclick="openOverlay()" >
+                                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="1" y="1.5" width="22" height="22" rx="7" stroke="#2A3647" stroke-width="2"/>
+                                        <path d="M12 8.5V16.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
+                                        <path d="M16 12.5754L8 12.5754" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                </div>  
+                            </div>
+                            <div class="columns-content" id="inprogress" ondrop="moveToColumn('inprogress')" ondragleave="removeHighlight('inprogess')" ondragover="dragoverHandler(event); highlight('inprogress')"></div>
+                        </div>
+                        
+                        <div class="columns">
+                            <div class="column-titles">
+                                <p>Await feedback</p>
+                                <div onclick="openOverlay()" >
+                                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="1" y="1.5" width="22" height="22" rx="7" stroke="#2A3647" stroke-width="2"/>
+                                        <path d="M12 8.5V16.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
+                                        <path d="M16 12.5754L8 12.5754" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                </div>  
+                            </div>
+                            <div class="columns-content" id="review" ondrop="moveToColumn('review')" ondragleave="removeHighlight('review')" ondragover="dragoverHandler(event); highlight('review')"></div>
+                        </div>
+                        
+                        <div class="columns">
+                            <div class="column-titles">
+                                <p>Done</p>
+                            </div>
+                            <div class="columns-content" id="done" ondrop="moveToColumn('done')" ondragleave="removeHighlight('done')" ondragover="dragoverHandler(event); highlight('done')"></div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-             
+            </div>          
         </div>
-        
 
 
     </section>
@@ -126,6 +164,8 @@
     <script type="module" src="./board/board-templates.js"></script>
     <script type="module" src="./board/board-script.js"></script>
     <script type="module" src="./firstdata.js"></script>
+  
+
 
 </body>
 
