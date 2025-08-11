@@ -1,162 +1,151 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="./style.css">
-    <link rel="stylesheet" href="./board/board.css">
-    <link rel="icon" type="image/x-icon" href="./assets/favicon.svg" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
-    <title>Join</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Join – Board</title>
 
-</script>
+  <link rel="icon" type="image/x-icon" href="./assets/favicon.svg" />
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./board/board.css" />
 
+  <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
 </head>
 
 <body>
-    <section class="left-side">
-        <a href="./index.html">
-            <img class="join-logo" src="./assets/logo_white.svg" alt="Join" />
-        </a>
 
-        <nav>
-            <a href="./summary.html">
-                <img src="./assets/summary.svg" alt="Summary Icon" />
-                <p>Summary</p>
-            </a>
-            <a href="./add_task.html">
-                <img src="./assets/Add-task.svg" alt="Add Task Icon" />
-                <p>Add Task</p>
-            </a>
-            <a href="#">
-                <img src="./assets/Board.svg" alt="Board Icon" />
-                <p>Board</p>
-            </a>
-            <a href="#">
-                <img src="./assets/contacts.svg" alt="Contacts Icon" />
-                <p>Contacts</p>
-            </a>
-        </nav>
+  <section class="left-side">
+    <a href="./index.html">
+      <img class="join-logo" src="./assets/logo_white.svg" alt="Join" />
+    </a>
 
-        <footer>
-            <a href="#">
-                <p>Privacy Policy</p>
-            </a>
-            <a href="#">
-                <p>Legal notice</p>
-            </a>
-        </footer>
-    </section>
+    <nav>
+      <a href="./summary.html">
+        <img src="./assets/summary.svg" alt="Summary Icon" />
+        <p>Summary</p>
+      </a>
+      <a href="./add_task.html">
+        <img src="./assets/Add-task.svg" alt="Add Task Icon" />
+        <p>Add Task</p>
+      </a>
+      <a href="#">
+        <img src="./assets/Board.svg" alt="Board Icon" />
+        <p>Board</p>
+      </a>
+      <a href="#">
+        <img src="./assets/contacts.svg" alt="Contacts Icon" />
+        <p>Contacts</p>
+      </a>
+    </nav>
 
-   <section class="right-side">
-        <header>
-            <h3>Kanban Project Management Tool</h3>
-            <div class="user-info">
-                <a href="./help.html"><img class="help" src="./assets/icons/help.svg" alt="help"></a>
-                <img src="./assets/icons/profilebadge/sofia.svg" alt="">
-            </div>
-        </header>
+    <footer>
+      <a href="#"><p>Privacy Policy</p></a>
+      <a href="#"><p>Legal notice</p></a>
+    </footer>
+  </section>
 
-        <div class="content">
-            <div class="display-position">
-                <div class="content-board">
-                    <div class="header-board">
-                        <h1>Board</h1>
-                        <div class="board-find-task">
-                            <div class="input-find">
-                                <input id="input-find-task" type="text" placeholder="Find Task">
-                                <div class="input-find-icon">
-                                    <div id="separator"></div>
-                                    <div>
-                                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <mask id="mask0_307891_6090" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32">
-                                            <rect width="32" height="32" fill="#D9D9D9"/>
-                                            </mask>
-                                            <g mask="url(#mask0_307891_6090)">
-                                            <path d="M13.7118 20.2137C11.8946 20.2137 10.3567 19.5843 9.098 18.3256C7.83931 17.0669 7.20996 15.529 7.20996 13.7118C7.20996 11.8946 7.83931 10.3567 9.098 9.098C10.3567 7.83931 11.8946 7.20996 13.7118 7.20996C15.529 7.20996 17.0669 7.83931 18.3256 9.098C19.5843 10.3567 20.2137 11.8946 20.2137 13.7118C20.2137 14.4454 20.097 15.1372 19.8636 15.7874C19.6302 16.4376 19.3134 17.0127 18.9133 17.5129L24.5149 23.1145C24.6983 23.2979 24.79 23.5313 24.79 23.8147C24.79 24.0981 24.6983 24.3315 24.5149 24.5149C24.3315 24.6983 24.0981 24.79 23.8147 24.79C23.5313 24.79 23.2979 24.6983 23.1145 24.5149L17.5129 18.9133C17.0127 19.3134 16.4376 19.6302 15.7874 19.8636C15.1372 20.097 14.4454 20.2137 13.7118 20.2137ZM13.7118 18.2131C14.9622 18.2131 16.025 17.7755 16.9002 16.9002C17.7755 16.025 18.2131 14.9622 18.2131 13.7118C18.2131 12.4615 17.7755 11.3987 16.9002 10.5234C16.025 9.64815 14.9622 9.21053 13.7118 9.21053C12.4615 9.21053 11.3987 9.64815 10.5234 10.5234C9.64815 11.3987 9.21053 12.4615 9.21053 13.7118C9.21053 14.9622 9.64815 16.025 10.5234 16.9002C11.3987 17.7755 12.4615 18.2131 13.7118 18.2131Z" fill="#2A3647"/>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="bt-add-task" onclick="openOverlay()">
-                                <p>Add Task</p>
-                                <img src="./assets/icons/board/add-task-plus.svg">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="board">
-                        
-                        <div class="columns">
-                            <div class="column-titles">
-                                <p>To do</p>
-                                <div onclick="openOverlay()" >
-                                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="1" y="1.5" width="22" height="22" rx="7" stroke="#2A3647" stroke-width="2"/>
-                                        <path d="M12 8.5V16.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
-                                        <path d="M16 12.5754L8 12.5754" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="columns-content" id="todo" ondrop="moveToColumn('todo')" ondragleave="removeHighlight('todo')" ondragover="dragoverHandler(event); highlight('todo')"></div>
-                        </div>
-                        
-                        <div class="columns">
-                            <div class="column-titles">
-                                <p>In progress</p>
-                                <div onclick="openOverlay()" >
-                                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="1" y="1.5" width="22" height="22" rx="7" stroke="#2A3647" stroke-width="2"/>
-                                        <path d="M12 8.5V16.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
-                                        <path d="M16 12.5754L8 12.5754" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
-                                    </svg>
-                                </div>  
-                            </div>
-                            <div class="columns-content" id="inprogress" ondrop="moveToColumn('inprogress')" ondragleave="removeHighlight('inprogess')" ondragover="dragoverHandler(event); highlight('inprogress')"></div>
-                        </div>
-                        
-                        <div class="columns">
-                            <div class="column-titles">
-                                <p>Await feedback</p>
-                                <div onclick="openOverlay()" >
-                                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="1" y="1.5" width="22" height="22" rx="7" stroke="#2A3647" stroke-width="2"/>
-                                        <path d="M12 8.5V16.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
-                                        <path d="M16 12.5754L8 12.5754" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
-                                    </svg>
-                                </div>  
-                            </div>
-                            <div class="columns-content" id="review" ondrop="moveToColumn('review')" ondragleave="removeHighlight('review')" ondragover="dragoverHandler(event); highlight('review')"></div>
-                        </div>
-                        
-                        <div class="columns">
-                            <div class="column-titles">
-                                <p>Done</p>
-                            </div>
-                            <div class="columns-content" id="done" ondrop="moveToColumn('done')" ondragleave="removeHighlight('done')" ondragover="dragoverHandler(event); highlight('done')"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>          
+ 
+  <section class="right-side">
+    <header>
+      <h3>Kanban Project Management Tool</h3>
+      <div class="user-info">
+        <a href="./help.html"><img class="help" src="./assets/help.svg" alt="Hilfe" /></a>
+        <div class="user-area" style="position:relative;">
+         <img class="profil" src="./assets/sofia.svg" alt="badges-header">
+          <nav id="navbar" style="display:none;">
+            <ul>
+              <li><a id="logout-link" href="#">Logout</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <section class="content">
+  <div class="display-position">
+    <div class="content-board">
+
+      <!-- Titel + Suche OBEN -->
+      <div class="title-and-search">
+        <div>
+          <h1>Board</h1>
         </div>
 
-    </section>    
+        <div>
+          <div class="task" aria-live="polite"></div>
+          <div class="board-find-task">
+            <div class="input-find">
+              <input id="input-find-task" type="text" placeholder="Find Task" />
+              <div class="input-find-icon">
+                <div id="separator"></div>
+                <div aria-hidden="true">
+                </div>
+              </div>
+            </div>
+            <button id="bt-add-task" type="button" onclick="openOverlay()">
+              <p>Add Task</p>
+              <img src="/assets/plus add task.svg" alt="" />
+            </button>
+          </div>
+        </div>
+      </div>
 
-    <section id="overlay-add-task" class="hidden"></section>
+      <div class="board">
+        <div class="columns">
+          <div class="column-titles">
+            <p>To do</p>
+            <button type="button" onclick="openOverlay()" aria-label="Add to To do">+</button>
+          </div>
+          <div class="columns-content" id="todo"
+               ondrop="moveToColumn('todo')"
+               ondragleave="removeHighlight('todo')"
+               ondragover="dragoverHandler(event); highlight('todo')"></div>
+        </div>
 
-    <section id="overlay-select-task" class="hidden"></section>
+        <div class="columns">
+          <div class="column-titles">
+            <p>In progress</p>
+            <button type="button" onclick="openOverlay()" aria-label="Add to In progress">+</button>
+          </div>
+          <div class="columns-content" id="inprogress"
+               ondrop="moveToColumn('inprogress')"
+               ondragleave="removeHighlight('inprogress')"
+               ondragover="dragoverHandler(event); highlight('inprogress')"></div>
+        </div>
 
-    <script type="module" src="./db.js"></script>
-    <script type="module" src="./board/board-templates.js"></script>
-    <script type="module" src="./board/board-script.js"></script>
-    <script type="module" src="./firstdata.js"></script>
-     <script type="module" src="./add_task_templates.js"></script>
-  
+        <div class="columns">
+          <div class="column-titles">
+            <p>Await feedback</p>
+            <button type="button" onclick="openOverlay()" aria-label="Add to Await feedback">+</button>
+          </div>
+          <div class="columns-content" id="review"
+               ondrop="moveToColumn('review')"
+               ondragleave="removeHighlight('review')"
+               ondragover="dragoverHandler(event); highlight('review')"></div>
+        </div>
 
+        <div class="columns">
+          <div class="column-titles"><p>Done</p></div>
+          <div class="columns-content" id="done"
+               ondrop="moveToColumn('done')"
+               ondragleave="removeHighlight('done')"
+               ondragover="dragoverHandler(event); highlight('done')"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="overlay-add-task" class="hidden" aria-hidden="true"></div>
+</section>
+
+
+ 
+<script type="module" src="./board/board-script.js"></script>
+<script type="module" src="./db.js"></script>
+<script type="module" src="./board/board-templates.js"></script> 
+<script type="module" src="./board/board-script.js"></script>
+<script type="module" src="./firstdata.js"></script>
 
 </body>
-
 </html>
