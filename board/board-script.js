@@ -1,67 +1,137 @@
-import { loadData, getTasks } from '../db.js';
-import {
-  loadCard,
-  // loadProgressBar,      // aktuell ungenutzt – ggf. entfernen
-  // loadBadgeForCard,     // aktuell ungenutzt – ggf. entfernen
-  // loadPriorityImage     // aktuell ungenutzt – ggf. entfernen
-} from './board-templates.js';
+import {loadData, saveData, getLoggedInUser} from '../db.js';
 
-async function renderBoard() {
-  await loadData();
-  const tasks = getTasks();
 
-  // Spalten leeren
-  ['todo', 'inprogress', 'review', 'done'].forEach(id => {
-    const col = document.getElementById(id);
-    if (col) col.innerHTML = '';
-  });
-// Debug: Finde Tasks ohne Kategorie oder ohne category.color
-const bad = tasks.filter(t => !t.category || !t.category.color);
-if (bad.length) {
-  console.warn('Tasks ohne category/color:', bad);
-}
 
-  // Karten einfügen
-  tasks.forEach(task => {
-    const columnId = normalizeStatus(task.status);
-    const column = document.getElementById(columnId);
-    if (column) {
-      column.insertAdjacentHTML('beforeend', loadCard(task));
-    }
-  });
-}
+window.openOverlay = openOverlay,
+window.closeOverlay = closeOverlay,
 
-function normalizeStatus(status) {
-  switch (status) {
-    case 'to-do': return 'todo';
-    case 'in-progress': return 'inprogress';
-    case 'await-feedback': return 'review';
-    case 'done': return 'done';
-    default: return status;
-  }
-}
-
-// Nur EINMAL registrieren – und richtig geschrieben :)
-document.addEventListener('DOMContentLoaded', () => {
-  renderBoard();
-
-  // Overlay-Setup erst nach DOM-Ready
-  const addTaskButton = document.getElementById('bt-add-task');
-  if (addTaskButton) {
-    const overlay = addTaskButton.querySelector('.check-overlay');
-
-    const toggleCheckOverlay = () => {
-      if (overlay) overlay.classList.toggle('hidden');
-    };
-
-    addTaskButton.addEventListener('click', () => {
-      toggleCheckOverlay();
-
-      // Falls du zusätzlich ein Modal öffnen willst und die Funktion existiert:
-      if (typeof window.openOverlay === 'function') {
-        window.openOverlay();
-      }
-    });
-  }
+/**
+ * Load the tasks for the board.
+ */
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadData();
+    updateTasks();
 });
+
+/**
+ * Opens the "Add Task" overlay by removing the 'hidden' class.
+ * Triggered when the "Add Task" button is clicked.
+ */
+function openOverlay() {
+    selectedUsers.clear();
+    let overlayContainer = document.getElementById("overlay-add-task")
+    overlayContainer.classList.remove('hidden');
+    overlayContainer.innerHTML = loadOverlayAddTaskBoard();
+    overlayContainer.classList.add('active');
+    document.body.classList.add('no-scroll');
+}
+
+/**
+ * Closes the "Add Task" overlay by adding the 'hidden' class.
+ */
+function closeOverlay() {
+    let overlayContainer = document.getElementById("overlay-add-task")
+    overlayContainer.classList.add('hidden');
+    document.body.classList.remove('no-scroll');
+    overlayContainer.innerHTML = "";
+}
+
+/**
+ * Closes the overlay when a click occurs outside the content area (".content-add-task").
+ */
+document.getElementById("overlay-add-task").addEventListener("click", function (event) {
+    let overlayContainer = document.querySelector(".content-add-task");
+    if (!overlayContainer.contains(event.target)) {
+        closeOverlay();
+    }
+});
+
+/**
+ * Updates the display of tasks on the board.
+ */
+export function updateTasks() {
+    let user = getLoggedInUser();
+    let tasksData = user.tasks;
+    document.querySelectorAll('.columns-content').forEach(column => {
+        column.innerHTML = "";
+    });
+    for (let taskIndex = 0; taskIndex < tasksData.length; taskIndex++) {
+        let task = tasksData[taskIndex];
+        let status = tasksData[taskIndex].status;
+        let columnOfCard = document.getElementById(`${status}`);
+        columnOfCard.innerHTML += loadCard(task);
+        loadAssignedContacts(task);           
+        loadSubtaskBar(task);
+        loadPriority(task)     
+    }
+    checkContentOfColumns();
+    addTaskEventListeners();
+} 
+
+/**
+ * Load the progress bar of the subtask an show the amount of the done subtasks.
+ * @param {object} task This is the task object containing all necessary information.
+ */
+function loadSubtaskBar(task) {
+    let subtaskContainer = document.getElementById(`progress-bar${task.id}`);
+    if (Array.isArray(task.subtasks) && task.subtasks.length > 0) {
+        let doneSubtasks = 0;      
+        for (let sub of task.subtasks) {
+            if (sub.status === "done") {
+                doneSubtasks++;}
+            }
+        subtaskContainer.innerHTML = loadProgressBar(task, doneSubtasks);  
+    } else {
+        subtaskContainer.innerHTML = "";
+    }
+}
+
+/**
+ * Load the bages of the assigned contacts.
+ * @param {object} task This is the object of the task.   
+ */
+function loadAssignedContacts(task) {
+    let assignedContacts = task.assignedContacts;
+    let assignedContainer = document.getElementById(`card${task.id}-contacts`);
+    assignedContainer.innerHTML = "";
+    for (let assignedID = 0; assignedID < assignedContacts.length; assignedID++) {
+        let assignedContact = assignedContacts[assignedID]
+        assignedContainer.innerHTML += loadBagesForCard(assignedContact)
+    }
+}
+
+/**
+ * Loads and displays the priority icon for a given task.
+ * @param {object} task  The task object containing task details.
+ */
+function loadPriority(task) {
+    let priorityContainer = document.getElementById(`priority${task.id}`);
+    if (task.priority && task.priority !== "") {
+        priorityContainer.innerHTML = loadPriorityImage(task);
+    } else {
+        priorityContainer.innerHTML = "";
+    }
+} 
+
+/**
+ * Checks each column is empty. If a column is empty, it inserts a placeholder card.
+ */
+function checkContentOfColumns() {
+    let todoContainer = document.getElementById('todo');
+    let inprogressContainer = document.getElementById('inprogress');
+    let reviewContainer = document.getElementById('review');
+    let doneContainer = document.getElementById('done');
+    if (todoContainer.innerHTML === "" ) {
+        todoContainer.innerHTML = loadNoTodoCard()   
+    } 
+    if (inprogressContainer.innerHTML === "" ) {
+        inprogressContainer.innerHTML = loadNoTodoCard()
+    }
+    if (reviewContainer.innerHTML === "" ) {
+        reviewContainer.innerHTML = loadNoTodoCard()
+    }
+    if (doneContainer.innerHTML === "" ) {
+        doneContainer.innerHTML = loadNoDoneCard()
+    }
+ }
 
