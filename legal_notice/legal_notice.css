@@ -1,0 +1,39 @@
+.title1 {
+    text-align: left;
+    word-wrap: break-word;
+    width: 90%;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.mainsection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+    padding: 16px;
+    max-width: 100%;
+    flex: 1 1 auto;
+    overflow-y: auto;  
+}
+
+@media screen and (max-width: 780px) {
+    .mainsection{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+    max-width: 100%; 
+    }
+    .title1 {
+    text-align: left;
+    word-wrap: break-word;
+    width: 90%;
+    overflow-y: auto;
+    flex: 1 1 auto;
+}
+}
