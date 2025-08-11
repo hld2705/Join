@@ -61,85 +61,10 @@
       </div>
     </header>
 
-    <section class="content">
-  <div class="display-position">
-    <div class="content-board">
-
-      <!-- Titel + Suche OBEN -->
-      <div class="title-and-search">
-        <div>
-          <h1>Board</h1>
-        </div>
-
-        <div>
-          <div class="task" aria-live="polite"></div>
-          <div class="board-find-task">
-            <div class="input-find">
-              <input id="input-find-task" type="text" placeholder="Find Task" />
-              <div class="input-find-icon">
-                <div id="separator"></div>
-                <div aria-hidden="true">
-                </div>
-              </div>
-            </div>
-            <button id="bt-add-task" type="button" onclick="openOverlay()">
-              <p>Add Task</p>
-              <img src="/assets/plus add task.svg" alt="" />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="board">
-        <div class="columns">
-          <div class="column-titles">
-            <p>To do</p>
-            <button type="button" onclick="openOverlay()" aria-label="Add to To do">+</button>
-          </div>
-          <div class="columns-content" id="todo"
-               ondrop="moveToColumn('todo')"
-               ondragleave="removeHighlight('todo')"
-               ondragover="dragoverHandler(event); highlight('todo')"></div>
-        </div>
-
-        <div class="columns">
-          <div class="column-titles">
-            <p>In progress</p>
-            <button type="button" onclick="openOverlay()" aria-label="Add to In progress">+</button>
-          </div>
-          <div class="columns-content" id="inprogress"
-               ondrop="moveToColumn('inprogress')"
-               ondragleave="removeHighlight('inprogress')"
-               ondragover="dragoverHandler(event); highlight('inprogress')"></div>
-        </div>
-
-        <div class="columns">
-          <div class="column-titles">
-            <p>Await feedback</p>
-            <button type="button" onclick="openOverlay()" aria-label="Add to Await feedback">+</button>
-          </div>
-          <div class="columns-content" id="review"
-               ondrop="moveToColumn('review')"
-               ondragleave="removeHighlight('review')"
-               ondragover="dragoverHandler(event); highlight('review')"></div>
-        </div>
-
-        <div class="columns">
-          <div class="column-titles"><p>Done</p></div>
-          <div class="columns-content" id="done"
-               ondrop="moveToColumn('done')"
-               ondragleave="removeHighlight('done')"
-               ondragover="dragoverHandler(event); highlight('done')"></div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
+   <section class="content">
+  <div id="board-root"></div>
   <div id="overlay-add-task" class="hidden" aria-hidden="true"></div>
 </section>
-
-
  
 <script type="module" src="./board/board-script.js"></script>
 <script type="module" src="./db.js"></script>
