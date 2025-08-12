@@ -121,7 +121,7 @@ body.no-scroll{ overflow:hidden; }
   width:28px; height:28px; border:0; background:transparent; cursor:pointer;
   font-size:18px; line-height:1; border-radius:6px;
 }
-<<<<<<< HEAD
+
 .modal-close:hover{ background:#f1f3f5; }
 
 /* Header/Body/Footer */
@@ -180,7 +180,7 @@ textarea{ resize:vertical; }
 .btn.primary{ background:#2A3647; color:#fff; }
 .btn.primary:hover{ background:#29ABE2; }
 
-=======
+
 #navbar a{ color:#fff; text-decoration:none; display:block; padding:8px 6px; }
 #navbar a:hover{ text-decoration:underline; }
 
@@ -241,4 +241,4 @@ textarea{ resize:vertical; }
     border-radius: 12px;
     border: 1px solid rgba(116, 116, 116, 0.5);
 }
->>>>>>> 3f0830d94e02a33a3cbbe60629a95d061c5f68c0
+

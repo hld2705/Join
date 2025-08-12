@@ -51,7 +51,7 @@ window.closeOverlay = window.closeOverlay || function () {
   el.classList.add('hidden'); el.classList.remove('active'); el.innerHTML = ''; document.body.classList.remove('no-scroll');
 };
 
-<<<<<<< HEAD
+
 /*overlay add task*/
 
 // board/board-script.js (nur Overlay-relevanter Teil)
@@ -82,8 +82,5 @@ window.closeOverlay = closeOverlay;
 
 
 
-=======
 window.addTaskToBoard = function () {
-  document.getElementById('task-overlay').style.display = "block";
-}
->>>>>>> 3f0830d94e02a33a3cbbe60629a95d061c5f68c0
+  document.getElementById('task-overlay').style.display = "block"}
