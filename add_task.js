@@ -49,6 +49,7 @@ async function showUserName() {
         let name = document.createElement("span");
         let img = document.createElement("img");
         div.classList.add("Assigned-dropdown-username");
+        div.id = "userName"
         name.textContent = users[i].name;
         img.src = users[i].badge;
         img.classList.add("userBadge")
@@ -94,9 +95,17 @@ document.addEventListener("click", function (e) {
 // Wenn auf das div mit dem Username geklickt wird, soll die div markiert werden.
 
 function filterBadges(badge, badgeContainer) {
-    badgeContainer.innerHTML = badge.outerHTML;
-    return badgeContainer;
-}
+    let userNames = document.getElementById('dropdownList')
+    badgeContainer.innerHTML = "";
+    let selectedUsers = document.querySelectorAll('.Assigned-dropdown-username.bg-grey .userBadge');
+
+    if (selectedUsers) {
+        badgeContainer.innerHTML += badge.outerHTML;
+        return badgeContainer;
+    }
+};
+
+// machs mir for loop und vorher leeren, dann += verwenden
 
 // Filtert mir die Badges aus dem Dropdownmenü und zeigt sie mir darunter an.
 
@@ -181,14 +190,18 @@ function removeRequired() {
     let titleInput = document.getElementById('title-input');
     let dateInput = document.getElementById('date-input');
 
-    titleInput.addEventListener('input', () => {
-        titleInput.classList.remove('submit');
-        document.getElementById('required-message-title').innerHTML = "";
-    });
-    dateInput.addEventListener('input', () => {
-        dateInput.classList.remove('submit');
-        document.getElementById('required-message-date').innerHTML = "";
-    });
+    if (titleInput) {
+        titleInput.addEventListener('input', () => {
+            titleInput.classList.remove('submit');
+            document.getElementById('required-message-title').innerHTML = "";
+        });
+    }
+    if (dateInput) {
+        dateInput.addEventListener('input', () => {
+            dateInput.classList.remove('submit');
+            document.getElementById('required-message-date').innerHTML = "";
+        });
+    }
 }
 
 // Das "this field is required" Feld und die rote Umrandung werden bei Eingabe wieder gelöscht.

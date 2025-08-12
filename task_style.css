@@ -476,18 +476,6 @@ input.priority-input:focus::placeholder {
     border-radius: 10px;
 }
 
-#overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(223, 223, 223, 0.5);
-    width: 80vw;
-    height: 80vh;
-    border-radius: 12px;
-    border: 1px solid rgba(116, 116, 116, 0.5);
-}
-
 .check-icon-black path{
     stroke: black;
     fill: black;
