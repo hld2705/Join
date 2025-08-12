@@ -49,5 +49,33 @@ window.closeOverlay = window.closeOverlay || function(){
   el.classList.add('hidden'); el.classList.remove('active'); el.innerHTML=''; document.body.classList.remove('no-scroll');
 };
 
+/*overlay add task*/
+
+// board/board-script.js (nur Overlay-relevanter Teil)
+import { renderAddTaskOverlay, attachAddTaskOverlayEvents } from './board-templates.js';
+
+function openOverlay() {
+  const host = document.getElementById('overlay-add-task');
+  if (!host) return;
+
+  host.innerHTML = renderAddTaskOverlay();
+  host.classList.add('active');
+  document.body.classList.add('no-scroll');
+
+  attachAddTaskOverlayEvents(host);
+}
+
+function closeOverlay() {
+  const host = document.getElementById('overlay-add-task');
+  if (!host) return;
+  host.classList.remove('active');
+  host.innerHTML = '';
+  document.body.classList.remove('no-scroll');
+}
+
+window.openOverlay = openOverlay;
+window.closeOverlay = closeOverlay;
+
+
 
 
