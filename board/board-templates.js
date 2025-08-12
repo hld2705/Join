@@ -14,7 +14,7 @@ export function boardShell() {
               <input id="input-find-task" type="text" placeholder="Find Task">
               <div class="input-find-icon"><div id="separator"></div><div aria-hidden="true"></div></div>
             </div>
-            <button id="bt-add-task" type="button">
+            <button onclick="addTaskToBoard()" id="bt-add-task" type="button">
               <p>Add Task</p><img src="/assets/plus add task.svg" alt="">
             </button>
           </div>
