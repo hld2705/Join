@@ -38,18 +38,16 @@
                             placeholder="Password" required> <img src="assets/icons/lock.svg"></div>
                 </div>
                 <div class="buttons">
-                    <button class="buttonlogin" onclick="loginUserPushedInfo()">Log in</button>
-                    <a href="summary.html"><button class="buttonguestlogin"><a
-                                style="text-decoration: none; color:black;" href="summary.html">Guest Log
-                                in</a></button></a>
+                   <a href="/summary.html"> <button class="buttonlogin" onclick="loginUserPushedInfo()">Log in</button> </a>
+                    <a href="/summary.html"><button class="buttonguestlogin" href="summary.html">Guest Log in</button></a>
                 </div>
             </div>
         </div>
-        <div class="headerwriting">
+        <div class="headerwriting" id="headerwritingdiv">
                 <p>Not a Join user?</p><button class="buttonsignup" onclick="signUp()">Sign up</button>
             </div>
     </div>
-    <div style="display:flex; justify-content: center; align-items: center;">
+    <div class="signupcenter">
         <div id="signupPage" class="signup d_none">
             <div class="signuppage signuptitleandarrow">
                 <div>

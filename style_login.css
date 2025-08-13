@@ -7,62 +7,6 @@ body {
     max-width: 1440px;
     margin: 0 auto;
 }
-/*
-@media screen and (min-width: 320px) and (max-width: 780px) {
-
-    .logo {
-        height: 78px;
-        width: 64px;
-        transform: translate(-22px, -44px);
-    }
-
-    /*.headerwriting {
-        position: absolute;
-        bottom: -20px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 20px;
-        font-size: 18px;
-    }*/
-
- /*   .headerwriting {
-        position: static;
-        margin-top: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 20px;
-        font-size: 18px;
-    }
-
-    .responsivnessheaderwritting {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .login {
-        position: absolute;
-        bottom: 30vh;
-        margin-top: 40px;
-        padding: 30px;
-    }
-
-    .page {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .mainlogin{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-}*/
 
 @media screen and (min-width: 320px) and (max-width: 780px) {
   
@@ -77,13 +21,13 @@ body {
         position: relative; 
     }
 
-    /* Center the login form */
+
     .mainlogin {
         display: flex;
         justify-content: center;
         align-items: center;
         width: 100%;
-        margin-top: 80px; /* Space for the logo */
+        margin-top: 80px;
     }
 
     .login {
@@ -96,7 +40,7 @@ body {
         margin: 0 auto;
     }
 
-    /* Center the header writing below login */
+
     .headerwriting {
         display: flex;
         align-items: center;
@@ -105,13 +49,13 @@ body {
         font-size: 18px;
         margin-top: 30px;
         width: 100%;
-        position: static; /* Remove absolute positioning */
+        position: static;
         top: auto;
         right: auto;
         height: auto;
     }
 
-    /* Adjust other elements */
+
     .buttons {
         flex-direction: column;
         gap: 15px;

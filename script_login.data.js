@@ -19,7 +19,7 @@ function loginUserPushedInfo() {
   join.users.push(newUser);
   console.log("user added:", newUser);
   console.log("All users now:", join.users);
-  window.loginUserPushedInfo = loginUserPushedInfo;
+
 }
 
 window.logIn = function logIn(){

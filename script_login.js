@@ -15,6 +15,8 @@ function toggleButton() {
 function goBack() {
     let signup = document.getElementById("signupPage");
     let login = document.getElementById("login");
+    let headerwriting = document.getElementById("headerwritingdiv")
+    headerwriting.classList.remove("d_none");
     signup.classList.add("d_none");
     login.classList.remove("d_none");
 }
@@ -37,9 +39,13 @@ async function loadingScreen() {
 function signUp() {
     let signup = document.getElementById("signupPage");
     let login = document.getElementById("login");
+    let headerwriting = document.getElementById("headerwritingdiv")
     if(signup.classList.contains("d_none")) {
     login.classList.add("d_none");
     signup.classList.remove("d_none");
+    }
+    if(!headerwriting.classList.contains("d_none")){
+        headerwriting.classList.add("d_none");
     }
 }
 
