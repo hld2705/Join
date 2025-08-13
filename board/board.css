@@ -8,7 +8,7 @@
 body{background:var(--bg);}
 
 /* ===== Layout ===== */
-.display-position{ max-width:1120px;  }
+
 .content-board{  }
 .hidden{ display:none !important; }
 body.no-scroll{ overflow:hidden; }
@@ -184,9 +184,6 @@ textarea{ resize:vertical; }
 #navbar a{ color:#fff; text-decoration:none; display:block; padding:8px 6px; }
 #navbar a:hover{ text-decoration:underline; }
 
-
-
-
 .task-content-container {
     height: auto !important;
     width: 100%;
@@ -242,3 +239,62 @@ textarea{ resize:vertical; }
     border: 1px solid rgba(116, 116, 116, 0.5);
 }
 
+
+
+
+/* Input-Icon im Suchfeld */
+.input-find { position: relative; display: inline-block; }
+.input-find input { padding-left: 36px; height: 36px; }
+.input-find-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; pointer-events: none; display:flex; align-items:center; }
+.input-find-icon img { width: 100%; height: auto; }
+
+/* Toolbar */
+.board-toolbar{ display:flex; gap:24px; align-items:center; flex-wrap:wrap; padding:8px 0 12px; }
+
+
+
+/* Card: Subtask-Leiste dünner */
+.board-card .subtask-bar{ height:6px; background:#EEF2F7; border-radius:999px; overflow:hidden; }
+.board-card .subtask-fill{ height:100%; background:#3B82F6; }
+
+/* Avatare auf Karten */
+.card-assignees{ display:flex; gap:6px; margin-top:10px; }
+.avatar{ display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:999px; color:#1F2937; font-weight:700; font-size:12px; }
+.avatar.small{ width:22px; height:22px; font-size:11px; }
+.avatar.micro{ width:18px; height:18px; font-size:10px; }
+
+/* Assignee-Filter Panel & Chips */
+.assignee-filter{ position:relative; }
+.assignee-panel{
+  position:absolute; z-index:50; top:calc(100% + 6px); left:0; width:280px;
+  background:#fff; border:1px solid #E5E7EB; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,.08); padding:10px;
+}
+.assignee-search input{ width:100%; padding:8px 10px; border:1px solid #E5E7EB; border-radius:8px; font-size:14px; }
+.assignee-options{ list-style:none; margin:8px 0; padding:0; max-height:220px; overflow:auto; display:flex; flex-direction:column; gap:6px; }
+.chk{ display:flex; align-items:center; gap:8px; cursor:pointer; }
+.chk input{ accent-color:#3B82F6; }
+.assignee-actions{ display:flex; justify-content:space-between; gap:8px; }
+.assignee-chips{ display:flex; gap:8px; flex-wrap:wrap; margin-top:6px; }
+.chip{ display:inline-flex; align-items:center; gap:6px; padding:4px 8px; border-radius:999px; border:1px solid #E5E7EB; background:#fff; cursor:pointer; font-size:12px; }
+
+/* (falls noch nicht da) */
+body.no-scroll{ overflow:hidden; }
+
+
+
+
+
+.card-assignees { display:flex; gap:6px; margin-top:10px; }
+.avatar{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:28px; height:28px; border-radius:999px;
+  color:#1F2937; font-weight:700; font-size:12px;
+  border:2px solid #fff; box-shadow:0 1px 2px rgba(0,0,0,.08);
+}
+
+
+.avatar-img{
+  margin-left: -10px;margin-right: -10px;
+  width:42px; height: 42px; border-radius:999px; display:block;
+  border:2px solid #fff; box-shadow:0 1px 2px rgba(0,0,0,.08);
+}
