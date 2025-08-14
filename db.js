@@ -1,4 +1,3 @@
-// db.js
 import { join } from './firstdata.js';
 
 const BASE_URL = 'https://join-gruppenarbeit-75ecf-default-rtdb.europe-west1.firebasedatabase.app/';
@@ -7,10 +6,17 @@ let users = [];
 let tasks = [];
 let loggedInUser = null;
 
-/**
- * Lädt Benutzer- und Taskdaten aus Firebase.
- * Setzt eingeloggten Benutzer.
- */
+function normalizeId(x){ return String(x); }
+async function putUser(u) {
+  const res = await fetch(`${BASE_URL}/users/${u.id}.json`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(u),
+  });
+  if (!res.ok) throw new Error('Fehler beim Speichern');
+  return res.json();
+}
+
 export async function loadData() {
   try {
     const usersRes = await fetch(`${BASE_URL}/users.json`);
@@ -21,19 +27,13 @@ export async function loadData() {
     const tasksJson = await tasksRes.json();
     tasks = tasksJson ? Object.values(tasksJson) : [];
 
-    loggedInUser = users.find(u => u.login === 1);
-    console.log('✅ Eingeloggter Benutzer:', loggedInUser);
   } catch (error) {
     console.error('❌ Fehler beim Laden der Daten:', error);
   }
 }
 
-/**
- * Speichert einen Datensatz an einem bestimmten Pfad.
- */
 export async function saveData(path = '', data = null) {
   if (!data || !path) return;
-
   try {
     const res = await fetch(`${BASE_URL}/${path}/${data.id}.json`, {
       method: 'PUT',
@@ -46,56 +46,71 @@ export async function saveData(path = '', data = null) {
   }
 }
 
-/**
- * Initialisiert Daten, falls keine vorhanden sind.
- */
 export async function initializeDefaultData() {
   await loadData();
 
   if (!users || users.length === 0) {
-    console.log('🆕 Keine Benutzer gefunden – Standardbenutzer wird geladen...');
-    for (const user of join.users) {
-      await saveData('users', user);
-    }
+    for (const user of join.users) await saveData('users', user);
   }
-
   if (!tasks || tasks.length === 0) {
-    console.log('🆕 Keine Aufgaben gefunden – Standardtasks werden geladen...');
-    for (const task of join.tasks) {
-      await saveData('tasks', task);
+    for (const task of join.tasks) await saveData('tasks', task);
+  }
+  await loadData();
+}
+
+export function getUsers() { return users; }
+export function getTasks() { return tasks; }
+export function getLoggedInUser() { return loggedInUser; }
+
+export async function setLoggedInUserFromSession({ selfHeal = true } = {}) {
+  const sid = (typeof sessionStorage !== 'undefined')
+    ? sessionStorage.getItem('currentUserId')
+    : null;
+
+  if (sid != null) {
+    const u = users.find(x => normalizeId(x.id) === normalizeId(sid)) || null;
+    if (u) {
+      loggedInUser = u;
+
+      if (selfHeal) {
+        const needsFix = !users.some(x => x.login === 1 && normalizeId(x.id) === normalizeId(sid));
+        if (needsFix) {
+          await Promise.all(users.map(x => {
+            const next = { ...x, login: normalizeId(x.id) === normalizeId(sid) ? 1 : 0 };
+            return putUser(next);
+          }));
+          await loadData();
+          loggedInUser = users.find(x => normalizeId(x.id) === normalizeId(sid)) || u;
+        }
+      }
+      console.log('✅ Eingeloggter Benutzer (Session):', loggedInUser);
+      return loggedInUser;
     }
   }
 
-  await loadData(); // Daten nach Initialisierung neu laden
-}
-
-/**
- * Getter für Benutzerliste
- */
-export function getUsers() {
-  return users;
-}
-
-/**
- * Getter für Taskliste
- */
-export function getTasks() {
-  return tasks;
-}
-
-/**
- * Gibt aktuell eingeloggten Benutzer zurück
- */
-export function getLoggedInUser() {
+  loggedInUser = users.find(u => u.login === 1) || null;
+  console.log('✅ Eingeloggter Benutzer (login-Flag):', loggedInUser);
   return loggedInUser;
 }
 
-/**
- * Wird beim Laden der Seite aufgerufen
- */
-window.onload = async () => {
+export async function setCurrentUser(userId, { persistLoginFlag = true } = {}) {
+  try { sessionStorage.setItem('currentUserId', String(userId)); } catch {}
+  if (persistLoginFlag) {
+    await Promise.all(users.map(u => {
+      const next = { ...u, login: Number(u.id) === Number(userId) ? 1 : 0 };
+      return putUser(next);
+    }));
+    await loadData();
+  }
+  loggedInUser = users.find(u => normalizeId(u.id) === normalizeId(userId)) || null;
+  return loggedInUser;
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
   await initializeDefaultData();
+  await setLoggedInUserFromSession({ selfHeal: true });
   console.log('✅ Daten wurden geladen und/oder initialisiert.');
-};
+});
+
 
 
