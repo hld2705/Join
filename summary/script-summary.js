@@ -1,96 +1,144 @@
-import { getTasks, getLoggedInUser, loadData } from '../db.js';
+import { loadData, getUsers, getLoggedInUser, saveData } from '../db.js';
 
-document.addEventListener("DOMContentLoaded", async () => {
-  await loadData(); // Daten aus Firebase laden
+const SELF_HEAL_LOGIN_FLAG = false;
 
-  const user = getLoggedInUser() || { name: 'Gast', id: 0, badge: './assets/default-badge.svg' };
+document.addEventListener('DOMContentLoaded', initSummary);
 
-  // Profil-Badge setzen
-  const badgeImg = document.querySelector('img.profil');
-  if (badgeImg) {
-    badgeImg.src = user.badge.startsWith('./') 
-      ? user.badge.replace('./', '/') // ./assets/... → /assets/...
-      : user.badge;
-    badgeImg.alt = `${user.name} Badge`;
+async function initSummary() {
+  await loadData();
+
+  let user = resolveUserFromSessionOrDb();
+
+  if (SELF_HEAL_LOGIN_FLAG && user && user.id !== 0) {
+    await syncLoginFlag(user.id);
+    await loadData();
+    user = resolveUserFromSessionOrDb();
   }
 
-  // Begrüßung anzeigen
-  document.getElementById("greeting").innerHTML = createGreeting(user.name);
+  setProfileBadge(user);
+  setGreetingSafe(user);
+  removeNextDeadlineUI();
 
-  // Deadline-Aufgaben anzeigen
-  await displayTasksUntilNextDeadline(user.id);
+  initProfileMenuAndLogout();
+}
 
-  // Logout-Menü initialisieren
-  openLogOutMenu();
-});
+function resolveUserFromSessionOrDb() {
+  const users = getUsers() || [];
 
+  const sid =
+    sessionStorage.getItem('currentUserId') ||
+    localStorage.getItem('currentUserId') ||
+    null;
 
-function createGreeting(name) {
+  if (sid != null) {
+    const u = users.find(x => String(x.id) === String(sid));
+    if (u) return u;
+  }
+
+  const semail =
+    sessionStorage.getItem('currentUserEmail') ||
+    localStorage.getItem('currentUserEmail') ||
+    null;
+
+  if (semail) {
+    const needle = String(semail).trim().toLowerCase();
+    const u = users.find(x => (x.email || '').trim().toLowerCase() === needle);
+    if (u) return u;
+  }
+
+  const flagUser = users.find(x => x && x.login === 1);
+  if (flagUser) return flagUser;
+  return { id: 0, name: 'Gast', badge: '/assets/profilebadge/guest.svg' };
+}
+
+async function syncLoginFlag(correctUserId) {
+  const users = getUsers() || [];
+  await Promise.all(
+    users.map(u => saveData('users', { ...u, login: Number(u.id) === Number(correctUserId) ? 1 : 0 }))
+  );
+}
+
+/* ---------------- Badge & Greeting ---------------- */
+
+function setProfileBadge(user) {
+  const img = document.querySelector('img.profil');
+  if (!img) return;
+  const src = (user.badge || '').startsWith('./')
+    ? user.badge.replace('./', '/')
+    : (user.badge || '/assets/profilebadge/guest.svg');
+  img.src = src;
+  img.alt = `${user.name || 'Gast'} Badge`;
+}
+
+function setGreetingSafe(user) {
+  const name = user.name || 'Gast';
   const hour = new Date().getHours();
-  let greeting = "Good evening";
-  if (hour < 12) greeting = "Good morning";
-  else if (hour < 18) greeting = "Good day";
-  return `${greeting}, <span class="highlight-name">${name}</span>!`;
-}
+  let greeting = 'Good evening';
+  if (hour < 12) greeting = 'Good morning';
+  else if (hour < 18) greeting = 'Good day';
 
-async function displayTasksUntilNextDeadline(userId) {
-  const tasks = getTasks();
-  console.log("Geladene Tasks:", tasks);
-
-  const today = new Date();
-
-  const upcomingTasks = tasks
-    .filter(task => {
-      const assignedId = task.assigned?.id;
-      const end = new Date(task.enddate);
-      const isValidDate = !isNaN(end);
-      const isFuture = end >= today;
-      const isForUser = assignedId === userId;
-
-      console.log(`🔍 Task "${task.title}" → assignedId: ${assignedId}, isValidDate: ${isValidDate}, isFuture: ${isFuture}, isForUser: ${isForUser}`);
-      
-      return isValidDate && isFuture && isForUser;
-    })
-    .sort((a, b) => new Date(a.enddate) - new Date(b.enddate));
-
-  console.log("✅ Gefilterte Deadlines:", upcomingTasks);
-
-  const taskElement = document.querySelector('.task');
-  if (!taskElement) {
-    console.warn("⚠️ Kein .task-Container im HTML gefunden!");
+  const prefEl = document.getElementById('greeting-prefix');
+  const nameEl = document.getElementById('greeting-name');
+  if (prefEl && nameEl) {
+    prefEl.textContent = greeting + ',';
+    nameEl.textContent = name + '!';
     return;
   }
 
-  if (upcomingTasks.length === 0) {
-    taskElement.innerHTML = "<p>Keine anstehenden Aufgaben.</p>";
-    return;
+  const whole = document.getElementById('greeting');
+  if (whole) {
+    whole.innerHTML = `${greeting}, <span class="highlight-name">${escapeHtml(name)}</span>!`;
   }
-
-  const next = upcomingTasks[0];
-  taskElement.innerHTML = `
-    <div class="task-item">
-      <h4>${next.title}</h4>
-      <p>Deadline: ${next.enddate}</p>
-      <p>Status: ${next.status}</p>
-    </div>
-  `;
 }
 
- const profilImg = document.querySelector('.profil');
+function removeNextDeadlineUI() {
+  document.querySelector('.js-next-task')?.remove();
+
+  ['next-task-title', 'next-task-date', 'next-task-status', 'next-task-empty'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = '';
+  });
+}
+
+/* ---------------- Profil/ Logout ---------------- */
+
+function initProfileMenuAndLogout() {
+  const profilImg = document.querySelector('.profil');
   const navbar = document.getElementById('navbar');
 
-  profilImg.addEventListener('click', () => {
-    navbar.style.display = (navbar.style.display === 'block') ? 'none' : 'block';
-  });
+  if (profilImg && navbar) {
+    profilImg.addEventListener('click', (e) => {
+      e.stopPropagation();
+      navbar.style.display = (navbar.style.display === 'block') ? 'none' : 'block';
+    });
 
-  // Klick außerhalb schließt die Navbar
-  document.addEventListener('click', (e) => {
-    if (!profilImg.contains(e.target) && !navbar.contains(e.target)) {
-      navbar.style.display = 'none';
-    }
-  });
+    document.addEventListener('click', (e) => {
+      if (!profilImg.contains(e.target) && !navbar.contains(e.target)) {
+        navbar.style.display = 'none';
+      }
+    });
+  }
 
-  document.getElementById('logout-link')?.addEventListener('click', (e) => {
-  e.preventDefault();
-  window.location.href = "index.html";
-});
+  const logoutLink = document.getElementById('logout-link');
+  if (logoutLink) {
+    logoutLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      try {
+        sessionStorage.removeItem('currentUserId');
+        sessionStorage.removeItem('currentUserEmail');
+      } catch {}
+      window.location.href = 'index.html';
+    });
+  }
+}
+
+/* ---------------- Utils ---------------- */
+
+function escapeHtml(str) {
+  return String(str)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}

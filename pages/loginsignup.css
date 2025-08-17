@@ -77,6 +77,12 @@ h1{
     cursor: pointer;
     border: 1px solid;
 }
+.buttonguestlogin:hover{
+    border-radius: 8px;
+    color: rgba(41, 171, 226, 1);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease;
+}
 .buttons{
     display: flex;
     align-items: center;
@@ -84,7 +90,28 @@ h1{
     flex-direction: row;
     gap: 32px;
 }
-
+.buttonlogin:hover{
+    transition: transform 0.2s ease;
+    background-color: rgba(41, 171, 226, 1);
+    color: white;
+    border-radius: 8px;
+    border-style: solid;
+    padding: 5px;
+    font-size: 21px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.25);
+    border-color: rgba(41, 171, 226, 1);
+}
+.buttonsignup:hover{
+    transition: transform 0.2s ease;
+    background-color: rgba(41, 171, 226, 1);
+    color: white;
+    border-radius: 8px;
+    border-style: solid;
+    padding: 15px;
+    font-size: 16px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.25);
+    border-color: rgba(41, 171, 226, 1);
+}
 .headerwriting{
     display: flex;
     align-items: center;
@@ -110,6 +137,11 @@ h1{
     color: rgba(168, 168, 168, 1);
     text-decoration: none;
     cursor: pointer;
+}
+.links:hover{
+    transition: transform 0.2s ease;
+    color: rgba(41, 171, 226, 1);
+    font-weight: bold;
 }
 .linksdiv {
   position: fixed;
@@ -176,6 +208,13 @@ h1{
     justify-content: center;
     align-items: center;
 }
+
+.signupcenter{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 @media screen and (max-width: 780px) {
     .logo {
         top: 80px;
@@ -185,16 +224,16 @@ h1{
     }
 }
 @keyframes logoanimation {
- 0% {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(2);
-        opacity: 1;
-    }
-    100% {
-        top: 40px;
-        left: 40px;
-        transform: translate(0, 0) scale(0.5);
-        opacity: 1;
-    }
+0% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 1;
+  }
+  100% {
+    top: 80px;
+    left: 70px; 
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
 }
