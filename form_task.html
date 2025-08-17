@@ -2,25 +2,25 @@
     <div class="task-content-container">
         <div class="left-task">
             <div class="left-task-container">
-            <h1 class="task-title">Add Task</h1>
+                <h1 class="task-title">Add Task</h1>
 
-            <div class="title-container">
-                <div class="em-05">Title<span class="asterisk">*</span></div>
-                <input required id="title-input" class="input" type="text" placeholder="Enter a title">
-                <p class="required-mssg" id="required-message-title"></p>
-            </div>
-            <div class="padding-top20">
-                <div class="em-05">Description</div>
-                <textarea id="description-input" class="input" placeholder="Enter a Description"></textarea>
-            </div>
-            <div class="due-date-container padding-top20">
-                <div class="em-05">Due date<span class="asterisk">*</span></div>
-                <label for="date-input" style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
-                    <input type="text" required id="date-input" class="input" placeholder="dd/mm/yyyy">
-                    <img id="calendar-icon" onclick="openCalendar()" class="date-icon"
-                        src="add_task_assets/img/event.svg">
-                </label>
-                <p class="required-mssg" id="required-message-date"></p>
+                <div class="title-container">
+                    <div class="em-05">Title<span class="asterisk">*</span></div>
+                    <input required id="title-input" class="input" type="text" placeholder="Enter a title">
+                    <p class="required-mssg" id="required-message-title"></p>
+                </div>
+                <div class="padding-top20">
+                    <div class="em-05">Description</div>
+                    <textarea id="description-input" class="input" placeholder="Enter a Description"></textarea>
+                </div>
+                <div class="due-date-container padding-top20">
+                    <div class="em-05">Due date<span class="asterisk">*</span></div>
+                    <label for="date-input" style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                        <input type="text" required id="date-input" class="input" placeholder="dd/mm/yyyy">
+                        <img id="calendar-icon" onclick="openCalendar()" class="date-icon"
+                            src="add_task_assets/img/event.svg">
+                    </label>
+                    <p class="required-mssg" id="required-message-date"></p>
                 </div>
             </div>
 
@@ -31,52 +31,52 @@
         <div class="vertical-line"></div>
 
         <div class="right-task">
-            <div class="priority-container">
-                <div class="em-05">Priority</div>
-                <div class="priority-input-container">
-                    <div id="urg-container" onclick="changeUrgentColor()" class="urgent-container">
-                        <input id="urgent" class="input priority-input" placeholder="Urgent" readonly>
-                        <img id="double-arrow" class="double-up-arrow" src="./assets/Prio alta.svg">
-                    </div>
-                    <div onclick="changeMediumColor()" class="medium-container">
-                        <input id="medium-input" class="input priority-input" placeholder="Medium" readonly>
-                        <img id="equal" class="equals-icon" src="./assets/Prio media.svg">
-                    </div>
-                    <div onclick="changeLowColor()" id="low-container" class="low-container">
-                        <input id="low-input" class="input priority-input" placeholder="Low" readonly>
-                        <img id="double-down" class="double-down" src="./assets/double-down.svg">
+            <div class="right-side-inner">
+                <div class="priority-container">
+                    <div class="em-05">Priority</div>
+                    <div class="priority-input-container">
+                        <div id="urg-container" onclick="changeUrgentColor()" class="urgent-container">
+                            <input id="urgent" class="input priority-input" placeholder="Urgent" readonly>
+                            <img id="double-arrow" class="double-up-arrow" src="./assets/Prio alta.svg">
+                        </div>
+                        <div onclick="changeMediumColor()" class="medium-container">
+                            <input id="medium-input" class="input priority-input" placeholder="Medium" readonly>
+                            <img id="equal" class="equals-icon" src="./assets/Prio media.svg">
+                        </div>
+                        <div onclick="changeLowColor()" id="low-container" class="low-container">
+                            <input id="low-input" class="input priority-input" placeholder="Low" readonly>
+                            <img id="double-down" class="double-down" src="./assets/double-down.svg">
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="assigned-to-container">
-                <div class="em-05 padding-top20">Assigned to</div>
-                <input id="assign-input" onclick="renderAssignDropdown(), inputBorderColorSwitch(), showUserName()"
-                    type="text" class="input assign-Input cursorPointer" placeholder="Select contact to assign"
-                    readonly>
-                <img onclick="renderAssignDropdown()" id="drop-down-svg-assign" class="drop-down-arrow-svg"
-                    src="./assets/arrow_drop_down.svg">
-                <div id="dropdownList" class="dropdown-list"></div>
-            </div>
-            <div id="filteredBadgesContainer"></div>
-            <a href="./test.html">Hier drücken zum testen</a>
-
-
-            <div class="category-container">
-                <div class="em-05 padding-top20">Category</div>
-                <input id="category-input" onclick="renderCategoryDropdown()" type="text"
-                    class="input category-input cursorPointer" placeholder="Select task category" readonly>
-                <img onclick=" renderCategoryDropdown()" id="drop-down-svg-category"
-                    class="drop-down-arrow-svg-category" src="./assets/arrow_drop_down.svg">
-                <div id="dropdownListCategory" class="dropdown-list">
-                    <div class="category-option">Technical Task</div>
-                    <div class="category-option">User Story</div>
+                <div class="assigned-to-container">
+                    <div class="em-05 padding-top20">Assigned to</div>
+                    <input id="assign-input" onclick="renderAssignDropdown(), inputBorderColorSwitch(), showUserName()"
+                        type="text" class="input assign-Input cursorPointer" placeholder="Select contact to assign"
+                        readonly>
+                    <img onclick="renderAssignDropdown()" id="drop-down-svg-assign" class="drop-down-arrow-svg"
+                        src="./assets/arrow_drop_down.svg">
+                    <div id="dropdownList" class="dropdown-list"></div>
                 </div>
-            </div>
-            <div>
+                <div id="filteredBadgesContainer"></div>
 
-                <div class="em-05 padding-top20">Subtasks</div>
-                <input class="input" placeholder="Add new subtask" readonly>
+                <div class="category-container">
+                    <div class="em-05 padding-top20">Category</div>
+                    <input id="category-input" onclick="renderCategoryDropdown()" type="text"
+                        class="input category-input cursorPointer" placeholder="Select task category" readonly>
+                    <img onclick=" renderCategoryDropdown()" id="drop-down-svg-category"
+                        class="drop-down-arrow-svg-category" src="./assets/arrow_drop_down.svg">
+                    <div id="dropdownListCategory" class="dropdown-list">
+                        <div class="category-option">Technical Task</div>
+                        <div class="category-option">User Story</div>
+                    </div>
+                </div>
+                <div>
+
+                    <div class="em-05 padding-top20">Subtasks</div>
+                    <input class="input" placeholder="Add new subtask" readonly>
+                </div>
             </div>
             <div class="task-button-container">
                 <div class="clearBtn-svg-container" onclick="addNewTask()">

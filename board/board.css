@@ -620,8 +620,6 @@ textarea {
 }
 
 
-
-
 /* Input-Icon im Suchfeld */
 .input-find { position: relative; display: inline-block; }
 .input-find input { padding-left: 36px; height: 36px; }
@@ -659,9 +657,6 @@ textarea {
 
 /* (falls noch nicht da) */
 body.no-scroll{ overflow:hidden; }
-
-
-
 
 
 .card-assignees { display:flex; gap:6px; margin-top:10px; }

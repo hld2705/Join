@@ -75,7 +75,7 @@ function openOverlay() {
   host.innerHTML = renderAddTaskOverlay();
   host.classList.remove('hidden');
   host.classList.add('active');
-  host.setAttribute('aria-hidden','false');
+  host.setAttribute('aria-hidden', 'false');
   document.body.classList.add('no-scroll');
   attachAddTaskOverlayEvents(host);
 }
@@ -84,7 +84,7 @@ function closeOverlay() {
   if (!host) return;
   host.classList.add('hidden');
   host.classList.remove('active');
-  host.setAttribute('aria-hidden','true');
+  host.setAttribute('aria-hidden', 'true');
   host.innerHTML = '';
   document.body.classList.remove('no-scroll');
 }
@@ -92,7 +92,7 @@ window.openOverlay = openOverlay;
 window.closeOverlay = closeOverlay;
 
 
-
-
 window.addTaskToBoard = function () {
-  document.getElementById('task-overlay').style.display = "block"}
+  document.getElementById('task-overlay').style.display = "block";
+  document.getElementById('task-overlay-background').style.display = "block";
+}

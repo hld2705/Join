@@ -5,23 +5,27 @@ body {
     font-weight: 700;
 }
 
-* {
-    overflow: visible;
-}
-
 .task-content-container {
     display: flex;
     flex: 1;
-    height: 100vh;
+    height: 94vh;
     width: 100%;
     background-color: #f5f6f7;
     background: linear-gradient(0deg, rgba(245, 246, 247, 1) 99%, rgb(223, 224, 225) 100%);
     font-weight: 400;
     min-width: 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 .assigned-to-container {
     position: relative;
+}
+
+#task-form-container {
+    flex:1;
+    overflow: visible;
+    height: 100dvh;
 }
 
 .drop-down-arrow-svg {
@@ -46,7 +50,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-left: 140px;
+    padding-left: 140px;
     z-index: 9999;
     position: relative;
 }
@@ -66,12 +70,12 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-width: 0;
-  transform: translateY(5%);
+    position: relative;
 }
 
-
-
+.right-side-inner {
+    transform: translateY(14%);
+}
 
 .task-title {
     font-size: 60px;
@@ -485,6 +489,6 @@ input.priority-input:focus::placeholder {
 }
 
 .left-task-container {
-    width: 100%;
     padding-right: 200px;
+        z-index: -1;
 }
