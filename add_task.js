@@ -56,7 +56,6 @@ async function showUserName() {
 
         div.appendChild(img);
         div.appendChild(name);
-        div.appendChild(renderCheckButton());
         dropList.appendChild(div);
     }
 }

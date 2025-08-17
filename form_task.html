@@ -1,6 +1,7 @@
 <form novalidate onsubmit="checkRequired(); return false;" class="task-form">
     <div class="task-content-container">
         <div class="left-task">
+            <div class="left-task-container">
             <h1 class="task-title">Add Task</h1>
 
             <div class="title-container">
@@ -20,6 +21,7 @@
                         src="add_task_assets/img/event.svg">
                 </label>
                 <p class="required-mssg" id="required-message-date"></p>
+                </div>
             </div>
 
             <span class="required-text"><span class="asterisk">*</span>This field ist required</span>
@@ -56,8 +58,8 @@
                     src="./assets/arrow_drop_down.svg">
                 <div id="dropdownList" class="dropdown-list"></div>
             </div>
-<div id="filteredBadgesContainer"></div>
-                <a href="./test.html">Hier drücken zum testen</a>
+            <div id="filteredBadgesContainer"></div>
+            <a href="./test.html">Hier drücken zum testen</a>
 
 
             <div class="category-container">
@@ -66,13 +68,12 @@
                     class="input category-input cursorPointer" placeholder="Select task category" readonly>
                 <img onclick=" renderCategoryDropdown()" id="drop-down-svg-category"
                     class="drop-down-arrow-svg-category" src="./assets/arrow_drop_down.svg">
-            </div>
-
-            <div>
                 <div id="dropdownListCategory" class="dropdown-list">
                     <div class="category-option">Technical Task</div>
                     <div class="category-option">User Story</div>
                 </div>
+            </div>
+            <div>
 
                 <div class="em-05 padding-top20">Subtasks</div>
                 <input class="input" placeholder="Add new subtask" readonly>

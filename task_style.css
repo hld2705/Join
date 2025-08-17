@@ -16,8 +16,8 @@ body {
     width: 100%;
     background-color: #f5f6f7;
     background: linear-gradient(0deg, rgba(245, 246, 247, 1) 99%, rgb(223, 224, 225) 100%);
-    position: relative;
     font-weight: 400;
+    min-width: 0;
 }
 
 .assigned-to-container {
@@ -48,14 +48,28 @@ body {
     justify-content: center;
     margin-left: 140px;
     z-index: 9999;
+    position: relative;
 }
+
+.left-task::after {
+    content: "";
+    border-right: 1px solid #ccc;
+    position: absolute;
+    height: 100%;
+    right: 80px;
+    transform: scaleY(-50%);
+    background-color: grey;
+}
+
 
 .right-task {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    position: relative;
+    min-width: 0;
+  transform: translateY(5%);
 }
+
 
 
 
@@ -107,16 +121,6 @@ textarea {
     position: absolute;
     top: 62px;
     left: 407px;
-}
-
-.vertical-line {
-    display: flex;
-    height: 450px;
-    width: 1px;
-    background-color: #ccc;
-    margin-left: 60px;
-    margin-right: 60px;
-    margin-top: 250px;
 }
 
 
@@ -237,9 +241,9 @@ textarea {
 
 .task-button-container {
     display: flex;
-    position: absolute;
-    top: 700px;
-    left: 174px;
+    position: relative;
+    top: 100px;
+    left: 190px;
     gap: 4px;
 }
 
@@ -366,7 +370,6 @@ textarea {
 
 .dropdown-list {
     position: absolute;
-    left: 0;
     width: 100%;
     max-height: 200px;
     overflow-y: auto;
@@ -476,7 +479,12 @@ input.priority-input:focus::placeholder {
     border-radius: 10px;
 }
 
-.check-icon-black path{
+.check-icon-black path {
     stroke: black;
     fill: black;
+}
+
+.left-task-container {
+    width: 100%;
+    padding-right: 200px;
 }

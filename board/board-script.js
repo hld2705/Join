@@ -83,4 +83,7 @@ window.closeOverlay = closeOverlay;
 
 
 window.addTaskToBoard = function () {
-  document.getElementById('task-overlay').style.display = "block"}
+  document.getElementById('task-overlay').style.display = "block";
+  document.getElementById('task-overlay-background').style.display = "block";
+}
+
