@@ -57,6 +57,7 @@ async function showUserName() {
         div.appendChild(img);
         div.appendChild(name);
         dropList.appendChild(div);
+        div.appendChild(renderCheckButton())
     }
 }
 
@@ -94,17 +95,11 @@ document.addEventListener("click", function (e) {
 // Wenn auf das div mit dem Username geklickt wird, soll die div markiert werden.
 
 function filterBadges(badge, badgeContainer) {
-    let userNames = document.getElementById('dropdownList')
-    badgeContainer.innerHTML = "";
-    let selectedUsers = document.querySelectorAll('.Assigned-dropdown-username.bg-grey .userBadge');
-
-    if (selectedUsers) {
-        badgeContainer.innerHTML += badge.outerHTML;
-        return badgeContainer;
-    }
+        for (let i = 0; i < 1; i++) {
+            badgeContainer.innerHTML += badge.outerHTML;
+        };
+    return badgeContainer;
 };
-
-// machs mir for loop und vorher leeren, dann += verwenden
 
 // Filtert mir die Badges aus dem Dropdownmenü und zeigt sie mir darunter an.
 

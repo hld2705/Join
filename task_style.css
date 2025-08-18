@@ -426,6 +426,9 @@ textarea:focus::-webkit-input-placeholder {
     margin-left: auto;
     margin-right: 20px;
 }
+.check-button-svg {
+    padding-right: 1px;
+}
 
 .check-button-svg:hover rect {
     stroke: #29ABE2;
