@@ -1,5 +1,5 @@
 // board-templates.js
-const TITLES = { todo:'To do', inprogress:'In progress', review:'Await feedback', done:'Done' };
+const TITLES = { todo: 'To do', inprogress: 'In progress', review: 'Await feedback', done: 'Done' };
 
 export function boardShell() {
   return `
@@ -15,11 +15,11 @@ export function boardShell() {
             <div class="input-find">
               <input id="input-find-task" type="text" placeholder="Find Task">
               <div class="input-find-icon" aria-hidden="true">
-                <img src="/assets/search.svg" alt="">
+                <img src="./assets/search.svg" alt="">
               </div>
             </div>
             <button id="bt-add-task" type="button">
-              <p>Add Task</p><img src="/assets/plus%20add%20task.svg" alt="">
+              <p>Add Task</p><img src="./assets/plus%20add%20task.svg" alt="">
             </button>
           </div>
         </div>
@@ -58,12 +58,12 @@ export function cardTemplate(task) {
 }
 
 function mainBadge(main) {
-  const map = { userstory:{t:'User Story', c:'#3B82F6'}, techtask:{t:'Technical Task', c:'#10B981'} };
-  const cfg = map[main] ?? { t:(main||'Task'), c:'#6B7280' };
+  const map = { userstory: { t: 'User Story', c: '#3B82F6' }, techtask: { t: 'Technical Task', c: '#10B981' } };
+  const cfg = map[main] ?? { t: (main || 'Task'), c: '#6B7280' };
   return `<span class="card-badge" style="background:${cfg.c}">${esc(cfg.t)}</span>`;
 }
 function subtaskBar(done, total) {
-  const pct = total ? Math.round((done/total)*100) : 0;
+  const pct = total ? Math.round((done / total) * 100) : 0;
   return `
     <div class="subtask">
       <div class="subtask-bar"><div class="subtask-fill" style="width:${pct}%"></div></div>
@@ -72,7 +72,7 @@ function subtaskBar(done, total) {
 }
 
 /* --- Assignee badges per card --- */
-function assigneesRow(task){
+function assigneesRow(task) {
   const list = normalizeAssignees(task);
   if (!list.length) return '';
   return `
@@ -83,21 +83,21 @@ function assigneesRow(task){
 }
 
 /** Normalize assignees (IDs, strings, objects) */
-function normalizeAssignees(task){
+function normalizeAssignees(task) {
   const raw =
-    Array.isArray(task?.assigned)    ? task.assigned    :
+    Array.isArray(task?.assigned) ? task.assigned :
     (task?.assigned && typeof task.assigned === 'object') ? [task.assigned] :
-    Array.isArray(task?.assignees)   ? task.assignees   :
-    Array.isArray(task?.assignedTo)  ? task.assignedTo  :
+    Array.isArray(task?.assignees) ? task.assignees :
+    Array.isArray(task?.assignedTo) ? task.assignedTo :
     Array.isArray(task?.assigned_to) ? task.assigned_to :
-    Array.isArray(task?.team)        ? task.team        :
-    Array.isArray(task?.users)       ? task.users       :
-    Array.isArray(task?.participants)? task.participants: [];
+    Array.isArray(task?.team) ? task.team :
+    Array.isArray(task?.users) ? task.users :
+    Array.isArray(task?.participants) ? task.participants : [];
 
-  const book    = getContactsBook();
+  const book = getContactsBook();
   const byId    = new Map(book.map(u => [String(u?.id ?? ''), u]));
   const byEmail = new Map(book.map(u => [String(u?.email ?? '').toLowerCase(), u]));
-  const byName  = new Map(book.map(u => [String(u?.name  ?? '').toLowerCase(), u]));
+  const byName  = new Map(book.map(u => [String(u?.name ?? '').toLowerCase(), u]));
 
   const norm = (Array.isArray(raw) ? raw : []).map((x) => {
     if (typeof x === 'number') {
@@ -151,13 +151,13 @@ function normalizeAssignees(task){
   });
 }
 
-function getContactsBook(){
+function getContactsBook() {
   return (Array.isArray(window?.CONTACTS) && window.CONTACTS)
       || (window?.join && Array.isArray(window.join.users) && window.join.users)
       || (Array.isArray(window?.contacts) && window.contacts)
       || [];
 }
-function contactToAvatar(c){
+function contactToAvatar(c) {
   const fixed = colorFromUser(c);
   const key   = colorIdentityKey(c, c);
   return {
@@ -167,7 +167,7 @@ function contactToAvatar(c){
     color: fixed || c.color || pickColor(key),
   };
 }
-function avatarBadge(a){
+function avatarBadge(a) {
   if (a.badge) {
     return `<img class="avatar-img" src="${esc(a.badge)}" alt="${esc(a.name)}" title="${esc(a.name)}">`;
   }
@@ -175,12 +175,12 @@ function avatarBadge(a){
 }
 
 /* Utils */
-function initialsFromName(n){ return String(n).trim().split(/\s+/).slice(0,2).map(s=>s[0]?.toUpperCase()||'').join(''); }
-function pickColor(key){ const s = String(key ?? ''); let h=0; for (let i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))%360; return `hsl(${h} 80% 75%)`; }
-function esc(s){return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;'); }
-function parseColor(v){ if (!v) return null; if (typeof v==='string') return v.trim(); if (Array.isArray(v)){const [r,g,b,a]=v;return a==null?`rgb(${r} ${g} ${b})`:`rgb(${r} ${g} ${b} / ${a})`;} if (typeof v==='object'&&'r'in v){const {r,g,b,a}=v;return a==null?`rgb(${r} ${g} ${b})`:`rgb(${r} ${g} ${b} / ${a})`;} return null; }
-function colorFromUser(u){ return parseColor(u?.badgeColor || u?.color || u?.rgb || u?.hex); }
-function colorIdentityKey(input, via){
+function initialsFromName(n) { return String(n).trim().split(/\s+/).slice(0, 2).map(s => s[0]?.toUpperCase() || '').join(''); }
+function pickColor(key) { const s = String(key ?? ''); let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 360; return `hsl(${h} 80% 75%)`; }
+function esc(s) { return String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;'); }
+function parseColor(v) { if (!v) return null; if (typeof v === 'string') return v.trim(); if (Array.isArray(v)) { const [r, g, b, a] = v; return a == null ? `rgb(${r} ${g} ${b})` : `rgb(${r} ${g} ${b} / ${a})`; } if (typeof v === 'object' && 'r' in v) { const { r, g, b, a } = v; return a == null ? `rgb(${r} ${g} ${b})` : `rgb(${r} ${g} ${b} / ${a})`; } return null; }
+function colorFromUser(u) { return parseColor(u?.badgeColor || u?.color || u?.rgb || u?.hex); }
+function colorIdentityKey(input, via) {
   if (via && via.id != null) return `id:${via.id}`;
   if (typeof input === 'number') return `id:${input}`;
   if (input && typeof input === 'object') {
@@ -191,8 +191,133 @@ function colorIdentityKey(input, via){
   return String(input ?? '').toLowerCase().trim() || 'unknown';
 }
 
-/* ---------- Add-Task Overlay (unverändert) ---------- */
-export function renderAddTaskOverlay() { /* ... wie gehabt ... */ }
-export function attachAddTaskOverlayEvents(root) { /* ... wie gehabt ... */ }
-function collectFormData(root){ /* ... wie gehabt ... */ }
-function escapeHtml(s){return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');}
+/* ---------- Add Task Overlay ---------- */
+export function renderAddTaskOverlay() {
+  return `
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addtask-title">
+      <button class="modal-close" type="button" aria-label="Close">&times;</button>
+      <div class="modal-header">
+        <h2 id="addtask-title">Add Task</h2>
+      </div>
+      <div class="modal-body">
+        <form id="addtask-form" novalidate>
+          <div class="add-task-grid">
+            <div>
+              <div class="form-group">
+                <label for="task-title">Title<span class="req">*</span></label>
+                <input id="task-title" name="title" type="text" required placeholder="Enter a title">
+              </div>
+              <div class="form-group">
+                <label for="task-desc">Description</label>
+                <textarea id="task-desc" name="description" rows="4" placeholder="What needs to be done?"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="task-date">Due date</label>
+                <div class="input-icon">
+                  <input id="task-date" name="due" type="date">
+                  <span class="icon-calendar">📅</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="task-prio">Priority</label>
+                <div class="priority-group" id="task-prio">
+                  <button type="button" class="prio-btn" data-prio="low">Low</button>
+                  <button type="button" class="prio-btn" data-prio="medium">Medium</button>
+                  <button type="button" class="prio-btn" data-prio="high">High</button>
+                  <input type="hidden" name="priority" value="medium">
+                </div>
+              </div>
+            </div>
+
+            <div class="add-divider" aria-hidden="true"></div>
+
+            <div>
+              <div class="form-group">
+                <label for="task-status">Status<span class="req">*</span></label>
+                <select id="task-status" name="status" required>
+                  <option value="todo" selected>To do</option>
+                  <option value="inprogress">In progress</option>
+                  <option value="review">Await feedback</option>
+                  <option value="done">Done</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="task-subtask">Subtasks</label>
+                <div class="subtask-row">
+                  <input id="task-subtask" type="text" placeholder="e.g. Create draft">
+                  <button type="button" class="icon-btn" id="btn-add-subtask" aria-label="Add subtask">+</button>
+                </div>
+                <ul class="subtask-list" id="subtask-list"></ul>
+              </div>
+            </div>
+          </div>
+        </form>
+        <p class="hint">Felder mit <span class="req">*</span> sind Pflicht.</p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn ghost" type="button" id="btn-cancel">Cancel</button>
+        <button class="btn primary" type="submit" form="addtask-form">Create task</button>
+      </div>
+    </div>
+  `;
+}
+
+export function attachAddTaskOverlayEvents(root) {
+  // Schließen
+  root.querySelector('.modal-close')?.addEventListener('click', () => window.closeOverlay?.());
+  root.querySelector('#btn-cancel')?.addEventListener('click', () => window.closeOverlay?.());
+  root.addEventListener('click', (e) => { if (e.target === root) window.closeOverlay?.(); });
+
+  // Priority toggle
+  const prioBtns = [...root.querySelectorAll('.prio-btn')];
+  const prioInput = root.querySelector('input[name="priority"]');
+  prioBtns.forEach(btn => btn.addEventListener('click', () => {
+    prioBtns.forEach(b => b.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    if (prioInput) prioInput.value = btn.dataset.prio || 'medium';
+  }));
+  (prioBtns.find(b => b.dataset.prio === (prioInput?.value || 'medium')))?.classList.add('is-active');
+
+  // Subtasks
+  const subInput = root.querySelector('#task-subtask');
+  const subList  = root.querySelector('#subtask-list');
+  root.querySelector('#btn-add-subtask')?.addEventListener('click', () => {
+    const txt = (subInput.value || '').trim();
+    if (!txt) return;
+    const li = document.createElement('li');
+    li.innerHTML = `<span>${escapeHtml(txt)}</span><button type="button" class="icon-btn" aria-label="Remove">🗑</button>`;
+    li.querySelector('button')?.addEventListener('click', () => li.remove());
+    subList.appendChild(li);
+    subInput.value = '';
+  });
+
+  // Submit
+  const form = root.querySelector('#addtask-form');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = collectFormData(root);
+    if (!data.title || !data.status) return;
+
+    // Beispiel: einfache clientseitige Anlage + Reload
+    const tasks = (window.getTasks?.() ?? []);
+    const id = Math.max(0, ...tasks.map(t => +t.id || 0)) + 1;
+    const task = { id, ...data };
+    tasks.push(task);
+    window.location.reload(); // ggf. durch gezieltes Re-Rendern ersetzen
+  });
+}
+
+function collectFormData(root) {
+  const title = root.querySelector('#task-title')?.value?.trim() || '';
+  const description = root.querySelector('#task-desc')?.value?.trim() || '';
+  const due = root.querySelector('#task-date')?.value || '';
+  const status = root.querySelector('#task-status')?.value || 'todo';
+  const priority = root.querySelector('input[name="priority"]')?.value || 'medium';
+  const subs = [...root.querySelectorAll('#subtask-list li span')].map(s => ({ title: s.textContent, status: 'open' }));
+  return { title, description, due, status, priority, subtasks: subs, main: 'techtask' };
+}
+
+function escapeHtml(s) { return String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;'); }
+

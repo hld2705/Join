@@ -64,35 +64,58 @@ function addPlaceholdersIfEmpty() {
   };
   COLS.forEach(id => {
     const col = document.getElementById(id);
-    if (col && col.children.length === 0) col.innerHTML = `<div class="placeholder">${txt[id]}</div>`;
+    if (col && col.children.length === 0) {
+      col.innerHTML = `<div class="placeholder">${txt[id]}</div>`;
+    }
   });
 }
 
 /* -------------------- Overlay -------------------- */
 function openOverlay() {
   const host = document.getElementById('overlay-add-task');
-  if (!host) return;
-  host.innerHTML = renderAddTaskOverlay();
+  if (!host) {
+    console.warn('overlay-add-task host fehlt');
+    return;
+  }
+
+  const markup = renderAddTaskOverlay?.();
+  if (!markup) {
+    // Fallback auf altes Overlay
+    if (typeof window.addTaskToBoard === 'function') {
+      return window.addTaskToBoard();
+    }
+    console.warn('renderAddTaskOverlay lieferte kein Markup und kein Fallback vorhanden');
+    return;
+  }
+
+  host.innerHTML = markup;
   host.classList.remove('hidden');
   host.classList.add('active');
   host.setAttribute('aria-hidden', 'false');
   document.body.classList.add('no-scroll');
-  attachAddTaskOverlayEvents(host);
+
+  attachAddTaskOverlayEvents?.(host);
 }
+
 function closeOverlay() {
   const host = document.getElementById('overlay-add-task');
   if (!host) return;
+
   host.classList.add('hidden');
   host.classList.remove('active');
   host.setAttribute('aria-hidden', 'true');
   host.innerHTML = '';
   document.body.classList.remove('no-scroll');
 }
+
+// für Zugriff aus anderen Modulen/global
 window.openOverlay = openOverlay;
 window.closeOverlay = closeOverlay;
 
-
+/* ---------- Fallback (altes Overlay) ---------- */
 window.addTaskToBoard = function () {
-  document.getElementById('task-overlay').style.display = "block";
-  document.getElementById('task-overlay-background').style.display = "block";
-}
+  const overlay = document.getElementById('task-overlay');
+  const backdrop = document.getElementById('task-overlay-background');
+  if (overlay) overlay.style.display = 'block';
+  if (backdrop) backdrop.style.display = 'block';
+};
