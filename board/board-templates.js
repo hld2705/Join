@@ -1,4 +1,3 @@
-// board-templates.js
 const TITLES = { todo: 'To do', inprogress: 'In progress', review: 'Await feedback', done: 'Done' };
 
 export function boardShell() {
@@ -265,7 +264,7 @@ export function renderAddTaskOverlay() {
 }
 
 export function attachAddTaskOverlayEvents(root) {
-  // Schließen
+
   root.querySelector('.modal-close')?.addEventListener('click', () => window.closeOverlay?.());
   root.querySelector('#btn-cancel')?.addEventListener('click', () => window.closeOverlay?.());
   root.addEventListener('click', (e) => { if (e.target === root) window.closeOverlay?.(); });
@@ -300,12 +299,12 @@ export function attachAddTaskOverlayEvents(root) {
     const data = collectFormData(root);
     if (!data.title || !data.status) return;
 
-    // Beispiel: einfache clientseitige Anlage + Reload
+   
     const tasks = (window.getTasks?.() ?? []);
     const id = Math.max(0, ...tasks.map(t => +t.id || 0)) + 1;
     const task = { id, ...data };
     tasks.push(task);
-    window.location.reload(); // ggf. durch gezieltes Re-Rendern ersetzen
+    window.location.reload(); 
   });
 }
 

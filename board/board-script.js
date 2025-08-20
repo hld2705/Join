@@ -1,4 +1,3 @@
-// board-script.js
 import { loadData, getTasks, getUsers, initializeDefaultData } from '../db.js';
 import {
   boardShell,
@@ -15,11 +14,11 @@ document.addEventListener('DOMContentLoaded', init);
 async function init() {
   document.getElementById('board-root').innerHTML = boardShell();
 
-  // Buttons
+ 
   document.getElementById('bt-add-task')?.addEventListener('click', openOverlay);
   document.querySelectorAll('[data-add]').forEach(b => b.addEventListener('click', openOverlay));
 
-  // Suche
+
   document.getElementById('input-find-task')?.addEventListener('input', (e) => {
     QUERY = e.target.value.trim().toLowerCase();
     renderBoard(getTasks() ?? []);
@@ -30,7 +29,7 @@ async function init() {
   }
   await loadData();
 
-  // Kontakte global bereitstellen (für Karten-Badges)
+  
   const users = (typeof getUsers === 'function') ? getUsers() : [];
   if (Array.isArray(users)) window.CONTACTS = users;
 
@@ -80,7 +79,7 @@ function openOverlay() {
 
   const markup = renderAddTaskOverlay?.();
   if (!markup) {
-    // Fallback auf altes Overlay
+  
     if (typeof window.addTaskToBoard === 'function') {
       return window.addTaskToBoard();
     }
@@ -108,7 +107,6 @@ function closeOverlay() {
   document.body.classList.remove('no-scroll');
 }
 
-// für Zugriff aus anderen Modulen/global
 window.openOverlay = openOverlay;
 window.closeOverlay = closeOverlay;
 
