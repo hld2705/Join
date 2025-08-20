@@ -218,10 +218,13 @@ body.no-scroll{ overflow:hidden; }
 
 .card-footer {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   margin-top: 8px;
+   display:flex;
+  gap:12px;
+  flex-direction: column-reverse;
 }
+
+.card-assignees-wrap{ display:flex; align-items:center; gap:6px; }
 
 .contact-badge {
   width: 28px;
@@ -673,3 +676,37 @@ body.no-scroll{ overflow:hidden; }
   width:42px; height: 42px; border-radius:999px; display:block;
   border:2px solid #fff; box-shadow:0 1px 2px rgba(0,0,0,.08);
 }
+
+
+/* kompakte Statuszeile wie im Screenshot */
+.status-line{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:10px 0 4px;
+}
+
+.status-bar{
+  flex:1 1 auto;
+  height:6px;                     /* dünn */
+  background:#EEF2F7;
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.status-fill{
+  height:100%;
+  /* Farbe kommt inline aus JS, fallback: */
+  background:var(--primary-hover);
+  transition:width .25s ease;
+}
+
+.status-count{
+  margin-left:auto;
+  font-size:12px;
+  color:#6B7280;
+  white-space:nowrap;
+}
+
+/* Falls du die alte .subtask-Styles noch hast, kannst du sie entfernen
+   oder so lassen – diese neuen Klassen sind unabhängig. */

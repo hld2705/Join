@@ -45,13 +45,17 @@ export function cardTemplate(task) {
   const desc = (task.description || '').trim();
   const subs = Array.isArray(task.subtasks) ? task.subtasks : [];
   const done = subs.filter(s => s?.status === 'done').length;
+
   return `
     <article class="board-card" id="card${task.id}" draggable="true">
       ${mainBadge(task.main)}
       <h4 class="card-title">${esc(task.title)}</h4>
       ${desc ? `<p class="card-desc">${esc(desc)}</p>` : ''}
-      ${subs.length ? subtaskBar(done, subs.length) : ''}
-      ${assigneesRow(task)}
+
+      <div class="card-footer">
+        <div class="card-assignees-wrap">${assigneesRow(task) || ''}</div>
+        <div class="status-wrap" style="min-width:160px">${subtaskBar(done, subs.length)}</div>
+      </div>
     </article>
   `;
 }
@@ -61,13 +65,29 @@ function mainBadge(main) {
   const cfg = map[main] ?? { t: (main || 'Task'), c: '#6B7280' };
   return `<span class="card-badge" style="background:${cfg.c}">${esc(cfg.t)}</span>`;
 }
+
+
 function subtaskBar(done, total) {
-  const pct = total ? Math.round((done / total) * 100) : 0;
+  const has = total > 0;
+  const pct = has ? Math.round((done / total) * 100) : 0;
+  const label = has ? `${done}/${total} Subtasks` : `0 Subtasks`;
+  const color =
+    !has      ? '#E5E7EB' :
+    pct >= 100 ? '#22c55e' :
+    pct >= 50  ? '#3B82F6' :
+                 '#f59e0b';
+
   return `
-    <div class="subtask">
-      <div class="subtask-bar"><div class="subtask-fill" style="width:${pct}%"></div></div>
-      <span>${done}/${total} Subtasks</span>
-    </div>`;
+    <div class="status-line${has ? '' : ' is-empty'}">
+      <div class="status-bar"
+           role="progressbar"
+           aria-label="Subtask progress"
+           aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}">
+        <div class="status-fill" style="width:${pct}%; background:${color}"></div>
+      </div>
+      <span class="status-count">${label}</span>
+    </div>
+  `;
 }
 
 /* --- Assignee badges per card --- */
@@ -264,7 +284,6 @@ export function renderAddTaskOverlay() {
 }
 
 export function attachAddTaskOverlayEvents(root) {
-
   root.querySelector('.modal-close')?.addEventListener('click', () => window.closeOverlay?.());
   root.querySelector('#btn-cancel')?.addEventListener('click', () => window.closeOverlay?.());
   root.addEventListener('click', (e) => { if (e.target === root) window.closeOverlay?.(); });
@@ -286,7 +305,7 @@ export function attachAddTaskOverlayEvents(root) {
     const txt = (subInput.value || '').trim();
     if (!txt) return;
     const li = document.createElement('li');
-    li.innerHTML = `<span>${escapeHtml(txt)}</span><button type="button" class="icon-btn" aria-label="Remove">🗑</button>`;
+    li.innerHTML = `<span>${esc(txt)}</span><button type="button" class="icon-btn" aria-label="Remove">🗑</button>`;
     li.querySelector('button')?.addEventListener('click', () => li.remove());
     subList.appendChild(li);
     subInput.value = '';
@@ -299,12 +318,11 @@ export function attachAddTaskOverlayEvents(root) {
     const data = collectFormData(root);
     if (!data.title || !data.status) return;
 
-   
     const tasks = (window.getTasks?.() ?? []);
     const id = Math.max(0, ...tasks.map(t => +t.id || 0)) + 1;
     const task = { id, ...data };
     tasks.push(task);
-    window.location.reload(); 
+    window.location.reload();
   });
 }
 
@@ -312,11 +330,12 @@ function collectFormData(root) {
   const title = root.querySelector('#task-title')?.value?.trim() || '';
   const description = root.querySelector('#task-desc')?.value?.trim() || '';
   const due = root.querySelector('#task-date')?.value || '';
+  theStatus: 
+  '';
   const status = root.querySelector('#task-status')?.value || 'todo';
   const priority = root.querySelector('input[name="priority"]')?.value || 'medium';
   const subs = [...root.querySelectorAll('#subtask-list li span')].map(s => ({ title: s.textContent, status: 'open' }));
   return { title, description, due, status, priority, subtasks: subs, main: 'techtask' };
 }
 
-function escapeHtml(s) { return String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;'); }
 
