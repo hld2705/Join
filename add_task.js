@@ -42,14 +42,15 @@ async function getAllUser(path = "") {
 async function showUserName() {
     let dropList = document.getElementById('dropdownList');
     let users = await getAllUser("/users");
-    dropList.innerHTML = "";
+
+    if (dropList.childElementCount > 0) return;
 
     for (let i = 1; i < users.length; i++) {
         let div = document.createElement("div");
         let name = document.createElement("span");
         let img = document.createElement("img");
         div.classList.add("Assigned-dropdown-username");
-        div.id = "userName"
+        div.dataset.userId = users[i].id; // gibt jeden Nutzer eine eigene ID. document.querySelectorAll("[data-user-id]") <- so kann ich alle id´s gleichzeitig finden.
         name.textContent = users[i].name;
         img.src = users[i].badge;
         img.classList.add("userBadge")
@@ -74,12 +75,13 @@ document.addEventListener("click", function (e) {
 
         let badge = isInsideAssigned.querySelector('.userBadge');
         let badgeContainer = document.getElementById('filteredBadgesContainer');
+        let userId = isInsideAssigned.dataset.userId
 
         if (checkButton) {
             checkIcon.classList.toggle("hidden");
             checkButton.classList.toggle("check-button-white");
         }
-        filterBadges(badge, badgeContainer);
+        filterBadges(badge, badgeContainer, userId);
     }
 
     if (isInsideCheckbox) {
@@ -94,10 +96,13 @@ document.addEventListener("click", function (e) {
 
 // Wenn auf das div mit dem Username geklickt wird, soll die div markiert werden.
 
-function filterBadges(badge, badgeContainer) {
-        for (let i = 0; i < 1; i++) {
-            badgeContainer.innerHTML += badge.outerHTML;
-        };
+function filterBadges(badge, badgeContainer, userId) {
+    clone.dataset.userId = userId;
+
+
+    for (let i = 0; i < 1; i++) {
+        badgeContainer.innerHTML += badge.outerHTML;
+    };
     return badgeContainer;
 };
 
