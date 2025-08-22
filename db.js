@@ -83,13 +83,13 @@ export async function setLoggedInUserFromSession({ selfHeal = true } = {}) {
           loggedInUser = users.find(x => normalizeId(x.id) === normalizeId(sid)) || u;
         }
       }
-      console.log('✅ Eingeloggter Benutzer (Session):', loggedInUser);
+
       return loggedInUser;
     }
   }
 
   loggedInUser = users.find(u => u.login === 1) || null;
-  console.log('✅ Eingeloggter Benutzer (login-Flag):', loggedInUser);
+
   return loggedInUser;
 }
 
@@ -109,7 +109,7 @@ export async function setCurrentUser(userId, { persistLoginFlag = true } = {}) {
 document.addEventListener('DOMContentLoaded', async () => {
   await initializeDefaultData();
   await setLoggedInUserFromSession({ selfHeal: true });
-  console.log('✅ Daten wurden geladen und/oder initialisiert.');
+
 });
 
 
