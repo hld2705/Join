@@ -105,6 +105,10 @@ textarea {
     opacity: 1;
 }
 
+.category-input::placeholder {
+     color: rgb(0, 0, 0);
+}
+
 
 .due-date-container {
     position: relative;
@@ -140,6 +144,10 @@ textarea {
 }
 
 .priority-input::placeholder {
+    color: black;
+}
+
+.assign-Input::placeholder {
     color: black;
 }
 
@@ -458,6 +466,14 @@ textarea:focus::-webkit-input-placeholder {
 
 input:focus::placeholder {
     opacity: 0;
+}
+
+.category-input:focus::placeholder{
+    opacity: 1;
+}
+
+.assign-Input:focus::placeholder{
+    opacity: 1;
 }
 
 input.priority-input:focus::placeholder {
