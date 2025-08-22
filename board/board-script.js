@@ -117,3 +117,34 @@ window.addTaskToBoard = function () {
   if (overlay) overlay.style.display = 'block';
   if (backdrop) backdrop.style.display = 'block';
 };
+
+  document.addEventListener('DOMContentLoaded', initProfileMenuAndLogout);
+function initProfileMenuAndLogout() {
+  const profilImg = document.querySelector('.profil');
+  const navbar = document.getElementById('navbar');
+
+  if (profilImg && navbar) {
+    profilImg.addEventListener('click', (e) => {
+      e.stopPropagation();
+      navbar.classList.toggle('open');
+    });
+
+    // Klicks IM Menü sollen es nicht schließen
+    navbar.addEventListener('click', (e) => e.stopPropagation());
+
+    // Klicks außerhalb schließen
+    document.addEventListener('click', () => navbar.classList.remove('open'));
+  }
+
+  const logoutLink = document.getElementById('logout-link');
+  if (logoutLink) {
+    logoutLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      try {
+        sessionStorage.removeItem('currentUserId');
+        sessionStorage.removeItem('currentUserEmail');
+      } catch {}
+      window.location.href = 'index.html';
+    });
+  }
+}
