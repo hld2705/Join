@@ -97,14 +97,16 @@ document.addEventListener("click", function (e) {
 // Wenn auf das div mit dem Username geklickt wird, soll die div markiert werden.
 
 function filterBadges(badge, badgeContainer, userId) {
+    let existing = badgeContainer.querySelector(`[data-user-id="${userId}"]`); // Wenn Id von der div = Id vom Badge, also wenn das Badge existiert, dann lösch mir das Badge aus dem Container
+    if (existing) {
+        existing.remove();
+        return;
+    }
+
+    let clone = badge.cloneNode(true);
     clone.dataset.userId = userId;
-
-
-    for (let i = 0; i < 1; i++) {
-        badgeContainer.innerHTML += badge.outerHTML;
-    };
-    return badgeContainer;
-};
+    badgeContainer.appendChild(clone);
+}
 
 // Filtert mir die Badges aus dem Dropdownmenü und zeigt sie mir darunter an.
 
@@ -274,6 +276,22 @@ function renderCategoryDropdown() {
 }
 
 // Das Category Input wird gerendert.
+
+document.addEventListener("click", function (e) {
+    let dropDownCategory = document.getElementById('category-input')
+    let technicalSelect = e.target.closest('#technical-task-option');
+    let userStorySelect = e.target.closest('#user-story-option');
+
+    if (technicalSelect) {
+        dropDownCategory.placeholder = "Technical Task";
+    }
+     if (userStorySelect) {
+        dropDownCategory.placeholder = "User Story";
+    }
+});
+
+// Placeholder Änderung bei Category je nachdem wo man drauf klickt
+
 
 const taskFormURL = "form_task.html";
 
