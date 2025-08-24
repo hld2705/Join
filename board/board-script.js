@@ -2,7 +2,6 @@ import { loadData, getTasks, getUsers, initializeDefaultData } from '../db.js';
 import {
   boardShell,
   cardTemplate,
-  renderAddTaskOverlay,
   attachAddTaskOverlayEvents,
 } from './board-templates.js';
 
@@ -60,7 +59,8 @@ document.addEventListener('DOMContentLoaded', init);
 async function init() {
   document.getElementById('board-root').innerHTML = boardShell();
 
-  document.getElementById('bt-add-task')?.addEventListener('click', openOverlay);
+document.getElementById('bt-add-task')?.addEventListener('click', renderTaskOverlay);
+
   document.querySelectorAll('[data-add]').forEach(b => b.addEventListener('click', openOverlay));
 
   document.getElementById('input-find-task')?.addEventListener('input', (e) => {
@@ -125,7 +125,7 @@ function openOverlay() {
     return;
   }
 
-  const markup = renderAddTaskOverlay?.();
+  const markup =  renderTaskOverlay?.();
   if (!markup) {
     if (typeof window.addTaskToBoard === 'function') {
       return window.addTaskToBoard();
@@ -270,4 +270,6 @@ async function setProfileAvatar() {
   }
 }
 
-
+function renderTaskOverlay() {
+  document.getElementById('task-overlay').style.display = "block";
+}

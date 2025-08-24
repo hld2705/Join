@@ -14,7 +14,7 @@
   <script src="add_task.js" defer></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-  
+
   <link
     href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
     rel="stylesheet" />
@@ -58,36 +58,39 @@
 
 
   <section class="right-side">
-   <header>
-            <h3>Kanban Project Management Tool</h3>
-            <div class="user-info">
-               <a href="./help.html"><img class="Hilfe" src="./assets/help.svg" alt="help"></a>
-               <img id="profile-avatar" class="profil" src="/assets/sofia.svg" alt="profile">
-               <div id="navbar" class="navbar">
-  <a href="legal.html">Legal Notice</a>
-  <a href="privacy.html">Privacy Policy</a>
-  <a href="#" id="logout-link">Log out</a>
-</div>
+    <header>
+      <h3>Kanban Project Management Tool</h3>
+      <div class="user-info">
+        <a href="./help.html"><img class="Hilfe" src="./assets/help.svg" alt="help"></a>
+        <img id="profile-avatar" class="profil" src="/assets/sofia.svg" alt="profile">
+        <div id="navbar" class="navbar">
+          <a href="legal.html">Legal Notice</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="#" id="logout-link">Log out</a>
+        </div>
 
-            </div>
-        </header>
+      </div>
+    </header>
+    </div>
 
-    <div id="task-overlay-background">
-      <div id="task-overlay">
+    <div id="task-overlay">
+      <div class="task-overlay-inner">
         <div id="task-form-container"></div>
       </div>
-      
     </div>
+
     <section class="content">
       <div id="board-root"></div>
       <div id="overlay-add-task" class="hidden" aria-hidden="true"></div>
-    </section>
 
+
+
+    </section>
 
     <script type="module" src="./board/board-script.js"></script>
     <script type="module" src="./db.js"></script>
     <script type="module" src="./firstdata.js"></script>
-  
+
 
 
 </body>

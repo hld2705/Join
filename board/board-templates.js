@@ -1,5 +1,7 @@
 const TITLES = { todo: 'To do', inprogress: 'In progress', review: 'Await feedback', done: 'Done' };
 
+
+
 export function boardShell() {
   return `
   <div class="display-position">
@@ -283,6 +285,8 @@ export function renderAddTaskOverlay() {
   `;
 }
 
+
+
 export function attachAddTaskOverlayEvents(root) {
   root.querySelector('.modal-close')?.addEventListener('click', () => window.closeOverlay?.());
   root.querySelector('#btn-cancel')?.addEventListener('click', () => window.closeOverlay?.());
@@ -337,5 +341,8 @@ function collectFormData(root) {
   const subs = [...root.querySelectorAll('#subtask-list li span')].map(s => ({ title: s.textContent, status: 'open' }));
   return { title, description, due, status, priority, subtasks: subs, main: 'techtask' };
 }
+
+
+
 
 
