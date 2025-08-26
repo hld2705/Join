@@ -1,6 +1,6 @@
 const TITLES = { todo: 'To do', inprogress: 'In progress', review: 'Await feedback', done: 'Done' };
 
-
+let bg = document.getElementById('task-overlay-background');
 
 export function boardShell() {
   return `
@@ -27,11 +27,11 @@ export function boardShell() {
       </div>
 
       <div class="board">
-        ${['todo','inprogress','review','done'].map(s => `
+        ${['todo', 'inprogress', 'review', 'done'].map(s => `
           <div class="columns">
             <div class="column-titles">
               <p>${TITLES[s]}</p>
-              ${s!=='done' ? `<button class="btn-add" type="button" data-add="${s}" aria-label="Add to ${TITLES[s]}">+</button>` : ''}
+              ${s !== 'done' ? `<button class="btn-add" type="button" data-add="${s}" aria-label="Add to ${TITLES[s]}">+</button>` : ''}
             </div>
             <div class="columns-content" id="${s}" data-status="${s}"></div>
           </div>
@@ -74,10 +74,10 @@ function subtaskBar(done, total) {
   const pct = has ? Math.round((done / total) * 100) : 0;
   const label = has ? `${done}/${total} Subtasks` : `0 Subtasks`;
   const color =
-    !has      ? '#E5E7EB' :
-    pct >= 100 ? '#22c55e' :
-    pct >= 50  ? '#3B82F6' :
-                 '#f59e0b';
+    !has ? '#E5E7EB' :
+      pct >= 100 ? '#22c55e' :
+        pct >= 50 ? '#3B82F6' :
+          '#f59e0b';
 
   return `
     <div class="status-line${has ? '' : ' is-empty'}">
@@ -107,40 +107,40 @@ function assigneesRow(task) {
 function normalizeAssignees(task) {
   const raw =
     Array.isArray(task?.assigned) ? task.assigned :
-    (task?.assigned && typeof task.assigned === 'object') ? [task.assigned] :
-    Array.isArray(task?.assignees) ? task.assignees :
-    Array.isArray(task?.assignedTo) ? task.assignedTo :
-    Array.isArray(task?.assigned_to) ? task.assigned_to :
-    Array.isArray(task?.team) ? task.team :
-    Array.isArray(task?.users) ? task.users :
-    Array.isArray(task?.participants) ? task.participants : [];
+      (task?.assigned && typeof task.assigned === 'object') ? [task.assigned] :
+        Array.isArray(task?.assignees) ? task.assignees :
+          Array.isArray(task?.assignedTo) ? task.assignedTo :
+            Array.isArray(task?.assigned_to) ? task.assigned_to :
+              Array.isArray(task?.team) ? task.team :
+                Array.isArray(task?.users) ? task.users :
+                  Array.isArray(task?.participants) ? task.participants : [];
 
   const book = getContactsBook();
-  const byId    = new Map(book.map(u => [String(u?.id ?? ''), u]));
+  const byId = new Map(book.map(u => [String(u?.id ?? ''), u]));
   const byEmail = new Map(book.map(u => [String(u?.email ?? '').toLowerCase(), u]));
-  const byName  = new Map(book.map(u => [String(u?.name ?? '').toLowerCase(), u]));
+  const byName = new Map(book.map(u => [String(u?.name ?? '').toLowerCase(), u]));
 
   const norm = (Array.isArray(raw) ? raw : []).map((x) => {
     if (typeof x === 'number') {
       const c = byId.get(String(x));
       const label = c?.name || `User ${x}`;
-      const key   = colorIdentityKey(x, c);
-      return c ? contactToAvatar(c)
-               : { name: label, initials: initialsFromName(label), color: pickColor(key) };
-    }
-    if (typeof x === 'string') {
-      const k   = x.toLowerCase();
-      const c   = byEmail.get(k) || byName.get(k);
-      const name= c?.name || x;
       const key = colorIdentityKey(x, c);
       return c ? contactToAvatar(c)
-               : { name, initials: initialsFromName(name), color: pickColor(key) };
+        : { name: label, initials: initialsFromName(label), color: pickColor(key) };
+    }
+    if (typeof x === 'string') {
+      const k = x.toLowerCase();
+      const c = byEmail.get(k) || byName.get(k);
+      const name = c?.name || x;
+      const key = colorIdentityKey(x, c);
+      return c ? contactToAvatar(c)
+        : { name, initials: initialsFromName(name), color: pickColor(key) };
     }
     if (x && typeof x === 'object') {
       const via =
         (x.id != null && byId.get(String(x.id))) ||
         (x.email && byEmail.get(String(x.email).toLowerCase())) ||
-        (x.name  && byName.get(String(x.name).toLowerCase())) || null;
+        (x.name && byName.get(String(x.name).toLowerCase())) || null;
 
       const composed =
         x.name ||
@@ -160,8 +160,8 @@ function normalizeAssignees(task) {
     }
     return null;
   })
-  .filter(Boolean)
-  .filter(a => a.name);
+    .filter(Boolean)
+    .filter(a => a.name);
 
   const seen = new Set();
   return norm.filter(a => {
@@ -174,13 +174,13 @@ function normalizeAssignees(task) {
 
 function getContactsBook() {
   return (Array.isArray(window?.CONTACTS) && window.CONTACTS)
-      || (window?.join && Array.isArray(window.join.users) && window.join.users)
-      || (Array.isArray(window?.contacts) && window.contacts)
-      || [];
+    || (window?.join && Array.isArray(window.join.users) && window.join.users)
+    || (Array.isArray(window?.contacts) && window.contacts)
+    || [];
 }
 function contactToAvatar(c) {
   const fixed = colorFromUser(c);
-  const key   = colorIdentityKey(c, c);
+  const key = colorIdentityKey(c, c);
   return {
     name: c.name,
     badge: c.badge || null,
@@ -304,7 +304,7 @@ export function attachAddTaskOverlayEvents(root) {
 
   // Subtasks
   const subInput = root.querySelector('#task-subtask');
-  const subList  = root.querySelector('#subtask-list');
+  const subList = root.querySelector('#subtask-list');
   root.querySelector('#btn-add-subtask')?.addEventListener('click', () => {
     const txt = (subInput.value || '').trim();
     if (!txt) return;
@@ -334,7 +334,7 @@ function collectFormData(root) {
   const title = root.querySelector('#task-title')?.value?.trim() || '';
   const description = root.querySelector('#task-desc')?.value?.trim() || '';
   const due = root.querySelector('#task-date')?.value || '';
-  theStatus: 
+  theStatus:
   '';
   const status = root.querySelector('#task-status')?.value || 'todo';
   const priority = root.querySelector('input[name="priority"]')?.value || 'medium';
@@ -344,5 +344,22 @@ function collectFormData(root) {
 
 
 
+function openTaskOverlay() {
+  document.getElementById('task-overlay').style.display = "block";
+  bg?.classList.add('is-open');
+}
+
+function closeTaskOverlay() {
+  bg?.classList.remove('is-open');
+}
 
 
+document.addEventListener('click', (e) => {
+  let addTaskBtn = e.target.closest('#bt-add-task, .btn-add');
+  if (addTaskBtn) {
+    openTaskOverlay();
+  }
+  if (e.target === bg) {
+    closeTaskOverlay();
+  }
+});

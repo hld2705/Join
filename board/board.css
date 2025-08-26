@@ -450,7 +450,6 @@ textarea {
 }
 
 .task-form-container {
-
   display: flex;
   flex: 1;
   height: 100vh;
@@ -550,6 +549,22 @@ textarea {
   position: absolute;
   top: -100px !important;
 }
+
+#task-overlay-background {
+  display: none;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#task-overlay-background.is-open { 
+  display: grid; 
+}
+
+
 
 .input-find {
   position: relative;

@@ -59,7 +59,9 @@ document.addEventListener('DOMContentLoaded', init);
 async function init() {
   document.getElementById('board-root').innerHTML = boardShell();
 
-document.getElementById('bt-add-task')?.addEventListener('click', renderTaskOverlay);
+
+
+
 
   document.querySelectorAll('[data-add]').forEach(b => b.addEventListener('click', openOverlay));
 
@@ -125,14 +127,6 @@ function openOverlay() {
     return;
   }
 
-  const markup =  renderTaskOverlay?.();
-  if (!markup) {
-    if (typeof window.addTaskToBoard === 'function') {
-      return window.addTaskToBoard();
-    }
-
-    return;
-  }
 
   host.innerHTML = markup;
   host.classList.remove('hidden');
@@ -189,7 +183,7 @@ function initProfileMenuAndLogout() {
       try {
         sessionStorage.removeItem('currentUserId');
         sessionStorage.removeItem('currentUserEmail');
-      } catch {}
+      } catch { }
       window.location.href = 'index.html';
     });
   }
@@ -250,7 +244,7 @@ async function setProfileAvatar() {
       return;
     }
   } catch (e) {
-      }
+  }
 
   // 5) Fallback: Initialen-Badge
   const name = user.name || user.email || 'User';
@@ -268,8 +262,4 @@ async function setProfileAvatar() {
   } else {
     el.innerHTML = badge;
   }
-}
-
-function renderTaskOverlay() {
-  document.getElementById('task-overlay').style.display = "block";
 }
