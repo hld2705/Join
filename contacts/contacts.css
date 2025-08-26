@@ -1,0 +1,60 @@
+.contanctssection{
+    background-color: rgba(255, 255, 255, 1);
+    width: 456px;
+    height: 100vh;
+    filter: drop-shadow(rgba(0, 0, 0, 0.08));
+    overflow-y: auto;
+}
+.addnewcontact{
+    background-color: rgba(42, 54, 71, 1);
+    border-radius: 10px;
+    width: 352px;
+    height: 56px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 21px;
+    gap: 16px;
+    cursor: pointer;
+}
+.personaddimg{
+    height: 32px;
+    width: 32px;
+}
+.addnewcontactbuttonplacement{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 22.5px
+}
+.contactsmoto{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+.contactsmoto h1{
+    font-weight: 700;
+    font-size: 81px;
+    font-style: bold;
+}
+.contatsandmotopositioning{
+     width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 24px;
+}
+.contactswholetext{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+.contactswholetext p{
+    font-style: normal;
+    font-size: 24px;
+    font-weight: 400;
+}
