@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="./board/board.css" />
     <link rel="stylesheet" href="/contacts/contacts.css">
     <link rel="stylesheet" href="task_style.css">
-    <script src="/db.js" type="module"></script>
+    <script src="/db.js" type="module" defer></script>
     <script src="/firstdata.js" type="module"></script>
     <script src="/contacts/contacts-template.js" type="module" defer></script>
     <script src="/contacts/contacts-script.js"></script>
@@ -72,24 +72,24 @@
                     <a href="privacy.html">Privacy Policy</a>
                     <a href="#" id="logout-link">Log out</a>
                 </div>
-
             </div>
         </header>
         <div class="contatsandmotopositioning">
             <section class="contanctssection">
                 <div class="addnewcontactbuttonplacement">
-                <button class="addnewcontact">Add new contact <img class="personaddimg" src="./assets/person_add.svg"></button>
-                <div id="contactsjs">
+                    <button class="addnewcontact">Add new contact <img class="personaddimg"
+                            src="./assets/person_add.svg"></button>
+                    <div id="contactsjs" class="contactsrender">
 
-                </div>
+                    </div>
                 </div>
 
             </section>
             <section class="contactsmoto">
                 <div class="contactswholetext">
-                <h1 class="contactstext">Contacts</h1>
-                <img src="./assets/Vector 5.svg">
-                <p>Better with a team</p>
+                    <h1 class="contactstext">Contacts</h1>
+                    <img src="./assets/Vector 5.svg">
+                    <p>Better with a team</p>
                 </div>
             </section>
         </div>
