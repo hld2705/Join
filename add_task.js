@@ -261,17 +261,15 @@ function renderAssignDropdown() {
 
 // Das Assigned to Input wird gerendert und befüllt mit den User Daten aus der Firebase Datenbank.
 
-function renderCategoryDropdown() {
+function switchArrowIcon() {
     let arrowIcon = document.getElementById('drop-down-svg-category');
     let currentSrc = arrowIcon.src;
-    let dropdownListCategory = document.getElementById('dropdownListCategory');
 
     if (currentSrc.includes("arrow_drop_down.svg")) {
         arrowIcon.src = "./assets/arrow_drop_down2.svg";
-        dropdownListCategory.classList.toggle('open');
+
     } else {
         arrowIcon.src = "./assets/arrow_drop_down.svg";
-        dropdownListCategory.classList.remove('open');
     }
 }
 
@@ -281,16 +279,29 @@ document.addEventListener("click", function (e) {
     let dropDownCategory = document.getElementById('category-input')
     let technicalSelect = e.target.closest('#technical-task-option');
     let userStorySelect = e.target.closest('#user-story-option');
+    let dropdownSelect = e.target.closest('#category-input')
+    let dropdownListCategory = document.getElementById('dropdownListCategory')
+
+    if (dropdownSelect) {
+        dropDownCategory.placeholder = "Select task category";
+        dropdownListCategory.classList.toggle('open');
+    } else if (dropdownListCategory.classList.contains('open')) {
+        dropdownListCategory.classList.remove('open');
+    }
 
     if (technicalSelect) {
         dropDownCategory.placeholder = "Technical Task";
+        dropdownListCategory.classList.remove('open');
+        switchArrowIcon();
     }
-     if (userStorySelect) {
+    if (userStorySelect) {
         dropDownCategory.placeholder = "User Story";
+        dropdownListCategory.classList.remove('open');
+        switchArrowIcon();
     }
 });
 
-// Placeholder Änderung bei Category je nachdem wo man drauf klickt
+// Das Category Input wird gerendert und der Placeholder wird bei Category geändert, je nachdem wo man drauf klickt
 
 
 const taskFormURL = "form_task.html";
@@ -310,3 +321,27 @@ addEventListener("DOMContentLoaded", () => {
 
 // fetched die Daten von meiner form_task.html und fügt sie in meine add_task.html ein.
 
+
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.target.id === 'subtask-input') {
+        e.preventDefault();
+        let subTaskOutput = document.getElementById('subtask-content');
+        let subtaskInput = e.target.value.trim();
+        if (!subtaskInput) return;
+
+        if (!subTaskOutput.querySelector("ul")) {
+            subTaskOutput.innerHTML = `<ul></ul>`;
+        }
+
+        let ul = subTaskOutput.querySelector('ul');
+        ul.insertAdjacentHTML('beforeend', `<li>${subtaskInput}</li>`)
+        e.target.value = '';
+    }
+});
+
+document.addEventListener('keyup', (e) => {
+    if (e.target.id === 'subtask-input') {
+        document.getElementById('cancel-accept-container').style.display = "flex";
+    }
+});

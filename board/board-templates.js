@@ -355,11 +355,12 @@ function closeTaskOverlay() {
 
 
 document.addEventListener('click', (e) => {
+  let closeIcon = document.getElementById('addTask-close-Img');
   let addTaskBtn = e.target.closest('#bt-add-task, .btn-add');
   if (addTaskBtn) {
     openTaskOverlay();
   }
-  if (e.target === bg) {
+  if (e.target === bg || e.target === closeIcon) {
     closeTaskOverlay();
   }
 });

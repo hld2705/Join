@@ -23,7 +23,7 @@ body {
 }
 
 #task-form-container {
-    flex:1;
+    flex: 1;
     overflow: visible;
     height: 100dvh;
 }
@@ -106,7 +106,7 @@ textarea {
 }
 
 .category-input::placeholder {
-     color: rgb(0, 0, 0);
+    color: rgb(0, 0, 0);
 }
 
 
@@ -434,6 +434,7 @@ textarea:focus::-webkit-input-placeholder {
     margin-left: auto;
     margin-right: 20px;
 }
+
 .check-button-svg {
     padding-right: 1px;
 }
@@ -468,11 +469,11 @@ input:focus::placeholder {
     opacity: 0;
 }
 
-.category-input:focus::placeholder{
+.category-input:focus::placeholder {
     opacity: 1;
 }
 
-.assign-Input:focus::placeholder{
+.assign-Input:focus::placeholder {
     opacity: 1;
 }
 
@@ -509,5 +510,31 @@ input.priority-input:focus::placeholder {
 
 .left-task-container {
     padding-right: 200px;
-        z-index: -1;
+    z-index: -1;
+}
+
+.subtask-input-container {
+    position: relative;
+}
+
+.cancel-accept-container {
+    display: none;
+    position: absolute;
+    gap: 7px;
+
+    align-items: center;
+    justify-content: space-around;
+    top: 14px;
+    right: 24px;
+}
+
+.subtask-close-svg {
+    border-right: 1px solid #ccc;
+    width: 24px;
+}
+
+.subtask-close-svg:hover {
+    background-color: rgba(0, 0, 0, .06);
+    border-radius: 20px;
+
 }
