@@ -323,11 +323,12 @@ addEventListener("DOMContentLoaded", () => {
 
 
 
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && e.target.id === 'subtask-input') {
+document.addEventListener('click', (e) => {
+    if (e.target.closest('#subtask-accept')) {
         e.preventDefault();
         let subTaskOutput = document.getElementById('subtask-content');
-        let subtaskInput = e.target.value.trim();
+        inputfield = document.getElementById('subtask-input');
+        let subtaskInput = inputfield.value.trim();
         if (!subtaskInput) return;
 
         if (!subTaskOutput.querySelector("ul")) {
@@ -336,9 +337,11 @@ document.addEventListener('keydown', (e) => {
 
         let ul = subTaskOutput.querySelector('ul');
         ul.insertAdjacentHTML('beforeend', `<li>${subtaskInput}</li>`)
-        e.target.value = '';
+        inputfield.value = '';
     }
 });
+
+
 
 document.addEventListener('keyup', (e) => {
     if (e.target.id === 'subtask-input') {

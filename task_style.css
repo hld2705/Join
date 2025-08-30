@@ -520,8 +520,7 @@ input.priority-input:focus::placeholder {
 .cancel-accept-container {
     display: none;
     position: absolute;
-    gap: 7px;
-
+    gap: 6px;
     align-items: center;
     justify-content: space-around;
     top: 14px;
@@ -529,12 +528,27 @@ input.priority-input:focus::placeholder {
 }
 
 .subtask-close-svg {
-    border-right: 1px solid #ccc;
     width: 24px;
+    transition: all 0.2s;
+}
+
+.subtask-check-svg {
+    padding-left: 2px;
+    transition: all 0.2s;
 }
 
 .subtask-close-svg:hover {
     background-color: rgba(0, 0, 0, .06);
     border-radius: 20px;
+}
 
+.divider {
+    width: 1px;
+    background: #ccc;
+    height: 20px;
+}
+
+.subcheck:hover {
+    background-color: rgba(0, 0, 0, .06);
+    border-radius: 12px;
 }
