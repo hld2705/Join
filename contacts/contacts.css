@@ -1,3 +1,7 @@
+html, body{
+    height: 100%;
+    margin: 0 auto;
+}
 .contanctssection{
     background-color: rgba(255, 255, 255, 1);
     width: 456px;
@@ -31,10 +35,11 @@
     flex-direction: column;
 }
 .contactsmoto{
-    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    padding: 100px;
+    flex-direction: column;
 }
 .contactsmoto h1{
     font-weight: 700;
@@ -42,11 +47,12 @@
     font-style: bold;
 }
 .contatsandmotopositioning{
-     width: 100%;
+    width: 100%;
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     gap: 24px;
+
 }
 .contactswholetext{
     display: flex;
@@ -76,10 +82,11 @@
 .contact-name {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-evenly;
     font-size: 20px;
     font-weight: 400;
     width: 100%;
+    padding-right: 100px;
 }
 .contact-email{
     color:rgba(0, 124, 238, 1);
@@ -94,4 +101,70 @@
     flex-direction: column;
     width: 100%;
     margin-top: 20px;
+    cursor: pointer;
+}
+.contact-item:hover{
+    background-color: rgba(42, 54, 71, 1);
+    border-radius: 10px;
+    color: white;
+}
+.contactinfo{
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    flex-direction: column;
+}
+.contactinfo-badge{
+    height: 461px;
+    width: 364px;
+}
+.picture-name-contactinfo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    gap: 54px;
+}
+.contactinfo-name{
+    font-weight: 500;
+    font-size: 47px;
+    font-style: normal;
+}
+.edit-delete-icons-placement{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 13px;
+    cursor: pointer;
+}
+.contactinfo-icons{
+    height: 24px;
+    width: 24px;
+}
+.contactinfo-icons-text-placement{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 400;
+}
+.contact-information p{
+    font-size: 20px;
+    font-weight: 400;
+    padding-bottom: 20px;
+}
+.contact-email-phone{
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+    flex-direction: column;
+    font-weight: 400;
+}
+.contact-email-phone p{
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(0, 124, 238, 1);
 }
