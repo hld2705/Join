@@ -225,19 +225,43 @@ function addNewTask() {
     let title = document.getElementById('title-input');
     let description = document.getElementById('description-input');
     let date = document.getElementById('date-input');
+    let subtask = document.getElementById('subtask-input')
     let newTask = {
         "title": title.value,
         "description": description.value,
         "date": date.value,
+        "subtask": subtask.value,
     };
     task.push(newTask);
-    console.log(task);
+    title.value = "";
+    description.value = "";
+    date.value = "";
+    subtask.value = "";
+    document.getElementById('cancel-accept-container').style.display = "none";
+}
+
+// Werte von Title, Date und Description werden genommen und sollen ausgelesen werden. 
+
+function clearAllInputs() {
+    let title = document.getElementById('title-input');
+    let description = document.getElementById('description-input');
+    let date = document.getElementById('date-input');
     title.value = "";
     description.value = "";
     date.value = "";
 }
 
-// Werte von Title, Date und Description werden genommen und sollen ausgelesen werden. Werte werden gelöscht wenn der "Clear" Button betätigt wird.
+function clearAll(e) {
+    if (e.target.closest('#clear-button')) {
+        clearAllInputs();
+        resetAllButton();
+        clearAssignedInput();
+    }
+}
+
+document.addEventListener('click', clearAll);
+
+// Alle Werte werden gelöscht wenn der "Clear" Button betätigt wird.
 
 function inputBorderColorSwitch() {
     let assignInput = document.getElementById('assign-input');
@@ -257,6 +281,11 @@ function renderAssignDropdown() {
         arrowIcon.src = "./assets/arrow_drop_down.svg";
         dropdownList.classList.remove('open');
     }
+}
+
+function clearAssignedInput() {
+    let dropdownList = document.getElementById('dropdownList');
+    dropdownList.classList.remove('open');
 }
 
 // Das Assigned to Input wird gerendert und befüllt mit den User Daten aus der Firebase Datenbank.
@@ -315,7 +344,7 @@ function loadAddTaskForm() {
         .catch((err) => console.log("Can’t access " + taskFormURL + " response. Blocked by browser?" + err));
 }
 
-addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
     loadAddTaskForm();
 });
 
@@ -323,28 +352,65 @@ addEventListener("DOMContentLoaded", () => {
 
 
 
-document.addEventListener('click', (e) => {
+
+function handleSubtaskOutput(e) {
+    let inputfield = document.getElementById('subtask-input');
     if (e.target.closest('#subtask-accept')) {
         e.preventDefault();
         let subTaskOutput = document.getElementById('subtask-content');
-        inputfield = document.getElementById('subtask-input');
+        document.getElementById('cancel-accept-container').style.display = "none";
         let subtaskInput = inputfield.value.trim();
         if (!subtaskInput) return;
 
         if (!subTaskOutput.querySelector("ul")) {
             subTaskOutput.innerHTML = `<ul></ul>`;
         }
-
         let ul = subTaskOutput.querySelector('ul');
         ul.insertAdjacentHTML('beforeend', `<li>${subtaskInput}</li>`)
         inputfield.value = '';
     }
-});
-
-
-
-document.addEventListener('keyup', (e) => {
-    if (e.target.id === 'subtask-input') {
-        document.getElementById('cancel-accept-container').style.display = "flex";
+    if (e.target.closest('#subtask-cancel')) {
+        inputfield.value = '';
+        document.getElementById('cancel-accept-container').style.display = "none";
     }
-});
+}
+
+document.addEventListener('click', handleSubtaskOutput);
+
+function toggleSubtaskFocus(e) {
+    if (e.target.closest('#subtask-input')) {
+        document.getElementById('subtask-input').classList.add('box-shadow-blue');
+    }
+    if (!e.target.closest('#subtask-input')) {
+        document.getElementById('subtask-input').classList.remove('box-shadow-blue');
+    }
+}
+
+document.addEventListener('click', toggleSubtaskFocus);
+
+
+function showSubtaskIcons(e) {
+    if (e.target.id === 'subtask-input') {
+        if (e.target.value.trim() !== "") {
+            document.getElementById('cancel-accept-container').style.display = "flex";
+            document.getElementById('subtask-input').classList.add('box-shadow-blue');
+        }
+    }
+}
+
+document.addEventListener('keyup', showSubtaskIcons);
+
+function hideSubtaskIcons(e) {
+    if (e.target.id === 'subtask-input') {
+        let container = document.getElementById('cancel-accept-container');
+        if (!container) return;
+
+        if (e.target.value.trim() === "") {
+            container.style.display = "none";
+        } else {
+            container.style.display = "flex";
+        }
+    }
+}
+
+document.addEventListener('input', hideSubtaskIcons);

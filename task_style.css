@@ -74,7 +74,7 @@ body {
 }
 
 .right-side-inner {
-    transform: translateY(14%);
+    transform: translateY(5%);
 }
 
 .task-title {
@@ -253,7 +253,7 @@ textarea {
 
 .task-button-container {
     display: flex;
-    position: relative;
+    position: absolute;
     top: 100px;
     left: 190px;
     gap: 4px;
@@ -530,6 +530,10 @@ input.priority-input:focus::placeholder {
 .subtask-close-svg {
     width: 24px;
     transition: all 0.2s;
+}
+
+.box-shadow-blue {
+  box-shadow: inset 1px -1px 0px #00bfe0, inset -1px -1px 5px #ffffff;
 }
 
 .subtask-check-svg {
