@@ -1,23 +1,5 @@
-import { join } from '/firstdata.js';
-
-function contactsLoad() {
-  let contacts = document.getElementById("contactsjs");
-  let users = join.users.slice().sort((a, b) => a.name.localeCompare(b.name));
-  contacts.innerHTML = "";
-  let currentLetter = "";
-
-  for (let i = 0; i < users.length; i++) {
-    let firstLetter = users[i].name[0].toUpperCase();
-
-    if (firstLetter !== currentLetter) {
-      currentLetter = firstLetter;
-      contacts.innerHTML += `
-        <h2 class="letter-header">${currentLetter}</h2>
-        <img src="/assets/Vector 10.svg">
-      `;
-    }
-
-    contacts.innerHTML += `
+function contactsLoadTemplate(users, i) {
+  return `
       <div class="contact-item" onclick="contactsRender(${users[i].id})">
         <span class="contact-name">
           <img class="contact-badge" alt="${users[i].name}" src="${users[i].badge}"> 
@@ -26,19 +8,10 @@ function contactsLoad() {
         <span class="contact-email">${users[i].email}</span>
       </div>
     `;
-  }
 }
 
-window.contactsLoad = contactsLoad;
-window.contactsRender = contactsRender;
-
-function contactsRender(userId) {
-  let contactInfo = document.getElementById("contactsinfo");
-  let userInfo = join.users.find(u => u.id === userId);
-
-  if (!userInfo) return;
-
-  contactInfo.innerHTML += `
+function contactsRenderTemplate(userInfo){
+  return `
       <div class="contactinfo">
         <span class="picture-name-contactinfo">
           <img class="contactinfo-badge" alt="${userInfo.name}" src="${userInfo.badge}">
@@ -67,4 +40,30 @@ function contactsRender(userId) {
         ${userInfo.phone}
       </div>`
 
+}
+
+function addNewContactTemplate() {
+  return `<div class="createnewcontact-overlay" onclick="closeOverlay()">
+            <div class="createnewcontact-table">
+              <div class="left-blue-side">
+                <div class="createnewcontact-logo">
+                  <img src="/assets/icons/Capa 1.svg">
+                </div>
+                <div class="createnewcontact-text">
+                  <h2>Add contact</h2>
+                  <p>Tasks are better with a team!</p>
+                  <img src="/assets/Vector 5_rotated.svg">
+                </div>
+              </div>
+              <div class="white-right-side">
+                <div>
+                  <img src="assets/close.svg">
+                </div>
+                <div class="createnewcontact-person-radius">
+                <img src="/assets/icons/person_white.svg">
+                
+                </div>
+              </div>
+            </div>
+          </div>`;
 }

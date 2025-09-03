@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="task_style.css">
     <script src="/db.js" type="module" defer></script>
     <script src="/firstdata.js" type="module"></script>
-    <script src="/contacts/contacts-template.js" type="module" defer></script>
-    <script src="/contacts/contacts-script.js"></script>
+    <script src="/contacts/contacts-template.js" defer></script>
+    <script src="/contacts/contacts-script.js" type="module"></script>
     <script src="add_task.js" defer></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -24,13 +24,12 @@
         rel="stylesheet" />
 </head>
 
-<body onload="contactsLoad()">
+<body onload="contactsLoad()" id="body">
 
     <section class="left-side">
         <a href="./index.html">
             <img class="join-logo" src="./assets/logo_white.svg" alt="Join" />
         </a>
-
         <nav>
             <a href="./summary.html">
                 <img src="./assets/summary.svg" alt="Summary Icon" />
@@ -77,7 +76,7 @@
         <div class="contatsandmotopositioning">
             <section class="contanctssection">
                 <div class="addnewcontactbuttonplacement">
-                    <button class="addnewcontact">Add new contact <img class="personaddimg"
+                    <button class="addnewcontact" onclick="addNewContact()">Add new contact <img class="personaddimg"
                             src="./assets/person_add.svg"></button>
                     <div id="contactsjs" class="contactsrender">
 
