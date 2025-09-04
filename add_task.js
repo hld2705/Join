@@ -39,79 +39,6 @@ async function getAllUser(path = "") {
 
 // Es werden alle Userdaten aus der Datenbank geholt und als return zurückgegeben.
 
-async function showUserName() {
-    let dropList = document.getElementById('dropdownList');
-    let users = await getAllUser("/users");
-
-    if (dropList.childElementCount > 0) return;
-
-    for (let i = 1; i < users.length; i++) {
-        let div = document.createElement("div");
-        let name = document.createElement("span");
-        let img = document.createElement("img");
-        div.classList.add("Assigned-dropdown-username");
-        div.dataset.userId = users[i].id; // gibt jeden Nutzer eine eigene ID. document.querySelectorAll("[data-user-id]") <- so kann ich alle id´s gleichzeitig finden.
-        name.textContent = users[i].name;
-        img.src = users[i].badge;
-        img.classList.add("userBadge")
-
-        div.appendChild(img);
-        div.appendChild(name);
-        dropList.appendChild(div);
-        div.appendChild(renderCheckButton())
-    }
-}
-
-// Es wird pro Name in der Datenbank eine div mit dem Namen und dem Badge generiert und der Checkbutton eingefügt.
-
-document.addEventListener("click", function (e) {
-    const isInsideAssigned = e.target.closest('.Assigned-dropdown-username');
-    const isInsideCheckbox = e.target.closest('.assignedTo-check-button-container');
-
-    if (isInsideAssigned && !isInsideCheckbox) {
-        isInsideAssigned.classList.toggle('bg-grey');
-        const checkButton = isInsideAssigned.querySelector('.check-button');
-        const checkIcon = isInsideAssigned.querySelector('.check-icon-assignedTo');
-
-        let badge = isInsideAssigned.querySelector('.userBadge');
-        let badgeContainer = document.getElementById('filteredBadgesContainer');
-        let userId = isInsideAssigned.dataset.userId
-
-        if (checkButton) {
-            checkIcon.classList.toggle("hidden");
-            checkButton.classList.toggle("check-button-white");
-        }
-        filterBadges(badge, badgeContainer, userId);
-    }
-
-    if (isInsideCheckbox) {
-        const checkButton = isInsideCheckbox.querySelector('.check-button');
-        const checkIcon = isInsideCheckbox.querySelector('.check-icon-assignedTo');
-        if (checkButton && checkIcon) {
-            checkIcon.classList.toggle("hidden");
-            checkIcon.classList.toggle("check-icon-black");
-        }
-    }
-});
-
-// Wenn auf das div mit dem Username geklickt wird, soll die div markiert werden.
-
-function filterBadges(badge, badgeContainer, userId) {
-    let existing = badgeContainer.querySelector(`[data-user-id="${userId}"]`); // Wenn Id von der div = Id vom Badge, also wenn das Badge existiert, dann lösch mir das Badge aus dem Container
-    if (existing) {
-        existing.remove();
-        return;
-    }
-
-    let clone = badge.cloneNode(true);
-    clone.dataset.userId = userId;
-    badgeContainer.appendChild(clone);
-}
-
-// Filtert mir die Badges aus dem Dropdownmenü und zeigt sie mir darunter an.
-
-
-
 function resetAllButton() {
     document.getElementById('urgent').classList.remove('bg-red');
     document.getElementById('double-arrow').src = "./assets/Prio alta.svg"
@@ -256,6 +183,7 @@ function clearAll(e) {
         clearAllInputs();
         resetAllButton();
         clearAssignedInput();
+        clearCategoryInput();
     }
 }
 
@@ -265,7 +193,6 @@ document.addEventListener('click', clearAll);
 
 function inputBorderColorSwitch() {
     let assignInput = document.getElementById('assign-input');
-
     assignInput.classList.toggle("borderColorBlue");
 }
 
@@ -286,9 +213,84 @@ function renderAssignDropdown() {
 function clearAssignedInput() {
     let dropdownList = document.getElementById('dropdownList');
     dropdownList.classList.remove('open');
-}
+    let badgeContainer = document.getElementById('filteredBadgesContainer');
+    badgeContainer.innerHTML = "";
+    let assignBackgroundOnClick = document.querySelectorAll('.Assigned-dropdown-username');
+    assignBackgroundOnClick.forEach(el => {
+        el.classList.remove('bg-grey');
+    });
+    let assignCheckIcon = document.querySelectorAll('.check-icon-assignedTo');
+    let assignCheckButton = document.querySelectorAll('.check-button');
+    assignCheckButton.forEach(el => {
+        el.classList.remove("check-button-white");
+    });
+    assignCheckIcon.forEach(el => {
+        el.classList.add("hidden");
+    });
+};
+
 
 // Das Assigned to Input wird gerendert und befüllt mit den User Daten aus der Firebase Datenbank.
+
+
+async function showUserName() {
+    let dropList = document.getElementById('dropdownList');
+    let users = await getAllUser("/users");
+
+    if (dropList.childElementCount > 0) return;
+
+    for (let i = 1; i < users.length; i++) {
+        let div = document.createElement("div");
+        let name = document.createElement("span");
+        let img = document.createElement("img");
+        div.classList.add("Assigned-dropdown-username");
+        div.dataset.userId = users[i].id; // gibt jeden Nutzer eine eigene ID. document.querySelectorAll("[data-user-id]") <- so kann ich alle id´s gleichzeitig finden.
+        name.textContent = users[i].name;
+        img.src = users[i].badge;
+        img.classList.add("userBadge")
+
+        div.appendChild(img);
+        div.appendChild(name);
+        dropList.appendChild(div);
+        div.appendChild(renderCheckButton())
+    }
+}
+
+// Es wird pro Name in der Datenbank eine div mit dem Namen und dem Badge generiert und der Checkbutton eingefügt.
+
+function toggleAssignedinputContent(e) {
+    const isInsideAssigned = e.target.closest('.Assigned-dropdown-username');
+    const isInsideCheckbox = e.target.closest('.assignedTo-check-button-container');
+
+    if (isInsideAssigned && !isInsideCheckbox) {
+        isInsideAssigned.classList.toggle('bg-grey');
+        const checkButton = isInsideAssigned.querySelector('.check-button');
+        const checkIcon = isInsideAssigned.querySelector('.check-icon-assignedTo');
+
+        let badge = isInsideAssigned.querySelector('.userBadge');
+        let badgeContainer = document.getElementById('filteredBadgesContainer');
+        let userId = isInsideAssigned.dataset.userId
+
+        if (checkButton) {
+            checkIcon.classList.toggle("hidden");
+            checkButton.classList.toggle("check-button-white");
+        }
+        filterBadges(badge, badgeContainer, userId);
+    }
+
+    if (isInsideCheckbox) {
+        const checkButton = isInsideCheckbox.querySelector('.check-button');
+        const checkIcon = isInsideCheckbox.querySelector('.check-icon-assignedTo');
+        if (checkButton && checkIcon) {
+            checkIcon.classList.toggle("hidden");
+            checkIcon.classList.toggle("check-icon-black");
+        }
+    }
+}
+
+document.addEventListener("click", toggleAssignedinputContent);
+
+// Wenn auf das div mit dem Username geklickt wird, soll die div markiert werden.
 
 function switchArrowIcon() {
     let arrowIcon = document.getElementById('drop-down-svg-category');
@@ -296,27 +298,30 @@ function switchArrowIcon() {
 
     if (currentSrc.includes("arrow_drop_down.svg")) {
         arrowIcon.src = "./assets/arrow_drop_down2.svg";
-
     } else {
         arrowIcon.src = "./assets/arrow_drop_down.svg";
     }
 }
 
-// Das Category Input wird gerendert.
+function filterBadges(badge, badgeContainer, userId) {
+    let existing = badgeContainer.querySelector(`[data-user-id="${userId}"]`); // Wenn Id von der div = Id vom Badge, also wenn das Badge existiert, dann lösch mir das Badge aus dem Container
+    if (existing) {
+        existing.remove();
+        return;
+    }
+    let clone = badge.cloneNode(true);
+    clone.dataset.userId = userId;
+    badgeContainer.appendChild(clone);
+}
 
-document.addEventListener("click", function (e) {
+// Filtert mir die Badges aus dem Dropdownmenü und zeigt sie mir darunter an.
+
+
+function switchCategoryPlaceholder(e) {
     let dropDownCategory = document.getElementById('category-input')
     let technicalSelect = e.target.closest('#technical-task-option');
     let userStorySelect = e.target.closest('#user-story-option');
-    let dropdownSelect = e.target.closest('#category-input')
     let dropdownListCategory = document.getElementById('dropdownListCategory')
-
-    if (dropdownSelect) {
-        dropDownCategory.placeholder = "Select task category";
-        dropdownListCategory.classList.toggle('open');
-    } else if (dropdownListCategory.classList.contains('open')) {
-        dropdownListCategory.classList.remove('open');
-    }
 
     if (technicalSelect) {
         dropDownCategory.placeholder = "Technical Task";
@@ -328,7 +333,31 @@ document.addEventListener("click", function (e) {
         dropdownListCategory.classList.remove('open');
         switchArrowIcon();
     }
-});
+}
+
+function renderCategoryDropdown(e) {
+    let dropdownListCategory = document.getElementById('dropdownListCategory')
+    let dropdownSelect = e.target.closest('#category-input')
+    let dropDownCategory = document.getElementById('category-input')
+    if (dropdownSelect) {
+        dropDownCategory.placeholder = "Select task category";
+        dropdownListCategory.classList.toggle('open');
+    } else if (dropdownListCategory.classList.contains('open')) {
+        dropdownListCategory.classList.remove('open');
+    }
+}
+
+document.addEventListener("click", switchCategoryPlaceholder);
+document.addEventListener("click", renderCategoryDropdown);
+
+function clearCategoryInput() {
+    let dropDownCategory = document.getElementById('category-input');
+    let dropdownListCategory = document.getElementById('dropdownListCategory')
+    dropDownCategory.placeholder = "Select task category";
+    if (dropdownListCategory) {
+        dropdownListCategory.classList.remove('open');
+    }
+}
 
 // Das Category Input wird gerendert und der Placeholder wird bei Category geändert, je nachdem wo man drauf klickt
 
@@ -339,7 +368,11 @@ function loadAddTaskForm() {
     fetch(taskFormURL)
         .then(response => response.text())
         .then(html => {
-            document.getElementById('task-form-container').innerHTML = html;
+         let formContainer =   document.getElementById('task-form-container');
+         if (!formContainer) return;
+         if (formContainer) {
+         formContainer.innerHTML = html;
+          }
         })
         .catch((err) => console.log("Can’t access " + taskFormURL + " response. Blocked by browser?" + err));
 }
@@ -349,9 +382,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // fetched die Daten von meiner form_task.html und fügt sie in meine add_task.html ein.
-
-
-
 
 function handleSubtaskOutput(e) {
     let inputfield = document.getElementById('subtask-input');

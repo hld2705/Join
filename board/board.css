@@ -476,8 +476,8 @@ textarea {
 }
 
 .task-button-container {
-  top: 36px !important;
-  left: 200px !important;
+  top: 86px !important;
+  left: 196px !important;
 }
 
 #task-overlay {
@@ -529,6 +529,7 @@ textarea {
 
 .priority-input {
   text-indent: 0;
+  padding: 15px 49px 15px 20px !important;
 }
 
 #title-input {
@@ -574,7 +575,7 @@ textarea {
 .addTask-close-Icon:hover {
   background-color: rgba(0, 0, 0, .06);
   border-radius: 20px;
-    transform: scale(105%);
+  transform: scale(105%);
 }
 
 .input-find {

@@ -353,7 +353,6 @@ function closeTaskOverlay() {
   bg?.classList.remove('is-open');
 }
 
-
 document.addEventListener('click', (e) => {
   let closeIcon = document.getElementById('addTask-close-Img');
   let addTaskBtn = e.target.closest('#bt-add-task, .btn-add');
