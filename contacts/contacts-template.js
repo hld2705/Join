@@ -43,8 +43,8 @@ function contactsRenderTemplate(userInfo){
 }
 
 function addNewContactTemplate() {
-  return `<div class="createnewcontact-overlay" onclick="closeOverlay()">
-            <div class="createnewcontact-table">
+  return `<div class="createnewcontact-overlay" id="closeoverlay" onclick="closeOverlay()">
+            <div class="createnewcontact-table" onclick="event.stopPropagation()">
               <div class="left-blue-side">
                 <div class="createnewcontact-logo">
                   <img src="/assets/icons/Capa 1.svg">
@@ -56,12 +56,40 @@ function addNewContactTemplate() {
                 </div>
               </div>
               <div class="white-right-side">
-                <div>
+                <div class="createnewcontact-close" onclick="closeOverlay()">
                   <img src="assets/close.svg">
                 </div>
-                <div class="createnewcontact-person-radius">
-                <img src="/assets/icons/person_white.svg">
-                
+                <div class="createnewcontact-inputfield-person-placement">
+                  <div class="createnewcontact-person-radius">
+                    <img src="/assets/icons/person_white.svg">
+                  </div>
+                  <div class="createnewcontact-inputfield">
+                    <div class="createnewcontact-inputfield-icon"> 
+                      <input id="name_new_user" type="text"
+                            placeholder="Name">
+                      <img src="assets/icons/person.svg">
+                    </div>
+                    <div class="createnewcontact-inputfield-icon">
+                      <input id="email_new_user" type="email"
+                            placeholder="Email">
+                      <img src="assets/icons/mail.svg">
+                    </div>
+                    <div class="createnewcontact-inputfield-icon">
+                      <input id="phone_new_user" type="number"
+                            placeholder="Phone">
+                      <img src="assets/icons/call.svg">
+                    </div>
+                  </div>
+                </div>
+                <div class="createnewcontact-buttons-placement">
+                  <div class="createnewcontact-button-cancel">
+                    <button class="button-cancel">Cancel</button>
+                    <img src="assets/Vector.svg">
+                  </div>
+                  <div class="createnewcontact-button-create-contact">
+                    <button class="button-create">Create contact</button>
+                    <img src="assets/check.svg">
+                  </div>
                 </div>
               </div>
             </div>

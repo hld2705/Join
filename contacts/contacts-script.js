@@ -36,7 +36,7 @@ function addNewContact(){
 }
 
 function closeOverlay() {
-    const overlay = document.querySelector(".createnewcontact-overlay");
+    const overlay = document.getElementById("closeoverlay");
     if (overlay) overlay.remove();
 }
 
