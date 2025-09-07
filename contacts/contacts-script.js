@@ -1,5 +1,7 @@
 import { join } from '/firstdata.js';
 
+let activeUserId = null;
+
 function contactsLoad() {
   let contacts = document.getElementById("contactsjs");
   let users = join.users.slice().sort((a, b) => a.name.localeCompare(b.name));
@@ -24,9 +26,12 @@ function contactsLoad() {
 function contactsRender(userId) {
   let contactInfo = document.getElementById("contactsinfo");
   let userInfo = join.users.find(u => u.id === userId);
-
   if (!userInfo) return;
-
+  if(activeUserId === userId){
+    return;
+  }
+  activeUserId = userId;
+  contactInfo.innerHTML = "";
   contactInfo.innerHTML += contactsRenderTemplate(userInfo)
 }
 
@@ -40,6 +45,39 @@ function closeOverlay() {
     if (overlay) overlay.remove();
 }
 
+function editUser(userId){
+  let user = join.users.find(u => u.id === userId);
+  if (!user) return;
+  let popUpEditUser = document.getElementById("body");
+  popUpEditUser.innerHTML += editUserTemplate(user);
+}
+
+function deleteUser(userId) {
+  join.users = join.users.filter(u => u.id !== userId);
+  if (activeUserId === userId) {
+    activeUserId = null;
+    document.getElementById("contactsinfo").innerHTML = "";
+  }
+  contactsLoad();
+}
+
+function saveUser(userId) {
+  const user = join.users.find(u => u.id === userId);
+  if (!user) return;
+
+  user.name  = document.getElementById("edit_name").value;
+  user.email = document.getElementById("edit_email").value;
+  user.phone = document.getElementById("edit_phone").value;
+
+  closeOverlay();
+  contactsLoad();
+
+  contactsRender(userId);
+}
+
+window.saveUser = saveUser;
+window.editUser = editUser;
+window.deleteUser = deleteUser;
 window.contactsLoad = contactsLoad;
 window.contactsRender = contactsRender;
 window.addNewContact = addNewContact;

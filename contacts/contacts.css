@@ -387,3 +387,7 @@ body {
     font-style: normal;
     cursor: pointer;
 }
+.edit-person-radius img{
+    height: 120px;
+    width: 120px;
+}
