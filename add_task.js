@@ -148,21 +148,31 @@ document.addEventListener("click", inputBorderColorSwitch)
 
 // Assigned to und Category Inputs bekommen einen blauen Rahmen wenn sie angeklickt werden, und im "Focus" stehen.
 
-function renderAssignDropdown() {
-    let arrowIcon = document.getElementById('drop-down-svg-assign');
-    let currentSrc = arrowIcon.src;
+function renderAssignDropdown(e) {
     let dropdownList = document.getElementById('dropdownList');
     let assignedInput = document.getElementById('assign-input');
-    if (currentSrc.includes("arrow_drop_down.svg")) {
-        arrowIcon.src = "./assets/arrow_drop_down2.svg";
-        dropdownList.classList.add('open');
+    if (e.target.closest('#assign-input')) {
+        switchAssignedArrow();
+        dropdownList.classList.toggle('open');
         assignedInput.placeholder = "";
         assignedInput.readOnly = false;
-    } else {
-        arrowIcon.src = "./assets/arrow_drop_down.svg";
-        dropdownList.classList.remove('open');
+    }
+    if (e.target.closest('#assign-input') && !dropdownList.classList.contains('open')) {
         assignedInput.placeholder = "Select contact to assign";
         assignedInput.readOnly = true;
+    }
+
+}
+
+document.addEventListener('click', renderAssignDropdown);
+
+function switchAssignedArrow() {
+    let arrowIcon = document.getElementById('drop-down-svg-assign');
+    let currentSrc = arrowIcon.src;
+    if (currentSrc.includes("arrow_drop_down.svg")) {
+        arrowIcon.src = "./assets/arrow_drop_down2.svg";
+    } else {
+        arrowIcon.src = "./assets/arrow_drop_down.svg";
     }
 }
 
@@ -219,13 +229,11 @@ function searchAssignedUser(users) {
 
     if (assignInput.childElementCount > 0) return;
 
-    for (let i = 1; i < users.length; i++) {
+    name.textContent = users.name;
+    for (let i = 1; i < 9; i++) {
 
-        name.textContent = users[i].name;
-        console.log(name);
-
+        console.log(users[i].name)
     }
-
 }
 
 // Es wird pro Name in der Datenbank eine div mit dem Namen und dem Badge generiert und der Checkbutton eingefügt.
@@ -287,25 +295,29 @@ function filterBadges(badge, badgeContainer, userId) {
 
 // Filtert mir die Badges aus dem Dropdownmenü und zeigt sie mir darunter an.
 
+function switchInputCursor(e) {
+    let assignInput = document.getElementById('assign-input');
+    if (e.target.id === 'assign-input') {
+        if (assignInput.style.cursor === "text") {
+            assignInput.style.cursor = "pointer";
+        } else {
+            assignInput.style.cursor = "text";
+        }
+    }
+}
 
+document.addEventListener('click', switchInputCursor);
 
+function closeAssignedInputOutclick(e) {
+    if (e.target.id !== 'assign-input' && !e.target.closest('#dropdownList') && document.getElementById('dropdownList').classList.contains('open')) {
+        document.getElementById('dropdownList').classList.remove('open');
+        document.getElementById('assign-input').classList.remove('borderColorBlue');
+        document.getElementById('assign-input').placeholder = "Select contact to assign";
+        switchAssignedArrow();
+    }
+}
 
-
-
-
-
-// Wenn ich draufklicke ->  es sollen eingegebene Namen gesucht werden, 
-
-
-
-
-
-
-
-
-
-
-
+document.addEventListener('click', closeAssignedInputOutclick);
 
 function switchCategoryPlaceholder(e) {
     let dropDownCategory = document.getElementById('category-input')
@@ -441,10 +453,6 @@ function clearSubtaskOutput() {
 }
 
 
-
-
-
-
 function checkRequired() {
     let titleInput = document.getElementById('title-input');
     let dateInput = document.getElementById('date-input');
@@ -525,6 +533,8 @@ window.addEventListener("load", () => {
 function addedTaskTransition(e) {
     if (e.target.id === 'add-task-button') {
         let taskAddedStart = document.getElementById('task-added-info');
+        taskAddedStart.style.visibility = "visible";
+        taskAddedStart.style.opacity = "1"
         taskAddedStart.classList.add("task-added-end");
         setTimeout(() => {
             redirectToBoard();

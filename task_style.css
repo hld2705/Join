@@ -578,10 +578,12 @@ input.priority-input:focus::placeholder {
 }
 
 .task-added {
+    visibility: hidden;
+    opacity: 0;
     width: 300px;
     height: 66px;
     border-radius: 20px;
-    top: 110%;
+    top: 90%;
     left: 50%;
     transform: translate(-50%, -50%);
     position: absolute;
