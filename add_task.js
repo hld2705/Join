@@ -91,49 +91,6 @@ function changeLowColor() {
 
 // bei der Priority-Kategorie wird die Farbe der Buttons geswitched, je nachdem auf welchen man klickt.
 
-function checkRequired() {
-    let titleInput = document.getElementById('title-input');
-    let dateInput = document.getElementById('date-input');
-    let message1 = document.getElementById('required-message-title');
-    let message2 = document.getElementById('required-message-date');
-    if (!titleInput.checkValidity()) {
-        titleInput.classList.add('submit');
-        document.getElementById('required-message-title').innerHTML = "This field ist required"
-    } else {
-        titleInput.classList.remove('submit');
-        message1.innerHTML = "";
-    }
-    if (!dateInput.checkValidity()) {
-        dateInput.classList.add('submit');
-        document.getElementById('required-message-date').innerHTML = "This field ist required"
-    } else {
-        dateInput.classList.remove('submit');
-        message2.innerHTML = "";
-    }
-}
-
-// "This field ist required" und eine rote Umrandung werden angezeigt, wenn nichts in "Title" oder "Date" eingegeben wurde.
-
-function removeRequired() {
-    let titleInput = document.getElementById('title-input');
-    let dateInput = document.getElementById('date-input');
-
-    if (titleInput) {
-        titleInput.addEventListener('input', () => {
-            titleInput.classList.remove('submit');
-            document.getElementById('required-message-title').innerHTML = "";
-        });
-    }
-    if (dateInput) {
-        dateInput.addEventListener('input', () => {
-            dateInput.classList.remove('submit');
-            document.getElementById('required-message-date').innerHTML = "";
-        });
-    }
-}
-
-// Das "this field is required" Feld und die rote Umrandung werden bei Eingabe wieder gelöscht.
-
 function openCalendar() {
     let dateInput = document.getElementById('date-input');
     let calendarIcon = document.getElementById('calendar-icon')
@@ -169,44 +126,43 @@ function addNewTask() {
 
 // Werte von Title, Date und Description werden genommen und sollen ausgelesen werden. 
 
-function clearAllInputs() {
-    let title = document.getElementById('title-input');
-    let description = document.getElementById('description-input');
-    let date = document.getElementById('date-input');
-    title.value = "";
-    description.value = "";
-    date.value = "";
-}
 
-function clearAll(e) {
-    if (e.target.closest('#clear-button')) {
-        clearAllInputs();
-        resetAllButton();
-        clearAssignedInput();
-        clearCategoryInput();
-    }
-}
 
-document.addEventListener('click', clearAll);
 
-// Alle Werte werden gelöscht wenn der "Clear" Button betätigt wird.
-
-function inputBorderColorSwitch() {
+function inputBorderColorSwitch(e) {
     let assignInput = document.getElementById('assign-input');
-    assignInput.classList.toggle("borderColorBlue");
-}
+    let categoryInput = document.getElementById('category-input');
+    if (e.target.closest('#assign-input')) {
+        assignInput.classList.toggle("borderColorBlue");
+    }
+    if (e.target.closest('#category-input')) {
+        categoryInput.classList.toggle("borderColorBlue");
+    }
+    if (e.target.closest('#assign-input') && categoryInput.classList.contains("borderColorBlue")) {
+        categoryInput.classList.remove("borderColorBlue");
+
+    }
+};
+
+document.addEventListener("click", inputBorderColorSwitch)
+
+// Assigned to und Category Inputs bekommen einen blauen Rahmen wenn sie angeklickt werden, und im "Focus" stehen.
 
 function renderAssignDropdown() {
     let arrowIcon = document.getElementById('drop-down-svg-assign');
     let currentSrc = arrowIcon.src;
     let dropdownList = document.getElementById('dropdownList');
-
+    let assignedInput = document.getElementById('assign-input');
     if (currentSrc.includes("arrow_drop_down.svg")) {
         arrowIcon.src = "./assets/arrow_drop_down2.svg";
         dropdownList.classList.add('open');
+        assignedInput.placeholder = "";
+        assignedInput.readOnly = false;
     } else {
         arrowIcon.src = "./assets/arrow_drop_down.svg";
         dropdownList.classList.remove('open');
+        assignedInput.placeholder = "Select contact to assign";
+        assignedInput.readOnly = true;
     }
 }
 
@@ -248,6 +204,7 @@ async function showUserName() {
         name.textContent = users[i].name;
         img.src = users[i].badge;
         img.classList.add("userBadge")
+        searchAssignedUser(users);
 
         div.appendChild(img);
         div.appendChild(name);
@@ -256,12 +213,26 @@ async function showUserName() {
     }
 }
 
+function searchAssignedUser(users) {
+    let assignInput = document.getElementById('assign-input');
+    let name = document.createElement("span");
+
+    if (assignInput.childElementCount > 0) return;
+
+    for (let i = 1; i < users.length; i++) {
+
+        name.textContent = users[i].name;
+        console.log(name);
+
+    }
+
+}
+
 // Es wird pro Name in der Datenbank eine div mit dem Namen und dem Badge generiert und der Checkbutton eingefügt.
 
 function toggleAssignedinputContent(e) {
     const isInsideAssigned = e.target.closest('.Assigned-dropdown-username');
     const isInsideCheckbox = e.target.closest('.assignedTo-check-button-container');
-
     if (isInsideAssigned && !isInsideCheckbox) {
         isInsideAssigned.classList.toggle('bg-grey');
         const checkButton = isInsideAssigned.querySelector('.check-button');
@@ -317,6 +288,25 @@ function filterBadges(badge, badgeContainer, userId) {
 // Filtert mir die Badges aus dem Dropdownmenü und zeigt sie mir darunter an.
 
 
+
+
+
+
+
+
+// Wenn ich draufklicke ->  es sollen eingegebene Namen gesucht werden, 
+
+
+
+
+
+
+
+
+
+
+
+
 function switchCategoryPlaceholder(e) {
     let dropDownCategory = document.getElementById('category-input')
     let technicalSelect = e.target.closest('#technical-task-option');
@@ -368,11 +358,11 @@ function loadAddTaskForm() {
     fetch(taskFormURL)
         .then(response => response.text())
         .then(html => {
-         let formContainer =   document.getElementById('task-form-container');
-         if (!formContainer) return;
-         if (formContainer) {
-         formContainer.innerHTML = html;
-          }
+            let formContainer = document.getElementById('task-form-container');
+            if (!formContainer) return;
+            if (formContainer) {
+                formContainer.innerHTML = html;
+            }
         })
         .catch((err) => console.log("Can’t access " + taskFormURL + " response. Blocked by browser?" + err));
 }
@@ -444,3 +434,106 @@ function hideSubtaskIcons(e) {
 }
 
 document.addEventListener('input', hideSubtaskIcons);
+
+function clearSubtaskOutput() {
+    let subTaskOutput = document.getElementById('subtask-content');
+    subTaskOutput.innerHTML = "";
+}
+
+
+
+
+
+
+function checkRequired() {
+    let titleInput = document.getElementById('title-input');
+    let dateInput = document.getElementById('date-input');
+    let message1 = document.getElementById('required-message-title');
+    let message2 = document.getElementById('required-message-date');
+    if (!titleInput.checkValidity()) {
+        titleInput.classList.add('submit');
+        document.getElementById('required-message-title').innerHTML = "This field ist required"
+    } else {
+        titleInput.classList.remove('submit');
+        message1.innerHTML = "";
+    }
+    if (!dateInput.checkValidity()) {
+        dateInput.classList.add('submit');
+        document.getElementById('required-message-date').innerHTML = "This field ist required"
+    } else {
+        dateInput.classList.remove('submit');
+        message2.innerHTML = "";
+    }
+}
+
+// "This field ist required" und eine rote Umrandung werden angezeigt, wenn nichts in "Title" oder "Date" eingegeben wurde.
+
+function removeRequired() {
+    let titleInput = document.getElementById('title-input');
+    let dateInput = document.getElementById('date-input');
+
+    if (titleInput) {
+        titleInput.addEventListener('input', () => {
+            titleInput.classList.remove('submit');
+            document.getElementById('required-message-title').innerHTML = "";
+        });
+    }
+    if (dateInput) {
+        dateInput.addEventListener('input', () => {
+            dateInput.classList.remove('submit');
+            document.getElementById('required-message-date').innerHTML = "";
+        });
+    }
+}
+
+// Das "this field is required" Feld und die rote Umrandung werden bei Eingabe wieder gelöscht.
+
+
+
+function clearAllInputs() {
+    let title = document.getElementById('title-input');
+    let description = document.getElementById('description-input');
+    let date = document.getElementById('date-input');
+    title.value = "";
+    description.value = "";
+    date.value = "";
+}
+
+function clearAll(e) {
+    if (e.target.closest('#clear-button')) {
+        clearAllInputs();
+        resetAllButton();
+        clearAssignedInput();
+        clearCategoryInput();
+        clearSubtaskOutput();
+    }
+}
+
+document.addEventListener('click', clearAll);
+
+// Alle Werte werden gelöscht wenn der "Clear" Button betätigt wird.
+
+
+// Logo Versuch
+
+window.addEventListener("load", () => {
+    setTimeout(() => {
+        document.getElementById("logo").classList.add("main-logo-small");
+    }, 300);
+});
+
+function addedTaskTransition(e) {
+    if (e.target.id === 'add-task-button') {
+        let taskAddedStart = document.getElementById('task-added-info');
+        taskAddedStart.classList.add("task-added-end");
+        setTimeout(() => {
+            redirectToBoard();
+        }, 800);
+    }
+};
+
+document.addEventListener("click", addedTaskTransition);
+
+function redirectToBoard() {
+    location.assign("board.html");
+}

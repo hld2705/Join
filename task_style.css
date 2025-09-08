@@ -51,7 +51,7 @@ body {
     flex-direction: column;
     justify-content: center;
     padding-left: 140px;
-    z-index: 9999;
+    z-index: 9998;
     position: relative;
 }
 
@@ -71,6 +71,7 @@ body {
     flex-direction: column;
     justify-content: center;
     position: relative;
+    padding-right: 40px;
 }
 
 .right-side-inner {
@@ -492,6 +493,7 @@ input.priority-input:focus::placeholder {
 
 .category-input {
     box-shadow: inset 1px -1px 2px #bebebe, inset -1px -1px 5px #ffffff;
+    transition: all 1s ease;
 }
 
 .category-input:hover {
@@ -533,7 +535,7 @@ input.priority-input:focus::placeholder {
 }
 
 .box-shadow-blue {
-  box-shadow: inset 1px -1px 0px #00bfe0, inset -1px -1px 5px #ffffff;
+    box-shadow: inset 1px -1px 0px #00bfe0, inset -1px -1px 5px #ffffff;
 }
 
 .subtask-check-svg {
@@ -555,4 +557,45 @@ input.priority-input:focus::placeholder {
 .subcheck:hover {
     background-color: rgba(0, 0, 0, .06);
     border-radius: 12px;
+}
+
+.main-logo {
+    width: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    transition: all 0.9s ease;
+}
+
+.main-logo-small {
+    transform: none;
+    top: 70px;
+    left: 250px;
+    width: 70px;
+    cursor: pointer;
+}
+
+.task-added {
+    width: 300px;
+    height: 66px;
+    border-radius: 20px;
+    top: 110%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    background-color: #2A3647;
+    color: white;
+    font-weight: 300;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 9999;
+    transition: all 0.2s ease;
+}
+
+.task-added-end {
+    top: 50%;
+    transform: translate(-50%, -50%);
 }

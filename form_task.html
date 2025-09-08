@@ -52,9 +52,8 @@
 
                 <div class="assigned-to-container">
                     <div class="em-05 padding-top20">Assigned to</div>
-                    <input id="assign-input" onclick="renderAssignDropdown(), inputBorderColorSwitch(), showUserName()"
-                        type="text" class="input assign-Input cursorPointer" placeholder="Select contact to assign"
-                        readonly>
+                    <input id="assign-input" onclick="renderAssignDropdown(), showUserName()" type="text"
+                        class="input assign-Input cursorPointer" placeholder="Select contact to assign">
                     <img onclick="renderAssignDropdown()" id="drop-down-svg-assign" class="drop-down-arrow-svg"
                         src="./assets/arrow_drop_down.svg">
                     <div id="dropdownList" class="dropdown-list"></div>
@@ -84,7 +83,7 @@
                         </div>
                     </div>
                     <div id="subtask-content"></div>
-                    
+
                     <div class="task-button-container">
                         <div class="clearBtn-svg-container" onclick="addNewTask()">
                             <button id="clear-button" class="clear-button">Clear</button>
@@ -97,7 +96,7 @@
                             </svg>
                         </div>
                         <div class="createTaskBtn-svg-container">
-                            <button onclick="checkRequired()" type="submit" class="create-task-button">Create
+                            <button id="add-task-button" onclick="checkRequired()" type="submit" class="create-task-button">Create
                                 Task</button>
                             <svg class="check-icon" width="14" height="12" viewBox="0 0 16 12" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
