@@ -559,24 +559,6 @@ input.priority-input:focus::placeholder {
     border-radius: 12px;
 }
 
-.main-logo {
-    width: 400px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 9999;
-    transition: all 0.9s ease;
-}
-
-.main-logo-small {
-    transform: none;
-    top: 70px;
-    left: 250px;
-    width: 70px;
-    cursor: pointer;
-}
-
 .task-added {
     visibility: hidden;
     opacity: 0;
@@ -601,3 +583,32 @@ input.priority-input:focus::placeholder {
     top: 50%;
     transform: translate(-50%, -50%);
 }
+
+.single-subtask-container {
+    margin-top: 4px;
+    margin-left: -36px;
+    padding-top:4px;
+    padding-bottom: 4px;
+    padding-left: 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.edit-icon {
+    border-right: 1px solid rgba(0, 0, 0, 0.3);
+    padding-right: 4px;
+}
+
+.single-subtask-container:hover {
+    background-color: rgba(148, 148, 148, 0.1);
+    border-radius: 8px;
+}
+
+ul {
+    text-indent: -1%;
+}
+
+.single-subtask:hover {}
+
+.subtaskoutput-icon-container {}

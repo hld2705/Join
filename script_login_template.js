@@ -6,7 +6,7 @@ function confirmationSignTemplate(){
 function loadingScreenDesktopTemplate(){
     return`<div class="loadingscreen">
     <div>
-    <a href="index.html"><img class="logoanimation" src="assets/icons/Capa 2.svg"></a></div>
+    <a href="index.html"></a></div>
     </div>`
 }
 

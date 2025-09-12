@@ -211,10 +211,10 @@ async function showUserName() {
         let img = document.createElement("img");
         div.classList.add("Assigned-dropdown-username");
         div.dataset.userId = users[i].id; // gibt jeden Nutzer eine eigene ID. document.querySelectorAll("[data-user-id]") <- so kann ich alle id´s gleichzeitig finden.
+        div.dataset.name = users[i].name.toLowerCase();
         name.textContent = users[i].name;
         img.src = users[i].badge;
         img.classList.add("userBadge")
-        searchAssignedUser(users);
 
         div.appendChild(img);
         div.appendChild(name);
@@ -223,18 +223,22 @@ async function showUserName() {
     }
 }
 
-function searchAssignedUser(users) {
-    let assignInput = document.getElementById('assign-input');
-    let name = document.createElement("span");
 
-    if (assignInput.childElementCount > 0) return;
 
-    name.textContent = users.name;
-    for (let i = 1; i < 9; i++) {
-
-        console.log(users[i].name)
+function searchAssignedUser(e) {
+    if (e.target.id === "assing-input") {
+        if (e.target.value.length <= 3) return;
+        if (e.target.value.contains(showUserName())) {
+            console.log("hello");
+        }
     }
 }
+
+document.addEventListener('input', searchAssignedUser);
+
+
+
+
 
 // Es wird pro Name in der Datenbank eine div mit dem Namen und dem Badge generiert und der Checkbutton eingefügt.
 
@@ -398,13 +402,26 @@ function handleSubtaskOutput(e) {
             subTaskOutput.innerHTML = `<ul></ul>`;
         }
         let ul = subTaskOutput.querySelector('ul');
-        ul.insertAdjacentHTML('beforeend', `<li>${subtaskInput}</li>`)
+        ul.insertAdjacentHTML('beforeend', subtaskOutputTemplate(subtaskInput));
         inputfield.value = '';
     }
     if (e.target.closest('#subtask-cancel')) {
         inputfield.value = '';
         document.getElementById('cancel-accept-container').style.display = "none";
     }
+}
+
+function subtaskOutputTemplate(text) {
+    return `<li  class="single-subtask">
+     <div class="single-subtask-container">
+     <div>
+     <span class="subtask-text">${text}</span>
+     </div>
+     <div class= subtaskoutput-icon-container>
+     <img class="edit-icon" src="./assets/edit.png">
+      <img src="./assets/delete.svg">
+       </div>
+    </li>`;
 }
 
 document.addEventListener('click', handleSubtaskOutput);
@@ -452,7 +469,6 @@ function clearSubtaskOutput() {
     subTaskOutput.innerHTML = "";
 }
 
-
 function checkRequired() {
     let titleInput = document.getElementById('title-input');
     let dateInput = document.getElementById('date-input');
@@ -496,8 +512,6 @@ function removeRequired() {
 
 // Das "this field is required" Feld und die rote Umrandung werden bei Eingabe wieder gelöscht.
 
-
-
 function clearAllInputs() {
     let title = document.getElementById('title-input');
     let description = document.getElementById('description-input');
@@ -520,15 +534,6 @@ function clearAll(e) {
 document.addEventListener('click', clearAll);
 
 // Alle Werte werden gelöscht wenn der "Clear" Button betätigt wird.
-
-
-// Logo Versuch
-
-window.addEventListener("load", () => {
-    setTimeout(() => {
-        document.getElementById("logo").classList.add("main-logo-small");
-    }, 300);
-});
 
 function addedTaskTransition(e) {
     if (e.target.id === 'add-task-button') {
