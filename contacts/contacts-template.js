@@ -16,7 +16,7 @@ function contactsRenderTemplate(userInfo){
         <span class="picture-name-contactinfo">
           <img class="contactinfo-badge" alt="${userInfo.name}" src="${userInfo.badge}">
           <div>
-              <p class="contactinfo-name">${userInfo.name}</p>
+              <p class="contactinfo-name" id="detailed_name">${userInfo.name}</p>
               <div class="edit-delete-icons-placement">
                 <div class="contactinfo-icons-text-placement" onclick="editUser(${userInfo.id})">
                   <img class="contactinfo-icons" src="/assets/icons/edit.svg">
@@ -35,9 +35,9 @@ function contactsRenderTemplate(userInfo){
       </div>
       <div class="contact-email-phone">
         <h4><b>Email</b></h4>
-        <p>${userInfo.email}</p>
+        <p id="detailed_email">${userInfo.email}</p>
         <h4><b>Phone</b></h4>
-        ${userInfo.phone}
+        <a id="detailed_phone">${userInfo.phone}</a>
       </div>`
 
 }
@@ -87,7 +87,7 @@ function addNewContactTemplate() {
                     <img src="assets/Vector.svg">
                   </div>
                   <div class="createnewcontact-button-create-contact">
-                    <button class="button-create">Create contact</button>
+                    <button class="button-create" onclick="createContact()">Create contact</button>
                     <img src="assets/check.svg">
                   </div>
                 </div>
