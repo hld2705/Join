@@ -81,7 +81,7 @@ function addNewContactTemplate() {
                     </div>
                   </div>
                 </div>
-                <div class="createnewcontact-buttons-placement">
+                <div class="createnewcontact-buttons-placement" onclick="closeOverlay()">
                   <div class="createnewcontact-button-cancel">
                     <button class="button-cancel">Cancel</button>
                     <img src="assets/Vector.svg">
@@ -123,7 +123,7 @@ function editUserTemplate(user){
                       <img src="assets/icons/person.svg">
                     </div>
                     <div class="createnewcontact-inputfield-icon">
-                      <input id="edit_email type="email" value="${user.email}"
+                      <input id="edit_email" type="email" value="${user.email}"
                             placeholder="Email">
                       <img src="assets/icons/mail.svg">
                     </div>
@@ -138,8 +138,8 @@ function editUserTemplate(user){
                   <div class="createnewcontact-button-cancel">
                     <button class="button-cancel">Delete</button>
                   </div>
-                  <div class="createnewcontact-button-create-contact">
-                    <button class="button-create" onclick="saveUser(${user.id})">Save</button>
+                  <div class="createnewcontact-button-create-contact" onclick="saveUser(${user.id})">
+                    <button class="button-create">Save</button>
                     <img src="assets/check.svg">
                   </div>
                 </div>

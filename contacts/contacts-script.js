@@ -69,11 +69,10 @@ function saveUser(userId) {
   user.email = document.getElementById("edit_email").value;
   user.phone = document.getElementById("edit_phone").value;
 
-  closeOverlay();
   contactsLoad();
-
   contactsRender(userId);
 }
+
 
 window.saveUser = saveUser;
 window.editUser = editUser;
