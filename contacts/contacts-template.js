@@ -123,7 +123,7 @@ function editUserTemplate(user){
                       <img src="assets/icons/person.svg">
                     </div>
                     <div class="createnewcontact-inputfield-icon">
-                      <input id="edit_email type="email" value="${user.email}"
+                      <input id="edit_email" type="email" value="${user.email}"
                             placeholder="Email">
                       <img src="assets/icons/mail.svg">
                     </div>
