@@ -86,8 +86,8 @@ function addNewContactTemplate() {
                     <button class="button-cancel">Cancel</button>
                     <img src="assets/Vector.svg">
                   </div>
-                  <div class="createnewcontact-button-create-contact">
-                    <button class="button-create" onclick="createContact()">Create contact</button>
+                  <div class="createnewcontact-button-create-contact" onclick="createContact()">
+                    <button class="button-create">Create contact</button>
                     <img src="assets/check.svg">
                   </div>
                 </div>

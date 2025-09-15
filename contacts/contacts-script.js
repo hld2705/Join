@@ -2,6 +2,8 @@ import { join } from '/firstdata.js';
 
 let activeUserId = null;
 
+let nextUserId = join.users.length + 1;
+
 function contactsLoad() {
   let contacts = document.getElementById("contactsjs");
   let users = join.users.slice().sort((a, b) => a.name.localeCompare(b.name));
@@ -90,12 +92,25 @@ function updateDetailsPanel(user) {
   if (phoneNode) phoneNode.textContent = user.phone;
 }
 
-function createContact(){
-let nameNew = document.getElementById("name_new_user").value;  
-let emailNew = document.getElementById("email_new_user").value;  
-let phoneNew = document.getElementById("phone_new_user").value;
 
 
+
+function createContact() {
+  let nameNew  = document.getElementById("name_new_user").value;  
+  let emailNew = document.getElementById("email_new_user").value;  
+  let phoneNew = document.getElementById("phone_new_user").value;
+
+  let newUser = {
+    id: nextUserId++,
+    name: nameNew,
+    email: emailNew,
+    phone: phoneNew,
+    badge: "/assets/icons/person.svg"
+  };
+
+  join.users.push(newUser);
+  contactsLoad();
+  contactsRender(newUser.id);
 }
 
 window.createContact = createContact;
