@@ -389,6 +389,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // fetched die Daten von meiner form_task.html und fügt sie in meine add_task.html ein.
 
+let subtaskCounter = 0;
+
 function handleSubtaskOutput(e) {
     let inputfield = document.getElementById('subtask-input');
     if (e.target.closest('#subtask-accept')) {
@@ -402,26 +404,14 @@ function handleSubtaskOutput(e) {
             subTaskOutput.innerHTML = `<ul></ul>`;
         }
         let ul = subTaskOutput.querySelector('ul');
-        ul.insertAdjacentHTML('beforeend', subtaskOutputTemplate(subtaskInput));
+        ul.insertAdjacentHTML('beforeend', subtaskOutputTemplate(subtaskInput, subtaskCounter));
+        subtaskCounter++;
         inputfield.value = '';
     }
     if (e.target.closest('#subtask-cancel')) {
         inputfield.value = '';
         document.getElementById('cancel-accept-container').style.display = "none";
     }
-}
-
-function subtaskOutputTemplate(text) {
-    return `<li  class="single-subtask">
-     <div class="single-subtask-container">
-     <div>
-     <span class="subtask-text">${text}</span>
-     </div>
-     <div class= subtaskoutput-icon-container>
-     <img class="edit-icon" src="./assets/edit.png">
-      <img src="./assets/delete.svg">
-       </div>
-    </li>`;
 }
 
 document.addEventListener('click', handleSubtaskOutput);
@@ -465,9 +455,74 @@ function hideSubtaskIcons(e) {
 document.addEventListener('input', hideSubtaskIcons);
 
 function clearSubtaskOutput() {
-    let subTaskOutput = document.getElementById('subtask-content');
-    subTaskOutput.innerHTML = "";
+    let container = document.getElementById('subtask-content');
+    if (container) container.innerHTML = "";
 }
+
+document.addEventListener('click', (e) => {
+    let deleteIcon = e.target.closest('.delete-icon');
+    if (!deleteIcon) return;
+
+    let container = deleteIcon.closest('#subtask-content');
+    if (!container) return;
+
+    let li = deleteIcon.closest('li.single-subtask');
+    let inputfield = document.getElementById('subtask-input');
+    if (li) {
+        inputfield.disabled = false;
+        li.remove();
+    }
+});
+
+document.addEventListener('click', (e) => {
+    let editIcon = e.target.closest('.edit-icon');
+    let acceptIcon = e.target.closest('#edit-accept-icon');
+    let li = e.target.closest('li.single-subtask');
+    let inputfield = document.getElementById('subtask-input');
+
+    if (!editIcon && !acceptIcon) return;
+
+    if (!li) return;
+
+    let text = li.querySelector('.subtask-text');
+    let icons = li.querySelector('.subtask-icons');
+    let afterEditIcons = li.querySelector('.edit-subtask-icons');
+    if (!text || !icons || !afterEditIcons) return;
+
+    if (editIcon) {
+        {
+            inputfield.disabled = true;
+            text.contentEditable = 'true';
+            cursorToEnd(text);
+            icons.style.display = 'none';
+            afterEditIcons.style.display = 'flex';
+            li.classList.add('edit-text');
+            li.style.listStyleType = 'none';
+        }
+    }
+
+    if (acceptIcon) {
+        let newText = text.textContent.trim();
+        if (newText === '') {
+            li.remove();
+            inputfield.disabled = false;
+            return;
+        }
+        text.contentEditable = 'false';
+        icons.style.display = 'block';
+        afterEditIcons.style.display = 'none';
+        li.classList.remove('edit-text');
+        li.style.listStyleType = 'disc';
+        inputfield.disabled = false;
+    }
+});
+
+function cursorToEnd(el) {
+    el.focus();
+    document.getSelection().collapse(el, 1);
+}
+
+
 
 function checkRequired() {
     let titleInput = document.getElementById('title-input');

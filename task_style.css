@@ -587,7 +587,7 @@ input.priority-input:focus::placeholder {
 .single-subtask-container {
     margin-top: 4px;
     margin-left: -36px;
-    padding-top:4px;
+    padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 36px;
     display: flex;
@@ -600,6 +600,14 @@ input.priority-input:focus::placeholder {
     padding-right: 4px;
 }
 
+.delete-icon:hover {
+    transform: scale(1.1);
+}
+
+.edit-icon:hover {
+    transform: scale(1.1);
+}
+
 .single-subtask-container:hover {
     background-color: rgba(148, 148, 148, 0.1);
     border-radius: 8px;
@@ -609,6 +617,40 @@ ul {
     text-indent: -1%;
 }
 
-.single-subtask:hover {}
+.edit-text {
+    list-style-type: none;
+    background-color: white;
+    margin-left: -36px;
+    padding-left: 20px;
+    border-bottom: 1px solid #005DFF;
+    list-style-type: none;
+}
 
-.subtaskoutput-icon-container {}
+
+.single-subtask.edit-text .single-subtask-container:hover {
+    background: none !important;
+    border-radius: 0 !important;
+    cursor: default;
+}
+
+.subtask-text:focus {
+    outline: none;
+}
+
+#edit-accept-icon {
+    width: 16px;
+    margin-bottom: 2px;
+    margin-right: 18px;
+}
+
+#edit-delete-icon {
+    margin-right: 8px;
+}
+
+#edit-delete-icon:hover {
+    transform: scale(1.1);
+}
+
+#edit-accept-icon:hover {
+    transform: scale(1.1);
+}

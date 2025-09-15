@@ -109,7 +109,6 @@ export async function setCurrentUser(userId, { persistLoginFlag = true } = {}) {
 document.addEventListener('DOMContentLoaded', async () => {
   await initializeDefaultData();
   await setLoggedInUserFromSession({ selfHeal: true });
-
 });
 
 
