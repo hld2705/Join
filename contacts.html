@@ -7,12 +7,12 @@
     <title>Join</title>
 
     <link rel="icon" type="image/x-icon" href="./assets/favicon.svg" />
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="./board/board.css" />
-    <link rel="stylesheet" href="/contacts/contacts.css">
+    <link rel="stylesheet" href="contacts/contacts.css">
     <link rel="stylesheet" href="task_style.css">
-    <script src="/db.js" type="module" defer></script>
-    <script src="/firstdata.js" type="module"></script>
+    <script src="db.js" type="module" defer></script>
+    <script src="firstdata.js" type="module"></script>
     <script src="/contacts/contacts-template.js" defer></script>
     <script src="/contacts/contacts-script.js" type="module"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -29,7 +29,8 @@
         <a href="./index.html">
             <img class="join-logo" src="./assets/logo_white.svg" alt="Join" />
         </a>
-        <nav>
+
+        <nav id="togglednone">
             <a href="./summary.html">
                 <img src="./assets/summary.svg" alt="Summary Icon" />
                 <p>Summary</p>
@@ -49,10 +50,10 @@
         </nav>
 
         <footer>
-            <a href="legal.html">
+            <a href="legal_notice.html">
                 <p>Privacy Policy</p>
             </a>
-            <a href="privacy.html">
+            <a href="privacy_policy.html">
                 <p>Legal notice</p>
             </a>
         </footer>
@@ -61,6 +62,9 @@
     <section class="right-side">
         <header>
             <h3>Kanban Project Management Tool</h3>
+            <a href="./index.html">
+            <img class="responsiveheaderimage" src="./assets/logo-black.svg" alt="Join">
+        </a>
             <div class="user-info">
                 <a href="./help.html"><img class="Hilfe" src="./assets/help.svg" alt="help"></a>
                 <img class="profil" src="./assets/sofia.svg" alt="badges-header">

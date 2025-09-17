@@ -68,10 +68,8 @@ function saveUser(userId) {
   const nameEl  = document.getElementById('edit_name');
   const emailEl = document.getElementById('edit_email');
   const phoneEl = document.getElementById('edit_phone');
-
   const user = join.users.find(u => u.id === userId);
   if (!user) return;
-
   user.name  = nameEl.value.trim();
   user.email = emailEl.value.trim();
   user.phone = phoneEl.value.trim();
@@ -92,9 +90,6 @@ function updateDetailsPanel(user) {
   if (phoneNode) phoneNode.textContent = user.phone;
 }
 
-
-
-
 function createContact() {
   let nameNew  = document.getElementById("name_new_user").value;  
   let emailNew = document.getElementById("email_new_user").value;  
@@ -112,6 +107,7 @@ function createContact() {
   contactsLoad();
   contactsRender(newUser.id);
 }
+
 
 window.createContact = createContact;
 window.updateDetailsPanel = updateDetailsPanel;
