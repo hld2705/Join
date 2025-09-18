@@ -116,14 +116,13 @@ function changeLowColor() {
 
 function openCalendar() {
     let dateInput = document.getElementById('date-input');
-    let calendarIcon = document.getElementById('calendar-icon')
-    let calendar = flatpickr(dateInput, {
-        dateFormat: "d.m.Y",
+    if (!dateInput) return;
 
-    });
-    document.getElementById('calendar-icon').addEventListener('click', () => {
-        calendar.open();
-    });
+    if (dateInput.showPicker) {
+        dateInput.showPicker();
+    } else {
+        dateInput.focus();
+    }
 }
 
 // Kalendar wird geöffnet 
@@ -554,6 +553,8 @@ document.addEventListener('click', (e) => {
             cursorToEnd(text);
             icons.style.display = 'none';
             afterEditIcons.style.display = 'flex';
+            icons.classList.add('hidden');
+            afterEditIcons.classList.remove('hidden');
             li.classList.add('edit-text');
             li.style.listStyleType = 'none';
         }
@@ -569,6 +570,8 @@ document.addEventListener('click', (e) => {
         text.contentEditable = 'false';
         icons.style.display = 'block';
         afterEditIcons.style.display = 'none';
+        icons.classList.remove('hidden');
+        afterEditIcons.classList.add('hidden');
         li.classList.remove('edit-text');
         li.style.listStyleType = 'disc';
         inputfield.disabled = false;
@@ -579,8 +582,6 @@ function cursorToEnd(el) {
     el.focus();
     document.getSelection().collapse(el, 1);
 }
-
-
 
 function checkRequired() {
     let titleInput = document.getElementById('title-input');

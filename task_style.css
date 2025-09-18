@@ -658,3 +658,45 @@ ul {
 #edit-accept-icon:hover {
     transform: scale(1.1);
 }
+
+#date-input {
+    padding: 14px 304px 14px 20px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  display: none;
+  appearance: none;
+}
+
+.date-field {
+  position: relative;
+  display: inline-block;
+}
+
+.date-field .input {
+  width: 100%;
+  padding-right: 40px; 
+}
+
+.date-field .date-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.single-subtask-container .subtask-icons {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.single-subtask-container:hover .subtask-icons {
+  opacity: 1;
+  pointer-events: auto;
+}

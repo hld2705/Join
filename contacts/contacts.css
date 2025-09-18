@@ -391,3 +391,68 @@ body {
     height: 120px;
     width: 120px;
 }
+.responsiveheaderimage{
+    display:none;
+}
+@media screen and (max-width: 780px) {
+    .contactsmoto{
+        display: none;
+    }
+    .left-side {
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        width: 100vw;
+        height: 70px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        top: auto;
+        transform: none;
+        z-index: 1000;
+    }
+    nav {
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        gap: 0px;
+        margin-left: 40px;
+        margin-right: 40px;
+    }
+
+    nav a {
+        padding-left: 0;
+        padding: 5px;
+        font-size: 12px;
+    }
+
+    footer {
+        display: none;
+    }
+    header h3{
+        display: none;
+    }
+    .user-info a{
+        display:none;
+    }
+    header{
+        justify-content: space-between;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .addnewcontact{display: none;
+    }
+    .contanctssection{
+        width: 100%;
+        filter:none;
+    }
+    .join-logo{
+        display: none;
+    }
+    .responsiveheaderimage{
+        display:flex;
+        width: 32px;
+        height: 40px;
+    }
+}

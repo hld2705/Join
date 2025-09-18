@@ -17,7 +17,7 @@ function renderCheckButton() {
 function subtaskOutputTemplate(text, i) {
   return `
     <li class="single-subtask" data-subtask-id="${i}">
-      <div id="single-subtask-container" class="single-subtask-container">
+       <div class="single-subtask-container">
         <div>
           <span id="subtask-text-${i}" class="subtask-text">${text}</span>
         </div>
