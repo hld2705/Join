@@ -633,6 +633,10 @@ ul {
     cursor: default;
 }
 
+.assign-Input:focus {
+    outline: none;
+}
+
 .subtask-text:focus {
     outline: none;
 }

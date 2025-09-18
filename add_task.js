@@ -39,6 +39,29 @@ async function getAllUser(path = "") {
 
 // Es werden alle Userdaten aus der Datenbank geholt und als return zurückgegeben.
 
+const taskFormURL = "form_task.html";
+
+function loadAddTaskForm() {
+    fetch(taskFormURL)
+        .then(response => response.text())
+        .then(html => {
+            let formContainer = document.getElementById('task-form-container');
+            if (!formContainer) return;
+            if (formContainer) {
+                formContainer.innerHTML = html;
+                let btn = document.getElementById('add-task-button');
+                btn.addEventListener('click', addNewTask);
+            }
+        })
+}
+
+
+document.addEventListener('DOMContentLoaded', loadAddTaskForm);
+
+// fetched die Daten von meiner form_task.html und fügt sie in meine add_task.html ein.
+
+
+
 function resetAllButton() {
     document.getElementById('urgent').classList.remove('bg-red');
     document.getElementById('double-arrow').src = "./assets/Prio alta.svg"
@@ -110,24 +133,64 @@ function addNewTask() {
     let description = document.getElementById('description-input');
     let date = document.getElementById('date-input');
     let subtask = document.getElementById('subtask-input')
-    let newTask = {
-        "title": title.value,
-        "description": description.value,
-        "date": date.value,
-        "subtask": subtask.value,
+    let btn = document.getElementById('add-task-button');
+    let activeInput = document.querySelector('.priority-input.bg-green, .priority-input.bg-red, .priority-input.bg-orange');
+    let priority = activeInput ? activeInput.dataset.prio : null;
+    let categoryInput = document.getElementById('category-input');
+    let categoryPlaceholder = categoryInput.placeholder;
+    let category = categoryPlaceholder !== "Select task category" ? categoryPlaceholder : "";
+
+    let assignedUser = Array.from(document.querySelectorAll('.Assigned-dropdown-username.bg-grey'))
+        .map(el => el.dataset.name);
+
+    if (btn) {
+        let subtaskDivs = document.querySelectorAll('[id^="subtask-text-"]');
+        let subtasks = [];
+        subtaskDivs.forEach((el, index) => {
+            let text = (el.textContent || el.innerText || "").trim();
+            if (text) {
+                subtasks.push({
+                    id: "st" + index,
+                    text: text,
+                    done: false
+                });
+            }
+        });
+        let newTask = {
+            id: Date.now(),
+            title: title.value,
+            description: description.value,
+            date: date.value,
+            subtask: subtask.value,
+            subtasks: subtasks,
+            priority: priority,
+            category: category,
+            assignedUser: assignedUser
+        };
+        firebase.database().ref('tasks/' + newTask.id).set(newTask)
+            .then(() => {
+                alert('task wurde gespeichert');
+
+                document.getElementById('title-input').value = "";
+                document.getElementById('description-input').value = "";
+                document.getElementById('date-input').value = "";
+                document.getElementById('subtask-input').value = "";
+            })
+            .catch((error) => {
+                console.error('Fehler beim Speichern:', error);
+                alert('Fehler beim Speichern');
+            })
     };
-    task.push(newTask);
-    title.value = "";
-    description.value = "";
-    date.value = "";
-    subtask.value = "";
-    document.getElementById('cancel-accept-container').style.display = "none";
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    let btn = document.getElementById('add-task-button');
+    if (btn) {
+        btn.addEventListener('click', addNewTask);
+    }
+});
+
 // Werte von Title, Date und Description werden genommen und sollen ausgelesen werden. 
-
-
-
 
 function inputBorderColorSwitch(e) {
     let assignInput = document.getElementById('assign-input');
@@ -140,7 +203,6 @@ function inputBorderColorSwitch(e) {
     }
     if (e.target.closest('#assign-input') && categoryInput.classList.contains("borderColorBlue")) {
         categoryInput.classList.remove("borderColorBlue");
-
     }
 };
 
@@ -148,22 +210,33 @@ document.addEventListener("click", inputBorderColorSwitch)
 
 // Assigned to und Category Inputs bekommen einen blauen Rahmen wenn sie angeklickt werden, und im "Focus" stehen.
 
-function renderAssignDropdown(e) {
-    let dropdownList = document.getElementById('dropdownList');
-    let assignedInput = document.getElementById('assign-input');
-    if (e.target.closest('#assign-input')) {
-        switchAssignedArrow();
-        dropdownList.classList.toggle('open');
-        assignedInput.placeholder = "";
-        assignedInput.readOnly = false;
-    }
-    if (e.target.closest('#assign-input') && !dropdownList.classList.contains('open')) {
+async function renderAssignDropdown(e) {
+    if (!e.target.closest('#assign-input')) return;
+
+    const dropdownList = document.getElementById('dropdownList');
+    const assignedInput = document.getElementById('assign-input');
+    if (!dropdownList || !assignedInput) return;
+
+    const isOpen = dropdownList.classList.contains('open');
+
+    if (isOpen) {
+        // === Close ===
+        dropdownList.classList.remove('open');
+        assignedInput.classList.remove('borderColorBlue');
         assignedInput.placeholder = "Select contact to assign";
         assignedInput.readOnly = true;
+        switchAssignedArrow(); // nur beim Zustandswechsel
+    } else {
+        // === Open ===
+        // Inhalte sicherstellen (no-await ist ok, es füllt nach)
+        showUserName();
+        dropdownList.classList.add('open');
+        assignedInput.classList.add('borderColorBlue');
+        assignedInput.placeholder = "";
+        assignedInput.readOnly = false;
+        switchAssignedArrow(); // nur beim Zustandswechsel
     }
-
 }
-
 document.addEventListener('click', renderAssignDropdown);
 
 function switchAssignedArrow() {
@@ -223,21 +296,38 @@ async function showUserName() {
     }
 }
 
+function handleAssignedSearch(e) {
+    if (e.target.id !== 'assign-input') return;
 
+    const q = e.target.value.trim().toLowerCase();
+    const list = document.getElementById('dropdownList');
+    if (!list) return;
 
-function searchAssignedUser(e) {
-    if (e.target.id === "assing-input") {
-        if (e.target.value.length <= 3) return;
-        if (e.target.value.contains(showUserName())) {
-            console.log("hello");
+    if (list.childElementCount === 0) {
+
+        showUserName().then(() => filterList());
+    } else {
+        filterList();
+    }
+
+    function filterList() {
+        const items = list.querySelectorAll('.Assigned-dropdown-username');
+
+        if (q.length < 1) {
+            items.forEach(div => div.style.display = '');
+            return;
         }
+
+        items.forEach(div => {
+            const name = (div.dataset.name || '').toLowerCase();
+            div.style.display = name.includes(q) ? '' : 'none';
+        });
+
+        list.classList.add('open');
     }
 }
 
-document.addEventListener('input', searchAssignedUser);
-
-
-
+document.addEventListener('input', handleAssignedSearch);
 
 
 // Es wird pro Name in der Datenbank eine div mit dem Namen und dem Badge generiert und der Checkbutton eingefügt.
@@ -286,6 +376,17 @@ function switchArrowIcon() {
     }
 }
 
+function closeAssignedInputOutclick(e) {
+    if (e.target.id !== 'assign-input' && !e.target.closest('#dropdownList') && document.getElementById('dropdownList').classList.contains('open')) {
+        document.getElementById('dropdownList').classList.remove('open');
+        document.getElementById('assign-input').classList.remove('borderColorBlue');
+        document.getElementById('assign-input').placeholder = "Select contact to assign";
+        switchAssignedArrow();
+    }
+}
+document.addEventListener('click', closeAssignedInputOutclick);
+
+
 function filterBadges(badge, badgeContainer, userId) {
     let existing = badgeContainer.querySelector(`[data-user-id="${userId}"]`); // Wenn Id von der div = Id vom Badge, also wenn das Badge existiert, dann lösch mir das Badge aus dem Container
     if (existing) {
@@ -298,30 +399,6 @@ function filterBadges(badge, badgeContainer, userId) {
 }
 
 // Filtert mir die Badges aus dem Dropdownmenü und zeigt sie mir darunter an.
-
-function switchInputCursor(e) {
-    let assignInput = document.getElementById('assign-input');
-    if (e.target.id === 'assign-input') {
-        if (assignInput.style.cursor === "text") {
-            assignInput.style.cursor = "pointer";
-        } else {
-            assignInput.style.cursor = "text";
-        }
-    }
-}
-
-document.addEventListener('click', switchInputCursor);
-
-function closeAssignedInputOutclick(e) {
-    if (e.target.id !== 'assign-input' && !e.target.closest('#dropdownList') && document.getElementById('dropdownList').classList.contains('open')) {
-        document.getElementById('dropdownList').classList.remove('open');
-        document.getElementById('assign-input').classList.remove('borderColorBlue');
-        document.getElementById('assign-input').placeholder = "Select contact to assign";
-        switchAssignedArrow();
-    }
-}
-
-document.addEventListener('click', closeAssignedInputOutclick);
 
 function switchCategoryPlaceholder(e) {
     let dropDownCategory = document.getElementById('category-input')
@@ -368,26 +445,7 @@ function clearCategoryInput() {
 // Das Category Input wird gerendert und der Placeholder wird bei Category geändert, je nachdem wo man drauf klickt
 
 
-const taskFormURL = "form_task.html";
 
-function loadAddTaskForm() {
-    fetch(taskFormURL)
-        .then(response => response.text())
-        .then(html => {
-            let formContainer = document.getElementById('task-form-container');
-            if (!formContainer) return;
-            if (formContainer) {
-                formContainer.innerHTML = html;
-            }
-        })
-        .catch((err) => console.log("Can’t access " + taskFormURL + " response. Blocked by browser?" + err));
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    loadAddTaskForm();
-});
-
-// fetched die Daten von meiner form_task.html und fügt sie in meine add_task.html ein.
 
 let subtaskCounter = 0;
 
