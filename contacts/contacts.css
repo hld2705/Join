@@ -214,10 +214,10 @@ body {
 
 .createnewcontact-table {
     display: flex;
+    flex-direction: row;
     background-color: rgba(255, 255, 255, 1);
     height: 592px;
     width: 1212px;
-    border-radius: 30px;
     cursor: default;
 }
 
@@ -366,8 +366,8 @@ body {
     cursor: pointer;
 }
 
-.createnewcontact-button-create-contact{
-    color:white;
+.createnewcontact-button-create-contact {
+    color: white;
     height: 56px;
     width: 214px;
     border-radius: 10px;
@@ -378,26 +378,41 @@ body {
     gap: 4px;
     cursor: pointer;
 }
-.button-create{
+
+.button-create {
     border: none;
     background-color: rgba(42, 54, 71, 1);
-    color:white;
+    color: white;
     font-weight: 400;
     font-size: 20px;
     font-style: normal;
     cursor: pointer;
 }
-.edit-person-radius img{
+
+.edit-person-radius img {
     height: 120px;
     width: 120px;
 }
-.responsiveheaderimage{
-    display:none;
+
+.responsiveheaderimage {
+    display: none;
 }
+
+.responsiveaddcontact {
+    display: none;
+}
+
+.createnewcontactmaincontainer {
+    border-radius: 30px;
+    background: white;
+    overflow: hidden;
+}
+
 @media screen and (max-width: 780px) {
-    .contactsmoto{
+    .contactsmoto {
         display: none;
     }
+
     .left-side {
         flex-direction: row;
         justify-content: space-around;
@@ -411,6 +426,7 @@ body {
         transform: none;
         z-index: 1000;
     }
+
     nav {
         flex-direction: row;
         justify-content: space-between;
@@ -429,30 +445,125 @@ body {
     footer {
         display: none;
     }
-    header h3{
+
+    header h3 {
         display: none;
     }
-    .user-info a{
-        display:none;
+
+    .user-info a {
+        display: none;
     }
-    header{
+
+    header {
         justify-content: space-between;
         padding-left: 20px;
         padding-right: 20px;
     }
 
-    .addnewcontact{display: none;
-    }
-    .contanctssection{
-        width: 100%;
-        filter:none;
-    }
-    .join-logo{
+    .addnewcontact {
         display: none;
     }
-    .responsiveheaderimage{
-        display:flex;
+
+    .contanctssection {
+        width: 100%;
+        filter: none;
+    }
+
+    .join-logo {
+        display: none;
+    }
+
+    .responsiveheaderimage {
+        display: flex;
         width: 32px;
         height: 40px;
+    }
+
+    .responsiveaddcontact {
+        display: block;
+        position: absolute;
+        bottom: 10%;
+        right: 5%;
+        height: 56px;
+        width: 56px;
+        cursor: pointer;
+    }
+
+    /*responsive add new user*/
+    .createnewcontactmaincontainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 396px;
+        height: 760px;
+    }
+
+    .createnewcontact-table {
+        flex-direction: column;
+        width: 100%;
+        flex: 1;
+    }
+
+    .left-blue-side {
+        height: 352px;
+        width: 100%;
+        background-color: rgba(42, 54, 71, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        color: white;
+        flex: 0 0 auto;
+    }
+
+    .white-right-side {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+        gap: 20px;
+    }
+
+    .createnewcontact-logo {
+        display: none;
+    }
+
+    .createnewcontact-button-cancel {
+        display: none;
+    }
+
+    .createnewcontact-inputfield {
+        width: 364px;
+        height: 153px;
+        gap: 15px;
+    }
+
+    .createnewcontact-inputfield input {
+        width: 280px;
+        height: 41px;
+        gap: 8px;
+    }
+
+    .createnewcontact-person-radius {
+        position: absolute;
+        bottom: 46%;
+        height: 120px;
+        width: 120px;
+        border-color: rgba(255, 255, 255, 1);
+        border-width: 3px;
+    }
+
+    .createnewcontact-person-radius img {
+        height: 64px;
+        width: 64px;
+    }
+
+    .createnewcontact-close {
+        position: absolute;
+        top: 10%;
+        right: 24%;
+        filter: invert(1);
     }
 }

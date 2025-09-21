@@ -1,4 +1,4 @@
-import { join } from '/firstdata.js';
+import { join } from '../firstdata.js';
 
 let activeUserId = null;
 
@@ -107,7 +107,6 @@ function createContact() {
   contactsLoad();
   contactsRender(newUser.id);
 }
-
 
 window.createContact = createContact;
 window.updateDetailsPanel = updateDetailsPanel;

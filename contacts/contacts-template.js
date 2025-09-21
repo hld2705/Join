@@ -44,56 +44,59 @@ function contactsRenderTemplate(userInfo){
 
 function addNewContactTemplate() {
   return `<div class="createnewcontact-overlay" id="closeoverlay" onclick="closeOverlay()">
-            <div class="createnewcontact-table" onclick="event.stopPropagation()">
-              <div class="left-blue-side">
-                <div class="createnewcontact-logo">
-                  <img src="/assets/icons/Capa 1.svg">
-                </div>
-                <div class="createnewcontact-text">
-                  <h2>Add contact</h2>
-                  <p>Tasks are better with a team!</p>
-                  <img src="/assets/Vector 5_rotated.svg">
-                </div>
-              </div>
-              <div class="white-right-side">
-                <div class="createnewcontact-close" onclick="closeOverlay()">
-                  <img src="assets/close.svg">
-                </div>
-                <div class="createnewcontact-inputfield-person-placement">
-                  <div class="createnewcontact-person-radius">
-                    <img src="/assets/icons/person_white.svg">
+            <div class="createnewcontactmaincontainer">
+              <div class="createnewcontact-table" onclick="event.stopPropagation()">
+                <div class="left-blue-side">
+                  <div class="createnewcontact-logo">
+                    <img src="/assets/icons/Capa 1.svg">
                   </div>
-                  <div class="createnewcontact-inputfield">
-                    <div class="createnewcontact-inputfield-icon"> 
-                      <input id="name_new_user" type="text"
+                  <div class="createnewcontact-text">
+                    <h2>Add contact</h2>
+                    <p>Tasks are better with a team!</p>
+                    <img src="/assets/Vector 5_rotated.svg">
+                  </div>
+                </div>
+                <div class="white-right-side">
+                  <div class="createnewcontact-close" onclick="closeOverlay()">
+                    <img src="assets/close.svg">
+                  </div>
+                  <div class="createnewcontact-inputfield-person-placement">
+                    <div class="createnewcontact-person-radius">
+                      <img src="/assets/icons/person_white.svg">
+                    </div>
+                    <div class="createnewcontact-inputfield">
+                      <div class="createnewcontact-inputfield-icon"> 
+                        <input id="name_new_user" type="text"
                             placeholder="Name">
-                      <img src="assets/icons/person.svg">
-                    </div>
-                    <div class="createnewcontact-inputfield-icon">
-                      <input id="email_new_user" type="email"
+                        <img src="assets/icons/person.svg">
+                      </div>
+                      <div class="createnewcontact-inputfield-icon">
+                        <input id="email_new_user" type="email"
                             placeholder="Email">
-                      <img src="assets/icons/mail.svg">
-                    </div>
-                    <div class="createnewcontact-inputfield-icon">
-                      <input id="phone_new_user" type="number"
+                        <img src="assets/icons/mail.svg">
+                      </div>
+                      <div class="createnewcontact-inputfield-icon">
+                        <input id="phone_new_user" type="number"
                             placeholder="Phone">
-                      <img src="assets/icons/call.svg">
+                        <img src="assets/icons/call.svg">
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="createnewcontact-buttons-placement" onclick="closeOverlay()">
-                  <div class="createnewcontact-button-cancel">
-                    <button class="button-cancel">Cancel</button>
-                    <img src="assets/Vector.svg">
-                  </div>
-                  <div class="createnewcontact-button-create-contact" onclick="createContact()">
-                    <button class="button-create">Create contact</button>
-                    <img src="assets/check.svg">
+                  <div class="createnewcontact-buttons-placement" onclick="closeOverlay()">
+                    <div class="createnewcontact-button-cancel">
+                      <button class="button-cancel">Cancel</button>
+                      <img src="assets/Vector.svg">
+                    </div>
+                    <div class="createnewcontact-button-create-contact" onclick="createContact()">
+                      <button class="button-create">Create contact</button>
+                      <img src="assets/check.svg">
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>`;
+          contactSucesfullyCreated();
 }
 
 function editUserTemplate(user){
@@ -147,3 +150,6 @@ function editUserTemplate(user){
             </div>
           </div>`;
 }
+ function contactSucesfullyCreated(){
+  
+ }
