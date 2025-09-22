@@ -96,7 +96,6 @@ function addNewContactTemplate() {
               </div>
             </div>
           </div>`;
-          contactSucesfullyCreated();
 }
 
 function editUserTemplate(user){
@@ -150,6 +149,9 @@ function editUserTemplate(user){
             </div>
           </div>`;
 }
- function contactSucesfullyCreated(){
-  
- }
+function addedNewUserTemplate() {
+  return `
+    <div class="addednewuserdiv">
+      <h1>Contact successfully created</h1>
+    </div>`;
+}

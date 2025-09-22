@@ -10,8 +10,11 @@ function contactsLoad() {
   contacts.innerHTML = "";
   let currentLetter = "";
 
-  for (let i = 0; i < users.length; i++) {
-    let firstLetter = users[i].name[0].toUpperCase();
+    for (let i = 0; i < users.length; i++) {
+    let firstLetter = "#";
+    if (users[i].name && users[i].name.length > 0) {
+      firstLetter = users[i].name.charAt(0).toUpperCase();
+    }
 
     if (firstLetter !== currentLetter) {
       currentLetter = firstLetter;
@@ -23,6 +26,7 @@ function contactsLoad() {
 
     contacts.innerHTML += contactsLoadTemplate(users, i)
   }
+  addedNewUser();
 }
 
 function contactsRender(userId) {
@@ -31,6 +35,14 @@ function contactsRender(userId) {
   if (!userInfo) return;
   if(activeUserId === userId){
     return;
+  }
+  if (window.innerWidth <= 780) {
+    contactInfo.innerHTML = contactsRenderTemplate(userInfo);
+  } else {
+    let contactInfo = document.getElementById("contactsinfo");
+    if (contactInfo) {
+      contactInfo.innerHTML = contactsRenderTemplate(userInfo);
+    }
   }
   activeUserId = userId;
   contactInfo.innerHTML = "";
@@ -91,9 +103,9 @@ function updateDetailsPanel(user) {
 }
 
 function createContact() {
-  let nameNew  = document.getElementById("name_new_user").value;  
-  let emailNew = document.getElementById("email_new_user").value;  
-  let phoneNew = document.getElementById("phone_new_user").value;
+  let nameNew  = document.getElementById("name_new_user").value.trim();  
+  let emailNew = document.getElementById("email_new_user").value.trim();  
+  let phoneNew = document.getElementById("phone_new_user").value.trim();
 
   let newUser = {
     id: nextUserId++,
@@ -107,6 +119,14 @@ function createContact() {
   contactsLoad();
   contactsRender(newUser.id);
 }
+
+async function addedNewUser() {
+  let body = document.getElementById("mainbodycontainerid");
+  body.innerHTML += `<div id="successMessage">${addedNewUserTemplate()}</div>`;
+  await new Promise(r => setTimeout(r, 1500));
+  document.getElementById("successMessage").remove();
+}
+
 
 window.createContact = createContact;
 window.updateDetailsPanel = updateDetailsPanel;
