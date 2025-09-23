@@ -31,19 +31,23 @@ function contactsLoad() {
 
 function contactsRender(userId) {
   let contactInfo = document.getElementById("contactsinfo");
+  let responsiveLeftSide = document.getElementById("responsiveleftsidecontacts");
+  let responsiveContactsDetails = document.getElementById("responsivecontactsmoto");
   let userInfo = join.users.find(u => u.id === userId);
   if (!userInfo) return;
   if(activeUserId === userId){
     return;
   }
+
   if (window.innerWidth <= 780) {
     contactInfo.innerHTML = contactsRenderTemplate(userInfo);
-  } else {
-    let contactInfo = document.getElementById("contactsinfo");
-    if (contactInfo) {
-      contactInfo.innerHTML = contactsRenderTemplate(userInfo);
-    }
+    if (responsiveLeftSide) {
+    responsiveLeftSide.style.display = "none";
+    responsiveContactsDetails.style.display = "flex";
   }
+  document.getElementById("contactsinfo").innerHTML = "";
+}
+
   activeUserId = userId;
   contactInfo.innerHTML = "";
   contactInfo.innerHTML = contactsRenderTemplate(userInfo)
