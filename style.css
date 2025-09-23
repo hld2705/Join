@@ -32,6 +32,7 @@ body {
     width: 232px;
     background-color: #2A3647;
     position: relative;
+        z-index: 2;
 }
 
 .left-side a {
@@ -80,6 +81,8 @@ footer {
     display: flex;
     flex-direction: column;
     flex: 1;
+        background-color: #f5f6f7;
+    background: linear-gradient(0deg, rgba(245, 246, 247, 1) 99%, rgb(223, 224, 225) 100%);
 }
 
 header {
