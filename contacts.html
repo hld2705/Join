@@ -58,7 +58,7 @@
         </footer>
     </section>
 
-    <section class="right-side">
+    <section class="right-side" id="rightside">
         <header>
             <h3>Kanban Project Management Tool</h3>
             <a href="./index.html">
@@ -93,12 +93,15 @@
                     </div>
                     <p>Better with a team</p>
                     </div>
+                    <div class="contactsmoto-back-arrow-responsive">
+                     <img src="assets/arrow-left-line.svg" onclick="reRenderContacts()">   
+                    </div>
                 </div>
             <div class="contactinfo"id="contactsinfo"></div>
             </section>
         </div>
     </section>
-    <div class="responsiveaddcontact" onclick="addNewContact()">
+    <div class="responsiveaddcontact" onclick="addNewContact()" id="responsiveaddcontactid">
         <img src="/assets/Secondary_mobile_contact_V1.svg"> 
     </div>
 </body>

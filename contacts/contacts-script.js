@@ -33,6 +33,8 @@ function contactsRender(userId) {
   let contactInfo = document.getElementById("contactsinfo");
   let responsiveLeftSide = document.getElementById("responsiveleftsidecontacts");
   let responsiveContactsDetails = document.getElementById("responsivecontactsmoto");
+  let threeDotsMenu = document.getElementById("rightside");
+  let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
   let userInfo = join.users.find(u => u.id === userId);
   if (!userInfo) return;
   if(activeUserId === userId){
@@ -40,13 +42,21 @@ function contactsRender(userId) {
   }
 
   if (window.innerWidth <= 780) {
-    contactInfo.innerHTML = contactsRenderTemplate(userInfo);
     if (responsiveLeftSide) {
-    responsiveLeftSide.style.display = "none";
-    responsiveContactsDetails.style.display = "flex";
+      responsiveLeftSide.style.display = "none";
+    }
+    if (responsiveContactsDetails) {
+      responsiveContactsDetails.style.display = "block";
+    }
+    contactInfo.innerHTML = contactsRenderTemplate(userInfo);
   }
-  document.getElementById("contactsinfo").innerHTML = "";
-}
+
+  if(responsiveAddContactId){
+    responsiveAddContactId.innerHTML +=
+    `<div class="threedotsmenu">
+    <img src="/assets/Menu Contact options.svg">
+    </div>`
+  }
 
   activeUserId = userId;
   contactInfo.innerHTML = "";
@@ -131,7 +141,25 @@ async function addedNewUser() {
   document.getElementById("successMessage").remove();
 }
 
+function reRenderContacts() {
+  let contactInfo = document.getElementById("contactsinfo");
+  let responsiveLeftSide = document.getElementById("responsiveleftsidecontacts");
+  let responsiveContactsDetails = document.getElementById("responsivecontactsmoto");
 
+  if (window.innerWidth <= 780) {
+    contactInfo.innerHTML = "";
+    if (responsiveLeftSide) {
+      responsiveLeftSide.style.display = "block";
+    }
+    if (responsiveContactsDetails) {
+      responsiveContactsDetails.style.display = "none";
+    }
+  }
+  contactsLoad();
+}
+
+
+window.reRenderContacts = reRenderContacts;
 window.createContact = createContact;
 window.updateDetailsPanel = updateDetailsPanel;
 window.saveUser = saveUser;
