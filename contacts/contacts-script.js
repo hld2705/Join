@@ -9,8 +9,9 @@ function contactsLoad() {
   let users = join.users.slice().sort((a, b) => a.name.localeCompare(b.name));
   contacts.innerHTML = "";
   let currentLetter = "";
-
-    for (let i = 0; i < users.length; i++) {
+  let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
+  responsiveEditContactId.style.display = "none";
+  for (let i = 0; i < users.length; i++) {
     let firstLetter = "#";
     if (users[i].name && users[i].name.length > 0) {
       firstLetter = users[i].name.charAt(0).toUpperCase();
@@ -26,20 +27,36 @@ function contactsLoad() {
 
     contacts.innerHTML += contactsLoadTemplate(users, i)
   }
-  addedNewUser();
+}
+function showAddButton() {
+  let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
+  if (responsiveAddContactId) {
+    responsiveAddContactId.innerHTML = addNewContactTemplate();
+    responsiveAddContactId.style.display = "flex";
+  }
+}
+
+function showThreeDots(userId) {
+  let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
+  if (responsiveAddContactId) {
+    responsiveAddContactId.innerHTML = addThreeDotMenuTemplate(userId); 
+    responsiveAddContactId.style.display = "flex";
+  }
 }
 
 function contactsRender(userId) {
   let contactInfo = document.getElementById("contactsinfo");
   let responsiveLeftSide = document.getElementById("responsiveleftsidecontacts");
   let responsiveContactsDetails = document.getElementById("responsivecontactsmoto");
-  let threeDotsMenu = document.getElementById("rightside");
-  let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
   let userInfo = join.users.find(u => u.id === userId);
   if (!userInfo) return;
-  if(activeUserId === userId){
+  if (activeUserId === userId) {
+    contactInfo.innerHTML = "";
+    activeUserId = null;
+    showAddButton()
     return;
   }
+  showThreeDots(userId);
 
   if (window.innerWidth <= 780) {
     if (responsiveLeftSide) {
@@ -50,30 +67,23 @@ function contactsRender(userId) {
     }
     contactInfo.innerHTML = contactsRenderTemplate(userInfo);
   }
-
-  if(responsiveAddContactId){
-    responsiveAddContactId.innerHTML +=
-    `<div class="threedotsmenu">
-    <img src="/assets/Menu Contact options.svg">
-    </div>`
-  }
-
+  
   activeUserId = userId;
   contactInfo.innerHTML = "";
-  contactInfo.innerHTML = contactsRenderTemplate(userInfo)
+  contactInfo.innerHTML = contactsRenderTemplate(userInfo);
 }
 
-function addNewContact(){
-    let popUp = document.getElementById("body");
-    popUp.innerHTML += addNewContactTemplate();
+function addNewContact() {
+  let popUp = document.getElementById("body");
+  popUp.innerHTML += addNewContactTemplate();
 }
 
 function closeOverlay() {
-    const overlay = document.getElementById("closeoverlay");
-    if (overlay) overlay.remove();
+  const overlay = document.getElementById("closeoverlay");
+  if (overlay) overlay.remove();
 }
 
-function editUser(userId){
+function editUser(userId) {
   let user = join.users.find(u => u.id === userId);
   if (!user) return;
   let popUpEditUser = document.getElementById("body");
@@ -91,12 +101,12 @@ function deleteUser(userId) {
 
 function saveUser(userId) {
 
-  const nameEl  = document.getElementById('edit_name');
+  const nameEl = document.getElementById('edit_name');
   const emailEl = document.getElementById('edit_email');
   const phoneEl = document.getElementById('edit_phone');
   const user = join.users.find(u => u.id === userId);
   if (!user) return;
-  user.name  = nameEl.value.trim();
+  user.name = nameEl.value.trim();
   user.email = emailEl.value.trim();
   user.phone = phoneEl.value.trim();
 
@@ -111,14 +121,14 @@ function updateDetailsPanel(user) {
   const emailNode = document.getElementById('detailed_email');
   const phoneNode = document.getElementById('detailed_phone');
 
-  if (nameNode)  nameNode.textContent  = user.name;
+  if (nameNode) nameNode.textContent = user.name;
   if (emailNode) emailNode.textContent = user.email;
   if (phoneNode) phoneNode.textContent = user.phone;
 }
 
 function createContact() {
-  let nameNew  = document.getElementById("name_new_user").value.trim();  
-  let emailNew = document.getElementById("email_new_user").value.trim();  
+  let nameNew = document.getElementById("name_new_user").value.trim();
+  let emailNew = document.getElementById("email_new_user").value.trim();
   let phoneNew = document.getElementById("phone_new_user").value.trim();
 
   let newUser = {
@@ -130,8 +140,10 @@ function createContact() {
   };
 
   join.users.push(newUser);
+
+  addedNewUser();
   contactsLoad();
-  contactsRender(newUser.id);
+
 }
 
 async function addedNewUser() {
@@ -155,7 +167,10 @@ function reRenderContacts() {
       responsiveContactsDetails.style.display = "none";
     }
   }
+  contactInfo.innerHTML = "";
+  activeUserId = null;
   contactsLoad();
+  showAddButton();
 }
 
 
