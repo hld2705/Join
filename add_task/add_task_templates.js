@@ -23,14 +23,14 @@ function subtaskOutputTemplate(text, i) {
         </div>
 
         <div  class="subtask-icons subtaskoutput-icon-container">
-          <img class="edit-icon" src="./assets/edit.png" alt="edit">
-          <img class="delete-icon" src="./assets/delete.svg" alt="delete">
+          <img class="edit-icon" src="../assets/edit.png" alt="edit">
+          <img class="delete-icon" src="../assets/delete.svg" alt="delete">
         </div>
         
         <div class="edit-subtask-icons hidden">
-          <img id="edit-delete-icon" class="delete-icon" src="./assets/delete.svg" alt="delete">
+          <img id="edit-delete-icon" class="delete-icon" src="../assets/delete.svg" alt="delete">
             <div class="divider"></div>
-          <img id="edit-accept-icon" class="subtask-check-svg" src="./assets/check-grey.svg" alt="accept">
+          <img id="edit-accept-icon" class="subtask-check-svg" src="../assets/check-grey.svg" alt="accept">
         </div>
       </div>
     </li>`;
