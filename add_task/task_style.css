@@ -68,7 +68,7 @@ body {
     position: absolute;
     height: 44%;
     right: 80px;
-    top: 300px;
+    top: 250px;
     background-color: grey;
 }
 
@@ -84,7 +84,7 @@ body {
 
 
 .right-side-inner {
-    transform: translateY(12%);
+    transform: translateY(0%);
 }
 
 .task-title {
@@ -107,7 +107,7 @@ body {
 textarea {
     resize: vertical;
     width: 100%;
-    height: 70px;
+    height: 90px;
 }
 
 ::placeholder {
@@ -522,6 +522,7 @@ input.priority-input:focus::placeholder {
     padding-right: 200px;
     z-index: -1;
     position: relative;
+    top: -54px;
 }
 
 .subtask-input-container {
@@ -717,4 +718,3 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .mobile-required-text {
     display: none;
 }
-

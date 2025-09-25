@@ -109,8 +109,6 @@ function changeLowColor() {
     }
 }
 
-// bei der Priority-Kategorie wird die Farbe der Buttons geswitched, je nachdem auf welchen man klickt.
-
 function openCalendar() {
     let dateInput = document.getElementById('date-input');
     if (!dateInput) return;
@@ -121,8 +119,6 @@ function openCalendar() {
         dateInput.focus();
     }
 }
-
-// Kalendar wird geöffnet 
 
 function addNewTask() {
     let title = document.getElementById('title-input');
@@ -186,8 +182,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Werte von Title, Date und Description werden genommen und sollen ausgelesen werden. 
-
 function inputBorderColorSwitch(e) {
     let assignInput = document.getElementById('assign-input');
     let categoryInput = document.getElementById('category-input');
@@ -204,7 +198,6 @@ function inputBorderColorSwitch(e) {
 
 document.addEventListener("click", inputBorderColorSwitch)
 
-// Assigned to und Category Inputs bekommen einen blauen Rahmen wenn sie angeklickt werden, und im "Focus" stehen.
 
 async function renderAssignDropdown(e) {
     if (!e.target.closest('#assign-input')) return;
@@ -261,10 +254,6 @@ function clearAssignedInput() {
     });
 };
 
-
-// Das Assigned to Input wird gerendert und befüllt mit den User Daten aus der Firebase Datenbank.
-
-
 async function showUserName() {
     let dropList = document.getElementById('dropdownList');
     let users = await getAllUser("/users");
@@ -276,7 +265,7 @@ async function showUserName() {
         let name = document.createElement("span");
         let img = document.createElement("img");
         div.classList.add("Assigned-dropdown-username");
-        div.dataset.userId = users[i].id; // gibt jeden Nutzer eine eigene ID. document.querySelectorAll("[data-user-id]") <- so kann ich alle id´s gleichzeitig finden.
+        div.dataset.userId = users[i].id;
         div.dataset.name = users[i].name.toLowerCase();
         name.textContent = users[i].name;
         img.src = users[i].badge.replace("./", "/");
@@ -322,9 +311,6 @@ function handleAssignedSearch(e) {
 
 document.addEventListener('input', handleAssignedSearch);
 
-
-// Es wird pro Name in der Datenbank eine div mit dem Namen und dem Badge generiert und der Checkbutton eingefügt.
-
 function toggleAssignedinputContent(e) {
     const isInsideAssigned = e.target.closest('.Assigned-dropdown-username');
     const isInsideCheckbox = e.target.closest('.assignedTo-check-button-container');
@@ -356,8 +342,6 @@ function toggleAssignedinputContent(e) {
 
 document.addEventListener("click", toggleAssignedinputContent);
 
-// Wenn auf das div mit dem Username geklickt wird, soll die div markiert werden.
-
 function switchArrowIcon() {
     let arrowIcon = document.getElementById('drop-down-svg-category');
     let currentSrc = arrowIcon.src;
@@ -381,7 +365,7 @@ document.addEventListener('click', closeAssignedInputOutclick);
 
 
 function filterBadges(badge, badgeContainer, userId) {
-    let existing = badgeContainer.querySelector(`[data-user-id="${userId}"]`); // Wenn Id von der div = Id vom Badge, also wenn das Badge existiert, dann lösch mir das Badge aus dem Container
+    let existing = badgeContainer.querySelector(`[data-user-id="${userId}"]`);
     if (existing) {
         existing.remove();
         return;
@@ -391,25 +375,20 @@ function filterBadges(badge, badgeContainer, userId) {
     badgeContainer.appendChild(clone);
 }
 
-// Filtert mir die Badges aus dem Dropdownmenü und zeigt sie mir darunter an.
-
 function switchCategoryPlaceholder(e) {
     let dropDownCategory = document.getElementById('category-input')
-    let technicalSelect = e.target.closest('#technical-task-option');
-    let userStorySelect = e.target.closest('#user-story-option');
     let dropdownListCategory = document.getElementById('dropdownListCategory')
+    let option = e.target.closest('#technical-task-option, #user-story-option');
 
-    if (technicalSelect) {
-        dropDownCategory.placeholder = "Technical Task";
-        dropdownListCategory.classList.remove('open');
-        switchArrowIcon();
-    }
-    if (userStorySelect) {
-        dropDownCategory.placeholder = "User Story";
-        dropdownListCategory.classList.remove('open');
+    if (option) {
+        dropDownCategory.placeholder = option.id === "technical-task-option"
+      ?  "Technical Task"
+      : "User Story";
+      dropdownListCategory.classList.remove('open');
         switchArrowIcon();
     }
 }
+
 
 function renderCategoryDropdown(e) {
     let dropdownListCategory = document.getElementById('dropdownListCategory')
@@ -434,11 +413,6 @@ function clearCategoryInput() {
         dropdownListCategory.classList.remove('open');
     }
 }
-
-// Das Category Input wird gerendert und der Placeholder wird bei Category geändert, je nachdem wo man drauf klickt
-
-
-
 
 let subtaskCounter = 0;
 
@@ -478,7 +452,6 @@ function toggleSubtaskFocus(e) {
 
 document.addEventListener('click', toggleSubtaskFocus);
 
-
 function showSubtaskIcons(e) {
     if (e.target.id === 'subtask-input') {
         if (e.target.value.trim() !== "") {
@@ -510,20 +483,22 @@ function clearSubtaskOutput() {
     if (container) container.innerHTML = "";
 }
 
-document.addEventListener('click', (e) => {
-    let deleteIcon = e.target.closest('.delete-icon');
+function handleSubtaskDelete(e) {
+     let deleteIcon = e.target.closest('.delete-icon');
+
     if (!deleteIcon) return;
-
     let container = deleteIcon.closest('#subtask-content');
-    if (!container) return;
 
+    if (!container) return;
     let li = deleteIcon.closest('li.single-subtask');
-    let inputfield = document.getElementById('subtask-input');
+
     if (li) {
-        inputfield.disabled = false;
+        document.getElementById('subtask-input').disabled = false;
         li.remove();
-    }
-});
+    } 
+}
+
+document.addEventListener('click', handleSubtaskDelete);
 
 document.addEventListener('click', (e) => {
     let editIcon = e.target.closest('.edit-icon');
@@ -577,32 +552,32 @@ function cursorToEnd(el) {
     document.getSelection().collapse(el, 1);
 }
 
-function checkRequired() {
+function checkRequiredTitle() {
     let titleInput = document.getElementById('title-input');
-    let dateInput = document.getElementById('date-input');
-    let message1 = document.getElementById('required-message-title');
-    let message2 = document.getElementById('required-message-date');
+    let requiredMessage = document.getElementById('required-message-title');
     if (!titleInput.checkValidity()) {
         titleInput.classList.add('submit');
-        document.getElementById('required-message-title').innerHTML = "This field ist required"
+        document.getElementById('required-message-title').innerHTML = "This field is required"
     } else {
         titleInput.classList.remove('submit');
-        message1.innerHTML = "";
-    }
-    if (!dateInput.checkValidity()) {
-        dateInput.classList.add('submit');
-        document.getElementById('required-message-date').innerHTML = "This field ist required"
-    } else {
-        dateInput.classList.remove('submit');
-        message2.innerHTML = "";
+        requiredMessage.innerHTML = "";
     }
 }
 
-// "This field ist required" und eine rote Umrandung werden angezeigt, wenn nichts in "Title" oder "Date" eingegeben wurde.
-
-function removeRequired() {
-    let titleInput = document.getElementById('title-input');
+function checkRequiredDate() {
     let dateInput = document.getElementById('date-input');
+    let requiredMessage = document.getElementById('required-message-date');
+    if (!dateInput.checkValidity()) {
+        dateInput.classList.add('submit');
+        document.getElementById('required-message-date').innerHTML = "This field is required"
+    } else {
+        dateInput.classList.remove('submit');
+        requiredMessage.innerHTML = "";
+    }
+}
+
+function removeRequiredTitle() {
+    let titleInput = document.getElementById('title-input');
 
     if (titleInput) {
         titleInput.addEventListener('input', () => {
@@ -610,6 +585,11 @@ function removeRequired() {
             document.getElementById('required-message-title').innerHTML = "";
         });
     }
+}
+
+function removeRequiredDate() {
+    let dateInput = document.getElementById('date-input');
+
     if (dateInput) {
         dateInput.addEventListener('input', () => {
             dateInput.classList.remove('submit');
@@ -617,8 +597,6 @@ function removeRequired() {
         });
     }
 }
-
-// Das "this field is required" Feld und die rote Umrandung werden bei Eingabe wieder gelöscht.
 
 function clearAllInputs() {
     let title = document.getElementById('title-input');
@@ -640,8 +618,6 @@ function clearAll(e) {
 }
 
 document.addEventListener('click', clearAll);
-
-// Alle Werte werden gelöscht wenn der "Clear" Button betätigt wird.
 
 function addedTaskTransition(e) {
     if (e.target.id === 'add-task-button') {

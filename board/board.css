@@ -521,6 +521,7 @@ textarea {
 .input {
   padding: 14px 0 !important;
   text-indent: 12px;
+ 
 }
 
 .left-task {
@@ -543,12 +544,18 @@ textarea {
 }
 
 .right-side-inner {
-  transform: translateY(0%) !important;
+    transform: translateY(10%) !important;
 }
 
 .task-title {
   font-size: 36px !important;
   top: -25px !important;
+}
+
+.left-task::after {
+    border-right: 2px solid #D1D1D1;
+    height: 52%;
+    top: 205px;
 }
 
 #task-overlay-background {
