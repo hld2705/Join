@@ -1,0 +1,252 @@
+@media (max-width: 1400px) {
+
+    .input {
+        padding: 14px 120px 14px 20px;
+    }
+
+    #date-input {
+        padding: 14px 220px 14px 20px;
+    }
+
+    .drop-down-arrow-svg {
+        right: 20px;
+    }
+
+    .drop-down-arrow-svg-category {
+        right: 20px;
+    }
+
+    .double-down {
+        width: 16px;
+        right: 22px;
+    }
+
+    .equals-icon {
+        width: 16px;
+        right: 13px;
+    }
+
+    .double-up-arrow {
+        width: 16px;
+        top: 20px;
+        right: 18px;
+    }
+
+    .priority-input {
+        padding: 14px 32px 14px 11px !important;
+    }
+
+    .date-icon {
+        left: 318px;
+    }
+
+    .task-button-container {
+        left: 100px;
+    }
+
+}
+
+@media (max-width: 1220px) {
+    body {
+        font-size: 16px;
+    }
+
+
+
+    .task-title {
+        padding-top: 90px;
+        font-size: 45px;
+    }
+
+    .task-content-container {
+        flex-direction: column;
+        overflow-y: auto;
+        min-height: 100dvh;
+        height: auto;
+    }
+
+    .left-task::after {
+        display: none;
+    }
+
+    .right-task {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .left-task {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .left-task-container {
+        padding-right: 0px;
+    }
+
+    .required-text {
+        display: none;
+    }
+
+    .task-button-container {
+        left: auto;
+        right: 50px;
+        gap: 4px;
+        top: auto;
+        margin-bottom: 20px;
+    }
+
+    .tbc-wrapper {
+        position: fixed;
+        height: 100px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(0deg, rgba(245, 246, 247, 1) 100%, rgb(223, 224, 225) 100%);
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        z-index: 0;
+        margin-bottom: 100px;
+    }
+
+    .right-side-inner {
+        transform: none !important;
+    }
+
+    .mobile-required-text {
+        display: block;
+        margin-top: 10px;
+        margin-bottom: 250px;
+    }
+
+    .asterisk {
+        font-size: 18px;
+    }
+
+    .left-side {
+        position: fixed;
+        height: 100px;
+        width: 100%;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #2A3647;
+        align-items: center;
+        z-index: 100;
+    }
+
+    .left-side a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 8px;
+        text-decoration: none;
+        color: #CDCDCD;
+        height: 0px !important;
+    }
+
+    nav {
+        display: flex;
+        flex-direction: row;
+        gap: 0px;
+        justify-content: space-around;
+    }
+
+    nav a {
+        padding-left: 10px;
+    }
+
+    footer {
+        display: none;
+    }
+
+    .join-logo {
+        display: none;
+    }
+
+    .header-title {
+        display: none;
+    }
+
+    header {
+        display: flex;
+        align-items: center;
+        height: 96px;
+        padding: 0px 20px 0 20px;
+        background-color: #FFFFFF;
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .responsive-logo {
+        display: block;
+        width: 40px;
+    }
+
+    .input {
+        width: 100%;
+        box-sizing: border-box;
+        min-width: 0;
+        margin-left: 0px;
+        margin-right: 10px;
+        font-size: clamp(14px, 1.2vw, 16px);
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        text-align: left;
+    }
+
+    .priority-input-container {
+        gap: 26px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #date-input {
+        padding: 14px 304px 14px 20px;
+    }
+
+    .date-icon {
+        left: auto;
+        right: 10px;
+        top: 70px;
+    }
+
+    .medium-container:hover {
+        box-shadow: none;
+    }
+
+    .urgent-container:hover {
+        box-shadow: none;
+    }
+
+    .low-container:hover {
+        box-shadow: none;
+    }
+
+    .right-side {
+        min-height: 100dvh;
+    }
+
+    .padding-top20 {
+        padding-top: 30px;
+    }
+
+    .priority-container {
+        padding-top: 30px;
+    }
+
+    .drop-down-arrow-svg {
+        top: 79px;
+        right: 18px;
+    }
+
+    .drop-down-arrow-svg-category {
+        top: 79px;
+        right: 18px;
+    }
+}

@@ -548,7 +548,7 @@ textarea {
 
 .task-title {
   font-size: 36px !important;
-  top: 90px !important;
+  top: -25px !important;
 }
 
 #task-overlay-background {
