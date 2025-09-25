@@ -155,3 +155,9 @@ function addedNewUserTemplate() {
       <h1>Contact successfully created</h1>
     </div>`;
 }
+
+function addThreeDotMenuTemplate(userId){
+   return `<div class="threedotsmenu" onclick="editUser(${userId})">
+    <img src="/assets/Menu Contact options.svg">
+    </div>`
+}

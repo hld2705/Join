@@ -680,5 +680,6 @@ body {
         position: absolute;
         left: 20%;
         bottom: 20%;
+        display: flex;
     }
 }
