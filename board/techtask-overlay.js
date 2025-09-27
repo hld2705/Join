@@ -1,122 +1,131 @@
+
+
 (function () {
   document.addEventListener('DOMContentLoaded', () => {
+    // Öffnet Overlay beim Klick auf Karten
+    document.addEventListener('pointerup', onCardActivate, { capture: true });
+    document.addEventListener('click', onCardActivate, { capture: true });
 
-    document.addEventListener('click', (e) => {
-      const card = e.target.closest('.board-card');
-      if (!card) return;
-
-      const id = Number(String(card.id || '').replace(/^card/, '')) || null;
-
-      const tasks = (window.getTasks?.() || []);
-      const task  = tasks.find(t => Number(t.id) === id);
-
-      const isTechTask =
-        (task && String(task.main) === 'techtask') ||
-        (!task && (card.querySelector('.card-badge')?.textContent || '').trim() === 'Technical Task');
-
-      if (!isTechTask) return;
-
-      openTechTaskOverlay(task || fallbackFromCard(card, id));
-    });
+    // Debug: erstes Tech-Task öffnen
+    window.debugTT = () => {
+      const t = getAllTasks().find(isTechTask);
+      if (t) openTechTaskOverlay(t);
+    };
   });
 
+  function onCardActivate(e) {
+    const card = e.target.closest?.('.board-card');
+    if (!card) return;
+
+    const id = getCardId(card);
+    const tasks = getAllTasks();
+    const task  = tasks.find(t => Number(t?.id) === Number(id)) || fallbackFromCard(card, id);
+
+    if (!isTechTask(task)) return;
+    openTechTaskOverlay(task);
+  }
+
+  /* ================= Overlay host ================= */
   function ensureOverlayHost() {
-    let host = document.getElementById('overlay-techtask');
+    let host = document.getElementById('overlay-add-task');
+    if (host) return host;
+
+    host = document.getElementById('overlay-techtask');
     if (!host) {
       host = document.createElement('div');
       host.id = 'overlay-techtask';
-      host.style.cssText =
-        'position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;z-index:1000;' +
-        'align-items:center;justify-content:center;padding:16px;';
+      host.setAttribute('aria-hidden', 'true');
       document.body.appendChild(host);
     }
     return host;
   }
 
+  /* ================= Open / Close ================= */
   function openTechTaskOverlay(task) {
     const host = ensureOverlayHost();
     host.innerHTML = renderTechTaskOverlay(task);
-    host.style.display = 'flex';
+    host.classList.remove('hidden');
+    host.classList.add('active');
+    host.setAttribute('aria-hidden', 'false');
+    if (!host.style.display) host.style.display = 'flex';
+
     document.body.classList.add('no-scroll');
     attachTechTaskOverlayEvents(host, task);
   }
 
   function closeTechTaskOverlay() {
-    const host = document.getElementById('overlay-techtask');
-    if (!host) return;
+    const host = ensureOverlayHost();
+    host.classList.add('hidden');
+    host.classList.remove('active');
+    host.setAttribute('aria-hidden', 'true');
     host.innerHTML = '';
     host.style.display = 'none';
     document.body.classList.remove('no-scroll');
   }
 
+  /* ================= Render ================= */
   function renderTechTaskOverlay(task) {
-    const due  = formatDate(task.enddate || task.due);
-    const prio = formatPriority(task.priority);
+    const dueText      = fmtDate(task.enddate || task.due);
+    const priorityText = fmtPrioLabel(task.priority);
 
-    const assignees = resolveAssignees(task);
-    const assigneesHtml = assignees.length
-      ? assignees.map(avatarBadge).join('')
-      : '<div class="muted" style="color:#6b7280">No assignees</div>';
+    const assigneesHtml = ttBuildAssigneesListHtml(task);
 
     const subs = Array.isArray(task.subtasks) ? task.subtasks : [];
     const subtasksHtml = subs.length
       ? subs.map((s, i) => `
-          <label class="subtask-item" style="display:flex;gap:8px;align-items:center;margin:.25rem 0;">
+          <label class="subtask-item">
             <input type="checkbox" data-sub-idx="${i}" ${s.status === 'done' ? 'checked' : ''} disabled>
             <span>${esc(s.title || '')}</span>
           </label>
         `).join('')
-      : `<div class="muted" style="color:#6b7280">No subtasks</div>`;
+      : '<div class="muted">No subtasks</div>';
 
     return `
-      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="tt-title"
-           style="background:#fff;border-radius:16px;max-width:420px;width:100%;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.15);position:relative;">
-        <button class="modal-close" type="button" aria-label="Close"
-                style="position:absolute;top:10px;right:12px;font-size:22px;background:transparent;border:0;cursor:pointer;">×</button>
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="tt-title">
+        <button class="modal-close" type="button" aria-label="Close">×</button>
 
-        <div class="modal-header" style="margin-bottom:12px;">
-          <span style="display:inline-block;background:#10B981;color:#fff;border-radius:9999px;
-                       padding:4px 10px;font-size:12px;font-weight:600;">Technical Task</span>
-          <h2 id="tt-title" style="margin:.5rem 0 0;font-size:24px;line-height:1.2">${esc(task.title || 'Untitled')}</h2>
-          ${task.description ? `<p class="muted" style="margin:.5rem 0 0;color:#4b5563">${esc(task.description)}</p>` : ''}
+        <div class="modal-header">
+          <span class="badge badge-purple">Tech Task</span>
+          <h2 id="tt-title">${esc(task.title || 'Untitled')}</h2>
+          ${task.description ? `<p class="muted">${esc(task.description)}</p>` : ''}
         </div>
 
         <div class="modal-body">
-          <div class="meta-row" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0 16px;">
+          <div class="meta-row">
             <div class="meta-item">
-              <div class="meta-label" style="font-size:12px;color:#6b7280;">Due date</div>
-              <div class="meta-value" style="font-weight:600;">${esc(due || '—')}</div>
+              <div class="meta-label">Due date</div>
+              <div class="meta-value">${esc(dueText || '—')}</div>
             </div>
             <div class="meta-item">
-              <div class="meta-label" style="font-size:12px;color:#6b7280;">Priority</div>
-              <div class="meta-value" style="font-weight:600;display:flex;align-items:center;gap:8px;">
-                <span class="prio-dot" style="display:inline-block;width:10px;height:10px;border-radius:9999px;background:${prio.color}"></span>
-                ${esc(prio.label)}
-              </div>
+              <div class="meta-label">Priority</div>
+              <div class="meta-value">${esc(priorityText)}</div>
             </div>
           </div>
 
-          <div class="tt-block" style="margin:14px 0;">
-            <div class="block-title" style="font-size:12px;color:#6b7280;">Assigned To</div>
-            <div class="assignees-row" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">${assigneesHtml}</div>
+          <div class="tt-block">
+            <div class="block-title">Assigned To</div>
+            <div class="assignees-row">
+              ${assigneesHtml}
+            </div>
           </div>
 
-          <div class="tt-block" style="margin:14px 0;">
-            <div class="block-title" style="font-size:12px;color:#6b7280;">Subtasks</div>
-            <div class="subtasks-wrap" style="margin-top:6px;">${subtasksHtml}</div>
+          <div class="tt-block">
+            <div class="block-title">Subtasks</div>
+            <div class="subtasks-wrap">
+              ${subtasksHtml}
+            </div>
           </div>
         </div>
 
-        <div class="modal-footer" style="display:flex;justify-content:flex-end;gap:8px;margin-top:10px;">
-          <button class="btn ghost" type="button" data-action="delete"
-                  style="border:1px solid #e5e7eb;padding:6px 12px;border-radius:8px;background:#fff;cursor:pointer;">Delete</button>
-          <button class="btn primary" type="button" data-action="edit"
-                  style="background:#10B981;color:#fff;padding:6px 12px;border-radius:8px;border:0;cursor:pointer;">Edit</button>
+        <div class="modal-footer">
+          <button class="btn ghost" type="button" data-action="delete">Delete</button>
+          <button class="btn primary" type="button" data-action="edit">Edit</button>
         </div>
       </div>
     `;
   }
 
+  /* ================= Events ================= */
   function attachTechTaskOverlayEvents(root, task) {
     const close = () => closeTechTaskOverlay();
 
@@ -138,6 +147,168 @@
     });
   }
 
+  /* ================= Assignees ================= */
+  function ttGetContactsBook() {
+    if (Array.isArray(window.CONTACTS)) return window.CONTACTS;
+    if (Array.isArray(window.users)) return window.users;
+    if (window.firstdata && Array.isArray(window.firstdata.users)) return window.firstdata.users;
+    if (window.join && Array.isArray(window.join.users)) return window.join.users;
+    if (Array.isArray(window.contacts)) return window.contacts;
+    return [];
+  }
+
+  function ttNormalizeAssignees(task) {
+    const raw =
+      Array.isArray(task?.assigned)   ? task.assigned   :
+      Array.isArray(task?.assignees)  ? task.assignees  :
+      Array.isArray(task?.assignedTo) ? task.assignedTo :
+      Array.isArray(task?.team)       ? task.team       :
+      Array.isArray(task?.users)      ? task.users      : [];
+
+    const book = ttGetContactsBook();
+    const byId    = new Map(book.map(u => [String(u?.id ?? ''), u]));
+    const byEmail = new Map(book.map(u => [String((u?.email ?? '').toLowerCase()), u]));
+    const byName  = new Map(book.map(u => [String((u?.name  ?? '').toLowerCase()), u]));
+
+    const list = raw.map((x) => {
+      if (typeof x === 'number') {
+        const c = byId.get(String(x));
+        const name = c?.name || `User ${x}`;
+        return c ? ttContactToAvatar(c)
+                 : { name, badge:null, initials: ttInitials(name), color: ttPickColor(name) };
+      }
+      if (typeof x === 'string') {
+        const k = x.toLowerCase();
+        const c = byEmail.get(k) || byName.get(k);
+        const name = c?.name || x;
+        return c ? ttContactToAvatar(c)
+                 : { name, badge:null, initials: ttInitials(name), color: ttPickColor(name) };
+      }
+      if (x && typeof x === 'object') {
+        const via =
+          (x.id != null && byId.get(String(x.id))) ||
+          (x.email && byEmail.get(String(x.email).toLowerCase())) ||
+          (x.name  && byName.get(String(x.name).toLowerCase())) || null;
+
+        const name =
+          via?.name ||
+          x.name ||
+          [x.firstName ?? x.firstname, x.lastName ?? x.lastname].filter(Boolean).join(' ') ||
+          x.email || x.username || (x.id != null ? `User ${x.id}` : 'User');
+
+        return {
+          name,
+          badge: x.badge || x.avatar || via?.badge || via?.avatar || null,
+          initials: x.initials || via?.initials || ttInitials(name),
+          color: x.color || via?.color || ttPickColor(name),
+        };
+      }
+      return null;
+    }).filter(Boolean);
+
+    const seen = new Set();
+    return list.filter(a => {
+      const k = String(a?.name || a?.email || a?.id || '');
+      if (seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    });
+  }
+
+  function ttContactToAvatar(c) {
+    return {
+      name: c.name,
+      badge: c.badge || c.avatar || null,
+      initials: c.initials || ttInitials(c.name),
+      color: c.color || ttPickColor(c.name),
+    };
+  }
+
+  function ttInitials(n){
+    return String(n).trim().split(/\s+/).slice(0,2).map(p=>p[0]?.toUpperCase()||'').join('')||'?';
+  }
+  function ttPickColor(key){
+    const s=String(key||''); let h=0; for(let i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))%360;
+    return `hsl(${h} 80% 75%)`;
+  }
+
+  function ttAvatarHtml(u) {
+    const name = u.name || u.email || 'User';
+    const src  = u.badge || u.avatar;
+    if (src) {
+      return `<img class="avatar-img" src="${esc(src)}" alt="${esc(name)}" title="${esc(name)}">`;
+    }
+    const init = ttInitials(name);
+    const bg = u.color || ttPickColor(name);
+    return `<span class="avatar" title="${esc(name)}" style="background:${esc(bg)}">${esc(init)}</span>`;
+  }
+
+  function ttBuildAssigneesListHtml(task) {
+    let list = [];
+
+    if (typeof window.materializeAssignees === 'function') {
+      try {
+        const t = window.materializeAssignees(task) || {};
+        const resolved = Array.isArray(t.assigneesResolved) ? t.assigneesResolved : [];
+        list = resolved.map(u => ({
+          name: u.name || u.email || '',
+          badge: u.badge || u.avatar || null,
+          initials: u.initials || ttInitials(u.name || u.email || ''),
+          color: u.color
+        }));
+      } catch {}
+    }
+
+    if (!list.length) list = ttNormalizeAssignees(task);
+    if (!list.length) list = ttAssigneesFromCard(task);
+    if (!list.length) return '<div class="muted">No assignees</div>';
+
+    return `
+      <ul class="assignee-list">
+        ${list.map(u => `
+          <li class="assignee">
+            ${ttAvatarHtml(u)}
+            <span class="assignee-name">${esc(u.name)}</span>
+          </li>
+        `).join('')}
+      </ul>
+    `;
+  }
+
+  function ttAssigneesFromCard(task) {
+    const card = document.getElementById(`card${task?.id}`);
+    if (!card) return [];
+
+    const out = [];
+    card.querySelectorAll('.card-assignees .avatar-img').forEach(img => {
+      const name = img.getAttribute('alt') || img.getAttribute('title') || '';
+      const src  = img.getAttribute('src') || '';
+      if (src || name) {
+        out.push({ name, badge: src, initials: ttInitials(name), color: null });
+      }
+    });
+
+    card.querySelectorAll('.card-assignees .avatar').forEach(span => {
+      const name = span.getAttribute('title') || '';
+      const initials = (span.textContent || '').trim();
+      const style = span.getAttribute('style') || '';
+      const m = style.match(/background:\s*([^;]+)/i);
+      const color = m ? m[1].trim() : null;
+
+      if (name || initials) {
+        out.push({ name, badge: null, initials: initials || ttInitials(name), color });
+      }
+    });
+
+    const seen = new Set();
+    return out.filter(p => {
+      const k = (p.name || p.badge || p.initials || '').toLowerCase();
+      if (!k || seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    });
+  }
+
   function fallbackFromCard(card, id) {
     return {
       id,
@@ -151,48 +322,27 @@
     };
   }
 
-  function resolveAssignees(task) {
-    const raw = Array.isArray(task.assigned) ? task.assigned : [];
-    const contacts = Array.isArray(window.CONTACTS) ? window.CONTACTS : [];
-
-    const byId    = new Map(contacts.map(u => [String(u.id), u]));
-    const byEmail = new Map(contacts.map(u => [String((u.email||'').toLowerCase()), u]));
-    const byName  = new Map(contacts.map(u => [String((u.name||'').toLowerCase()), u]));
-
-    return raw.map(x => {
-      if (typeof x === 'number') return byId.get(String(x)) || { id:x, name:`User ${x}` };
-      if (typeof x === 'string') return byEmail.get(x.toLowerCase()) || byName.get(x.toLowerCase()) || { name:x };
-      if (x && typeof x === 'object') {
-        return byId.get(String(x.id)) || byEmail.get(String(x.email||'').toLowerCase()) || byName.get(String(x.name||'').toLowerCase()) || x;
-      }
-      return null;
-    }).filter(Boolean);
+  /* ================= Utils ================= */
+  function getAllTasks() {
+    return (window.getTasks?.() || window.tasks || []);
   }
-
-  function avatarBadge(user) {
-    const name = user.name || user.email || 'User';
-    const avatar = user.avatar || user.badge;
-    if (avatar) {
-      return `<img class="avatar-img" src="${esc(avatar)}" alt="${esc(name)}" title="${esc(name)}"
-                  style="width:32px;height:32px;border-radius:9999px;object-fit:cover;">`;
-    }
-    const initials = initialsFromName(name);
-    const color = pickColor(name);
-    return `<span class="avatar" title="${esc(name)}"
-                  style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9999px;background:${color};font-size:12px;font-weight:700;">
-              ${esc(initials)}
-            </span>`;
+  function getCardId(card) {
+    const m = String(card.id || '').match(/card(\d+)/);
+    return m ? Number(m[1]) : null;
+  }
+  function isTechTask(t) {
+    const main = String(t?.main || '').toLowerCase();
+    if (main) return main === 'techtask' || main === 'tech-task' || main === 'tech';
+    const b = document.getElementById(`card${t?.id}`)?.querySelector?.('.card-badge')?.textContent?.trim()?.toLowerCase();
+    return b === 'tech task' || b === 'technical task' || b === 'tech';
   }
 
   function esc(s){return String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');}
-  function initialsFromName(n){return String(n).trim().split(/\s+/).slice(0,2).map(p=>p[0]?.toUpperCase()||'').join('')||'?';}
-  function pickColor(key){const s=String(key||'');let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))%360;return `hsl(${h} 80% 75%)`;}
-  function formatDate(v){ if(!v) return ''; try{const d=new Date(String(v)); if(isNaN(d)) return String(v); return d.toLocaleDateString(undefined,{year:'numeric',month:'2-digit',day:'2-digit'});}catch{return String(v||'');}}
-  function formatPriority(p){
-    const k=String(p||'medium').toLowerCase();
-    if (k==='urgent') return { label:'Urgent', color:'#ef4444' };
-    if (k==='high')   return { label:'High',   color:'#ef4444' };
-    if (k==='medium') return { label:'Medium', color:'#f59e0b' };
-    return { label:'Low',    color:'#10b981' };
-  }
+  function fmtDate(v){ if(!v) return ''; try{const d=new Date(String(v)); if(isNaN(d)) return String(v); return d.toLocaleDateString(undefined,{year:'numeric',month:'2-digit',day:'2-digit'});}catch{return String(v||'');}}
+  function fmtPrioLabel(p){const k=String(p||'medium').toLowerCase(); if(k==='urgent')return'Urgent'; if(k==='high')return'High'; if(k==='low')return'Low'; return 'Medium';}
+
+  /* Optional: öffentlich machen */
+  window.openTechTaskOverlay = openTechTaskOverlay;
+  window.closeTechTaskOverlay = closeTechTaskOverlay;
 })();
+

@@ -2,3 +2,100 @@
     width: 525px !important;
     height: 931px !important;
 }
+
+.modal-header h2{
+    font-size: 61px;
+    font-weight: 700;
+    font-style: bold;
+    margin-top: 20px;
+}
+
+.muted{
+
+    font-size: 20px;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.meta-item{
+   
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+    gap: 25px;
+    height: 24px;
+    width: fill 24px;
+    margin-bottom: 10px;
+}
+
+.meta-row{
+   flex-direction: column;
+}
+.us-block{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.block-title{
+    margin-top: 20px;
+}
+
+
+
+/* Assignee Badges */
+.assignees-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  align-items: center;
+}
+
+.assignee-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .25rem .6rem;
+  border-radius: 9999px;
+  background: var(--surface-2, #f3f4f6);
+  border: 1px solid var(--border, #e5e7eb);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.assignee-name { 
+    font-size: .9rem;
+     margin-left: 16px;
+}
+
+.avatar-img,
+.avatar-fallback {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  user-select: none;
+}
+
+.avatar-fallback {
+  background: var(--surface-3, #e5e7eb);
+}
+
+
+.meta-row { display:flex; }
+.assignee-list { display:flex; flex-direction:column; }
+.subtasks-wrap { display:flex; flex-direction:column; }
+.subtask-item { display:flex; align-items:center; }
+
+ .badge-blue{
+    border-radius: 8px;
+    border-style: solid;
+    border-color: rgba(0, 56, 255, 1);
+    background-color: rgba(0, 56, 255, 1);
+   color: white;
+   font-size: 23px;
+}
