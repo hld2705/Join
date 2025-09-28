@@ -1,0 +1,20 @@
+{
+  "name": "join",
+  "version": "1.0.0",
+  "description": "",
+  "main": "db.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hld2705/Join.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hld2705/Join/issues"
+  },
+  "homepage": "https://github.com/hld2705/Join#readme"
+}

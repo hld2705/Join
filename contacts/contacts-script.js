@@ -21,26 +21,11 @@ function contactsLoad() {
       currentLetter = firstLetter;
       contacts.innerHTML += `
         <h2 class="letter-header">${currentLetter}</h2>
-        <img src="/assets/Vector 10.svg">
+        <img src="./assets/Vector 10.svg">
       `;
     }
 
     contacts.innerHTML += contactsLoadTemplate(users, i)
-  }
-}
-function showAddButton() {
-  let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
-  if (responsiveAddContactId) {
-    responsiveAddContactId.innerHTML = addNewContactTemplate();
-    responsiveAddContactId.style.display = "flex";
-  }
-}
-
-function showThreeDots(userId) {
-  let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
-  if (responsiveAddContactId) {
-    responsiveAddContactId.innerHTML = addThreeDotMenuTemplate(userId); 
-    responsiveAddContactId.style.display = "flex";
   }
 }
 
@@ -48,15 +33,21 @@ function contactsRender(userId) {
   let contactInfo = document.getElementById("contactsinfo");
   let responsiveLeftSide = document.getElementById("responsiveleftsidecontacts");
   let responsiveContactsDetails = document.getElementById("responsivecontactsmoto");
+  let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
+  if (responsiveAddContactId) {
+    responsiveAddContactId.style.display = "none";
+  }
+  let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
+  if (responsiveEditContactId) {
+    responsiveEditContactId.style.display = "block";
+  }
   let userInfo = join.users.find(u => u.id === userId);
   if (!userInfo) return;
   if (activeUserId === userId) {
     contactInfo.innerHTML = "";
     activeUserId = null;
-    showAddButton()
     return;
   }
-  showThreeDots(userId);
 
   if (window.innerWidth <= 780) {
     if (responsiveLeftSide) {
@@ -72,7 +63,12 @@ function contactsRender(userId) {
   contactInfo.innerHTML = "";
   contactInfo.innerHTML = contactsRenderTemplate(userInfo);
 }
+function editUserOptionsResponsive(){
+  let userId = activeUserId;
+  let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
+  responsiveEditContactId.innerHTML = editUserOptionsResponsiveTemplate(userId);
 
+}
 function addNewContact() {
   let popUp = document.getElementById("body");
   popUp.innerHTML += addNewContactTemplate();
@@ -88,6 +84,7 @@ function editUser(userId) {
   if (!user) return;
   let popUpEditUser = document.getElementById("body");
   popUpEditUser.innerHTML += editUserTemplate(user);
+  contactsLoad();
 }
 
 function deleteUser(userId) {
@@ -170,10 +167,18 @@ function reRenderContacts() {
   contactInfo.innerHTML = "";
   activeUserId = null;
   contactsLoad();
-  showAddButton();
+
+  let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
+  if (responsiveAddContactId) {
+    responsiveAddContactId.style.display = "flex";
+  }
+  let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
+  if (responsiveEditContactId) {
+    responsiveEditContactId.style.display = "none";
+  }
 }
 
-
+window.editUserOptionsResponsive = editUserOptionsResponsive
 window.reRenderContacts = reRenderContacts;
 window.createContact = createContact;
 window.updateDetailsPanel = updateDetailsPanel;

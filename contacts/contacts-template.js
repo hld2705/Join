@@ -10,7 +10,7 @@ function contactsLoadTemplate(users, i) {
     `;
 }
 
-function contactsRenderTemplate(userInfo){
+function contactsRenderTemplate(userInfo) {
   return `
       <div class="contactinfo">
         <span class="picture-name-contactinfo">
@@ -19,11 +19,11 @@ function contactsRenderTemplate(userInfo){
               <p class="contactinfo-name" id="detailed_name">${userInfo.name}</p>
               <div class="edit-delete-icons-placement">
                 <div class="contactinfo-icons-text-placement" onclick="editUser(${userInfo.id})">
-                  <img class="contactinfo-icons" src="/assets/icons/edit.svg">
+                  <img class="contactinfo-icons" src="./assets/icons/edit.svg">
                   <p>Edit</p>
                 </div>
                 <div class="contactinfo-icons-text-placement" onclick="deleteUser(${userInfo.id})">
-                  <img class="contactinfo-icons" src="/assets/icons/delete.svg">
+                  <img class="contactinfo-icons" src="./assets/icons/delete.svg">
                   <p>Delete</p>
                 </div>
               </div>
@@ -48,12 +48,12 @@ function addNewContactTemplate() {
               <div class="createnewcontact-table" onclick="event.stopPropagation()">
                 <div class="left-blue-side">
                   <div class="createnewcontact-logo">
-                    <img src="/assets/icons/Capa 1.svg">
+                    <img src="./assets/icons/Capa 1.svg">
                   </div>
                   <div class="createnewcontact-text">
                     <h2>Add contact</h2>
                     <p>Tasks are better with a team!</p>
-                    <img src="/assets/Vector 5_rotated.svg">
+                    <img src="./assets/Vector 5_rotated.svg">
                   </div>
                 </div>
                 <div class="white-right-side">
@@ -62,7 +62,7 @@ function addNewContactTemplate() {
                   </div>
                   <div class="createnewcontact-inputfield-person-placement">
                     <div class="createnewcontact-person-radius">
-                      <img src="/assets/icons/person_white.svg">
+                      <img src="./assets/icons/person_white.svg">
                     </div>
                     <div class="createnewcontact-inputfield">
                       <div class="createnewcontact-inputfield-icon"> 
@@ -98,7 +98,7 @@ function addNewContactTemplate() {
           </div>`;
 }
 
-function editUserTemplate(user){
+function editUserTemplate(user) {
   return `<div class="createnewcontact-overlay" id="closeoverlay" onclick="closeOverlay()">
             <div class="createnewcontact-table" onclick="event.stopPropagation()">
               <div class="left-blue-side">
@@ -156,8 +156,15 @@ function addedNewUserTemplate() {
     </div>`;
 }
 
-function addThreeDotMenuTemplate(userId){
-   return `<div class="threedotsmenu" onclick="editUser(${userId})">
-    <img src="/assets/Menu Contact options.svg">
-    </div>`
+function editUserOptionsResponsiveTemplate(userId) {
+  return `<div class="contactoptions">
+   <div class="iconsresponsiveedit" onclick="editUser(${userId})">
+    <img src="./assets/icons/edit.svg">
+    <p>Edit</p>
+    </div>
+    <div class="iconsresponsivedelete" onclick="deleteUser(${userId})">
+    <img src="./assets/icons/delete.svg">
+    <p>Delete</p>
+    </div>
+    </div>`;
 }
