@@ -281,14 +281,14 @@
           </div>
 
           <div class="us-block">
-            <div class="block-title" style="font-size:13px;color:#6b7280;margin-bottom:8px">Assigned To</div>
+            <div class="block-title"color:#6b7280;margin-bottom:8px">Assigned To</div>
             <div class="assignees-row">
               ${assigneesHtml}
             </div>
           </div>
 
           <div class="us-block">
-            <div class="block-title" style="font-size:13px;color:#6b7280;margin-bottom:8px">Subtasks</div>
+            <div class="block-title" color:#6b7280;margin-bottom:8px">Subtasks</div>
             <div class="subtasks-wrap">
               ${subtasksHtml}
             </div>

@@ -4,7 +4,7 @@
 }
 
 .modal-header h2{
-    font-size: 61px;
+    font-size: 55px !important;
     font-weight: 700;
     font-style: bold;
     margin-top: 20px;
@@ -12,9 +12,9 @@
 
 .muted{
 
-    font-size: 20px;
-    font-weight: 400;
-    font-style: normal;
+    font-size: 20px !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
 }
 
 .meta-item{
@@ -39,10 +39,13 @@
 }
 
 .block-title{
-    margin-top: 20px;
+    margin-top: 10px !important;
+    font-size: 20px;
 }
 
-
+.meta-value{
+  font-size: 20px !important;
+}
 
 /* Assignee Badges */
 .assignees-row {
@@ -65,8 +68,9 @@
 }
 
 .assignee-name { 
-    font-size: .9rem;
+    font-size: 19px;
      margin-left: 16px;
+     font-style: normal !important;
 }
 
 .avatar-img,
@@ -81,6 +85,11 @@
   user-select: none;
 }
 
+.meta-label{
+
+  font-size: 20px !important;
+}
+
 .avatar-fallback {
   background: var(--surface-3, #e5e7eb);
 }
@@ -92,10 +101,10 @@
 .subtask-item { display:flex; align-items:center; }
 
  .badge-blue{
-    border-radius: 8px;
+    border-radius: 8px !important;
     border-style: solid;
     border-color: rgba(0, 56, 255, 1);
     background-color: rgba(0, 56, 255, 1);
    color: white;
-   font-size: 23px;
+   font-size: 23px !important;
 }

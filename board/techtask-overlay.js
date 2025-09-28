@@ -1,21 +1,15 @@
 (function () {
-  /* =============== Basis-Setup =============== */
+  /* ================= Basis ================= */
 
   const INTENT_TTL = 1500; // ms
   const lastIntent = { ts: 0, type: null, id: null, html: '' };
 
-  /* =============== Helpers: Normalisierung & IDs =============== */
-
-  function normLabel(x) {
-    return String(x || '').trim().toLowerCase().replace(/\s|-/g, '');
-  }
+  function normLabel(x) { return String(x || '').trim().toLowerCase().replace(/\s|-/g, ''); }
 
   function getCardId(card) {
     const ds = card?.dataset || {};
     const fromData = ds.taskId ?? ds.taskid ?? ds.id ?? ds.cardId ?? ds.cardid ?? null;
-    if (fromData != null && fromData !== '') {
-      return /^\d+$/.test(String(fromData)) ? Number(fromData) : String(fromData);
-    }
+    if (fromData != null && fromData !== '') return /^\d+$/.test(String(fromData)) ? Number(fromData) : String(fromData);
     const m = String(card?.id || '').match(/card(\d+)/);
     if (m) return Number(m[1]);
     return null;
@@ -35,7 +29,7 @@
     return null;
   }
 
-  /* =============== join aus ES-Modul binden (falls nötig) =============== */
+  /* ================= join (ES-Modul) binden ================= */
 
   let __joinBindTried = false;
   async function bindJoinFromModules() {
@@ -46,33 +40,16 @@
       for (const s of mods) {
         try {
           const mod = await import(s.src);
-          // häufig: export const join = {...}
-          if (mod?.join?.tasks && Array.isArray(mod.join.tasks)) {
-            window.join = mod.join;
-            console.debug('[DUAL] bound window.join from module:', s.src);
-            return true;
-          }
-          // evtl. default-Export mit join
-          if (mod?.default?.join?.tasks && Array.isArray(mod.default.join.tasks)) {
-            window.join = mod.default.join;
-            console.debug('[DUAL] bound window.join from default module:', s.src);
-            return true;
-          }
-          // oder default ist direkt join
-          if (mod?.default?.tasks && Array.isArray(mod.default.tasks) && mod?.default?.users) {
-            window.join = mod.default;
-            console.debug('[DUAL] bound window.join (default object) from module:', s.src);
-            return true;
-          }
-        } catch (e) {
-          // still try others
-        }
+          if (mod?.join?.tasks && Array.isArray(mod.join.tasks)) { window.join = mod.join; return true; }
+          if (mod?.default?.join?.tasks && Array.isArray(mod.default.join.tasks)) { window.join = mod.default.join; return true; }
+          if (mod?.default?.tasks && Array.isArray(mod.default.tasks)) { window.join = mod.default; return true; }
+        } catch {}
       }
     } catch {}
     return !!window.join?.tasks;
   }
 
-  /* =============== Tasks beziehen (robust) =============== */
+  /* ================= Tasks beziehen ================= */
 
   function getAllTasks() {
     const direct = (
@@ -80,35 +57,24 @@
       window.tasks ||
       window.firstdata?.tasks ||
       window.firstData?.tasks ||
-      window.join?.tasks ||            // <— hier kommt's hin nach bindJoinFromModules()
+      window.join?.tasks ||
       window.db?.tasks ||
       window.data?.tasks
     );
     if (Array.isArray(direct) && direct.length) return direct;
-
-    // weitere naheliegende Felder
-    const candidates = [
-      window.firstdata?.items, window.firstData?.items,
-      window.join?.items, window.db?.items,
-    ].filter(Boolean);
-    for (const arr of candidates) {
-      if (Array.isArray(arr) && arr.length) return arr;
-    }
-
+    const cand = [window.firstdata?.items, window.firstData?.items, window.join?.items, window.db?.items].filter(Boolean);
+    for (const a of cand) if (Array.isArray(a) && a.length) return a;
     return [];
   }
 
   function rememberIntent(card, type) {
-    lastIntent.ts = Date.now();
-    lastIntent.type = type;
-    lastIntent.id = getCardId(card);
-    lastIntent.html = card?.outerHTML || '';
+    lastIntent.ts = Date.now(); lastIntent.type = type; lastIntent.id = getCardId(card); lastIntent.html = card?.outerHTML || '';
   }
   function hasRecentIntent(type) {
     return lastIntent.type === type && (Date.now() - lastIntent.ts <= INTENT_TTL);
   }
 
-  /* =============== Fallbacks aus Karte =============== */
+  /* ================= Fallback aus Karte ================= */
 
   function fallbackFromCard(card, id, type) {
     return {
@@ -116,14 +82,14 @@
       main: type,
       title: card?.querySelector('.card-title')?.textContent || 'Untitled',
       description: card?.querySelector('.card-desc')?.textContent || '',
-      enddate: '', // echtes Datum kommt nach Hydration
+      enddate: '',
       priority: 'medium',
       subtasks: [],
       assigned: []
     };
   }
 
-  /* =============== Snapshot + Matching (für Hydration) =============== */
+  /* ================= Snapshot & Matching ================= */
 
   function getCardSnapshot(card, typeHint) {
     return {
@@ -143,7 +109,6 @@
       const byId = tasks.find(t => String(t?.id) === String(snap.id));
       if (byId) return byId;
     }
-
     if (titleNorm) {
       const sameTitle = tasks.filter(t => String(t?.title || '').trim().toLowerCase() === titleNorm);
       if (sameTitle.length === 1) return sameTitle[0];
@@ -154,7 +119,6 @@
       const soft = tasks.find(t => String(t?.title || '').trim().toLowerCase().includes(titleNorm));
       if (soft) return soft;
     }
-
     if (typeNorm) {
       const byType = tasks.find(t => normLabel(t?.main) === typeNorm);
       if (byType) return byType;
@@ -162,7 +126,14 @@
     return null;
   }
 
-  /* =============== Overlay-Hosts/Controls =============== */
+  function buildSnapshotFromLastHTML() {
+    if (!lastIntent.html) return null;
+    const tmp = document.createElement('div'); tmp.innerHTML = lastIntent.html;
+    const card = tmp.querySelector('.board-card');
+    return card ? getCardSnapshot(card, lastIntent.type) : null;
+  }
+
+  /* ================= Overlay-Hosts ================= */
 
   function ensureHost(id) {
     let host = document.getElementById(id);
@@ -170,13 +141,7 @@
       host = document.createElement('div');
       host.id = id;
       host.setAttribute('aria-hidden', 'true');
-      host.style.zIndex = '99999';
-      host.style.position = 'fixed';
-      host.style.inset = '0';
-      host.style.display = 'none';
-      host.style.alignItems = 'center';
-      host.style.justifyContent = 'center';
-      host.style.background = 'rgba(0,0,0,.3)';
+      Object.assign(host.style, { zIndex:'99999', position:'fixed', inset:'0', display:'none', alignItems:'center', justifyContent:'center', background:'rgba(0,0,0,.3)' });
       document.body.appendChild(host);
     }
     return host;
@@ -185,8 +150,7 @@
   function openOverlay(type, html, attach) {
     const host = ensureHost(type === 'userstory' ? 'overlay-userstory' : 'overlay-techtask');
     host.innerHTML = html;
-    host.classList.remove('hidden');
-    host.classList.add('active');
+    host.classList.remove('hidden'); host.classList.add('active');
     host.setAttribute('aria-hidden', 'false');
     host.style.display = 'flex';
     document.body.classList.add('no-scroll');
@@ -197,8 +161,7 @@
     const id = type === 'userstory' ? 'overlay-userstory' : 'overlay-techtask';
     const host = document.getElementById(id);
     if (!host) return;
-    host.classList.add('hidden');
-    host.classList.remove('active');
+    host.classList.add('hidden'); host.classList.remove('active');
     host.setAttribute('aria-hidden', 'true');
     host.innerHTML = '';
     host.style.display = 'none';
@@ -209,94 +172,40 @@
     const tech = document.getElementById('overlay-add-task');
     if (!tech) return;
     try {
-      tech.classList.add('hidden');
-      tech.classList.remove('active');
-      tech.setAttribute('aria-hidden', 'true');
-      tech.style.display = 'none';
-      document.body.classList.remove('no-scroll');
-      tech.innerHTML = '';
+      tech.classList.add('hidden'); tech.classList.remove('active');
+      tech.setAttribute('aria-hidden', 'true'); tech.style.display = 'none';
+      document.body.classList.remove('no-scroll'); tech.innerHTML = '';
       console.debug('[DUAL] App-Overlay (#overlay-add-task) geschlossen');
     } catch {}
   }
 
-  /* =============== Render & Data-Utils =============== */
+  /* ================= Format/Assignees ================= */
 
   function esc(s){return String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');}
 
-  // robustes Datums-Parsing (ISO, unix s/ms, dd.mm.yyyy, dd/mm/yyyy)
   function parseDateValue(v) {
     if (!v) return null;
     if (v instanceof Date) return isNaN(v) ? null : v;
-
-    if (typeof v === 'number') {
-      const n = v < 1e12 ? v * 1000 : v; // Sekunden → ms
-      const d = new Date(n);
-      return isNaN(d) ? null : d;
-    }
-
+    if (typeof v === 'number') { const n = v < 1e12 ? v * 1000 : v; const d = new Date(n); return isNaN(d) ? null : d; }
     const s = String(v).trim();
-
-    let m = s.match(/^(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{2,4})$/);
-    if (m) {
-      let [ , dd, mm, yyyy ] = m;
-      dd = parseInt(dd, 10);
-      mm = parseInt(mm, 10) - 1;
-      yyyy = parseInt(yyyy, 10);
-      if (yyyy < 100) yyyy += (yyyy >= 70 ? 1900 : 2000);
-      const d = new Date(yyyy, mm, dd);
-      return isNaN(d) ? null : d;
-    }
-
-    const d = new Date(s);
-    return isNaN(d) ? null : d;
+    const m = s.match(/^(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{2,4})$/);
+    if (m) { let [,dd,mm,yyyy]=m; dd=+dd; mm=+mm-1; yyyy=+yyyy; if (yyyy<100) yyyy += (yyyy>=70?1900:2000); const d=new Date(yyyy,mm,dd); return isNaN(d)?null:d; }
+    const d = new Date(s); return isNaN(d) ? null : d;
   }
+  function fmtDate(v){ const d=parseDateValue(v); if(!d) return String(v??''); try{ return d.toLocaleDateString(undefined,{year:'numeric',month:'2-digit',day:'2-digit'});}catch{ return d.toDateString(); } }
+  function fmtPrioLabel(p){ const k=String(p||'medium').toLowerCase(); if(k==='urgent')return'Urgent'; if(k==='high')return'High'; if(k==='low')return'Low'; return 'Medium'; }
 
-  function fmtDate(v){
-    const d = parseDateValue(v);
-    if (!d) return String(v ?? '');
-    try {
-      return d.toLocaleDateString(undefined,{year:'numeric',month:'2-digit',day:'2-digit'});
-    } catch {
-      return d.toDateString();
-    }
-  }
-
-  function fmtPrioLabel(p){
-    const k=String(p||'medium').toLowerCase();
-    if(k==='urgent')return'Urgent';
-    if(k==='high')  return'High';
-    if(k==='low')   return'Low';
-    return 'Medium';
-  }
-
-  // Due-Date aus diversen Keys (inkl. enddate/enddatum)
   function getDueRaw(task) {
-    return (
-      task?.enddatum ??
-      task?.enddate ??
-      task?.due ??
-      task?.dueDate ??
-      task?.deadline ??
-      task?.end_date ??
-      null
-    );
+    return task?.enddatum ?? task?.enddate ?? task?.due ?? task?.dueDate ?? task?.deadline ?? task?.end_date ?? null;
   }
 
-  // Assignees / Avatare
   function us2Initials(n){ return String(n).trim().split(/\s+/).slice(0,2).map(p=>p[0]?.toUpperCase()||'').join('')||'?'; }
   function us2PickColor(key){ const s=String(key||''); let h=0; for(let i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))%360; return `hsl(${h} 80% 75%)`; }
   function us2ContactToAvatar(c){ return { name: c.name, badge: c.badge || c.avatar || null, initials: c.initials || us2Initials(c.name), color: c.color || us2PickColor(c.name) }; }
-  function us2AvatarHtml(u){
-    const name = u.name || u.email || 'User';
-    const src = u.badge || u.avatar;
-    if (src) return `<img class="avatar-img" src="${esc(src)}" alt="${esc(name)}" title="${esc(name)}">`;
-    const init = us2Initials(name);
-    const bg = u.color || us2PickColor(name);
-    return `<span class="avatar" title="${esc(name)}" style="background:${bg}">${esc(init)}</span>`;
-  }
+  function us2AvatarHtml(u){ const name=u.name||u.email||'User'; const src=u.badge||u.avatar; if(src) return `<img class="avatar-img" src="${esc(src)}" alt="${esc(name)}" title="${esc(name)}">`; const init=us2Initials(name); const bg=u.color||us2PickColor(name); return `<span class="avatar" title="${esc(name)}" style="background:${bg}">${esc(init)}</span>`; }
 
   function us2GetContactsBook() {
-    if (Array.isArray(window.join?.users)) return window.join.users; // <— deine Datenquelle
+    if (Array.isArray(window.join?.users)) return window.join.users;
     if (Array.isArray(window.CONTACTS)) return window.CONTACTS;
     if (Array.isArray(window.users)) return window.users;
     if (window.firstdata && Array.isArray(window.firstdata.users)) return window.firstdata.users;
@@ -313,20 +222,19 @@
       Array.isArray(task?.assignedTo) ? task.assignedTo :
       Array.isArray(task?.team)       ? task.team       :
       Array.isArray(task?.users)      ? task.users      : [];
+
     const book = us2GetContactsBook();
     const byId    = new Map(book.map(u => [String(u?.id ?? ''), u]));
     const byEmail = new Map(book.map(u => [String((u?.email ?? '').toLowerCase()), u]));
     const byName  = new Map(book.map(u => [String((u?.name  ?? '').toLowerCase()), u]));
+
     const list = raw.map((x) => {
       if (typeof x === 'number') {
-        const c = byId.get(String(x));
-        const name = c?.name || `User ${x}`;
+        const c = byId.get(String(x)); const name = c?.name || `User ${x}`;
         return c ? us2ContactToAvatar(c) : { name, badge:null, initials: us2Initials(name), color: us2PickColor(name) };
       }
       if (typeof x === 'string') {
-        const k = x.toLowerCase();
-        const c = byEmail.get(k) || byName.get(k);
-        const name = c?.name || x;
+        const k = x.toLowerCase(); const c = byEmail.get(k) || byName.get(k); const name = c?.name || x;
         return c ? us2ContactToAvatar(c) : { name, badge:null, initials: us2Initials(name), color: us2PickColor(name) };
       }
       if (x && typeof x === 'object') {
@@ -334,12 +242,9 @@
           (x.id != null && byId.get(String(x.id))) ||
           (x.email && byEmail.get(String(x.email).toLowerCase())) ||
           (x.name  && byName.get(String(x.name).toLowerCase())) || null;
-
-        const name =
-          via?.name || x.name ||
+        const name = via?.name || x.name ||
           [x.firstName ?? x.firstname, x.lastName ?? x.lastname].filter(Boolean).join(' ') ||
           x.email || x.username || (x.id != null ? `User ${x.id}` : 'User');
-
         return {
           name,
           badge: x.badge || x.avatar || via?.badge || via?.avatar || null,
@@ -351,56 +256,34 @@
     }).filter(Boolean);
 
     const seen = new Set();
-    return list.filter(a => {
-      const k = String(a?.name || a?.email || a?.id || '');
-      if (seen.has(k)) return false;
-      seen.add(k);
-      return true;
-    });
+    return list.filter(a => { const k = String(a?.name || a?.email || a?.id || ''); if (seen.has(k)) return false; seen.add(k); return true; });
   }
 
   function us2AssigneesFromCard(task) {
-    const card = document.getElementById(`card${task?.id}`);
-    if (!card) return [];
+    const card = document.getElementById(`card${task?.id}`); if (!card) return [];
     const out = [];
     card.querySelectorAll('.card-assignees .avatar-img').forEach(img => {
-      const name = img.getAttribute('alt') || img.getAttribute('title') || '';
-      const src  = img.getAttribute('src') || '';
+      const name = img.getAttribute('alt') || img.getAttribute('title') || ''; const src  = img.getAttribute('src') || '';
       if (src || name) out.push({ name, badge: src, initials: us2Initials(name), color: null });
     });
     card.querySelectorAll('.card-assignees .avatar').forEach(span => {
-      const name = span.getAttribute('title') || '';
-      const initials = (span.textContent || '').trim();
-      const style = span.getAttribute('style') || '';
-      const m = style.match(/background:\s*([^;]+)/i);
-      const color = m ? m[1].trim() : null;
+      const name = span.getAttribute('title') || ''; const initials = (span.textContent || '').trim();
+      const style = span.getAttribute('style') || ''; const m = style.match(/background:\s*([^;]+)/i); const color = m ? m[1].trim() : null;
       if (name || initials) out.push({ name, badge: null, initials: initials || us2Initials(name), color });
     });
     const seen = new Set();
-    return out.filter(p => {
-      const k = (p.name || p.badge || p.initials || '').toLowerCase();
-      if (!k || seen.has(k)) return false;
-      seen.add(k);
-      return true;
-    });
+    return out.filter(p => { const k = (p.name || p.badge || p.initials || '').toLowerCase(); if (!k || seen.has(k)) return false; seen.add(k); return true; });
   }
 
   function us2BuildAssigneesListHtml(task) {
     let list = [];
-
     if (typeof window.materializeAssignees === 'function') {
       try {
         const t = window.materializeAssignees(task) || {};
         const resolved = Array.isArray(t.assigneesResolved) ? t.assigneesResolved : [];
-        list = resolved.map(u => ({
-          name: u.name || u.email || '',
-          badge: u.badge || u.avatar || null,
-          initials: u.initials || us2Initials(u.name || u.email || ''),
-          color: u.color
-        }));
+        list = resolved.map(u => ({ name: u.name || u.email || '', badge: u.badge || u.avatar || null, initials: u.initials || us2Initials(u.name || u.email || ''), color: u.color }));
       } catch {}
     }
-
     if (!list.length) list = us2NormalizeAssignees(task);
     if (!list.length) list = us2AssigneesFromCard(task);
     if (!list.length) return '<div class="muted">No assignees</div>';
@@ -417,23 +300,19 @@
     `;
   }
 
-  /* =============== Renderer: User Story & Tech Task =============== */
+  /* ================= Renderer ================= */
 
   function renderUserStory(task) {
     const dueText       = fmtDate(getDueRaw(task));
     const priorityText  = fmtPrioLabel(task.priority);
     const assigneesHtml = us2BuildAssigneesListHtml(task);
     const subs = Array.isArray(task.subtasks) ? task.subtasks : [];
-    const subtasksHtml = subs.length
-      ? subs.map((s, i) => `
-          <label class="subtask-item">
-            <input type="checkbox" data-sub-idx="${i}" ${s.status === 'done' ? 'checked' : ''} disabled>
-            <span>${esc(s.title || '')}</span>
-          </label>`).join('')
-      : '<div class="muted">No subtasks</div>';
+    const subtasksHtml = subs.length ? subs.map((s, i) => `
+      <label class="subtask-item"><input type="checkbox" data-sub-idx="${i}" ${s.status === 'done' ? 'checked' : ''} disabled>
+      <span>${esc(s.title || '')}</span></label>`).join('') : '<div class="muted">No subtasks</div>';
 
     return `
-      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="us-title" style="max-width:720px;width:clamp(320px,90vw,720px);background:#fff;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.2);padding:24px;max-height:90vh;overflow:auto;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial;position:relative">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="us-title" style="max-width:720px;width:clamp(320px,90vw,720px);background:#fff;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.2);max-height:90vh;overflow:auto;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial;position:relative">
         <button class="modal-close" type="button" aria-label="Close" style="position:absolute;right:16px;top:12px;border:none;background:transparent;font-size:24px;line-height:1;cursor:pointer">×</button>
 
         <div class="modal-header" style="margin-bottom:16px">
@@ -449,24 +328,24 @@
               <div class="meta-value" style="font-weight:600">${esc(dueText || '—')}</div>
             </div>
             <div class="meta-item" style="flex:1">
-              <div class="meta-label" style="font-size:12px;color:#6b7280">Priority</div>
+              <div class="meta-label" style="color:#6b7280">Priority</div>
               <div class="meta-value" style="font-weight:600">${esc(priorityText)}</div>
             </div>
           </div>
 
           <div class="us-block">
-            <div class="block-title" style="font-size:13px;color:#6b7280;margin-bottom:8px">Assigned To</div>
+            <div class="block-title" style="color:#6b7280;margin-bottom:8px">Assigned To</div>
             <div class="assignees-row">${assigneesHtml}</div>
           </div>
 
           <div class="us-block">
-            <div class="block-title" style="font-size:13px;color:#6b7280;margin-bottom:8px">Subtasks</div>
+            <div class="block-title" style="color:#6b7280;margin-bottom:8px">Subtasks</div>
             <div class="subtasks-wrap">${subtasksHtml}</div>
           </div>
         </div>
 
-        <div class="modal-footer" style="margin-top:16px;display:flex;gap:8px;justify-content:flex-end">
-          <button class="btn ghost" type="button" data-action="delete" style="border:1px solid #e5e7eb;background:#fff;border-radius:8px;padding:8px 12px;cursor:pointer">Delete</button>
+        <div class="modal-footer" style="display:flex;justify-content:flex-end">
+          <button class="btn ghost" type="button" data-action="delete" style="border:1px solid #e5e7eb;background:#fff;border-radius:8px;cursor:pointer">Delete</button>
           <button class="btn primary" type="button" data-action="edit" style="background:#111827;color:#fff;border-radius:8px;padding:8px 12px;border:none;cursor:pointer">Edit</button>
         </div>
       </div>`;
@@ -477,14 +356,11 @@
     const priorityText  = fmtPrioLabel(task.priority);
     const assigneesHtml = us2BuildAssigneesListHtml(task);
     const subs = Array.isArray(task.subtasks) ? task.subtasks : [];
-    const subtasksHtml = subs.length
-      ? subs.map((s, i) => `
-          <label class="subtask-item" style="display:flex;gap:8px;align-items:center;margin:4px 0">
-            <input type="checkbox" data-sub-idx="${i}" ${s.status === 'done' ? 'checked' : ''} disabled>
-            <span>${esc(s.title || '')}</span>
-          </label>
-        `).join('')
-      : '<div class="muted" style="color:#6b7280">No subtasks</div>';
+    const subtasksHtml = subs.length ? subs.map((s, i) => `
+      <label class="subtask-item" style="display:flex;gap:8px;align-items:center;margin:4px 0">
+        <input type="checkbox" data-sub-idx="${i}" ${s.status === 'done' ? 'checked' : ''} disabled>
+        <span>${esc(s.title || '')}</span>
+      </label>`).join('') : '<div class="muted" style="color:#6b7280">No subtasks</div>';
 
     return `
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="tt-title"
@@ -512,12 +388,12 @@
           </div>
 
           <div class="tt-block">
-            <div class="block-title" style="font-size:13px;color:#6b7280;margin-bottom:8px">Assigned To</div>
+            <div class="block-title" style="color:#6b7280;margin-bottom:8px">Assigned To</div>
             <div class="assignees-row">${assigneesHtml}</div>
           </div>
 
           <div class="tt-block">
-            <div class="block-title" style="font-size:13px;color:#6b7280;margin-bottom:8px">Subtasks</div>
+            <div class="block-title" style="color:#6b7280;margin-bottom:8px">Subtasks</div>
             <div class="subtasks-wrap">${subtasksHtml}</div>
           </div>
         </div>
@@ -531,19 +407,78 @@
       </div>`;
   }
 
-  /* =============== Events an Overlays =============== */
+  /* ================= Editor öffnen & vorbefüllen ================= */
+
+  function toInputDateStr(v) {
+    const d = parseDateValue(v); if (!d) return '';
+    const yyyy=d.getFullYear(), mm=String(d.getMonth()+1).padStart(2,'0'), dd=String(d.getDate()).padStart(2,'0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
+  function qAny(root, sels) { for (const s of sels) { const el = root.querySelector(s); if (el) return el; } return null; }
+  function waitForEl(sel, max = 4000) {
+    return new Promise(res => {
+      const first = document.querySelector(sel); if (first) return res(first);
+      const obs = new MutationObserver(() => { const e = document.querySelector(sel); if (e){obs.disconnect();res(e);} });
+      obs.observe(document.documentElement, { childList:true, subtree:true });
+      setTimeout(()=>{obs.disconnect();res(null);}, max);
+    });
+  }
+
+  async function prefillEditorForm(task) {
+    const root = await waitForEl('#overlay-add-task', 5000);
+    if (!root) return;
+    root.dataset.mode   = 'edit';
+    root.dataset.taskId = task?.id ?? '';
+
+    const title = qAny(root, ['input[name=title]', '#title', 'input[placeholder*="title" i]']);
+    if (title) { title.value = task?.title || ''; title.dispatchEvent(new Event('input',{bubbles:true})); title.dispatchEvent(new Event('change',{bubbles:true})); }
+
+    const desc = qAny(root, ['textarea[name=description]', '#description', 'textarea']);
+    if (desc) { desc.value = task?.description || ''; desc.dispatchEvent(new Event('input',{bubbles:true})); desc.dispatchEvent(new Event('change',{bubbles:true})); }
+
+    const dateInp = qAny(root, ['input[type=date]', 'input[name=enddate]', 'input[name=due]', 'input[name=dueDate]']);
+    const dueRaw  = getDueRaw(task);
+    if (dateInp && dueRaw != null) { dateInp.value = toInputDateStr(dueRaw); dateInp.dispatchEvent(new Event('input',{bubbles:true})); dateInp.dispatchEvent(new Event('change',{bubbles:true})); }
+
+    const pr = String(task?.priority || 'medium').toLowerCase();
+    const prBtn = qAny(root, [`[data-priority="${pr}"]`, `.priority [data-value="${pr}"]`, `.priority button.${pr}`]);
+    if (prBtn && typeof prBtn.click === 'function') prBtn.click();
+
+    if (typeof window.applyAssignees === 'function') {
+      try { window.applyAssignees(task); } catch {}
+    } else {
+      root.dispatchEvent(new CustomEvent('edit:prefill-assignees', { detail: { task }, bubbles: true }));
+    }
+
+    const ok = qAny(root, ['button[type=submit]', '.btn.primary', '.ok-btn']);
+    if (ok && /ok/i.test(ok.textContent || '')) ok.textContent = 'Save';
+  }
+
+  async function openEditorForTask(task) {
+    if (typeof window.openTaskEditor === 'function') { try { window.openTaskEditor(task); return await prefillEditorForm(task); } catch {} }
+    if (typeof window.addTaskToBoard === 'function') { try { window.addTaskToBoard(); } catch {} }
+    else {
+      const host = document.getElementById('overlay-add-task');
+      if (host) { host.classList.add('active'); host.classList.remove('hidden'); host.setAttribute('aria-hidden','false'); host.style.display='flex'; document.body.classList.add('no-scroll'); }
+    }
+    await prefillEditorForm(task);
+  }
+
+  /* ================= Overlay-Events ================= */
 
   function attachUserStoryEvents(root, task) {
     const close = () => closeOverlay('userstory');
     root.querySelector('.modal-close')?.addEventListener('click', close);
     root.addEventListener('click', (e) => { if (e.target === root) close(); });
-    root.querySelector('[data-action="edit"]')?.addEventListener('click', () => {
-      document.dispatchEvent(new CustomEvent('userstory:edit', { detail: { task } }));
-      close();
+
+    root.querySelector('[data-action="edit"]')?.addEventListener('click', async () => {
+      close(); await openEditorForTask(task);
     });
+
     root.querySelector('[data-action="delete"]')?.addEventListener('click', () => {
       document.dispatchEvent(new CustomEvent('userstory:delete', { detail: { task } }));
       close();
+      if (typeof window.deleteTaskById === 'function') { try { window.deleteTaskById(task.id); } catch {} }
     });
   }
 
@@ -551,10 +486,11 @@
     const close = () => closeOverlay('techtask');
     root.querySelector('.modal-close')?.addEventListener('click', close);
     root.addEventListener('click', (e) => { if (e.target === root) close(); });
-    root.querySelector('[data-action="edit"]')?.addEventListener('click', () => {
-      document.dispatchEvent(new CustomEvent('techtask:edit', { detail: { task } }));
-      close();
+
+    root.querySelector('[data-action="edit"]')?.addEventListener('click', async () => {
+      close(); await openEditorForTask(task);
     });
+
     root.querySelector('[data-action="delete"]')?.addEventListener('click', () => {
       document.dispatchEvent(new CustomEvent('techtask:delete', { detail: { task } }));
       close();
@@ -562,14 +498,11 @@
   }
 
   function openForType(type, task) {
-    if (type === 'userstory') {
-      openOverlay('userstory', renderUserStory(task), (host) => attachUserStoryEvents(host, task));
-    } else if (type === 'techtask') {
-      openOverlay('techtask', renderTechTask(task), (host) => attachTechTaskEvents(host, task));
-    }
+    if (type === 'userstory') openOverlay('userstory', renderUserStory(task), (host) => attachUserStoryEvents(host, task));
+    else if (type === 'techtask') openOverlay('techtask', renderTechTask(task), (host) => attachTechTaskEvents(host, task));
   }
 
-  /* =============== Observer, Retry & Hydration =============== */
+  /* ================= Observer, Retry & Hydration ================= */
 
   let lastOpenAt = 0;
   let observerStarted = false;
@@ -588,24 +521,14 @@
       if (app && (app.style.display !== 'none' || app.classList.contains('active'))) {
         if (hasRecentIntent('userstory') || hasRecentIntent('techtask')) {
           closeAppOverlayIfOpen();
-
-          // versuche, join zu binden
           await bindJoinFromModules();
 
           const tasks = getAllTasks();
-          const t = (lastIntent.id != null
-            ? tasks.find(x => String(x?.id) === String(lastIntent.id))
-            : null) || buildTaskFromLastHTML();
+          const t = (lastIntent.id != null ? tasks.find(x => String(x?.id) === String(lastIntent.id)) : null) ||
+                    (lastIntent.html ? fallbackFromCard((() => { const d=document.createElement('div'); d.innerHTML=lastIntent.html; return d.querySelector('.board-card'); })(), lastIntent.id, lastIntent.type) : null);
           if (t) openForType(lastIntent.type, t);
 
-          // Immer Hydration versuchen (per Snapshot), falls Fallback
-          const snap = (function(){
-            if (!lastIntent.html) return null;
-            const tmp = document.createElement('div');
-            tmp.innerHTML = lastIntent.html;
-            const card = tmp.querySelector('.board-card');
-            return card ? getCardSnapshot(card, lastIntent.type) : null;
-          })();
+          const snap = buildSnapshotFromLastHTML();
           if (snap) hydrateOverlayWhenReady(lastIntent.type, snap);
         }
       }
@@ -617,9 +540,7 @@
     const start = Date.now();
     return new Promise(resolve => {
       (async function tick() {
-        // versuche bei jedem Durchlauf, join zu binden
         await bindJoinFromModules();
-
         const tasks = getAllTasks();
         const found = Array.isArray(tasks) && tasks.length ? findTaskBySnapshot(tasks, snap) : null;
         if (found || Date.now() - start >= maxMs) return resolve(found || null);
@@ -635,24 +556,17 @@
     const host = document.getElementById(hostId);
     if (!host || host.getAttribute('aria-hidden') === 'true') return;
 
-    if (type === 'userstory') {
-      host.innerHTML = renderUserStory(real);
-      attachUserStoryEvents(host, real);
-    } else {
-      host.innerHTML = renderTechTask(real);
-      attachTechTaskEvents(host, real);
-    }
+    if (type === 'userstory') { host.innerHTML = renderUserStory(real); attachUserStoryEvents(host, real); }
+    else { host.innerHTML = renderTechTask(real); attachTechTaskEvents(host, real); }
+
     console.debug('[DUAL] overlay hydrated with real task via snapshot:', snap);
   }
 
   function tryOpenFromCard(card, type, from) {
     const now = Date.now();
-    if (now - lastOpenAt < 200) {
-      console.debug('[DUAL] debounce: skip open (', type, 'from', from, ')');
-      return;
-    }
+    if (now - lastOpenAt < 200) { console.debug('[DUAL] debounce: skip open (', type, 'from', from, ')'); return; }
 
-    const id    = getCardId(card);
+    const id = getCardId(card);
     const tasks = getAllTasks();
     const taskById = (id != null ? tasks.find(x => String(x?.id) === String(id)) : null);
 
@@ -660,6 +574,7 @@
       const c = (openRetries.get(card) || 0) + 1;
       if (c <= MAX_RETRIES) {
         openRetries.set(card, c);
+        console.debug('[DUAL] tasks not ready yet → retry', c, 'in', RETRY_DELAY_MS, 'ms');
         setTimeout(() => tryOpenFromCard(card, type, from + ' (retry ' + c + ')'), RETRY_DELAY_MS);
         return;
       }
@@ -667,50 +582,32 @@
     }
 
     lastOpenAt = now;
-
     const task = taskById || fallbackFromCard(card, id, type);
     openForType(type, task);
 
-    // Falls Fallback → binde join (falls noch nicht) und hydratisiere
     if (!taskById) {
       const snap = getCardSnapshot(card, type);
-      // Fire and forget
       bindJoinFromModules().then(() => hydrateOverlayWhenReady(type, snap));
     }
+    console.debug('[DUAL] open overlay (', type, ', from', from, ') id=', id, 'hasRealTask=', !!taskById);
   }
 
-  /* =============== Event-Handler Wiring =============== */
+  /* ================= Events ================= */
 
   function onCardPreActivate(e) {
-    const card = e.target.closest?.('.board-card');
-    if (!card) return;
-    const type = detectCardType(card);
-    if (!type) return;
-
+    const card = e.target.closest?.('.board-card'); if (!card) return;
+    const type = detectCardType(card); if (!type) return;
     rememberIntent(card, type);
-
-    try { e.stopImmediatePropagation(); } catch {}
-    try { e.stopPropagation(); } catch {}
-    e.cancelBubble = true;
-    try { e.preventDefault(); } catch {}
-
+    try { e.stopImmediatePropagation(); } catch {} try { e.stopPropagation(); } catch {} e.cancelBubble = true; try { e.preventDefault(); } catch {}
     closeAppOverlayIfOpen();
     queueMicrotask(() => tryOpenFromCard(card, type, 'pointerdown'));
   }
 
   function onCardActivate(e) {
-    const card = e.target.closest?.('.board-card');
-    if (!card) return;
-    const type = detectCardType(card);
-    if (!type) return;
-
+    const card = e.target.closest?.('.board-card'); if (!card) return;
+    const type = detectCardType(card); if (!type) return;
     rememberIntent(card, type);
-
-    try { e.stopImmediatePropagation(); } catch {}
-    try { e.stopPropagation(); } catch {}
-    e.cancelBubble = true;
-    try { e.preventDefault(); } catch {}
-
+    try { e.stopImmediatePropagation(); } catch {} try { e.stopPropagation(); } catch {} e.cancelBubble = true; try { e.preventDefault(); } catch {}
     closeAppOverlayIfOpen();
     tryOpenFromCard(card, type, 'click');
   }
