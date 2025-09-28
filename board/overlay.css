@@ -108,3 +108,193 @@
    color: white;
    font-size: 23px !important;
 }
+
+
+
+/*edit*/
+
+/* === Add Task: Edit-Modus (wirkt nur bei data-mode="edit") === */
+#overlay-add-task[data-mode="edit"] { font-size: 16px; }
+
+/* ehemals (max-width: 1400px) */
+#overlay-add-task[data-mode="edit"] .input {
+  padding: 14px 120px 14px 20px;
+}
+#overlay-add-task[data-mode="edit"] #date-input {
+  padding: 14px 220px 14px 20px;
+}
+#overlay-add-task[data-mode="edit"] .drop-down-arrow-svg,
+#overlay-add-task[data-mode="edit"] .drop-down-arrow-svg-category {
+  right: 20px;
+}
+#overlay-add-task[data-mode="edit"] .double-down { width: 16px; right: 22px; }
+#overlay-add-task[data-mode="edit"] .equals-icon { width: 16px; right: 13px; }
+#overlay-add-task[data-mode="edit"] .double-up-arrow { width: 16px; top: 20px; right: 18px; }
+#overlay-add-task[data-mode="edit"] .priority-input { padding: 14px 32px 14px 11px !important; }
+#overlay-add-task[data-mode="edit"] .date-icon { left: 318px; }
+#overlay-add-task[data-mode="edit"] .task-button-container { left: 100px; }
+
+/* ehemals (max-width: 1220px) – jetzt „normaler“ Style, aber nur im Edit-Modus */
+#overlay-add-task[data-mode="edit"] .task-title {
+  padding-top: 90px;
+  font-size: 45px;
+}
+
+#overlay-add-task[data-mode="edit"] .task-content-container {
+  flex-direction: column;
+  overflow-y: auto;
+  min-height: 100dvh;
+  height: auto;
+}
+
+#overlay-add-task[data-mode="edit"] .left-task::after { display: none; }
+
+#overlay-add-task[data-mode="edit"] .right-task,
+#overlay-add-task[data-mode="edit"] .left-task {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+#overlay-add-task[data-mode="edit"] .left-task-container { padding-right: 0px; }
+#overlay-add-task[data-mode="edit"] .required-text { display: none; }
+
+#overlay-add-task[data-mode="edit"] .task-button-container {
+  left: auto;
+  right: 50px;
+  gap: 4px;
+  top: auto;
+  margin-bottom: 20px;
+}
+
+#overlay-add-task[data-mode="edit"] .tbc-wrapper {
+  position: fixed;
+  height: 100px;
+  left: 0; right: 0; bottom: 0;
+  background: linear-gradient(0deg, rgba(245, 246, 247, 1) 100%, rgb(223, 224, 225) 100%);
+  display: flex; align-items: center;
+  padding: 0 16px;
+  z-index: 0;
+  margin-bottom: 100px;
+}
+
+#overlay-add-task[data-mode="edit"] .right-side-inner { transform: none !important; }
+
+#overlay-add-task[data-mode="edit"] .mobile-required-text {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 250px;
+}
+
+#overlay-add-task[data-mode="edit"] .asterisk { font-size: 18px; }
+
+#overlay-add-task[data-mode="edit"] .left-side {
+  position: fixed;
+  height: 100px;
+  width: 100%;
+  left: 0; right: 0; bottom: 0;
+  background-color: #2A3647;
+  align-items: center;
+  z-index: 100;
+}
+
+/* Navigations-Elemente nur, falls sie im Overlay vorkommen */
+#overlay-add-task[data-mode="edit"] .left-side a {
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 8px;
+  text-decoration: none; color: #CDCDCD;
+  height: 0px !important;
+}
+
+#overlay-add-task[data-mode="edit"] nav {
+  display: flex; flex-direction: row; gap: 0;
+  justify-content: space-around;
+}
+#overlay-add-task[data-mode="edit"] nav a { padding-left: 10px; }
+
+#overlay-add-task[data-mode="edit"] footer { display: none; }
+#overlay-add-task[data-mode="edit"] .join-logo { display: none; }
+#overlay-add-task[data-mode="edit"] .header-title { display: none; }
+
+#overlay-add-task[data-mode="edit"] header {
+  display: flex; align-items: center;
+  height: 96px; padding: 0 20px;
+  background-color: #FFFFFF;
+}
+#overlay-add-task[data-mode="edit"] .user-info { display: flex; align-items: center; gap: 16px; }
+#overlay-add-task[data-mode="edit"] .responsive-logo { display: block; width: 40px; }
+
+#overlay-add-task[data-mode="edit"] .input {
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+  margin-left: 0;
+  margin-right: 10px;
+  font-size: clamp(14px, 1.2vw, 16px);
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  text-align: left;
+}
+
+#overlay-add-task[data-mode="edit"] .priority-input-container {
+  gap: 26px;
+  justify-content: center;
+  align-items: center;
+}
+
+#overlay-add-task[data-mode="edit"] #date-input {
+  padding: 14px 304px 14px 20px;
+}
+
+#overlay-add-task[data-mode="edit"] .date-icon {
+  left: auto;
+  right: 10px;
+  top: 70px;
+}
+
+#overlay-add-task[data-mode="edit"] .medium-container:hover,
+#overlay-add-task[data-mode="edit"] .urgent-container:hover,
+#overlay-add-task[data-mode="edit"] .low-container:hover {
+  box-shadow: none;
+}
+
+#overlay-add-task[data-mode="edit"] .right-side { min-height: 100dvh; }
+#overlay-add-task[data-mode="edit"] .padding-top20 { padding-top: 30px; }
+#overlay-add-task[data-mode="edit"] .priority-container { padding-top: 30px; }
+
+#overlay-add-task[data-mode="edit"] .drop-down-arrow-svg,
+#overlay-add-task[data-mode="edit"] .drop-down-arrow-svg-category {
+  top: 79px;
+  right: 18px;
+}
+
+/* === Force visible: Add-Task im Edit-Modus immer anzeigen === */
+#overlay-add-task[data-mode="edit"] {
+  position: fixed;
+  inset: 0;
+  display: flex !important;          /* überstimmt .hidden o.ä. */
+  align-items: center;
+  justify-content: center;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  z-index: 99999;
+}
+
+/* Falls irgendwo .hidden/.d-none mit !important hängt: entkräften */
+#overlay-add-task[data-mode="edit"].hidden { 
+  display: flex !important; 
+}
+
+/* Sicherstellen, dass der Inhalt nicht „raus-animiert“ ist */
+#overlay-add-task[data-mode="edit"] .right-side-inner,
+#overlay-add-task[data-mode="edit"] .task-content-container {
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+/* Optional: der semitransparente Hintergrund, falls nötig */
+#overlay-add-task[data-mode="edit"] .overlay-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.3);
+}
