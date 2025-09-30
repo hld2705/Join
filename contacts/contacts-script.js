@@ -34,15 +34,24 @@ function contactsRender(userId) {
   let responsiveLeftSide = document.getElementById("responsiveleftsidecontacts");
   let responsiveContactsDetails = document.getElementById("responsivecontactsmoto");
   let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
-  if (responsiveAddContactId) {
+
+  /*if (responsiveAddContactId && window.innerWidth <= 780) {
     responsiveAddContactId.style.display = "none";
+  } else {
+    responsiveAddContactId.style.display = "flex";
   }
+  responsiveAddContactId.innerHTML = "";
+  
   let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
-  if (responsiveEditContactId) {
+  if (responsiveEditContactId){
     responsiveEditContactId.style.display = "block";
-  }
+  }else if(responsiveEditContactId && window.innerWidth <= 780){
+    responsiveEditContactId.style.display = "none";
+  }*/
+
   let userInfo = join.users.find(u => u.id === userId);
   if (!userInfo) return;
+
   if (activeUserId === userId) {
     contactInfo.innerHTML = "";
     activeUserId = null;
@@ -56,16 +65,38 @@ function contactsRender(userId) {
     if (responsiveContactsDetails) {
       responsiveContactsDetails.style.display = "block";
     }
-    contactInfo.innerHTML = contactsRenderTemplate(userInfo);
   }
   
   activeUserId = userId;
   contactInfo.innerHTML = "";
   contactInfo.innerHTML = contactsRenderTemplate(userInfo);
+  updateResponsiveButtons();
 }
+
+function updateResponsiveButtons() {
+  let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
+  let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
+
+  if (window.innerWidth <= 780) {
+    if (activeUserId) {
+      if (responsiveAddContactId) responsiveAddContactId.style.display = "none";
+      if (responsiveEditContactId) responsiveEditContactId.style.display = "block";      
+    } else {
+      if (responsiveAddContactId) responsiveAddContactId.style.display = "flex";
+      if (responsiveEditContactId) responsiveEditContactId.style.display = "none";
+    }
+  } else {
+    if (responsiveAddContactId) responsiveAddContactId.style.display = "none";
+    if (responsiveEditContactId) responsiveEditContactId.style.display = "none";
+  }
+}
+
 function editUserOptionsResponsive(){
   let userId = activeUserId;
   let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
+  if (window.innerWidth >= 780) {
+    responsiveEditContactId.style.display = "none";
+  }else{responsiveEditContactId.style.display = "block";}
   responsiveEditContactId.innerHTML = editUserOptionsResponsiveTemplate(userId);
 
 }
@@ -178,6 +209,8 @@ function reRenderContacts() {
   }
 }
 
+window.addEventListener("resize", updateResponsiveButtons);
+window.updateResponsiveButtons = updateResponsiveButtons;
 window.editUserOptionsResponsive = editUserOptionsResponsive
 window.reRenderContacts = reRenderContacts;
 window.createContact = createContact;
