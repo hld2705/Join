@@ -1,13 +1,11 @@
-/* dual-overlays-and-edit.js */
 (function () {
-  if (window.__DUAL_OVERLAY_LOADED__) {
+  if (window.__DUAL_OVERLAY_SIMPLE_EDIT_LOADED__) {
     console.log('[DUAL] already loaded');
     return;
   }
-  window.__DUAL_OVERLAY_LOADED__ = true;
-  console.log('[DUAL] overlays + edit adapter loaded');
+  window.__DUAL_OVERLAY_SIMPLE_EDIT_LOADED__ = true;
+  console.log('[DUAL] overlays (simple, with edit) loaded');
 
-  /* ===================== Helpers ===================== */
   const norm = (x) => String(x || '').trim().toLowerCase().replace(/\s|-/g, '');
   function esc(s){
     return String(s ?? '')
@@ -36,21 +34,9 @@
     return 'Medium';
   }
   function getDueRaw(task){
-    // akzeptiert diverse Felder
     return task?.enddatum ?? task?.enddate ?? task?.due ?? task?.dueDate ?? task?.deadline ?? task?.end_date ?? null;
   }
-  function toISODate(d){ const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), dd=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${dd}`; }
-  function qAny(root, sels) { for (const s of sels) { const el = root.querySelector(s); if (el) return el; } return null; }
-  function waitForEl(sel, max = 5000) {
-    return new Promise(res => {
-      const first = document.querySelector(sel); if (first) return res(first);
-      const obs = new MutationObserver(() => { const e = document.querySelector(sel); if (e){obs.disconnect();res(e);} });
-      obs.observe(document.documentElement, { childList:true, subtree:true });
-      setTimeout(()=>{obs.disconnect();res(null);}, max);
-    });
-  }
 
-  /* ===================== join (ES-Modul) binden + Tasks ===================== */
   let __bindTried = false;
   async function bindJoinFromModules() {
     if (__bindTried || window.join?.tasks) return !!window.join?.tasks;
@@ -82,7 +68,6 @@
     return Array.isArray(direct) ? direct : [];
   }
 
-  /* ===================== Card utils & detection ===================== */
   function getCardId(card){
     const ds = card?.dataset || {};
     const fromData = ds.taskId ?? ds.taskid ?? ds.id ?? ds.cardId ?? ds.cardid ?? null;
@@ -122,44 +107,7 @@
       badge: (card?.querySelector('.card-badge')?.textContent || '').trim()
     };
   }
-  function findTaskBySnapshot(tasks, snap) {
-    const type = snap?.type || null;
-    const titleNorm = String(snap?.title || '').trim().toLowerCase();
 
-    if (snap?.id != null) {
-      const byId = tasks.find(t => String(t?.id) === String(snap.id));
-      if (byId) return byId;
-    }
-    if (titleNorm) {
-      const same = tasks.filter(t => String(t?.title || '').trim().toLowerCase() === titleNorm);
-      if (same.length === 1) return same[0];
-      if (same.length > 1 && type) {
-        const filtered = same.filter(t => norm(t?.main) === type);
-        if (filtered.length === 1) return filtered[0];
-      }
-      const soft = tasks.find(t => String(t?.title || '').trim().toLowerCase().includes(titleNorm));
-      if (soft) return soft;
-    }
-    if (type) {
-      const byType = tasks.find(t => norm(t?.main) === type);
-      if (byType) return byType;
-    }
-    return null;
-  }
-  function waitForTaskBySnapshot(snap, maxMs = 60000, step = 150) {
-    const start = Date.now();
-    return new Promise(resolve => {
-      (async function tick() {
-        await bindJoinFromModules();
-        const tasks = getAllTasks();
-        const found = Array.isArray(tasks) && tasks.length ? findTaskBySnapshot(tasks, snap) : null;
-        if (found || Date.now() - start >= maxMs) return resolve(found || null);
-        setTimeout(tick, step);
-      })();
-    });
-  }
-
-  /* ===================== Assignees (shared) ===================== */
   function getContactsBook(){
     if (Array.isArray(window.join?.users)) return window.join.users;
     if (Array.isArray(window.CONTACTS)) return window.CONTACTS;
@@ -172,7 +120,6 @@
   const initials = (n)=> String(n).trim().split(/\s+/).slice(0,2).map(p=>p[0]?.toUpperCase()||'').join('')||'?';
   function pickColor(key){ const s=String(key||''); let h=0; for(let i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))%360; return `hsl(${h} 80% 75%)`; }
   function contactToAvatar(c){ return { name:c.name, badge:c.badge||c.avatar||null, initials:c.initials||initials(c.name), color:c.color||pickColor(c.name) }; }
-
   function normalizeAssignees(task){
     const raw =
       Array.isArray(task?.assigned)   ? task.assigned   :
@@ -180,12 +127,10 @@
       Array.isArray(task?.assignedTo) ? task.assignedTo :
       Array.isArray(task?.team)       ? task.team       :
       Array.isArray(task?.users)      ? task.users      : [];
-
     const book = getContactsBook();
     const byId    = new Map(book.map(u => [String(u?.id ?? ''), u]));
     const byEmail = new Map(book.map(u => [String((u?.email ?? '').toLowerCase()), u]));
     const byName  = new Map(book.map(u => [String((u?.name  ?? '').toLowerCase()), u]));
-
     const list = raw.map((x)=>{
       if (typeof x === 'number'){
         const c = byId.get(String(x)); const name = c?.name || `User ${x}`;
@@ -212,11 +157,9 @@
       }
       return null;
     }).filter(Boolean);
-
     const seen = new Set();
     return list.filter(a=>{ const k = String(a?.name || a?.email || a?.id || ''); if (seen.has(k)) return false; seen.add(k); return true; });
   }
-
   function assigneesFromCard(task){
     const card = document.getElementById(`card${task?.id}`); if (!card) return [];
     const out=[];
@@ -232,14 +175,12 @@
     const seen=new Set();
     return out.filter(p=>{ const k=(p.name||p.badge||p.initials||'').toLowerCase(); if(!k||seen.has(k)) return false; seen.add(k); return true; });
   }
-
   function avatarHtml(u){
     const name=u.name||u.email||'User'; const src=u.badge||u.avatar;
     if (src) return `<img class="avatar-img" src="${esc(src)}" alt="${esc(name)}" title="${esc(name)}">`;
     const init=initials(name); const bg=u.color||pickColor(name);
     return `<span class="avatar" title="${esc(name)}" style="background:${bg}">${esc(init)}</span>`;
   }
-
   function buildAssigneesListHtml(task){
     let list=[];
     if (typeof window.materializeAssignees === 'function'){
@@ -252,7 +193,6 @@
     if (!list.length) list = normalizeAssignees(task);
     if (!list.length) list = assigneesFromCard(task);
     if (!list.length) return '<div class="muted" style="color:#6b7280">No assignees</div>';
-
     return `
       <ul class="assignee-list" style="display:flex;gap:8px;flex-wrap:wrap;list-style:none;padding:0;margin:0">
         ${list.map(u=>`
@@ -265,7 +205,6 @@
     `;
   }
 
-  /* ===================== Overlay hosts ===================== */
   function ensureHost(id){
     let host = document.getElementById(id);
     if (!host){
@@ -284,18 +223,16 @@
     host.setAttribute('aria-hidden','true');
     host.innerHTML = ''; host.style.display='none';
   }
-  function closeAppOverlayIfOpen() {
-    const app = document.getElementById('overlay-add-task');
-    if (!app) return;
-    try {
-      app.classList.add('hidden'); app.classList.remove('active');
-      app.setAttribute('aria-hidden','true'); app.style.display = 'none';
-      app.innerHTML = ''; document.body.classList.remove('no-scroll');
-      console.debug('[DUAL] App-Overlay (#overlay-add-task) geschlossen');
-    } catch {}
+  function closeOverlay(type){
+    const hostId = type === 'userstory' ? 'overlay-userstory' : 'overlay-techtask';
+    closeOverlayById(hostId);
+    document.body.classList.remove('no-scroll');
+  }
+  function closeOtherType(current){
+    if (current === 'userstory') closeOverlayById('overlay-techtask');
+    else closeOverlayById('overlay-userstory');
   }
 
-  /* ===================== Renderers ===================== */
   function renderOverlay(type, task){
     const dueText = fmtDate(getDueRaw(task));
     const prText  = fmtPrioLabel(task.priority);
@@ -313,7 +250,6 @@
     const isUS = type === 'userstory';
     const badgeText  = isUS ? 'User Story' : 'Tech Task';
     const badgeStyle = isUS ? 'background:#3B82F6;color:#fff' : 'background:#10B981;color:#0b1b13';
-    const hostId     = isUS ? 'overlay-userstory' : 'overlay-techtask';
 
     return `
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="${isUS?'us':'tt'}-title"
@@ -361,7 +297,6 @@
     `;
   }
 
-  /* ===================== Open/Close (per type) ===================== */
   function openOverlay(type, task){
     const hostId = type === 'userstory' ? 'overlay-userstory' : 'overlay-techtask';
     const host = ensureHost(hostId);
@@ -371,29 +306,11 @@
     host.style.display='flex'; document.body.classList.add('no-scroll');
     attachOverlayEvents(type, host, task);
   }
-  function closeOverlay(type){
-    const hostId = type === 'userstory' ? 'overlay-userstory' : 'overlay-techtask';
-    closeOverlayById(hostId);
-    document.body.classList.remove('no-scroll');
-  }
-  function closeOtherType(current){
-    if (current === 'userstory') closeOverlayById('overlay-techtask');
-    else closeOverlayById('overlay-userstory');
-  }
 
-  /* ===================== Events inside overlay ===================== */
   function attachOverlayEvents(type, root, task){
     const close = () => closeOverlay(type);
     root.querySelector('.modal-close')?.addEventListener('click', close);
     root.addEventListener('click', (e)=>{ if (e.target === root) close(); });
-
-    root.querySelector('[data-action="edit"]')?.addEventListener('click', async ()=>{
-      close();
-      if (typeof window.openEditorForTask === 'function') {
-        try { await window.openEditorForTask(task); return; } catch {}
-      }
-      await openDesktopAddTaskEdit(task); // fallback (siehe Edit-Adapter unten)
-    });
 
     root.querySelector('[data-action="delete"]')?.addEventListener('click', ()=>{
       const ev = type === 'userstory' ? 'userstory:delete' : 'techtask:delete';
@@ -403,9 +320,35 @@
         try { window.deleteTaskById(task.id); } catch {}
       }
     });
+
+    root.querySelector('[data-action="edit"]')?.addEventListener('click', async ()=>{
+      const evName = (type === 'userstory') ? 'userstory:edit' : 'techtask:edit';
+      try {
+   
+        const host = document.querySelector('#overlay-add-task');
+        if (host) host.setAttribute('data-mode', 'edit');
+
+        document.dispatchEvent(new CustomEvent(evName, { detail: { task } }));
+
+        if (typeof window.openEditorOverlayFromButton === 'function') {
+          await window.openEditorOverlayFromButton(task);
+        }
+
+        else if (typeof window.openEditorForTask === 'function') {
+          await window.openEditorForTask(task);
+        } else if (typeof window.openTaskEditor === 'function') {
+          await window.openTaskEditor(task);
+        } else if (typeof window.addTaskToBoard === 'function') {
+          await window.addTaskToBoard();
+        }
+      } catch (e) {
+        console.error('[DUAL] Edit handler failed:', e);
+      } finally {
+        close(); 
+      }
+    });
   }
 
-  /* ===================== Fallbacks & hydration ===================== */
   function fallbackFromCard(card, id, type){
     return {
       id: id ?? null,
@@ -418,30 +361,19 @@
       assigned: []
     };
   }
-  async function hydrateOverlayWhenReady(type, snap) {
-    const real = await waitForTaskBySnapshot(snap);
-    if (!real) return;
-    const hostId = type === 'userstory' ? 'overlay-userstory' : 'overlay-techtask';
-    const host = document.getElementById(hostId);
-    if (!host || host.getAttribute('aria-hidden') === 'true') return;
-    host.innerHTML = renderOverlay(type, real);
-    attachOverlayEvents(type, host, real);
-    console.debug('[DUAL] overlay hydrated (', type, ') → due=', getDueRaw(real));
-  }
 
-  /* ===================== Pointer/Click handler ===================== */
   let lastOpenAt = 0;
 
-  async function openFromCard(card, from) {
+  async function openFromCard(card) {
     const now = Date.now();
-    if (now - lastOpenAt < 200) { console.debug('[DUAL] debounce: skip open (from', from, ')'); return; }
+    if (now - lastOpenAt < 200) return; 
     lastOpenAt = now;
 
     const type = detectCardType(card);
     if (!type) return;
 
-    closeOtherType(type);
-    closeAppOverlayIfOpen();
+    if (type === 'userstory') closeOverlayById('overlay-techtask');
+    else closeOverlayById('overlay-userstory');
 
     await bindJoinFromModules();
     const id = getCardId(card);
@@ -454,8 +386,7 @@
     } else {
       const fb = fallbackFromCard(card, id, type);
       openOverlay(type, fb);
-      console.debug('[DUAL] open overlay (fallback) type=', type, 'id=', id, 'due=', getDueRaw(fb));
-      hydrateOverlayWhenReady(type, getCardSnapshot(card, type));
+      console.debug('[DUAL] open overlay (fallback) type=', type, 'id=', id);
     }
   }
 
@@ -466,7 +397,7 @@
     try { e.stopPropagation(); } catch {}
     e.cancelBubble = true;
     try { e.preventDefault(); } catch {}
-    openFromCard(card, 'pointerdown');
+    openFromCard(card);
   }
   function onActivate(e){
     const card = e.target.closest?.('.board-card'); if (!card) return;
@@ -475,7 +406,7 @@
     try { e.stopPropagation(); } catch {}
     e.cancelBubble = true;
     try { e.preventDefault(); } catch {}
-    openFromCard(card, 'click');
+    openFromCard(card);
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -483,267 +414,13 @@
     document.addEventListener('pointerdown', onPreActivate, opts);
     document.addEventListener('click',       onActivate,    opts);
 
-    // Debug shortcut
-    window.debugDUAL = async () => {
+    window.debugUSSimpleEdit = () => {
       const card = document.querySelector('.board-card');
       if (!card) return;
-      const type = detectCardType(card);
+      const type = detectCardType(card) || 'userstory';
       const id   = getCardId(card);
-      openOverlay(type || 'userstory', fallbackFromCard(card, id, type || 'userstory'));
-      await bindJoinFromModules();
-      hydrateOverlayWhenReady(type || 'userstory', getCardSnapshot(card, type || 'userstory'));
+      openOverlay(type, fallbackFromCard(card, id, type));
     };
   });
 
-  /* ===================== Edit-Adapter (integriert) ===================== */
-  // Falls bereits extern vorhanden, nicht überschreiben:
-  if (!window.openEditorForTask) {
-    console.log('[DUAL] edit adapter active');
-
-    const SEL = {
-      host:      '#overlay-add-task',
-      title:     ['input[name=title]', '#title', 'input[placeholder*="title" i]'],
-      desc:      ['textarea[name=description]', '#description', 'textarea'],
-      date:      ['input[type=date]', '#date-input', 'input[name=enddate]', 'input[name=due]', 'input[name=dueDate]'],
-      prioBtn:   (prio) => [`[data-priority="${prio}"]`, `.priority [data-value="${prio}"]`, `.priority button.${prio}`],
-      okButton:  ['button[type=submit]', '.btn.primary', '.ok-btn'],
-    };
-
-    function ensureVisible(el){
-  if (!el) return;
-  const cs   = getComputedStyle(el);
-  const rect = el.getBoundingClientRect();
-  const invisible =
-    cs.display === 'none' ||
-    cs.visibility === 'hidden' ||
-    Number(cs.opacity) === 0 ||
-    rect.width === 0 || rect.height === 0;
-
-  if (invisible) {
-    el.classList.remove('hidden');
-    el.classList.add('active');
-    Object.assign(el.style, {
-      display:   'flex',
-      visibility:'visible',
-      opacity:   '1',
-      zIndex:    '99999',
-      position:  el.style.position || 'fixed',
-      inset:     el.style.inset || '0'
-    });
-  }
-}
-
-    async function ensureDesktopAddTaskVisible(task) {
-      let host = document.querySelector(SEL.host);
-      if (!host) {
-        if (typeof window.openTaskEditor === 'function') {
-          try { window.openTaskEditor(task); } catch {}
-        } else if (typeof window.addTaskToBoard === 'function') {
-          try { window.addTaskToBoard(); } catch {}
-        }
-        host = await waitForEl(SEL.host, 5000);
-      }
-      if (!host) return null;
-
-      host.classList.add('active'); host.classList.remove('hidden');
-      host.setAttribute('aria-hidden','false'); host.style.display='flex';
-      document.body.classList.add('no-scroll');
-
-      host.dataset.mode   = 'edit';
-      if (task?.id != null) host.dataset.taskId = String(task.id);
-
-      return host;
-    }
-
-    function prefillOnce(host, task) {
-      if (!host) return;
-
-      const title = qAny(host, SEL.title);
-      if (title) {
-        title.value = task?.title || '';
-        title.dispatchEvent(new Event('input', { bubbles: true }));
-        title.dispatchEvent(new Event('change', { bubbles: true }));
-      }
-
-      const desc = qAny(host, SEL.desc);
-      if (desc) {
-        desc.value = task?.description || '';
-        desc.dispatchEvent(new Event('input', { bubbles: true }));
-        desc.dispatchEvent(new Event('change', { bubbles: true }));
-      }
-
-      const rawDue = getDueRaw(task);
-      const dateInp = qAny(host, SEL.date);
-      if (dateInp && rawDue != null) {
-        const d = parseDateValue(rawDue);
-        if (d) {
-          dateInp.value = toISODate(d);
-          dateInp.dispatchEvent(new Event('input', { bubbles: true }));
-          dateInp.dispatchEvent(new Event('change', { bubbles: true }));
-        }
-      }
-
-      const pr = String(task?.priority || 'medium').toLowerCase();
-      const prBtn = qAny(host, SEL.prioBtn(pr));
-      if (prBtn && typeof prBtn.click === 'function') prBtn.click();
-
-      if (typeof window.applyAssignees === 'function') {
-        try { window.applyAssignees(task); } catch {}
-      } else {
-        host.dispatchEvent(new CustomEvent('edit:prefill-assignees', { detail: { task }, bubbles: true }));
-      }
-
-      const ok = qAny(host, SEL.okButton);
-      if (ok && /ok/i.test(ok.textContent || '')) ok.textContent = 'Save';
-    }
-
-    async function prefillEditorForm(task) {
-      const host = await ensureDesktopAddTaskVisible(task);
-      if (!host) return;
-      prefillOnce(host, task);
-      setTimeout(() => prefillOnce(host, task), 120);
-      setTimeout(() => prefillOnce(host, task), 300);
-      setTimeout(() => prefillOnce(host, task), 600);
-    }
-
-    window.openEditorForTask = async function (task) {
-      try {
-        console.log('[DUAL] openDesktopAddTaskEdit →', task?.id ?? '<id>');
-        await prefillEditorForm(task);
-        const rawDue = getDueRaw(task);
-        if (rawDue) {
-          const ok = parseDateValue(rawDue);
-          console.log('[DUAL] desktop-edit ready | mode= edit date=', ok ? toISODate(ok) : rawDue);
-        } else {
-          console.log('[DUAL] desktop-edit ready | mode= edit date= (none)');
-        }
-      } catch (err) {
-        console.error('[DUAL] failed to open editor:', err);
-      }
-    };
-
-    // Optional: globale Events
-    document.addEventListener('userstory:edit', (e) => {
-      const task = e.detail?.task || null;
-      if (task) window.openEditorForTask(task);
-    });
-    document.addEventListener('techtask:edit', (e) => {
-      const task = e.detail?.task || null;
-      if (task) window.openEditorForTask(task);
-    });
-  }
-
 })();
-
-/* ======================= FORCE-VISIBLE PATCH (append to file) ======================= */
-(function(){
-  // 1) Einmalig CSS injizieren, das den Edit-Modus sichtbar macht – unabhängig von Media-Queries
-  function injectEditCSSOnce(){
-    if (document.getElementById('dual-edit-css')) return;
-    const css = `
-      #overlay-add-task[data-mode="edit"]{
-        position: fixed; inset: 0;
-        display: flex !important;
-        align-items: center; justify-content: center;
-        visibility: visible !important; opacity: 1 !important;
-        pointer-events: auto !important;
-        z-index: 99999;
-      }
-      #overlay-add-task[data-mode="edit"].hidden{ display: flex !important; }
-      #overlay-add-task[data-mode="edit"][aria-hidden="true"]{ aria-hidden: false; }
-      #overlay-add-task[data-mode="edit"] .right-side-inner,
-      #overlay-add-task[data-mode="edit"] .task-content-container{
-        transform: none !important; opacity: 1 !important;
-      }
-      body.no-scroll{ overflow: hidden !important; }
-    `;
-    const s = document.createElement('style');
-    s.id = 'dual-edit-css';
-    s.textContent = css;
-    document.head.appendChild(s);
-  }
-
-  // 2) Sichtbarkeit für Host + max. 2 Vorfahren erzwingen (falls ein Wrapper `display:none` hat)
-  function unhideAncestors(el){
-    let p = el, i = 0;
-    while (p && i < 3){
-      const cs = getComputedStyle(p);
-      if (cs.display === 'none' || cs.visibility === 'hidden' || Number(cs.opacity) === 0){
-        p.classList?.remove('hidden','d-none','is-hidden','collapsed');
-        p.style.display = (p === el ? 'flex' : 'block');
-        p.style.visibility = 'visible';
-        p.style.opacity = '1';
-        p.style.pointerEvents = 'auto';
-      }
-      if (p.getAttribute && p.getAttribute('aria-hidden') === 'true') p.removeAttribute('aria-hidden');
-      p = p.parentElement; i++;
-    }
-  }
-
-  // 3) Host sichtbar machen
-  function ensureVisible(host){
-    if (!host) return;
-    host.classList.remove('hidden'); host.classList.add('active');
-    host.setAttribute('aria-hidden','false');
-    host.style.display   = 'flex';
-    host.style.visibility= 'visible';
-    host.style.opacity   = '1';
-    host.style.zIndex    = '99999';
-    if (!host.style.position) host.style.position = 'fixed';
-    if (!host.style.inset)    host.style.inset    = '0';
-    unhideAncestors(host);
-  }
-
-  // 4) Unsere Edit-Öffnung robuster machen – ohne deine bestehende Logik zu ändern
-  async function forceShowEdit(task){
-    injectEditCSSOnce();
-
-    // Falls du window.openEditorForTask bereits definiert hast, rufen wir es zuerst auf:
-    const orig = window.openEditorForTask;
-    if (typeof orig === 'function') {
-      try { await orig(task); } catch(e) { console.warn('[FORCE] openEditorForTask threw', e); }
-    } else {
-      // Fallback: versuche das Overlay zu öffnen, falls es noch nicht existiert
-      if (typeof window.openTaskEditor === 'function') { try { window.openTaskEditor(task); } catch {} }
-      else if (typeof window.addTaskToBoard === 'function') { try { window.addTaskToBoard(); } catch {} }
-    }
-
-    // Host suchen/abwarten
-    const host = await (async function waitHost(sel='#overlay-add-task', ms=4000){
-      const first = document.querySelector(sel);
-      if (first) return first;
-      return await new Promise(res=>{
-        const obs = new MutationObserver(()=>{
-          const el = document.querySelector(sel);
-          if (el){ obs.disconnect(); res(el); }
-        });
-        obs.observe(document.documentElement,{childList:true,subtree:true});
-        setTimeout(()=>{ obs.disconnect(); res(null); }, ms);
-      });
-    })();
-
-    if (!host) return;
-
-    // Edit-Mode flaggen + sichtbar erzwingen
-    host.dataset.mode = 'edit';
-    ensureVisible(host);
-    document.body.classList.add('no-scroll');
-
-    // Nach dem Prefill nochmal sicherstellen (Frameworks toggeln gern wieder um)
-    setTimeout(()=>ensureVisible(host), 120);
-    setTimeout(()=>ensureVisible(host), 300);
-    setTimeout(()=>ensureVisible(host), 600);
-  }
-
-  // 5) Globale Hooks: Wenn jemand unser Custom-Event feuert, öffnen wir garantiert sichtbar
-  document.addEventListener('userstory:edit', (e)=>{ forceShowEdit(e.detail?.task || null); });
-  document.addEventListener('techtask:edit',  (e)=>{ forceShowEdit(e.detail?.task || null); });
-
-  // 6) Export: ersetze vorhandenes openEditorForTask nicht – ergänze nur einen „Sichtbarkeits-Wrapper“
-  //    (Falls du willst, kannst du ab jetzt direkt window.forceShowAddTaskEdit(task) benutzen.)
-  window.forceShowAddTaskEdit = forceShowEdit;
-
-  // 7) Sofort CSS injizieren (falls schon im Edit-Fluss)
-  injectEditCSSOnce();
-})();
-
