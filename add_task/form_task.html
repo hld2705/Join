@@ -1,4 +1,4 @@
-<form novalidate onsubmit="checkRequired(); return false;" class="task-form">
+<form novalidate return false; class="task-form">
     <div class="task-content-container">
         <div class="left-task">
             <div class="left-task-container">
@@ -66,6 +66,7 @@
                     <div class="em-05 padding-top20">Category</div>
                     <input id="category-input" onclick="switchArrowIcon()" type="text"
                         class="input category-input cursorPointer" placeholder="Select task category" readonly>
+                         <p class="required-mssg" id="required-message-category"></p>
                     <img onclick="switchArrowIcon()" id="drop-down-svg-category" class="drop-down-arrow-svg-category"
                         src="../assets/arrow_drop_down.svg">
                     <div id="dropdownListCategory" class="dropdown-list">
@@ -85,7 +86,7 @@
                         </div>
                     </div>
                     <div id="subtask-content"></div>
-                     <span class="mobile-required-text"><span class="asterisk">*</span>This field ist required</span>
+                    <span class="mobile-required-text"><span class="asterisk">*</span>This field ist required</span>
 
                     <div class="tbc-wrapper">
                         <div class="task-button-container">
@@ -100,7 +101,7 @@
                                 </svg>
                             </div>
                             <div class="createTaskBtn-svg-container">
-                                <button id="add-task-button" onclick="checkRequired()" type="button"
+                                <button id="add-task-button" type="button"
                                     class="create-task-button">Create
                                     Task</button>
                                 <svg class="check-icon" width="14" height="12" viewBox="0 0 16 12" fill="none"

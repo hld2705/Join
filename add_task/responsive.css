@@ -51,10 +51,13 @@
         font-size: 16px;
     }
 
+    .left-task-container {
 
+        top: 0px;
+    }
 
     .task-title {
-        padding-top: 90px;
+        padding-top: 100px;
         font-size: 45px;
     }
 
@@ -248,5 +251,12 @@
     .drop-down-arrow-svg-category {
         top: 79px;
         right: 18px;
+    }
+
+    .check-icon {
+        position: absolute;
+        top: 21px;
+        left: 218px;
+        color: white;
     }
 }
