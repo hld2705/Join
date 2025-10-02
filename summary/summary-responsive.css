@@ -1,27 +1,44 @@
 @media(max-width:1280px){
 
+    body.mobile-gateway #mobile-gateway { display: flex; flex-direction: column; min-height: 100dvh; }
+  body.mobile-gateway #summary-root   { display: none; }
+
+  h1.mg-greeting{
+    margin-top: 250px;
+    display: flex;
+   justify-content: center;
+align-items: center;
+
+  }
+
 header{
     height: 80px;
 }
+
+.responsive-logo{
+  display: block;             
+    width: 100px;               
+    height: 32px;
+    background-image: url("/assets/logo-black.svg");
+}
+
 .left-side {
-    position: fixed;
-    left: 0; right: 0; bottom: 0;
-    width: 100%;
-    height: 80px;                    /* gewünschte Höhe */
-    padding: 0 12px;
-    background: #2A3647;
-    display: flex;
-    flex-direction: row;              /* horizontal statt vertikal */
-    align-items: center;
-    justify-content: space-around;
-    z-index: 10000;                   /* über Inhalt */
+          position: fixed;
+        height: 100px;
+        width: 100%;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #2A3647;
+        align-items: center;
+        z-index: 100;                   
   }
 
-  .join-logo { display: none; }      /* Logo unten weglassen (optional) */
+  .join-logo { display: none; }      
 
   nav {
     display: flex;
-    flex-direction: row;              /* horizontal */
+    flex-direction: row;          
     gap: 0;
     width: 100%;
     justify-content: space-around;
@@ -32,7 +49,7 @@ header{
     width: 80px;
     padding: 0;
     gap: 6px;
-    flex-direction: column;           /* Icon über Label (falls du Icons hast) */
+    flex-direction: column;          
     align-items: center;
     justify-content: center;
     color: #CDCDCD;
@@ -57,10 +74,7 @@ header{
     justify-content: flex-end;
   }
 
-  .responsive-logo{
-    width: 32px ;
-    height: 39px ;
-  }
+  
 
   #task-container{
     display: none;
@@ -74,12 +88,13 @@ header{
  .summary-header{
     display: flex;
     flex-direction: column;
+    align-items: center;
     margin-left: 16px;
     margin-top: 48px;
  }
  .summary-header h1   { order: 1;display: flex; justify-content: flex-start; font-size: 47px;}
   .summary-header span { order: 2; font-size: 20px;}
-  .summary-header p    { order: 3; align-self: flex-start;transform: rotate(90deg);height: 90px; }
+  .summary-header p    { order: 3; align-items: center;transform: rotate(90deg);height: 90px; }
 
   .summary-todo{
     width: 186px;
@@ -100,6 +115,7 @@ header{
  .icon-summary{
     width: 40px;
     height: 40px;
+    margin-top: 0;
   }
 
   .number{
@@ -111,6 +127,40 @@ header{
   }
 
   .summary-content{
-    margin-left: 16px;
+    align-items: center;
+    margin-left: 0px;
   }
+
+  .number-container{
+    gap: 0;
+  }
+
+  .summary-count{
+    justify-content: flex-start;
+    margin: 0;
+    align-items: center;
+  }
+
+  .number-urgent-container{
+    gap: 0;
+  } 
+
+  .vector{
+    height: 68px;
+  }
+
+  .profil{
+
+    width: 40px;
+    height: 40px;
+  }
+
+  .number span, .number-container span, .number-urgent-container span{
+
+    font-size: 14px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .join-logo { background-image: url("/assets/logo-desktop-dark.svg"); }
 }

@@ -1,6 +1,7 @@
 import { loadData, getUsers, getLoggedInUser, saveData } from '../db.js';
 
 const SELF_HEAL_LOGIN_FLAG = false;
+const MOBILE_GATEWAY_AUTO_MS = 2500;
 
 document.addEventListener('DOMContentLoaded', initSummary);
 
@@ -19,8 +20,11 @@ async function initSummary() {
   setGreetingSafe(user);
   removeNextDeadlineUI();
 
+  setupMobileGatewayAuto();   
   initProfileMenuAndLogout();
 }
+
+/* ---------------- User-Resolve ---------------- */
 
 function resolveUserFromSessionOrDb() {
   const users = getUsers() || [];
@@ -82,14 +86,55 @@ function setGreetingSafe(user) {
   if (prefEl && nameEl) {
     prefEl.textContent = greeting + ',';
     nameEl.textContent = name + '!';
-    return;
+  } else {
+    const whole = document.getElementById('greeting');
+    if (whole) {
+      whole.innerHTML = `${greeting}, <span class="highlight-name">${escapeHtml(name)}</span>!`;
+    }
   }
 
-  const whole = document.getElementById('greeting');
-  if (whole) {
-    whole.innerHTML = `${greeting}, <span class="highlight-name">${escapeHtml(name)}</span>!`;
-  }
+  const mp = document.getElementById('mg-greeting-prefix');
+  const mn = document.getElementById('mg-greeting-name');
+  if (mp && mn) { mp.textContent = greeting + ','; mn.textContent = (user.name || 'Gast') + '!'; }
 }
+
+function setupMobileGatewayAuto() {
+  const mq = window.matchMedia('(max-width: 768px)');
+  const gateway = document.getElementById('mobile-gateway');
+  let timer = null;
+
+  const showGateway = () => {
+    document.body.classList.add('mobile-gateway');
+    gateway?.removeAttribute('hidden');
+    gateway?.removeAttribute('aria-hidden');
+
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+     
+      document.body.classList.remove('mobile-gateway');
+      gateway?.setAttribute('hidden', '');
+      gateway?.setAttribute('aria-hidden', 'true');
+     
+    }, MOBILE_GATEWAY_AUTO_MS);
+  };
+
+  const hideGateway = () => {
+    if (timer) clearTimeout(timer);
+    document.body.classList.remove('mobile-gateway');
+    gateway?.setAttribute('hidden', '');
+    gateway?.setAttribute('aria-hidden', 'true');
+  };
+
+  const apply = () => {
+
+    if (mq.matches) showGateway();
+    else hideGateway();
+  };
+
+  apply();                      
+  mq.addEventListener('change', () => { apply(); }); 
+}
+
 
 function removeNextDeadlineUI() {
   document.querySelector('.js-next-task')?.remove();
@@ -99,8 +144,6 @@ function removeNextDeadlineUI() {
     if (el) el.textContent = '';
   });
 }
-
-/* ---------------- Profil/ Logout ---------------- */
 
 function initProfileMenuAndLogout() {
   const profilImg = document.querySelector('.profil');
@@ -131,8 +174,6 @@ function initProfileMenuAndLogout() {
     });
   }
 }
-
-/* ---------------- Utils ---------------- */
 
 function escapeHtml(str) {
   return String(str)
