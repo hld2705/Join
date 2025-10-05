@@ -233,6 +233,79 @@
     else closeOverlayById('overlay-userstory');
   }
 
+  /* ================================================================
+     EDIT-OVERLAY: vorhandenes Overlay verwenden und Formular nachladen
+     ================================================================ */
+  const EDIT_FORM_URL = 'add_task/form_task.html'; // ggf. auf '/add_task/form_task.html' ändern
+  let __editFormLoaded = false;
+  let __editFormLoading = false;
+
+  async function loadEditForm(forceReload = false) {
+    const bg      = document.getElementById('edit-overlay-background');
+    const closeEl = document.getElementById('addTask-edit-close-Img');
+    const host    = document.getElementById('edit-task-form-container');
+
+    if (!bg || !host) {
+      console.warn('[EditOverlay] Overlay-Container nicht gefunden (edit-overlay-background / edit-task-form-container).');
+      return;
+    }
+
+    if (__editFormLoaded && !forceReload) return;
+    if (__editFormLoading) return;
+
+    __editFormLoading = true;
+    try {
+      const res = await fetch(EDIT_FORM_URL, { credentials: 'same-origin' });
+      if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
+      const html = await res.text();
+      host.innerHTML = html;
+      __editFormLoaded = true;
+    } catch (err) {
+      console.error('[EditOverlay] Konnte Form nicht laden:', err);
+      alert('Formular konnte nicht geladen werden: ' + EDIT_FORM_URL);
+    } finally {
+      __editFormLoading = false;
+    }
+
+    // Close-Events nur einmal binden
+    if (bg && !bg.__closeBound) {
+      bg.__closeBound = true;
+
+      // X-Icon
+      if (closeEl) {
+        closeEl.addEventListener('click', () => {
+          bg.style.display = 'none';
+          document.body.style.overflow = '';
+        });
+      }
+
+      // Klick auf Hintergrund
+      bg.addEventListener('click', (e) => {
+        if (e.target === bg) {
+          bg.style.display = 'none';
+          document.body.style.overflow = '';
+        }
+      });
+
+      // ESC
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && bg.style.display !== 'none') {
+          bg.style.display = 'none';
+          document.body.style.overflow = '';
+        }
+      });
+    }
+  }
+
+  function openExistingEditOverlay() {
+    const bg = document.getElementById('edit-overlay-background');
+    if (bg) {
+      bg.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+  }
+  /* ================================================================ */
+
   function renderOverlay(type, task){
     const dueText = fmtDate(getDueRaw(task));
     const prText  = fmtPrioLabel(task.priority);
@@ -290,6 +363,7 @@
         <div class="modal-footer" style="margin-top:16px;display:flex;gap:8px;justify-content:flex-end">
           <button class="btn ghost" type="button" data-action="delete"
                   style="border:1px solid #e5e7eb;background:#fff;border-radius:8px;padding:8px 12px;cursor:pointer">Delete</button>
+          <!-- Edit öffnet das vorhandene Overlay und lädt form_task.html nach -->
           <button class="btn primary" type="button" data-action="edit"
                   style="background:#111827;color:#fff;border-radius:8px;padding:8px 12px;border:none;cursor:pointer">Edit</button>
         </div>
@@ -321,30 +395,15 @@
       }
     });
 
+    // >>> HIER: Edit-Button lädt Form nach und öffnet vorhandenes Overlay
     root.querySelector('[data-action="edit"]')?.addEventListener('click', async ()=>{
-      const evName = (type === 'userstory') ? 'userstory:edit' : 'techtask:edit';
       try {
-   
-        const host = document.querySelector('#overlay-add-task');
-        if (host) host.setAttribute('data-mode', 'edit');
-
-        document.dispatchEvent(new CustomEvent(evName, { detail: { task } }));
-
-        if (typeof window.openEditorOverlayFromButton === 'function') {
-          await window.openEditorOverlayFromButton(task);
-        }
-
-        else if (typeof window.openEditorForTask === 'function') {
-          await window.openEditorForTask(task);
-        } else if (typeof window.openTaskEditor === 'function') {
-          await window.openTaskEditor(task);
-        } else if (typeof window.addTaskToBoard === 'function') {
-          await window.addTaskToBoard();
-        }
+        await loadEditForm(false); // einmalig laden (Cache)
+        openExistingEditOverlay();
       } catch (e) {
-        console.error('[DUAL] Edit handler failed:', e);
+        console.error('[DUAL] EditOverlay öffnen fehlgeschlagen:', e);
       } finally {
-        close(); 
+        close(); // Task-Overlay schließen
       }
     });
   }
@@ -366,7 +425,7 @@
 
   async function openFromCard(card) {
     const now = Date.now();
-    if (now - lastOpenAt < 200) return; 
+    if (now - lastOpenAt < 200) return;
     lastOpenAt = now;
 
     const type = detectCardType(card);
@@ -414,6 +473,7 @@
     document.addEventListener('pointerdown', onPreActivate, opts);
     document.addEventListener('click',       onActivate,    opts);
 
+    // Debug-Helfer
     window.debugUSSimpleEdit = () => {
       const card = document.querySelector('.board-card');
       if (!card) return;
