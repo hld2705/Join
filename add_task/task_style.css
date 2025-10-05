@@ -725,3 +725,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .mobile-required-text {
     display: none;
 }
+
+#edit-overlay-accept {
+    display: none;
+    position: absolute;
+    left: 180px;
+}

@@ -355,7 +355,7 @@ select,
 
 textarea {
   resize: vertical;
-  width: 380px !important;
+  width: 380px;
 }
 
 .input-icon {
@@ -497,6 +497,7 @@ textarea {
 .task-overlay-inner {
   position: relative;
   max-height: 80vh;
+  min-height: 0;
 }
 
 #task-form-container {
@@ -522,7 +523,7 @@ textarea {
 .input {
   padding: 14px 0 !important;
   text-indent: 12px;
- 
+
 }
 
 .left-task {
@@ -535,17 +536,17 @@ textarea {
 }
 
 #title-input {
-  max-width: 100% !important;
-  padding: 14px 0px 14px 0px !important;
+  max-width: 100%;
+  padding: 14px 0px 14px 0px;
 }
 
 .left-task-container {
-  padding-right: 160px !important;
+  padding-right: 160px;
   top: 0px;
 }
 
 .right-side-inner {
-    transform: translateY(18%) !important;
+  transform: translateY(18%) !important;
 }
 
 .task-title {
@@ -554,9 +555,9 @@ textarea {
 }
 
 .left-task::after {
-    border-right: 2px solid #D1D1D1;
-    height: 52%;
-    top: 205px;
+  border-right: 2px solid #D1D1D1;
+  height: 52%;
+  top: 205px;
 }
 
 #task-overlay-background {
@@ -736,3 +737,67 @@ textarea {
 .navbar a:hover {
   text-decoration: underline;
 }
+
+.edit-overlay #edit-task-form-container {
+  display: block;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  font-weight: 400;
+  justify-content: space-evenly !important;
+}
+
+.edit-overlay .task-content-container {
+  flex-direction: column;
+  height: 94vh;
+  width: 100%;
+  border-radius: 40px;
+overflow: auto;
+}
+
+#edit-overlay-background {
+  display: none;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#edit-overlay {
+  display: none;
+  position: fixed;
+  overflow:hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, .06);
+  width: 500px;
+  max-width: 90vw;
+  height: 90vh;
+  border-radius: 40px;
+  border: 1px solid rgba(116, 116, 116, 0.5);
+  z-index: 2000;
+}
+
+#edit-task-form-container {
+  display: none;
+  flex: 1;
+  height: 100vh;
+  font-weight: 400;
+  justify-content: space-evenly !important;
+}
+
+.edit-overlay .task-inner-content {
+ flex: 1;
+  min-height: 0;
+  overflow: auto;       
+  -webkit-overflow-scrolling: touch;
+}
+
+
+#edit-overlay-background.is-open {
+  display: grid;
+}
+

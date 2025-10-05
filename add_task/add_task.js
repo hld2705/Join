@@ -55,7 +55,20 @@ function loadAddTaskForm() {
         })
 }
 
+function loadEditTaskForm() {
+    fetch(taskFormURL)
+        .then(response => response.text())
+        .then(html => {
+            let formContainer = document.getElementById('edit-task-form-container');
+            if (!formContainer) return;
+            if (formContainer) {
+                formContainer.innerHTML = html;
+            }
+        });
+}
+
 document.addEventListener('DOMContentLoaded', loadAddTaskForm);
+document.addEventListener('DOMContentLoaded', loadEditTaskForm);
 
 function resetAllButton() {
     document.getElementById('urgent').classList.remove('bg-red');
@@ -278,7 +291,7 @@ function appendUserItem(dropList, user) {
 }
 
 async function handleAssignedSearch(e) {
-     if (!e.target.closest('#assign-input')) return;
+    if (!e.target.closest('#assign-input')) return;
     let list = document.getElementById('dropdownList');
     if (!list) return;
     if (list.childElementCount === 0) {
@@ -675,6 +688,22 @@ function TaskTransitionRequirement(e) {
 
 document.addEventListener("click", addedTaskTransition);
 
-function redirectToBoard() {
-    location.assign("../board.html");
-}
+function setupIdSwitchingForForms() {
+    const originalGetElementById = document.getElementById.bind(document);
+    let currentFormContainer = null;
+
+    document.addEventListener('pointerdown', function (e) {
+      let container = e.target.closest('#task-form-container, #edit-task-form-container');
+      if (container) currentFormContainer = container;
+    }, true);
+
+    document.getElementById = function (id) {
+      if (currentFormContainer) {
+        let cont = currentFormContainer.querySelector('#' + id);
+        if (cont) return cont;
+      }
+      return originalGetElementById(id);
+    };
+  }
+
+  setupIdSwitchingForForms();

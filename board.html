@@ -8,13 +8,14 @@
 
   <link rel="icon" type="image/x-icon" href="./assets/favicon.svg" />
   <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./add_task/responsive_board_overlay.css" />
   <link rel="stylesheet" href="./add_task/task_style.css">
   <link rel="stylesheet" href="./board/board.css" />
   <link rel="stylesheet" href="./board/overlay.css">
-   <link rel="stylesheet" href="./add_task/responsive.css">
-      <link rel="stylesheet" href="./board/overlay-edit-overrides.css">
+  <link rel="stylesheet" href="./add_task/responsive.css">
+  <link rel="stylesheet" href="./board/overlay-edit-overrides.css">
   <script src="./add_task/add_task.js" defer></script>
-   <script src="./add_task/add_task_templates.js"></script>
+  <script src="./add_task/add_task_templates.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -23,7 +24,7 @@
     rel="stylesheet" />
 </head>
 
-<body>
+<body class="board-site">
 
   <section class="left-side">
     <a href="./index.html">
@@ -79,22 +80,36 @@
       <div id="board-root"></div>
       <div id="overlay-add-task" class="hidden" aria-hidden="true"></div>
 
-  <div id="task-overlay-background">
-    <div id="task-overlay">
-      <div class="task-overlay-inner">
+      <div id="task-overlay-background">
+        <div id="task-overlay">
+          <div class="task-overlay-inner">
             <img src="./assets/Close.png" id="addTask-close-Img" class="addTask-close-Icon"></img>
-        <div id="task-form-container">
+            <div id="task-form-container">
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
+      <div id="edit-overlay-background">
+        <div class="edit-overlay" id="edit-overlay">
+          <div class="task-overlay-inner">
+            <img src="./assets/Close.png" id="addTask-edit-close-Img" class="addTask-close-Icon"></img>
+            <div id="edit-task-form-container">
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <button id="bt-edit-task">Hallo</button>
     </section>
 
 
-<script type="module" src="./db.js"></script>
-<script type="module" src="./firstdata.js"></script>
-<script type="module" src="./board/board-script.js"></script>
-<script type="module" src="./board/userstory-overlay.script.js"></script>
+
+    <script type="module" src="./db.js"></script>
+    <script type="module" src="./firstdata.js"></script>
+    <script type="module" src="./board/board-script.js"></script>
+    <script type="module" src="./board/userstory-overlay.script.js"></script>
 
 
 
