@@ -263,5 +263,3 @@ async function setProfileAvatar() {
     el.innerHTML = badge;
   }
 }
-
-

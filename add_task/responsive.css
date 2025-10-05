@@ -46,7 +46,7 @@
 
 }
 
-@media (max-width: 1220px) {
+@media (max-width: 1230px) {
     body {
         font-size: 16px;
     }
@@ -94,7 +94,7 @@
         left: auto;
         right: 50px;
         gap: 4px;
-        top: auto;
+        top: 25px;
         margin-bottom: 20px;
     }
 
@@ -112,6 +112,11 @@
         margin-bottom: 100px;
     }
 
+    #tbc-wrapper-inner {
+        position: static;
+        height: 100px;
+    }
+
     .right-side-inner {
         transform: none !important;
     }
@@ -121,6 +126,16 @@
         margin-top: 10px;
         margin-bottom: 250px;
     }
+
+    #task-overlay .mobile-required-text {
+        margin-bottom: 140px;
+    }
+
+    .drop-down-arrow-svg,
+.drop-down-arrow-svg-category {
+  top: 80px !important;
+  right: 12px !important;
+}
 
     .asterisk {
         font-size: 18px;
