@@ -138,10 +138,10 @@ function editUserTemplate(user) {
                     </div>
                   </div>
                   <div class="createnewcontact-buttons-placement">
-                    <div class="createnewcontact-button-cancel">
+                    <div class="editcontact-button-cancel">
                       <button class="button-cancel">Delete</button>
                     </div>
-                    <div class="createnewcontact-button-create-contact" onclick="saveUser(${user.id})">
+                    <div class="editcontact-button-create-contact" onclick="saveUser(${user.id})">
                       <button class="button-create">Save</button>
                       <img src="./assets/check.svg">
                     </div>

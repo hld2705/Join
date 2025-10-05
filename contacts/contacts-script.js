@@ -19,9 +19,10 @@ function contactsLoad() {
 
     if (firstLetter !== currentLetter) {
       currentLetter = firstLetter;
-      contacts.innerHTML += `
+      contacts.innerHTML += `<div class="letter-separationline-container">
         <h2 class="letter-header">${currentLetter}</h2>
-        <img src="./assets/Vector 10.svg">
+        <img class="separationline" src="./assets/Vector 10.svg">
+        </div>
       `;
     }
 
@@ -33,21 +34,7 @@ function contactsRender(userId) {
   let contactInfo = document.getElementById("contactsinfo");
   let responsiveLeftSide = document.getElementById("responsiveleftsidecontacts");
   let responsiveContactsDetails = document.getElementById("responsivecontactsmoto");
-  let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
-
-  /*if (responsiveAddContactId && window.innerWidth <= 780) {
-    responsiveAddContactId.style.display = "none";
-  } else {
-    responsiveAddContactId.style.display = "flex";
-  }
-  responsiveAddContactId.innerHTML = "";
-  
-  let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
-  if (responsiveEditContactId){
-    responsiveEditContactId.style.display = "block";
-  }else if(responsiveEditContactId && window.innerWidth <= 780){
-    responsiveEditContactId.style.display = "none";
-  }*/
+ // let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
 
   let userInfo = join.users.find(u => u.id === userId);
   if (!userInfo) return;
