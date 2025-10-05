@@ -1,4 +1,4 @@
-import { loadData, getUsers, getLoggedInUser, saveData } from '../db.js';
+import { loadData, getUsers, getLoggedInUser, saveData, getTasks } from '../db.js';
 
 const SELF_HEAL_LOGIN_FLAG = false;
 const MOBILE_GATEWAY_AUTO_MS = 2500;
@@ -18,9 +18,11 @@ async function initSummary() {
 
   setProfileBadge(user);
   setGreetingSafe(user);
-  removeNextDeadlineUI();
 
-  setupMobileGatewayAuto();   
+  removeNextDeadlineUI();     // leert nur
+  renderSummaryTaskStatus();  // baut/füllt die Kachel
+
+  setupMobileGatewayAuto();
   initProfileMenuAndLogout();
 }
 
@@ -95,11 +97,11 @@ function setGreetingSafe(user) {
 
   const mp = document.getElementById('mg-greeting-prefix');
   const mn = document.getElementById('mg-greeting-name');
-  if (mp && mn) { mp.textContent = greeting + ','; mn.textContent = (user.name || 'Gast') + '!'; }
+  if (mp && mn) { mp.textContent = greeting + ','; mn.textContent = (user.name || 'guest') + '!'; }
 }
 
 function setupMobileGatewayAuto() {
-  const mq = window.matchMedia('(max-width: 768px)');
+  const mq = window.matchMedia('(max-width: 1100px)');
   const gateway = document.getElementById('mobile-gateway');
   let timer = null;
 
@@ -110,11 +112,9 @@ function setupMobileGatewayAuto() {
 
     if (timer) clearTimeout(timer);
     timer = setTimeout(() => {
-     
       document.body.classList.remove('mobile-gateway');
       gateway?.setAttribute('hidden', '');
       gateway?.setAttribute('aria-hidden', 'true');
-     
     }, MOBILE_GATEWAY_AUTO_MS);
   };
 
@@ -126,24 +126,106 @@ function setupMobileGatewayAuto() {
   };
 
   const apply = () => {
-
     if (mq.matches) showGateway();
     else hideGateway();
   };
 
-  apply();                      
-  mq.addEventListener('change', () => { apply(); }); 
+  apply();
+  mq.addEventListener('change', () => { apply(); });
 }
 
+/* ---------------- Summary – Next Deadline ---------------- */
 
+// leert nur, löscht nicht
 function removeNextDeadlineUI() {
-  document.querySelector('.js-next-task')?.remove();
-
+  const box = document.querySelector('.summary-task-status');
+  if (box) box.innerHTML = '';
   ['next-task-title', 'next-task-date', 'next-task-status', 'next-task-empty'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.textContent = '';
   });
 }
+
+// holt Date aus verschiedenen Feldern
+function getTaskDateRaw(t) {
+  return t?.enddate ?? t?.end_date ?? t?.dueDate ?? t?.due ?? null;
+}
+
+function getNextDeadlineTask() {
+  const tasks = getTasks() || [];
+  const today = new Date().setHours(0, 0, 0, 0);
+
+  const withDates = tasks
+    .map(t => ({ t, d: new Date(getTaskDateRaw(t)) }))
+    .filter(x => x.d instanceof Date && !isNaN(x.d))
+    .filter(x => x.d.setHours(0,0,0,0) >= today)
+    .sort((a, b) => a.d - b.d);
+
+  console.log('[summary] tasks total:', tasks.length, 'with future dates:', withDates.length);
+  return withDates.length ? withDates[0].t : null;
+}
+
+function fmtDate(d) {
+  const x = new Date(d);
+  if (isNaN(x)) return '';
+  return x.toLocaleDateString('de-AT', { day: '2-digit', month: '2-digit', year: 'numeric' });
+}
+
+// findet oder baut die Zielkachel
+function getOrCreateSummaryStatusHost() {
+  let host = document.querySelector('.summary-task-status');
+  if (host) return host;
+
+  // Fallback: in einen bekannten Container einfügen
+  const container =
+    document.querySelector('.task') ||
+    document.querySelector('.summary-content') ||
+    document.body;
+
+  host = document.createElement('div');
+  host.className = 'summary-task-status';
+  container.prepend(host);
+  console.warn('[summary] .summary-task-status fehlte – neu erstellt.');
+  return host;
+}
+
+// füllt/erstellt die Kachel
+function renderSummaryTaskStatus() {
+  const host = getOrCreateSummaryStatusHost();
+
+  const t = getNextDeadlineTask();
+  if (!t) {
+    host.removeAttribute('onclick');
+    host.removeAttribute('role');
+    host.removeAttribute('tabindex');
+    host.innerHTML = `
+      <div class="status-left">
+        <div class="icon-summary"><img src="./assets/pencil2.svg" alt="Urgent"></div>
+        <div class="number-urgent-container"><div class="number">0</div><span class="label">Keine Deadline</span></div>
+      </div>
+      <img class="vector" src="./assets/Vector%205.png" alt="" aria-hidden="true">
+      <div class="info-date"><span class="date">—</span><span class="info">Keine anstehende Aufgabe</span></div>
+    `;
+    console.log('[summary] keine nächste Deadline gefunden.');
+    return;
+  }
+
+  const dateRaw = getTaskDateRaw(t);
+  host.setAttribute('role', 'button');
+  host.setAttribute('tabindex', '0');
+  host.setAttribute('onclick', "navigateTo('./board.html')");
+  host.innerHTML = `
+    <div class="status-left">
+      <div class="icon-summary"><img src="./assets/pencil2.svg" alt="Urgent"></div>
+      <div class="number-urgent-container"><div class="number">1</div><span class="label">Urgent</span></div>
+    </div>
+    <img class="vector" src="./assets/Vector%205.png" alt="" aria-hidden="true">
+    <div class="info-date"><span class="date">${fmtDate(dateRaw)}</span><span class="info">${escapeHtml(t.title || 'Nächste Aufgabe')}</span></div>
+  `;
+  console.log('[summary] nächste Deadline:', dateRaw, 'title:', t.title);
+}
+
+/* ---------------- Profilmenü & Logout ---------------- */
 
 function initProfileMenuAndLogout() {
   const profilImg = document.querySelector('.profil');

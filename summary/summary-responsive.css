@@ -1,13 +1,16 @@
-@media(max-width:1280px){
+@media(max-width:1100px){
 
+    #greetings{
+        display: none;
+    }
     body.mobile-gateway #mobile-gateway { display: flex; flex-direction: column; min-height: 100dvh; }
   body.mobile-gateway #summary-root   { display: none; }
 
   h1.mg-greeting{
     margin-top: 250px;
     display: flex;
-   justify-content: center;
-align-items: center;
+    justify-content: center;
+    align-items: center;
 
   }
 
@@ -61,7 +64,7 @@ header{
     display: none;
   }
 
-  #greeting{
+  #greetings{
     display: none;
   }
 
@@ -123,7 +126,7 @@ header{
   }
 
   .number span{
-    font-size: 14px;
+    font-size: 11px;
   }
 
   .summary-content{
@@ -157,7 +160,7 @@ header{
 
   .number span, .number-container span, .number-urgent-container span{
 
-    font-size: 14px;
+    font-size: 11px;
   }
 }
 

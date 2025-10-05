@@ -1,37 +1,36 @@
 import { loadData, getTasks } from '../db.js';
 
-
 /** Navigiert zur gewünschten Seite */
 function navigateTo(page) {
     window.location.href = page;
 }
 window.navigateTo = navigateTo;
 
-
 /** Erstellt ein To-Do-Kachel-Element */
 function createSummaryTodo(icon, number, label, link = './board.html') {
     return `
         <div class="summary-todo" onclick="navigateTo('${link}')">
-            <img class="icon-summary" src="${icon}" alt="${label}">
+            <div class="icon-summary">
+                <img src="${icon}" alt="${label}">
+            </div>
             <div class="number-container">
                 <div class="number">${number}</div>
                 <span>${label}</span>
             </div>
         </div>
     `;
-    
 }
 
 /**
  * Erstellt eine Status-Kachel mit nächster Deadline und Info-Text.
  * @param {string|Date} date - Deadline-Datum
- * @param {string} info - Beschreibung oder Info (z. B. "Tasks in Board")
+ * @param {string} info - Beschreibung oder Info (z. B. "Tasks in Board")
  * @param {string} link - Zielseite beim Klick (Standard: './board.html')
  * @returns {string} - HTML-Template
  */
 function createSummaryTaskStatus(date, info, link = './board.html') {
   const deadline = new Date(date);
-  const formattedDate = deadline.toLocaleDateString('en', {
+  const formattedDate = isNaN(deadline) ? '' : deadline.toLocaleDateString('en', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -40,14 +39,16 @@ function createSummaryTaskStatus(date, info, link = './board.html') {
   return `
     <div class="summary-task-status" role="button" tabindex="0" onclick="navigateTo('${link}')">
       <div class="status-left">
-        <img class="icon-summary" src="./assets/urgent-icon.png" alt="Urgent icon">
+        <div class="icon-summary">
+          <img src="./assets/pencil2.svg" alt="Urgent icon">
+        </div>
         <div class="number-urgent-container">
           <div class="number">1</div>
           <span class="label">Urgent</span>  
         </div>
       </div>
       
-      <img class="vector" src="./assets/Vector 5.png" alt="divider" aria-hidden="true">
+      <img class="vector" src="./assets/Vector%205.png" alt="divider" aria-hidden="true">
 
       <div class="info-date">
         <span class="date">${formattedDate}</span>
@@ -56,7 +57,6 @@ function createSummaryTaskStatus(date, info, link = './board.html') {
     </div>
   `;
 }
-
 
 /** Erstellt ein Zähler-Kachel-Element */
 function createSummaryCount(number, label, link = './board.html') {
@@ -92,7 +92,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.log("Tasks nach loadData:", getTasks());
 
     const taskContainer = document.querySelector(".task");
-   
 
     const todoCount = countTasksByStatus('todo');
     const doneCount = countTasksByStatus('done');
@@ -104,8 +103,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     taskContainer.innerHTML = `
         <div class="summary-content"> 
             <div class="todo">
-                ${createSummaryTodo('./assets/pencil.svg', todoCount, 'To-Do')}
-                ${createSummaryTodo('./assets/check-dark.svg', doneCount, 'Done')}
+                ${createSummaryTodo('./assets/pencil2.svg', todoCount, 'To-Do')}
+                ${createSummaryTodo('./assets/check1.svg', doneCount, 'Done')}
             </div>
 
             ${deadlineTask 
@@ -120,7 +119,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             </div>
         </div>
     `;
-
 });
+
 
 
