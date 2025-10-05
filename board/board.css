@@ -342,21 +342,23 @@ body.no-scroll {
 
 input[type="text"],
 input[type="date"],
-textarea,
 select,
 .select {
   width: 100%;
   border: 1px solid #E5E7EB;
-  border-radius: 8px;
+  border-radius: clamp(6px, 1vw, 8px);
   background: #fff;
-  padding: 10px 12px;
-  font-size: 14px;
+  padding: clamp(6px, 1.2vw, 10px) clamp(8px, 1.6vw, 12px);
+  font-size: clamp(12px, 1.6vw, 14px);
 }
 
+
 textarea {
-  resize: vertical;
-  width: 380px !important;
+  width: 380px;
+  max-width: 100%;
 }
+
+
 
 .input-icon {
   position: relative;
@@ -476,8 +478,8 @@ textarea {
 }
 
 .task-button-container {
-  top: 86px !important;
-  left: 196px !important;
+  top: 16px !important;
+  left: 290px !important;
 }
 
 #task-overlay {
@@ -489,7 +491,7 @@ textarea {
   background-color: rgba(223, 223, 223, 0.5);
   width: 66vw;
   height: 74vh;
-  border-radius: 12px;
+  border-radius: 38px;
   border: 1px solid rgba(116, 116, 116, 0.5);
   z-index: 9999;
 }
@@ -497,6 +499,7 @@ textarea {
 .task-overlay-inner {
   position: relative;
   max-height: 80vh;
+  min-height: 0;
 }
 
 #task-form-container {
@@ -506,8 +509,9 @@ textarea {
 
 .task-content-container {
   max-height: 74vh !important;
-  border-radius: 12px;
+  border-radius: 38px;
 }
+
 
 
 .assign-Input {
@@ -521,7 +525,7 @@ textarea {
 .input {
   padding: 14px 0 !important;
   text-indent: 12px;
- 
+
 }
 
 .left-task {
@@ -534,28 +538,30 @@ textarea {
 }
 
 #title-input {
-  max-width: 100% !important;
-  padding: 14px 0px 14px 0px !important;
+  max-width: 100%;
+  padding: 14px 0px 14px 0px;
 }
 
 .left-task-container {
-  padding-right: 160px !important;
-
+  padding-right: 160px;
+  top: 0px;
 }
 
 .right-side-inner {
-    transform: translateY(10%) !important;
+  transform: translateY(18%) !important;
 }
 
 .task-title {
-  font-size: 36px !important;
-  top: -25px !important;
+  font-size: 46px !important;
+  top: 0px !important;
+  margin-top: 46px;
+  margin-bottom: 24px;
 }
 
 .left-task::after {
-    border-right: 2px solid #D1D1D1;
-    height: 52%;
-    top: 205px;
+  border-right: 2px solid #D1D1D1;
+  height: 52%;
+  top: 205px;
 }
 
 #task-overlay-background {
@@ -577,6 +583,7 @@ textarea {
   right: 30px;
   top: 30px;
   cursor: pointer;
+  z-index: 9999;
 }
 
 .addTask-close-Icon:hover {
@@ -734,4 +741,76 @@ textarea {
 
 .navbar a:hover {
   text-decoration: underline;
+}
+
+.edit-overlay #edit-task-form-container {
+  display: block;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  font-weight: 400;
+  justify-content: space-evenly !important;
+}
+
+.edit-overlay .task-content-container {
+  flex-direction: column;
+  height: 94vh;
+  width: 100%;
+  border-radius: 40px;
+  overflow: auto;
+}
+
+#edit-overlay-background {
+  display: none;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#edit-overlay {
+  display: none;
+  position: fixed;
+  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, .06);
+  width: 500px;
+  max-width: 90vw;
+  height: 90vh;
+  border-radius: 40px;
+  border: 1px solid rgba(116, 116, 116, 0.5);
+  z-index: 2000;
+}
+
+#edit-task-form-container {
+  display: none;
+  flex: 1;
+  height: 100vh;
+  font-weight: 400;
+  justify-content: space-evenly !important;
+}
+
+.edit-overlay .task-inner-content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+#edit-overlay-background.is-open {
+  display: grid;
+}
+
+#task-overlay .tbc-wrapper {
+  height: 72px;
+  left: 0;
+  right: 20px;
+     bottom: -210px;
+  padding: 0 16px;
+  margin-bottom: 0px;
 }

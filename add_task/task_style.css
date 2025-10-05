@@ -66,9 +66,9 @@ body {
     content: "";
     border-right: 2px solid #D1D1D1;
     position: absolute;
-    height: 44%;
+    height: 46%;
     right: 80px;
-    top: 250px;
+    top: 200px;
     background-color: grey;
 }
 
@@ -240,6 +240,7 @@ textarea {
 
 
 .create-task-button {
+    white-space: nowrap;
     font-size: 18px;
     background-color: #2A3647;
     color: white;
@@ -257,16 +258,16 @@ textarea {
 .check-icon {
     position: absolute;
     top: 21px;
-    left: 216px;
+    left: 230px;
     color: white;
 }
 
 .task-button-container {
     display: flex;
     position: absolute;
-    top: 100px;
+    top: 190px;
     left: 190px;
-    gap: 4px;
+    gap: 20px;
 }
 
 
@@ -446,7 +447,7 @@ textarea:focus::-webkit-input-placeholder {
 }
 
 .check-button-svg {
-    padding-right: 1px;
+    padding-right: 0px;
 }
 
 .check-button-svg:hover rect {
@@ -462,6 +463,7 @@ textarea:focus::-webkit-input-placeholder {
 .assignedTo-check-button-container {
     position: relative;
 }
+
 
 .check-icon-assignedTo {
     width: 13px;
@@ -522,7 +524,7 @@ input.priority-input:focus::placeholder {
     padding-right: 200px;
     z-index: -1;
     position: relative;
-    top: -54px;
+    top: -100px;
 }
 
 .subtask-input-container {
@@ -711,6 +713,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     pointer-events: auto;
 }
 
+#subtask-content {
+    height: 100px;
+    overflow-y: auto;
+}
+
 .responsive-logo {
     display: none;
 }
@@ -718,3 +725,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .mobile-required-text {
     display: none;
 }
+
+#edit-overlay-accept {
+    display: none;
+    position: absolute;
+    left: 180px;
+}
+
+  

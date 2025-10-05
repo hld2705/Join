@@ -42,6 +42,8 @@ export function boardShell() {
   </div>`;
 }
 
+
+
 /* ---------- Cards ---------- */
 export function cardTemplate(task) {
   const desc = (task.description || '').trim();
@@ -279,7 +281,7 @@ export function renderAddTaskOverlay() {
 
       <div class="modal-footer">
         <button class="btn ghost" type="button" id="btn-cancel">Cancel</button>
-        <button class="btn primary" type="submit" form="addtask-form">Create task</button>
+        <button id="edit-btn" class="btn primary" type="submit" form="addtask-form">Create task</button>
       </div>
     </div>
   `;
@@ -342,7 +344,7 @@ function collectFormData(root) {
   return { title, description, due, status, priority, subtasks: subs, main: 'techtask' };
 }
 
-
+let bgEdit = document.getElementById('edit-overlay-background');
 
 function openTaskOverlay() {
   document.getElementById('task-overlay').style.display = "block";
@@ -353,13 +355,34 @@ function closeTaskOverlay() {
   bg?.classList.remove('is-open');
 }
 
+function closeEditOverlay() {
+  bgEdit?.classList.remove('is-open');
+}
+
+function openEditOverlay() {
+  document.getElementById('edit-overlay').style.display = "block";
+  bgEdit?.classList.add('is-open');
+}
+
 document.addEventListener('click', (e) => {
-  let closeIcon = document.getElementById('addTask-close-Img');
-  let addTaskBtn = e.target.closest('#bt-add-task, .btn-add');
-  if (addTaskBtn) {
-    openTaskOverlay();
+  if (e.target.closest('#bt-add-task, .btn-add')) openTaskOverlay();
+  if (e.target.closest('#bt-edit-task, .btn-edit')) openEditOverlay();
+
+  const closeIcon = e.target.closest('.addTask-close-Icon');
+
+  if (closeIcon) {
+    if (closeIcon.closest('#edit-overlay')) closeEditOverlay();
+    else closeTaskOverlay();
+    return;
   }
-  if (e.target === bg || e.target === closeIcon) {
-    closeTaskOverlay();
-  }
+  if (e.target === bg) closeTaskOverlay();
+  if (e.target === bgEdit) closeEditOverlay();
 });
+
+
+function test() {
+  document.getElementById('edit-task-form-container').style.display = "block";
+  document.getElementById('edit-overlay-background').style.display = "block";
+  document.getElementById('edit-overlay').style.display = "block";
+}
+

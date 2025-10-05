@@ -1,4 +1,3 @@
-/* Layout */
 .summary-content {
     display: flex;
     flex-direction: column;
@@ -10,10 +9,8 @@
 .summary-header {
     display: flex;
     align-items: center;
-    width: 625px;
-    height: 73px;
     padding-bottom: 50px;
-    margin-top: 110px;
+    margin-top: 40px;
     margin-left: 96px;
 }
 
@@ -48,7 +45,6 @@
     padding: 20px;
 }
 
-/* Task-Anzeige */
 .task, #task-container {
     flex: 1;
 }
@@ -69,7 +65,6 @@
     font-size: 47px;
 }
 
-/* Überschriften & Join-Bereich */
 .join {
     margin-bottom: 40px;
    flex-direction: row;
@@ -90,7 +85,6 @@
     font-size: 27px;
 }
 
-/* Task-Kacheln */
 .todo, .summary-count {
     display: flex;
     gap: 30px;
@@ -177,19 +171,11 @@
     justify-content: center;
 }
 
-/* Dringlichkeitsstatus */
 .summary-task-status {
     width: 560px;
     gap: 18px;
 }
 
-/* Zusammenfassungszähler */
-.summary-count {
-    width: 560px;
-    justify-content: space-around;
-}
-
-/* Datum & Info */
 .day {
     margin-top: 20px;
     margin-left: 50px;
@@ -218,18 +204,19 @@
     font-size: 16px;
 }
 
-/* Header */
 .summary-header {
     display: flex;
     align-items: center;
-    width: 625px;
-    height: 73px;
     padding-bottom: 50px;
+
+}
+
+.responsive-logo{
+    background: url("/assets/logo-desktop.svg") no-repeat center / contain;
+    display: none;
 }
 
 
-
-/* Highlighted Name */
 .highlight-name {
     color: rgba(41, 171, 226, 1);
     font-weight: bold;
@@ -286,21 +273,20 @@
     }
 
     .profil {
-      width: 50px;
-      height: 50px;
+     
       border-radius: 50%;
       cursor: pointer;
     }
 
   .navbar {
       position: absolute;
-      top: 60px; /* unter dem Profilbild */
+      top: 60px; 
       right: 0;
       background-color: #1e1e2f;
       color: white;
       padding: 10px 20px;
       border-radius: 8px;
-      display: none; /* initial versteckt */
+      display: none; 
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       margin-top: 40px;
       width: 150px;
@@ -324,3 +310,6 @@
     .navbar a:hover {
       text-decoration: underline;
     }
+
+    #mobile-gateway { display: none; }
+#summary-root   { display: block; }
