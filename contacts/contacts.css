@@ -15,7 +15,7 @@ body {
     height: 100vh;
     filter: drop-shadow(4px 0px 6px rgba(0, 0, 0, 0.08));
     overflow-y: auto;
-    height:calc(100vh - 96px)
+    height: calc(100vh - 96px)
 }
 
 .addnewcontact {
@@ -31,6 +31,13 @@ body {
     font-size: 21px;
     gap: 16px;
     cursor: pointer;
+}
+
+.addnewcontact:hover {
+    background-color: rgba(41, 171, 226, 1);
+    border: 0;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.25);
+
 }
 
 .personaddimg {
@@ -126,8 +133,25 @@ body {
 }
 
 .contact-item:hover {
-    background-color: rgba(42, 54, 71, 1);
+    background-color: #F5F5F5;
     border-radius: 10px;
+    color: black;
+}
+
+.createnewcontact-button-create-contact p {
+    font-weight: 700;
+    font-size: 21px;
+}
+
+.createnewcontact-button-create-contact:hover {
+    background-color: rgba(41, 171, 226, 1);
+    border: 0;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.25);
+    color: white;
+}
+
+.button-create:hover {
+    background-color: rgba(41, 171, 226, 1);
     color: white;
 }
 
@@ -285,11 +309,16 @@ body {
 }
 
 .createnewcontact-close {
-    width: 100%;
+    width: 3%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     cursor: pointer;
+    border-radius: 50%;
+    position: relative;
+    top: -3%;
+    left: 43%;
+    right: 0%;
 }
 
 .createnewcontact-inputfield-person-placement {
@@ -340,7 +369,7 @@ body {
 }
 
 .createnewcontact-button-cancel {
-    color: black;
+    color: #000;
     font-weight: 400;
     font-size: 20px;
     font-style: normal;
@@ -356,7 +385,17 @@ body {
     cursor: pointer;
     gap: 4px;
 }
+.createnewcontact-button-cancel:hover{
+    border-color: rgba(41, 171, 226, 1);
+    color: rgba(41, 171, 226, 1);
+}
 
+.createnewcontact-button-cancel:hover img {
+    filter: brightness(0) saturate(100%) invert(58%) sepia(93%) saturate(1490%) hue-rotate(161deg) brightness(94%) contrast(97%);
+}
+.createnewcontact-close:hover{
+    background-color: #EEEEEE;
+}
 .editcontact-button-cancel {
     color: black;
     font-weight: 400;
@@ -469,13 +508,14 @@ body {
     overflow-x: hidden;
 }
 
-@media screen and (min-width: 320px) and (max-width: 500px){
+@media screen and (min-width: 320px) and (max-width: 500px) {
     .createnewcontact-inputfield input {
         width: 140px;
         height: 41px;
         gap: 8px;
     }
-     .createnewcontact-text h2 {
+
+    .createnewcontact-text h2 {
         font-size: 38px;
         white-space: nowrap;
         font-weight: 700;
@@ -486,6 +526,7 @@ body {
         font-size: 17px;
     }
 }
+
 @media screen and (min-width: 320px) and (max-width: 780px) {
     .letter-separationline-container {}
 
