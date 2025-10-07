@@ -76,7 +76,7 @@ function addNewContactTemplate() {
                         <img src="assets/icons/mail.svg">
                       </div>
                       <div class="createnewcontact-inputfield-icon">
-                        <input id="phone_new_user" type="number"
+                        <input id="phone_new_user" type="phone"
                             placeholder="Phone">
                         <img src="assets/icons/call.svg">
                       </div>
@@ -84,11 +84,11 @@ function addNewContactTemplate() {
                   </div>
                   <div class="createnewcontact-buttons-placement" onclick="closeOverlay()">
                     <div class="createnewcontact-button-cancel">
-                      <button class="button-cancel">Cancel</button>
-                      <img src="assets/Vector.svg">
+                      <p>Cancel</p>
+                      <img class="cancel-icon-x" src="assets/Vector.svg">
                     </div>
                     <div class="createnewcontact-button-create-contact" onclick="createContact()">
-                      <button class="button-create">Create contact</button>
+                      <p>Create contact<p>
                       <img src="assets/check.svg">
                     </div>
                   </div>
