@@ -814,3 +814,12 @@ textarea {
   padding: 0 16px;
   margin-bottom: 0px;
 }
+
+.board-card.is-dragging {
+  opacity: 0.5;
+}
+
+.columns-content.drop-target {
+  outline: 2px dashed #2A3647;
+  background: rgba(42,54,71,0.05);
+}
