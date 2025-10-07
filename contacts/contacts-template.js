@@ -2,7 +2,7 @@ function contactsLoadTemplate(users, i) {
   return `
       <div class="contact-item" onclick="contactsRender(${users[i].id})">
         <span class="contact-name">
-          <img class="contact-badge" alt="${users[i].name}" src="${users[i].badge}"> 
+          <img class="contact-badge" alt="${users[i].name}" src="./${users[i].badge}"> 
           <p>${users[i].name}</p>
         </span>
         <span class="contact-email">${users[i].email}</span>
@@ -15,7 +15,7 @@ function contactsRenderTemplate(userInfo) {
       <div class="contactinfo">
         <span class="picture-name-contactinfo">
           <img class="contactinfo-badge" alt="${userInfo.name}" src="${userInfo.badge}">
-          <div>
+          <div class="name-edit-delete-placement">
               <p class="contactinfo-name" id="detailed_name">${userInfo.name}</p>
               <div class="edit-delete-icons-placement">
                 <div class="contactinfo-icons-text-placement" onclick="editUser(${userInfo.id})">
@@ -68,7 +68,7 @@ function addNewContactTemplate() {
                       <div class="createnewcontact-inputfield-icon"> 
                         <input id="name_new_user" type="text"
                             placeholder="Name">
-                        <img src="assets/icons/person.svg">
+                        <img src="./assets/icons/person.svg">
                       </div>
                       <div class="createnewcontact-inputfield-icon">
                         <input id="email_new_user" type="email"

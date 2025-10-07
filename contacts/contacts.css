@@ -15,7 +15,15 @@ body {
     height: 100vh;
     filter: drop-shadow(4px 0px 6px rgba(0, 0, 0, 0.08));
     overflow-y: auto;
-    height: calc(100vh - 96px)
+    height: calc(100vh - 96px);
+    overflow-x: hidden;
+    padding-bottom: 20px;
+}
+
+.contact-badge {
+    width: 42px;
+    height: 42px;
+    border-radius: 45px;
 }
 
 .addnewcontact {
@@ -165,8 +173,12 @@ body {
 }
 
 .contactinfo-badge {
-    height: 461px;
-    width: 364px;
+    width: 120px;
+    height: 120px;
+    border-radius: 70px;
+    opacity: 1;
+    gap: 10px;
+    border-width: 3px;
 }
 
 .picture-name-contactinfo {
@@ -176,6 +188,7 @@ body {
     white-space: nowrap;
     overflow: hidden;
     gap: 54px;
+    padding-bottom: 50px;
 }
 
 .contactinfo-name {
@@ -316,8 +329,8 @@ body {
     cursor: pointer;
     border-radius: 50%;
     position: relative;
-    top: -3%;
-    left: 43%;
+    top: -10%;
+    left: 45%;
     right: 0%;
 }
 
@@ -385,7 +398,8 @@ body {
     cursor: pointer;
     gap: 4px;
 }
-.createnewcontact-button-cancel:hover{
+
+.createnewcontact-button-cancel:hover {
     border-color: rgba(41, 171, 226, 1);
     color: rgba(41, 171, 226, 1);
 }
@@ -393,9 +407,11 @@ body {
 .createnewcontact-button-cancel:hover img {
     filter: brightness(0) saturate(100%) invert(58%) sepia(93%) saturate(1490%) hue-rotate(161deg) brightness(94%) contrast(97%);
 }
-.createnewcontact-close:hover{
+
+.createnewcontact-close:hover {
     background-color: #EEEEEE;
 }
+
 .editcontact-button-cancel {
     color: black;
     font-weight: 400;
@@ -698,6 +714,7 @@ body {
         top: 10%;
         right: 24%;
         filter: invert(1);
+        left: 80%;
     }
 
     .addednewuserdiv {
@@ -790,7 +807,7 @@ body {
         display: flex;
         position: absolute;
         bottom: 10%;
-        right: 5%;
+        right: 1%;
     }
 
     .threedotsmenu img {

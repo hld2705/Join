@@ -11,6 +11,7 @@ function contactsLoad() {
   let currentLetter = "";
   let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
   responsiveEditContactId.style.display = "none";
+
   for (let i = 0; i < users.length; i++) {
     let firstLetter = "#";
     if (users[i].name && users[i].name.length > 0) {
@@ -19,12 +20,14 @@ function contactsLoad() {
 
     if (firstLetter !== currentLetter) {
       currentLetter = firstLetter;
-      contacts.innerHTML += `<div class="letter-separationline-container">
+      if(currentLetter !== "G")
+      {contacts.innerHTML += `<div class="letter-separationline-container">
         <h2 class="letter-header">${currentLetter}</h2>
         <img class="separationline" src="./assets/Vector 10.svg">
         </div>
       `;
-    }
+    }}; 
+    if(users[i].id === 0) continue;
 
     contacts.innerHTML += contactsLoadTemplate(users, i)
   }
@@ -34,7 +37,6 @@ function contactsRender(userId) {
   let contactInfo = document.getElementById("contactsinfo");
   let responsiveLeftSide = document.getElementById("responsiveleftsidecontacts");
   let responsiveContactsDetails = document.getElementById("responsivecontactsmoto");
- // let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
 
   let userInfo = join.users.find(u => u.id === userId);
   if (!userInfo) return;
