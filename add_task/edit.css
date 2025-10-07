@@ -321,6 +321,7 @@
     position: absolute;
     left: 80px;
     top: -5px;
+    background-color: #2A3647;
 }
 
 .task-title {
@@ -337,4 +338,27 @@
 
 .edit-overlay #subtask-content {
     height: 72px;
+}
+
+.edit-overlay #edit-overlay-accept {
+  display: block;
+  position: absolute;
+  left: 80px;
+  top: -5px;
+}
+
+
+.edit-overlay #edit-overlay-accept {
+  position: static;   /* oder komplett löschen */
+  margin-left: 12px;  /* kleiner Abstand neben Create */
+}
+
+#edit-form-frame{
+
+    max-width: 525px !important;
+}
+
+.edit-overlay{
+    
+    max-width: 525px !important;
 }

@@ -1,6 +1,6 @@
- .modal{
-    width: 525px !important;
-    height: 931px !important;
+.modal {
+  width: 525px !important;
+  height: 931px !important;
 }
 
 .modal-header h2{
@@ -111,3 +111,36 @@
 
 
 
+/*#edit-overlay-background{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999999;align-items:center;justify-content:center;}
+  #edit-overlay{background:#fff;max: width 525px;max-height:90vh;overflow:auto;border-radius:12px;padding:16px;box-shadow:0 20px 60px rgba(0,0,0,.35);position:relative;}
+  #addTask-edit-close-Img{position:absolute;right:12px;top:12px;width:24px;height:24px;cursor:pointer;}
+
+
+
+  /* Alles, was im iFrame läuft, bekommt body.edit-overlay */
+.edit-overlay body {
+  font-family: system-ui, sans-serif;
+  background: #fff;
+  margin: 0;
+}
+
+.edit-overlay h1.task-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* Create-Button verstecken, nur OK zeigen */
+.edit-overlay #add-task-button {
+  display: none !important;
+}
+
+.edit-overlay #edit-overlay-accept {
+  display: inline-block !important;
+}
+
+
+.edit-overlay-card{
+
+    width: 525px;
+}
