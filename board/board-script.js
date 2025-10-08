@@ -68,21 +68,35 @@ function materializeAssignees(task) {
 
 /* =================== Init =================== */
 document.addEventListener('DOMContentLoaded', init);
+
 async function init() {
   installDragClickGuards();
   document.getElementById('board-root').innerHTML = boardShell();
-  document.querySelectorAll('[data-add]').forEach(b => b.addEventListener('click', openOverlay));
+
+  // alle kleinen + Buttons in den Spalten
+  document.querySelectorAll('[data-add]').forEach(b =>
+    b.addEventListener('click', openOverlay)
+  );
+
+  // der große Add-Task / X-Button im Header
+  document.getElementById('bt-add-task')?.addEventListener('click', openOverlay);
+
+  // Suche
   document.getElementById('input-find-task')?.addEventListener('input', (e) => {
     QUERY = e.target.value.trim().toLowerCase();
     renderBoard(getTasks() ?? []);
   });
+
   if (typeof initializeDefaultData === 'function') await initializeDefaultData();
   await loadData();
+
   const users = (typeof getUsers === 'function') ? getUsers() : [];
   if (Array.isArray(users)) window.CONTACTS = users;
+
   setProfileAvatar();
   renderBoard(getTasks() ?? []);
 }
+
 
 /* =================== Render Board =================== */
 function renderBoard(tasks) {

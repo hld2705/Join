@@ -823,3 +823,34 @@ textarea {
   outline: 2px dashed #2A3647;
   background: rgba(42,54,71,0.05);
 }
+
+
+.board-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+/* Suchleiste unter dem Header */
+.board-search{
+  margin-bottom:16px;
+}
+
+/* Desktop-Button wie bisher: Label + Plus-Icon */
+.btn-addtask-responsive{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 14px;
+  border-radius:8px;
+  border:1px solid #2A3647;
+  background:#2A3647;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+}
+.btn-addtask-responsive .btn-label{ display:inline; }
+.btn-addtask-responsive .btn-plus{ display:inline; width:16px; height:16px; }
+.btn-addtask-responsive .btn-x{ display:none; }
