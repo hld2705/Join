@@ -362,3 +362,119 @@
     
     max-width: 525px !important;
 }
+
+.priority-input-container .urgent-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #fff;
+  transition: background .2s, border-color .2s;
+}
+
+.priority-input-container .urgent-container.active {
+  border-color: #2A3647;
+  background: #2A3647;
+  color: #fff;
+}
+
+.priority-input-container input.priority-input {
+  border: none;
+  background: transparent;
+  pointer-events: none; /* verhindert direktes Tippen */
+  font-weight: bold;
+}
+
+.priority-input-container{
+
+    display: flex;
+    flex-direction: row;
+}
+
+.priority-input-container .medium-container{
+      display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #fff;
+  transition: background .2s, border-color .2s;
+}
+
+.priority-input-container .low-container{
+      display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #fff;
+  transition: background .2s, border-color .2s;
+}
+
+
+/* Container um Input + Icon */
+.date-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 6px 10px;
+  background: #fff;
+  cursor: text;
+  transition: border-color .2s, box-shadow .2s;
+  width: fit-content;
+}
+
+/* Wenn Input Fokus bekommt, auch Rahmen einfärben */
+.date-input-wrapper:focus-within {
+  border-color: #2A3647;
+  box-shadow: 0 0 0 2px rgba(42, 54, 71, 0.2);
+}
+
+/* Date Input selber */
+.date-input {
+  border: none;
+  outline: none;
+  font: inherit;
+  color: #111;
+  background: transparent;
+  padding: 6px 0;
+  flex: 1;
+  min-width: 120px;
+  cursor: pointer;
+}
+
+/* Das Kalender-Icon rechts */
+.date-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity .2s;
+}
+
+.date-icon:hover {
+  opacity: 1;
+}
+
+.input.date-input{
+  width:100%;
+  border:1px solid #DDD;
+  border-radius:10px;
+  padding:10px 12px;
+}
+
+.input.date-input:focus{
+  border-color:#2A3647;
+  box-shadow:0 0 0 2px rgba(42,54,71,.15);
+  outline:none;
+}
