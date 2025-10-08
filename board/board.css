@@ -13,10 +13,7 @@ body {
   background: var(--bg);
 }
 
-/* ===== Layout ===== */
-.display-position {
-  max-width: 1120px;
-}
+
 
 .hidden {
   display: none !important;
