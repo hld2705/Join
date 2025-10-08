@@ -118,6 +118,9 @@ body.no-scroll {
   gap: 20px;
   justify-content: space-between;
   margin-top: 100px;
+   display:grid;
+  grid-template-columns: repeat(4, minmax(240px, 1fr));
+  gap:16px;
 }
 
 .columns {

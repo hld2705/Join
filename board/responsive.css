@@ -1,0 +1,26 @@
+@media (max-width:1100px){
+
+    .board{
+     grid-template-columns: repeat(2, minmax(240px, 1fr)); }
+    }
+
+    .board{
+
+    
+    }
+    
+
+@media (max-width:800px){
+
+    .title-and-search{
+
+        display: flex;
+        flex-direction: column;
+    }
+
+    .board{
+
+        display: flex;
+        flex-direction: column;
+    }
+    }
