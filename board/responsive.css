@@ -67,6 +67,7 @@
 
         display: flex;
         flex-direction: column-reverse;
+        margin:  0px;
     }
 
     #overlay-userstory{
@@ -90,5 +91,6 @@
     #input-find-task{
 
         width: 250px;
+
     }
 }
