@@ -43,6 +43,7 @@ body.no-scroll {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-right: 100px;
 }
 
 .input-find {
@@ -288,7 +289,7 @@ body.no-scroll {
 }
 
 .modal-header h2 {
-  font-size: 40px;
+  font-size: 30px;
   margin: 0;
   font-weight: 800;
 }

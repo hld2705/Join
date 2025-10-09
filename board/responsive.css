@@ -55,3 +55,40 @@
     display:inline; font-size:18px; line-height:1;
   }
 }
+
+@media (max-width:500px){
+
+   #bt-add-task p{
+
+        display: none;
+    }
+
+    .board-find-task{
+
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    #overlay-userstory{
+
+        width: 400px;
+    }
+
+    .modal-header h2{
+
+        font-size: 30px !important;
+    }
+}
+
+@media (max-width:450px){
+
+    .board{
+
+        margin-left: 20px;
+    }
+
+    #input-find-task{
+
+        width: 250px;
+    }
+}
