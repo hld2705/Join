@@ -478,8 +478,8 @@ textarea {
 }
 
 .task-button-container {
-  top: 16px !important;
-  left: 290px !important;
+  top: 80px !important;
+     left: auto;
 }
 
 #task-overlay {
@@ -528,9 +528,7 @@ textarea {
 
 }
 
-.left-task {
-  margin-left: 0 !important;
-}
+
 
 .priority-input {
   text-indent: 0;
@@ -544,7 +542,7 @@ textarea {
 
 .left-task-container {
   padding-right: 160px;
-     top: -66px;
+  top: -66px;
 }
 
 .right-side-inner {
@@ -810,7 +808,7 @@ textarea {
   height: 72px;
   left: 0;
   right: 20px;
-     bottom: -210px;
+  bottom: -210px;
   padding: 0 16px;
   margin-bottom: 0px;
 }

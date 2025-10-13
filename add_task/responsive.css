@@ -40,11 +40,16 @@
         left: 318px;
     }
 
-    .task-button-container {
-        left: 100px;
+
+
+
+    .edit-overlay .left-task {
+        margin-left: -0px ;
     }
 
 }
+
+
 
 @media (max-width: 1230px) {
     body {
@@ -64,7 +69,7 @@
     .task-content-container {
         flex-direction: column;
         overflow-y: auto;
-        min-height: 100dvh;
+        min-height: 98dvh;
         height: auto;
     }
 
@@ -91,11 +96,10 @@
     }
 
     .task-button-container {
-        left: auto;
-        right: 50px;
         gap: 4px;
-        top: 25px;
+        top: 25px !important;
         margin-bottom: 20px;
+        left: 400px !important;
     }
 
     .tbc-wrapper {
@@ -132,10 +136,10 @@
     }
 
     .drop-down-arrow-svg,
-.drop-down-arrow-svg-category {
-  top: 80px !important;
-  right: 12px !important;
-}
+    .drop-down-arrow-svg-category {
+        top: 80px !important;
+        right: 12px !important;
+    }
 
     .asterisk {
         font-size: 18px;
@@ -185,7 +189,7 @@
 
     .header-title {
         display: none;
-        
+
     }
 
     header {

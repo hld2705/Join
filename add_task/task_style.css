@@ -60,6 +60,7 @@ body {
     padding-left: 140px;
     z-index: 9998;
     position: relative;
+        min-width: 0;
 }
 
 .left-task::after {
@@ -79,6 +80,7 @@ body {
     justify-content: center;
     position: relative;
     padding-right: 40px;
+        min-width: 0;
 }
 
 
