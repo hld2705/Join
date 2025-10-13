@@ -19,8 +19,8 @@ async function initSummary() {
   setProfileBadge(user);
   setGreetingSafe(user);
 
-  removeNextDeadlineUI();     // leert nur
-  renderSummaryTaskStatus();  // baut/füllt die Kachel
+  removeNextDeadlineUI();     
+  renderSummaryTaskStatus();  
 
   setupMobileGatewayAuto();
   initProfileMenuAndLogout();
@@ -136,7 +136,7 @@ function setupMobileGatewayAuto() {
 
 /* ---------------- Summary – Next Deadline ---------------- */
 
-// leert nur, löscht nicht
+
 function removeNextDeadlineUI() {
   const box = document.querySelector('.summary-task-status');
   if (box) box.innerHTML = '';
@@ -146,7 +146,7 @@ function removeNextDeadlineUI() {
   });
 }
 
-// holt Date aus verschiedenen Feldern
+
 function getTaskDateRaw(t) {
   return t?.enddate ?? t?.end_date ?? t?.dueDate ?? t?.due ?? null;
 }
@@ -171,12 +171,12 @@ function fmtDate(d) {
   return x.toLocaleDateString('de-AT', { day: '2-digit', month: '2-digit', year: 'numeric' });
 }
 
-// findet oder baut die Zielkachel
+
 function getOrCreateSummaryStatusHost() {
   let host = document.querySelector('.summary-task-status');
   if (host) return host;
 
-  // Fallback: in einen bekannten Container einfügen
+
   const container =
     document.querySelector('.task') ||
     document.querySelector('.summary-content') ||
@@ -189,7 +189,7 @@ function getOrCreateSummaryStatusHost() {
   return host;
 }
 
-// füllt/erstellt die Kachel
+
 function renderSummaryTaskStatus() {
   const host = getOrCreateSummaryStatusHost();
 
@@ -225,7 +225,6 @@ function renderSummaryTaskStatus() {
   console.log('[summary] nächste Deadline:', dateRaw, 'title:', t.title);
 }
 
-/* ---------------- Profilmenü & Logout ---------------- */
 
 function initProfileMenuAndLogout() {
   const profilImg = document.querySelector('.profil');

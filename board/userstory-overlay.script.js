@@ -322,4 +322,5 @@
       openOverlay(type, fallbackFromCard(card, id, type));
     };
   });
+  window.openCardDetailsFromCard = openFromCard;
 })();

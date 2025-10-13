@@ -174,5 +174,25 @@ document.addEventListener('click', (e) => {
   openEditOverlay();
 }, { capture: true });
 
+function initPriorityInput(doc) {
+  const container = doc.getElementById('urg-container');
+  const hidden = doc.getElementById('priority-value');
+
+  container.addEventListener('click', () => {
+    // Toggle "aktiv"
+    container.classList.toggle('active');
+
+    // Wert setzen oder zurücksetzen
+    if (container.classList.contains('active')) {
+      hidden.value = container.querySelector('input').dataset.prio;
+    } else {
+      hidden.value = '';
+    }
+
+    console.log('Priority ist jetzt:', hidden.value);
+  });
+}
+
+
 window.openEditOverlay  = openEditOverlay;
 window.closeEditOverlay = closeEditOverlay;

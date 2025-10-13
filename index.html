@@ -9,15 +9,15 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sawarabi+Gothic&display=swap"
         rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="/assets/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.svg">
     <script src="firstdata.js" type="module"></script>
     <script src="db.js" type="module"></script>
     <script src="script_login.js" defer></script>
     <script src="script_login.data.js" type="module" defer></script>
-    <link href="pages/loginsignup.css" rel="stylesheet">
+    <link href="./pages/loginsignup.css" rel="stylesheet">
     <link href="style_login.css" rel="stylesheet">
     <script src="script_login_template.js" defer></script>
-    <script src="/privacy_policy/privacy_policy.js"></script>
+    <script src="./privacy_policy/privacy_policy.js"></script>
     <title>Join</title>
 </head>
 
@@ -59,29 +59,29 @@
             <div class="signuppage signuptitleandarrow">
                 <div>
                     <img style="cursor: pointer; position: absolute; left: 20px;" class="back-arrow"
-                        src="/assets/icons/arrow-left-line.svg" onclick="goBack()">
+                        src="./assets/icons/arrow-left-line.svg" onclick="goBack()">
                 </div>
                 <div style="display:flex; justify-content: center; align-items:center; flex-direction: column;">
                     <h1 style="font-size: 61px;">Signup</h1>
-                    <img src="/assets/icons/Vector 5.svg">
+                    <img src="./assets/icons/Vector 5.svg">
                 </div>
             </div>
             <div>
                 <div class="userinput">
-                    <div class="userinputcustom"><input class="inputfield" id="name_sign_up" type="email"
-                            placeholder="Name" required> <img src="/assets/icons/person.svg"></div>
-                    <div class="userinputcustom"><input class="inputfield" id="email_sign_up" type="email"
-                            placeholder="Email" required> <img src="/assets/icons/mail.svg"></div>
-                    <div class="userinputcustom"><input class="inputfield" id="password_sign_up" type="password"
-                            placeholder="Password" required> <img src="/assets/icons/lock.svg"></div>
+                    <div class="userinputcustom"><input class="signupinputfield" id="name_sign_up" type="email"
+                            placeholder="Name" required> <img src="./assets/icons/person.svg"></div>
+                    <div class="userinputcustom"><input class="signupinputfield" id="email_sign_up" type="email"
+                            placeholder="Email" required> <img src="./assets/icons/mail.svg"></div>
+                    <div class="userinputcustom"><input class="signupinputfield" id="password_sign_up" type="password"
+                            placeholder="Password" required> <img src="./assets/icons/lock.svg"></div>
                     <div class="userinputcustom"><input class="inputfield" id="confirmation_password_sign_up"
-                            type="password" placeholder="Confirm Password" required> <img src="/assets/icons/lock.svg">
+                            type="password" placeholder="Confirm Password" required> <img src="./assets/icons/lock.svg">
                     </div>
                 </div>
             </div>
-            <div style="display:flex; justify-content: center; align-items:center; flex-direction:column;">
-                <div style="margin-bottom: 15px;">
-                    <input type="checkbox" id="requiredcheckbox" onclick="toggleButton()" required>I accept the <a
+            <div class="checkboxandbutton">
+                <div class="checkboxandbuttonplacement">
+                    <input class="checkboxinput" type="checkbox" id="requiredcheckbox" onclick="toggleButton()" required>I accept the <a
                         style="text-decoration:none; color:rgba(41, 171, 226, 1);" href="#">Privacy policy</a>
                 </div>
               
