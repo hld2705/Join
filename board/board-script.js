@@ -4,6 +4,29 @@ import { boardShell, cardTemplate, attachAddTaskOverlayEvents } from './board-te
 const COLS = ['todo', 'inprogress', 'review', 'done'];
 let QUERY = '';
 
+const AUTO_REFRESH_MS = 8000; 
+let __refreshTimer = null;
+let __isRefreshing = false;
+
+async function refreshBoard() {
+  if (__isRefreshing) return;
+  __isRefreshing = true;
+  try {
+    await loadData();                 
+    renderBoard(getTasks() ?? []);   
+  } catch (e) {
+    console.warn('[board] refresh failed:', e);
+  } finally {
+    __isRefreshing = false;
+  }
+}
+
+let __refreshReq = 0;
+function requestRefresh(delay = 0) {
+  const req = ++__refreshReq;
+  setTimeout(() => { if (req === __refreshReq) refreshBoard(); }, delay);
+}
+
 let __isDraggingCard = false;
 let __suppressClicksUntil = 0;
 let __lastDown = { x: 0, y: 0, t: 0 };
@@ -17,7 +40,7 @@ function installDragClickGuards() {
   document.addEventListener('dragstart', (e) => {
     if (!e.target.closest?.('.board-card')) return;
     __isDraggingCard = true;
-    __suppressClicksUntil = performance.now() + 400; 
+    __suppressClicksUntil = performance.now() + 400;
   }, true);
 
   document.addEventListener('dragend', () => {
@@ -35,11 +58,10 @@ function installDragClickGuards() {
       e.stopImmediatePropagation();
       e.stopPropagation();
       e.preventDefault();
-      return; 
+      return;
     }
   }, true);
 }
-
 /* =================== Contacts & Avatare =================== */
 function getContacts() { return Array.isArray(window.CONTACTS) ? window.CONTACTS : []; }
 function resolveUser(userRef) {
@@ -73,15 +95,11 @@ async function init() {
   installDragClickGuards();
   document.getElementById('board-root').innerHTML = boardShell();
 
-  // alle kleinen + Buttons in den Spalten
   document.querySelectorAll('[data-add]').forEach(b =>
     b.addEventListener('click', openOverlay)
   );
 
-  // der große Add-Task / X-Button im Header
   document.getElementById('bt-add-task')?.addEventListener('click', openOverlay);
-
-  // Suche
   document.getElementById('input-find-task')?.addEventListener('input', (e) => {
     QUERY = e.target.value.trim().toLowerCase();
     renderBoard(getTasks() ?? []);
@@ -95,8 +113,14 @@ async function init() {
 
   setProfileAvatar();
   renderBoard(getTasks() ?? []);
-}
 
+  if (AUTO_REFRESH_MS > 0) {
+    __refreshTimer = setInterval(refreshBoard, AUTO_REFRESH_MS);
+  }
+  window.addEventListener('focus', () => requestRefresh(50));
+  window.addEventListener('storage', () => requestRefresh(100));
+  window.addEventListener('tasks:changed', () => requestRefresh(0));
+}
 
 /* =================== Render Board =================== */
 function renderBoard(tasks) {
@@ -112,7 +136,7 @@ function renderBoard(tasks) {
     col.insertAdjacentHTML('beforeend', cardTemplate(tWithAssignees));
   }
   addPlaceholdersIfEmpty();
-  enableDragAndDrop();     
+  enableDragAndDrop();    
   bindCardOpenerOnce();   
 }
 
@@ -130,7 +154,6 @@ function addPlaceholdersIfEmpty() {
     }
   });
 }
-
 /* ======= Card gesture guard: block foreign pointerdown-openers ======= */
 let __dragging = false;
 let __suppressUntil = 0;
@@ -170,9 +193,7 @@ function installCardGuardsOnce() {
     }
   }, true);
 }
-
 installCardGuardsOnce();
-
 
 /* =================== Drag & Drop =================== */
 function enableDragAndDrop() {
@@ -180,11 +201,11 @@ function enableDragAndDrop() {
     card.setAttribute('draggable', 'true');
 
     card.addEventListener('dragstart', (e) => {
-      e.dataTransfer.setData('text/plain', card.id); // "card5"
+      e.dataTransfer.setData('text/plain', card.id); 
       e.dataTransfer.effectAllowed = 'move';
       card.classList.add('is-dragging');
       __isDraggingCard = true;
-      __suppressClicksUntil = performance.now() + 600; // Extra-Puffer
+      __suppressClicksUntil = performance.now() + 600;
     });
 
     card.addEventListener('dragend', () => {
@@ -208,7 +229,7 @@ function enableDragAndDrop() {
       e.preventDefault();
       col.classList.remove('drop-target');
 
-      const cardId = e.dataTransfer.getData('text/plain'); 
+      const cardId = e.dataTransfer.getData('text/plain');
       const card = document.getElementById(cardId);
       if (!card) return;
 
@@ -217,14 +238,14 @@ function enableDragAndDrop() {
       const tasks = getTasks?.() || [];
       const task = tasks.find(t => String(t.id) === id);
       if (task) {
-        task.status = col.dataset.status; 
+        task.status = col.dataset.status;
+        window.dispatchEvent(new CustomEvent('tasks:changed')); 
       }
-      __suppressClicksUntil = performance.now() + 600; 
+      __suppressClicksUntil = performance.now() + 600;
     });
   });
 }
 
-/* =================== Karten-Klick → Overlay =================== */
 function bindCardOpenerOnce() {
   if (document.__boardCardOpenerBound) return;
   document.__boardCardOpenerBound = true;
@@ -240,10 +261,9 @@ function bindCardOpenerOnce() {
     const tasks = getTasks?.() || [];
     const task = tasks.find(t => String(t.id) === id);
     if (!task) return;
-    window.openEditOverlay?.(); 
+    window.openEditOverlay?.();
   });
 }
-
 /* =================== Overlay Add Task =================== */
 function openOverlay() {
   const host = document.getElementById('overlay-add-task');

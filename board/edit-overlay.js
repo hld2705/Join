@@ -1,34 +1,28 @@
 const EDIT_FORM_URL = './add_task/form_task.html';
 
-
 function ensureEditOverlay() {
   let bg = document.getElementById('edit-overlay-bg');
   if (bg) return bg;
 
   bg = document.createElement('div');
   bg.id = 'edit-overlay-bg';
-  bg.style.cssText = `
-    position: fixed; inset: 0; display: none;
-    align-items: center; justify-content: center;
-    background: rgba(0,0,0,.5); z-index: 999999;
-  `;
+  bg.className = 'overlay-bg';
+  bg.style.cssText =
+    'position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.5);z-index:999999;';
 
   const card = document.createElement('div');
   card.id = 'edit-overlay-card';
-  card.style.cssText = `
-    background: #fff; width: 525px; height: 871px;
-    max-height: 90vh; overflow: auto; border-radius: 12px; padding: 16px;
-    box-shadow: 0 20px 60px rgba(0,0,0,.35); position: relative;
-  `;
+  card.className = 'overlay-card';
+  card.style.cssText =
+    'background:#fff;max-width:92vw;max-height:90vh;border-radius:12px;position:relative;overflow:auto;';
 
   const closeImg = document.createElement('img');
   closeImg.id = 'edit-overlay-close';
+  closeImg.className = 'overlay-close';
   closeImg.src = './assets/Close.png';
-  closeImg.alt = 'Schließen';
-  closeImg.style.cssText = `
-    position: absolute; right: 12px; top: 12px;
-    width: 24px; height: 24px; cursor: pointer;
-  `;
+  closeImg.alt = 'Close';
+  closeImg.style.cssText =
+    'position:absolute;right:12px;top:12px;width:24px;height:24px;cursor:pointer;';
 
   const host = document.createElement('div');
   host.id = 'edit-overlay-host';
@@ -45,22 +39,24 @@ function ensureEditOverlay() {
   return bg;
 }
 
-/* 2) Overlay open + load iFrame */
 function openEditOverlay() {
   const bg   = ensureEditOverlay();
   const host = document.getElementById('edit-overlay-host');
 
-  host.innerHTML = '<div style="padding:16px;font:14px system-ui">Formular wird geladen …</div>';
+  host.innerHTML =
+    '<div class="overlay-loading" style="padding:16px;font:14px system-ui">Formular wird geladen …</div>';
   host.querySelector('#edit-form-frame')?.remove();
 
   const frame = document.createElement('iframe');
   frame.id = 'edit-form-frame';
+  frame.className = 'overlay-frame';
   frame.src = EDIT_FORM_URL;
-  frame.style.cssText = 'width:100%;height:80vh;border:0;display:block;background:#fff;border-radius:8px;';
+  frame.style.cssText =
+    'width:100%;height:80vh;border:0;display:block;background:#fff;border-radius:8px;';
 
-  frame.onload = () => {
-    host.querySelector('div')?.remove();
-    activateIframeEditMode(frame);
+  frame.onload = async () => {
+    host.querySelector('.overlay-loading')?.remove();
+    await activateIframeEditMode(frame);
   };
 
   host.appendChild(frame);
@@ -69,7 +65,6 @@ function openEditOverlay() {
   document.body.style.overflow = 'hidden';
 }
 
-/* 3) Overlay close */
 function closeEditOverlay() {
   const bg = document.getElementById('edit-overlay-bg');
   if (!bg) return;
@@ -77,122 +72,116 @@ function closeEditOverlay() {
   document.body.style.overflow = '';
 }
 
-/* 4) iFrame: Edit-Modus */
-function activateIframeEditMode(frame) {
-  try {
-    const doc = frame.contentDocument || frame.contentWindow?.document;
-    if (!doc) return;
+async function injectCssIntoFrame(frame) {
+  const doc = frame.contentDocument || frame.contentWindow?.document;
+  if (!doc) return;
 
-    doc.documentElement.classList.add('edit-overlay');
-    doc.body.classList.add('edit-overlay');
+  doc.getElementById('edit-overlay-inline-css')?.remove();
 
-    // edit.css 
-    if (!doc.getElementById('edit-overlay-external-css')) {
-      const link = doc.createElement('link');
-      link.id  = 'edit-overlay-external-css';
-      link.rel = 'stylesheet';
-      link.href = new URL('edit.css', frame.src).href;
-      doc.head.appendChild(link);
-    }
+  if (doc.getElementById('edit-overlay-external-css')) return;
 
-    if (!doc.documentElement.style.background) doc.documentElement.style.background = '#fff';
-    if (!doc.body.style.background)            doc.body.style.background = '#fff';
+  const href = new URL('responsive_board_overlay.css', frame.src);
+  href.searchParams.set('v', String(Date.now())); 
 
-    if (!doc.getElementById('edit-overlay-inline-css')) {
-      const style = doc.createElement('style');
-      style.id = 'edit-overlay-inline-css';
-      style.textContent = `
-        #add-task-button { display: none !important; }
-        #clear-button    { display: none !important; }
-        #edit-overlay-accept {
-          display: inline-flex !important;
-          align-items: center; justify-content: center;
-          gap: .5rem;
-          padding: .75rem 1rem;
-          border-radius: 10px;
-          border: 1px solid #2A3647;
-          background: #2A3647;
-          color: #fff;
-          font-weight: 600;
-          cursor: pointer;
-          transition: filter .15s ease;
-        }
-        #edit-overlay-accept:hover { filter: brightness(.95); }
-      `;
-      doc.head.appendChild(style);
-    }
+  const link = doc.createElement('link');
+  link.id  = 'edit-overlay-external-css';
+  link.rel = 'stylesheet';
+  link.href = href.href;
 
-    const btnWrap =
-      doc.querySelector('.createTaskBtn-svg-container') ||
-      doc.querySelector('.task-button-container') ||
-      doc.getElementById('tbc-wrapper-inner') ||
-      doc.body;
-
-    const createBtn = doc.getElementById('add-task-button');
-    if (createBtn) createBtn.style.display = 'none';
-
-    let okBtn = doc.getElementById('edit-overlay-accept');
-    if (!okBtn) {
-      okBtn = doc.createElement('button');
-      okBtn.id = 'edit-overlay-accept';
-      okBtn.type = 'button';
-      okBtn.textContent = 'OK';
-    }
-
-    if (createBtn?.className) okBtn.className = createBtn.className;
-    else okBtn.classList.add('create-task-button');
-
-    const checkIcon = btnWrap.querySelector('.check-icon');
-    if (!okBtn.parentElement || okBtn.parentElement !== btnWrap) {
-      if (checkIcon) btnWrap.insertBefore(okBtn, checkIcon);
-      else btnWrap.appendChild(okBtn);
-    }
-
-
-    okBtn.style.backgroundColor = '#2A3647';
-    okBtn.style.borderColor     = '#2A3647';
-    okBtn.style.color           = '#fff';
-    okBtn.style.display         = 'inline-flex';
-
-    // Click-Handler
-    if (!okBtn.__bound) {
-      okBtn.__bound = true;
-      okBtn.addEventListener('click', () => {
-        closeEditOverlay();
-      });
-    }
-  } catch (e) {
-    console.warn('[EditOverlay] Edit-Modus im iFrame konnte nicht aktiviert werden:', e);
-  }
-}
-
-document.addEventListener('click', (e) => {
-  const el = e.target.closest('[data-action="edit"], a[href="#edit"]');
-  if (!el) return;
-  e.preventDefault();
-  e.stopPropagation();
-  openEditOverlay();
-}, { capture: true });
-
-function initPriorityInput(doc) {
-  const container = doc.getElementById('urg-container');
-  const hidden = doc.getElementById('priority-value');
-
-  container.addEventListener('click', () => {
-    // Toggle "aktiv"
-    container.classList.toggle('active');
-
-    // Wert setzen oder zurücksetzen
-    if (container.classList.contains('active')) {
-      hidden.value = container.querySelector('input').dataset.prio;
-    } else {
-      hidden.value = '';
-    }
-
-    console.log('Priority ist jetzt:', hidden.value);
+  await new Promise((resolve, reject) => {
+    link.onload  = resolve;
+    link.onerror = (e) => {
+      console.error('[overlay css] Fehler beim Laden:', href.href, e);
+      reject(e);
+    };
+    doc.head.appendChild(link);
   });
 }
 
+function installIframePolyfills(doc) {
+  const win = doc.defaultView || window;
+
+  if (!win.switchArrowIcon) {
+    win.switchArrowIcon = function switchArrowIcon() {
+      const el = doc.querySelector('[data-rotate-target]');
+      if (el) el.classList.toggle('is-open');
+    };
+  }
+
+  if (!win.showUserName) {
+    win.showUserName = function showUserName() {
+      const dd = doc.querySelector('.assigned-dropdown, [data-assignee-list]');
+      if (dd) dd.classList.toggle('is-open');
+    };
+  }
+
+  if (!win.openCalendar) {
+    win.openCalendar = function openCalendar() {
+      const input = doc.getElementById('date-input') || doc.querySelector('input[type="date"]');
+      if (input && input.showPicker) {
+        input.showPicker(); 
+      } else if (input) {
+        input.focus();
+        input.click();
+      }
+    };
+  }
+}
+
+async function activateIframeEditMode(frame) {
+  const doc = frame.contentDocument || frame.contentWindow?.document;
+  if (!doc) return;
+
+  doc.documentElement.classList.add('edit-overlay');
+  doc.body.classList.add('edit-overlay');
+
+  await injectCssIntoFrame(frame);
+
+  installIframePolyfills(doc);
+
+  doc.getElementById('add-task-button')?.setAttribute('style', 'display:none !important');
+  doc.getElementById('clear-button')?.setAttribute('style', 'display:none !important');
+
+  const btnWrap =
+    doc.querySelector('.createTaskBtn-svg-container') ||
+    doc.querySelector('.task-button-container') ||
+    doc.getElementById('tbc-wrapper-inner') ||
+    doc.body;
+
+  let okBtn = doc.getElementById('edit-overlay-accept');
+  if (!okBtn) {
+    okBtn = doc.createElement('button');
+    okBtn.id = 'edit-overlay-accept';
+    okBtn.type = 'button';
+    okBtn.textContent = 'OK';
+    okBtn.className = 'overlay-ok-btn';
+  }
+
+  if (!okBtn.parentElement || okBtn.parentElement !== btnWrap) {
+    const before = btnWrap.querySelector('.check-icon');
+    before ? btnWrap.insertBefore(okBtn, before) : btnWrap.appendChild(okBtn);
+  }
+
+  if (!okBtn.__bound) {
+    okBtn.__bound = true;
+    okBtn.addEventListener('click', () => {
+      try { window.dispatchEvent(new CustomEvent('tasks:changed')); } catch {}
+      closeEditOverlay();
+    });
+  }
+}
+
+document.addEventListener(
+  'click',
+  (e) => {
+    const el = e.target.closest('[data-action="edit"], a[href="#edit"]');
+    if (!el) return;
+    e.preventDefault();
+    e.stopPropagation();
+    openEditOverlay();
+  },
+  { capture: true }
+);
 
 window.openEditOverlay  = openEditOverlay;
 window.closeEditOverlay = closeEditOverlay;

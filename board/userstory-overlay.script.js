@@ -7,26 +7,61 @@
     .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
     .replaceAll('"','&quot;').replaceAll("'",'&#039;');
 
+  /** zentrale Tasks-Quelle (ersetzt getAllTasks) */
+  function allTasks() {
+    const list =
+      (typeof window.getTasks === 'function' && window.getTasks()) ||
+      window.tasks ||
+      window.firstdata?.tasks ||
+      window.firstData?.tasks ||
+      window.join?.tasks ||
+      window.db?.tasks ||
+      window.data?.tasks ||
+      [];
+    return Array.isArray(list) ? list : [];
+  }
+
+  /** Datum robust parsen (lokal), inkl. UNIX, dd.mm.yyyy, yyyy-mm-dd */
   function parseDateValue(v) {
-    if (!v) return null;
-    if (v instanceof Date) return isNaN(v) ? null : v;
-    if (typeof v === 'number') { const n = v < 1e12 ? v * 1000 : v; const d = new Date(n); return isNaN(d) ? null : d; }
+    if (v == null || v === '') return null;
+
+    // reine Zahl (oder Zahlstring) -> UNIX sek/ms
+    if (typeof v === 'number' || (/^\d+$/.test(String(v)))) {
+      const n  = Number(v);
+      const ms = n < 1e12 ? n * 1000 : n; // <1e12 → Sekunden
+      const d  = new Date(ms);
+      return isNaN(d) ? null : d;
+    }
+
     const s = String(v).trim();
-    const m = s.match(/^(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{2,4})$/);
+
+    let m = s.match(/^(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{2,4})$/);
     if (m) {
       let [, dd, mm, yyyy] = m; dd = +dd; mm = +mm - 1; yyyy = +yyyy;
       if (yyyy < 100) yyyy += (yyyy >= 70 ? 1900 : 2000);
       const d = new Date(yyyy, mm, dd);
       return isNaN(d) ? null : d;
     }
-    const d = new Date(s); return isNaN(d) ? null : d;
+
+    m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (m) {
+      const yyyy = +m[1], mm = +m[2] - 1, dd = +m[3];
+      const d = new Date(yyyy, mm, dd);
+      return isNaN(d) ? null : d;
+    }
+
+    const d = new Date(s);
+    return isNaN(d) ? null : d;
   }
 
   function fmtDate(v) {
     const d = parseDateValue(v);
     if (!d) return String(v ?? '');
-    try { return d.toLocaleDateString(undefined, { year:'numeric', month:'2-digit', day:'2-digit' }); }
-    catch { return d.toDateString(); }
+    try {
+      return d.toLocaleDateString(undefined, { year:'numeric', month:'2-digit', day:'2-digit' });
+    } catch {
+      return d.toDateString();
+    }
   }
 
   function fmtPrioLabel(p) {
@@ -38,20 +73,26 @@
   }
 
   function getDueRaw(task) {
-    return task?.enddatum ?? task?.enddate ?? task?.due ?? task?.dueDate ?? task?.deadline ?? task?.end_date ?? null;
-  }
+    if (!task || typeof task !== 'object') return null;
 
-  function getAllTasks() {
-    const list =
-      window.getTasks?.() ||
-      window.tasks ||
-      window.firstdata?.tasks ||
-      window.firstData?.tasks ||
-      window.join?.tasks ||
-      window.db?.tasks ||
-      window.data?.tasks ||
-      [];
-    return Array.isArray(list) ? list : [];
+    const keysInOrder = [
+      'due', 'dueDate', 'due_date', 'duedate',
+      'deadline',
+      'enddate', 'end_date', 'enddatum',
+      'date'
+    ];
+
+    for (const k of keysInOrder) {
+      const val = task[k];
+      if (val != null && String(val).trim() !== '') return val;
+    }
+
+    for (const k of Object.keys(task)) {
+      if (/^(due|deadline|end.?date|date)$/i.test(k) && task[k] != null && String(task[k]).trim() !== '') {
+        return task[k];
+      }
+    }
+    return null;
   }
 
   function getCardId(card) {
@@ -75,16 +116,16 @@
     if (main === 'userstory') return 'userstory';
     if (main === 'techtask')  return 'techtask';
 
+    // Fallback: im Task suchen
     const id = getCardId(card);
     if (id != null) {
-      const t = getAllTasks().find(x => String(x?.id) === String(id));
+      const t = allTasks().find(x => String(x?.id) === String(id));
       const m = norm(t?.main);
       if (m === 'userstory') return 'userstory';
       if (m === 'techtask')  return 'techtask';
     }
     return null;
   }
-
 
   const initials = (n)=> String(n).trim().split(/\s+/).slice(0,2).map(p=>p[0]?.toUpperCase()||'').join('')||'?';
   function pickColor(key){ const s=String(key||''); let h=0; for(let i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))%360; return `hsl(${h} 80% 75%)`; }
@@ -283,7 +324,7 @@
     else                    closeOverlayById('overlay-userstory');
 
     const id = getCardId(card);
-    const tasks = getAllTasks();
+    const tasks = allTasks(); // <— ersetzt getAllTasks()
     const taskById = (id!=null) ? tasks.find(x=>String(x?.id)===String(id)) : null;
 
     if (taskById) openOverlay(type, taskById);
@@ -322,5 +363,6 @@
       openOverlay(type, fallbackFromCard(card, id, type));
     };
   });
+
   window.openCardDetailsFromCard = openFromCard;
 })();

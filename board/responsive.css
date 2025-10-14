@@ -24,6 +24,12 @@
 
 @media (max-width:800px){
 
+    
+   #bt-add-task p{
+
+        display: none;
+    }
+    
     .title-and-search{
 
         display: flex;
@@ -58,10 +64,6 @@
 
 @media (max-width:500px){
 
-   #bt-add-task p{
-
-        display: none;
-    }
 
     .board-find-task{
 
