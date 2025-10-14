@@ -19,11 +19,11 @@
 
 .login {
     position: absolute;
-    bottom: 30vh;
+    bottom: 17vh;
     background-color: white;
     border-radius: 30px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
-    padding: 48px 200px 48px 200px;
+    padding: 48px 156px 48px 156px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -251,6 +251,9 @@ h1 {
 .checkboxandbuttonplacement {
     margin-bottom: 15px;
 }
+.signupinputfield{
+    border: none;
+}
 
 @media screen and (max-width: 780px) {
     .logo {
@@ -276,12 +279,12 @@ h1 {
 
     .signupinputfield {
         width: 300px;
-        height: 48px;
+        height: 35px;
+        border: none;
     }
 
     .signup {
-        width: 396px;
-        height: 595px;
+        height: 500px;
         border-radius: 30px;
         padding-top: 32px;
         padding-bottom: 32px;
