@@ -1,6 +1,4 @@
-/* ===== Scope nur im Edit-Overlay ===== */
 .edit-overlay {
-  /* Panel-Breite wie im Screenshot */
   --panel-max-w: 520px;
   --brand: #2A3647;
   --border: #E5E7EB;
@@ -11,7 +9,6 @@
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Arial;
 }
 
-/* Kopf-/Label-Stil */
 .edit-overlay .em-05 {
   font-size: 12px;
   font-weight: 600;
@@ -19,7 +16,6 @@
   margin-bottom: 6px;
 }
 
-/* Inputs allgemein */
 .edit-overlay .input,
 .edit-overlay textarea.input {
   width: 100%;
@@ -38,7 +34,6 @@
   box-shadow: 0 0 0 2px rgb(42 54 71 / .15);
 }
 
-/* -------- Due date mit Icon rechts im Feld -------- */
 .edit-overlay .date-input-wrapper {
   position: relative;
   display: flex;
@@ -46,7 +41,7 @@
   width: 100%;
 }
 .edit-overlay #date-input.input {
-  padding-right: 36px; /* Platz für Icon */
+  padding-right: 36px; 
   cursor: pointer;
 }
 .edit-overlay #date-input::-webkit-calendar-picker-indicator {
@@ -54,12 +49,11 @@
 }
 .edit-overlay .date-icon {
   position: absolute;
-  right: 12px; top: 50%; transform: translateY(-50%);
+  right: 12px; top: 70%; transform: translateY(-50%);
   width: 20px; height: 20px; opacity: .75; pointer-events: none;
 }
 .edit-overlay .date-input-wrapper:hover .date-icon { opacity: 1; }
 
-/* -------- Priority-Pills (Urgent / Medium / Low) -------- */
 .edit-overlay .priority-input-container {
   display: flex; gap: 12px; align-items: center; ;
 }
@@ -77,38 +71,32 @@
   user-select: none;
 }
 
-/* Input im Pill nur als Label verwenden */
 .edit-overlay .priority-input-container .priority-input {
   border: 0; background: transparent; pointer-events: none;
   font-weight: 600; padding: 0; margin: 0;
 }
 
-/* Urgent (aktiv = weißer Chip mit roter Linie/Text) */
 .edit-overlay .urgent-container.active {
   border-color: #EF4444; color: #EF4444; background: #fff;
 }
 
-/* Medium (aktiv = orange Pill mit weißem Text) */
 .edit-overlay .medium-container.active {
   border-color: #F59E0B; background: #F59E0B; color: #fff;
 }
 
-/* Low (aktiv = weißer Chip mit grünem Rand/Text) */
 .edit-overlay .low-container.active {
   border-color: #10B981; color: #10B981; background: #fff;
 }
 
-/* Neutral-Hover */
 .edit-overlay .urgent-container:hover,
 .edit-overlay .medium-container:hover,
 .edit-overlay .low-container:hover {
   border-color: #D1D5DB;
 }
 
-/* -------- Assigned to (Select-Look) -------- */
 .edit-overlay .assign-Input {
   position: relative;
-  padding-right: 40px; /* Platz für Dropdown-Icon */
+  padding-right: 40px; 
 }
 .edit-overlay .drop-down-arrow-svg {
   position: absolute;
@@ -116,7 +104,6 @@
   pointer-events: none;
 }
 
-/* -------- Footer mit OK-Button (unten rechts) -------- */
 .edit-overlay .tbc-wrapper {
   position: sticky; bottom: 0;
   display: flex; justify-content: flex-end;
@@ -162,26 +149,25 @@
     flex-direction: row;
 }
 
-/* Wrapper um Input + Icons */
+
 .subtask-input-wrapper {
   position: relative;
   width: 100%;
 }
 
-/* Input selbst – rechts Platz freihalten */
+
 .subtask-input-wrapper .input {
   width: 100%;
-  padding: 10px 60px 10px 12px; /* rechts extra Platz für Icons */
+  padding: 10px 60px 10px 12px; 
   border: 1px solid #ddd;
   border-radius: 10px;
   box-sizing: border-box;
   font: inherit;
 }
 
-/* Container für Cancel/Accept-Icons */
 .cancel-accept-container {
   position: absolute;
-  top: 50%;
+  top: 46%;
   right: 12px;
   transform: translateY(-50%);
   display: flex;
@@ -189,14 +175,12 @@
   gap: 8px;
 }
 
-/* kleine Trennlinie zwischen X und ✓ */
 .cancel-accept-container .divider {
   width: 1px;
   height: 18px;
   background: #ddd;
 }
 
-/* Icon-Größe & Cursor */
 .subtask-close-svg,
 .subtask-check-svg {
   width: 18px;

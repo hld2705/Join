@@ -2,7 +2,7 @@ const EDIT_FORM_URL = './add_task/form_task.html';
 
 const ABS_FORM_URL  = new URL(EDIT_FORM_URL, location.href);
 const EDIT_FORM_DIR = new URL('.', ABS_FORM_URL);
-const EDIT_FORM_CSS = new URL('responsive_board_overlay.css', EDIT_FORM_DIR).href;
+const EDIT_FORM_CSS = new URL('edit.css', EDIT_FORM_DIR).href;
 
 function ensureEditOverlay() {
   let bg = document.getElementById('edit-overlay-bg');
@@ -85,7 +85,7 @@ function ensureExternalCss(href) {
   link.id = id;
   link.rel = 'stylesheet';
 
-  // Cache-Busting
+ 
   const url = new URL(href);
   url.searchParams.set('v', String(Date.now()));
   link.href = url.href;
