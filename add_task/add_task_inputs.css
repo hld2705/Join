@@ -8,9 +8,9 @@
 }
 
 .priority-input {
-    box-sizing: content-box;
-    width: 60px;
-    padding: 14px 54px 14px 16px !important;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 14px 12px; 
 }
 
 .priority-input::placeholder {

@@ -8,16 +8,22 @@
         margin-right: -12px;
     }
 
-    .task-button-container {
-        left: 94px;
-    }
-
     .right-task {
         margin-right: -14px;
+
     }
 }
 
 @media (max-width: 1400px) {
+
+.left-task-container {
+    padding-right: 100px;
+}
+
+.left-task::after {
+    right: 20px;
+
+}
 
     .input {
         padding: 14px 12px;
@@ -31,32 +37,20 @@
         right: 20px;
     }
 
-    .task-button-container {
-        left: 74px;
-    }
-
     .double-down {
         width: 16px;
-        right: 12px;
+        right: 20px;
     }
 
     .equals-icon {
-        right: 0px;
-        width: 16px;
+        right: 8px;
+        width: 14px;
     }
 
     .double-up-arrow {
         width: 16px;
         top: 20px;
-        right: 6px;
-    }
-
-    .priority-input {
-        padding: 14px 18px 14px 11px !important
-    }
-
-    .date-icon {
-        left: 318px;
+        right: 12px;
     }
 
     .edit-overlay .left-task {
@@ -85,7 +79,6 @@
     }
 
     .left-task-container {
-
         top: 0px;
     }
 
@@ -106,13 +99,14 @@
     }
 
     .right-task {
+        width: 100%;
         padding-left: 20px;
-        padding-right: 40px;
     }
 
     .left-task {
+        width: 100%;
         padding-left: 20px;
-        padding-right: 20px;
+        padding-right: 26px;
     }
 
     .left-task-container {
@@ -256,8 +250,8 @@
     }
 
     .priority-input-container {
-        gap: 10px;
-        justify-content: center;
+        gap: 40px;
+        justify-content: space-around;
         align-items: center;
     }
 
@@ -347,5 +341,9 @@
 @media (max-width: 520px) {
     .task-content-container {
         display: grid !important;
+    }
+
+        .priority-input-container {
+        gap: 5px;
     }
 }

@@ -22,7 +22,7 @@
     background-color: grey;
 }
 
-input { 
+input {
     font-size: 16px;
     border: 1px solid #ccc;
     border-color: #dddddd;
@@ -35,11 +35,11 @@ input {
 }
 
 textarea {
-      padding: 16px 14px 14px 20px;
-        font-size: 16px;
-       border: 1px solid #ccc;
+    padding: 16px 14px 14px 20px;
+    font-size: 16px;
+    border: 1px solid #ccc;
     border-color: #dddddd;
-     text-align: left;
+    text-align: left;
     border-radius: 10px;
     outline: none;
     resize: vertical;
@@ -51,7 +51,8 @@ textarea {
     width: 24px;
     position: absolute;
     top: 62px;
-      left: auto;
+    left: auto;
+        right: 12px;
 }
 
 .clear-button {
