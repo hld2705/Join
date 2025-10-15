@@ -1,11 +1,26 @@
+@media (max-width: 1500px) {
+
+    .left-task {
+        padding-left: 100px;
+    }
+
+    input {
+        margin-right: -12px;
+    }
+
+    .task-button-container {
+        left: 94px;
+    }
+
+    .right-task {
+        margin-right: -14px;
+    }
+}
+
 @media (max-width: 1400px) {
 
     .input {
-        padding: 14px 120px 14px 20px;
-    }
-
-    #date-input {
-        padding: 14px 220px 14px 20px;
+        padding: 14px 12px;
     }
 
     .drop-down-arrow-svg {
@@ -16,35 +31,36 @@
         right: 20px;
     }
 
+    .task-button-container {
+        left: 74px;
+    }
+
     .double-down {
         width: 16px;
-        right: 22px;
+        right: 12px;
     }
 
     .equals-icon {
+        right: 0px;
         width: 16px;
-        right: 13px;
     }
 
     .double-up-arrow {
         width: 16px;
         top: 20px;
-        right: 18px;
+        right: 6px;
     }
 
     .priority-input {
-        padding: 14px 32px 14px 11px !important;
+        padding: 14px 18px 14px 11px !important
     }
 
     .date-icon {
         left: 318px;
     }
 
-
-
-
     .edit-overlay .left-task {
-        margin-left: -0px ;
+        margin-left: -0px;
     }
 
 }
@@ -54,6 +70,18 @@
 @media (max-width: 1230px) {
     body {
         font-size: 16px;
+    }
+
+    .low-container input::placeholder {
+        font-size: 12px;
+    }
+
+    .medium-container input::placeholder {
+        font-size: 12px;
+    }
+
+    .urgent-container input::placeholder {
+        font-size: 12px;
     }
 
     .left-task-container {
@@ -79,7 +107,7 @@
 
     .right-task {
         padding-left: 20px;
-        padding-right: 20px;
+        padding-right: 40px;
     }
 
     .left-task {
@@ -96,10 +124,14 @@
     }
 
     .task-button-container {
-        gap: 4px;
-        top: 25px !important;
+        position: fixed;
+        left: auto;
+        right: 20px;
+        gap: 30px;
+        bottom: 100px;
+        top: auto;
         margin-bottom: 20px;
-        left: 400px !important;
+        z-index: 9999;
     }
 
     .tbc-wrapper {
@@ -112,7 +144,7 @@
         display: flex;
         align-items: center;
         padding: 0 16px;
-        z-index: 0;
+        z-index: 9998;
         margin-bottom: 100px;
     }
 
@@ -224,13 +256,9 @@
     }
 
     .priority-input-container {
-        gap: 26px;
+        gap: 10px;
         justify-content: center;
         align-items: center;
-    }
-
-    #date-input {
-        padding: 14px 304px 14px 20px;
     }
 
     .date-icon {
@@ -276,7 +304,48 @@
     .check-icon {
         position: absolute;
         top: 21px;
-        left: 218px;
+        left: 244px;
         color: white;
+    }
+
+    .task-added {
+        visibility: hidden;
+        opacity: 0;
+        width: 300px;
+        height: 66px;
+        border-radius: 20px;
+        top: 90%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        position: fixed;
+        background-color: #2A3647;
+        color: white;
+        font-weight: 300;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 9999;
+        transition: all 0.2s ease;
+    }
+
+    .task-added-end {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .equals-icon {
+        right: 8px;
+    }
+
+    .double-up-arrow {
+        right: 12px;
+    }
+}
+
+
+@media (max-width: 520px) {
+    .task-content-container {
+        display: grid !important;
     }
 }

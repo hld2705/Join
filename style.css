@@ -29,7 +29,7 @@ body {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    width: 232px;
+    min-width: 232px;
     background-color: #2A3647;
     position: relative;
         z-index: 2;
