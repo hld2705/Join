@@ -1,0 +1,91 @@
+.category-input::placeholder {
+    color: rgb(0, 0, 0);
+}
+
+.priority-input-container {
+    display: flex;
+    gap: 26px;
+}
+
+.priority-input {
+    box-sizing: content-box;
+    width: 60px;
+    padding: 14px 54px 14px 16px !important;
+}
+
+.priority-input::placeholder {
+    color: black;
+}
+
+.assign-Input::placeholder {
+    color: black;
+}
+
+.urgent-container input {
+    cursor: pointer;
+}
+
+.medium-container input {
+    cursor: pointer;
+}
+
+.low-container input {
+    cursor: pointer;
+}
+
+textarea:focus::-webkit-input-placeholder {
+    color: transparent;
+}
+
+.assign-Input {
+    box-shadow: inset 1px -1px 2px #bebebe, inset -1px -1px 5px #ffffff;
+}
+
+.assign-Input:hover {
+    box-shadow: inset 1px -1px 0px #bebebe, inset -1px -1px 0px #ffffff;
+}
+
+input:focus::placeholder {
+    opacity: 0;
+}
+
+.category-input:focus::placeholder {
+    opacity: 1;
+}
+
+.assign-Input:focus::placeholder {
+    opacity: 1;
+}
+
+input.priority-input:focus::placeholder {
+    opacity: 1;
+}
+
+.category-input {
+    box-shadow: inset 1px -1px 2px #bebebe, inset -1px -1px 5px #ffffff;
+}
+
+.category-input:hover {
+    box-shadow: inset 1px -1px 0px #bebebe, inset -1px -1px 0px #ffffff;
+}
+
+.subtask-input-container {
+    position: relative;
+}
+
+.assign-Input:focus {
+    outline: none;
+}
+
+
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    display: none;
+    appearance: none;
+}
+
+.date-field .input {
+    width: 100%;
+    padding-right: 40px;
+}
