@@ -45,8 +45,7 @@ body {
     z-index: 9998;
     position: relative;
     min-width: 0;
-    flex: 0 1 clamp(320px, 50%, 1120px);
-   
+    width: clamp(320px, 45vw, 1120px);
 }
 
 .right-task {
@@ -56,6 +55,7 @@ body {
     position: relative;
     padding-right: 30px;
     min-width: 0;
+    width: clamp(320px, 30vw, 1120px);
 }
 
 .right-side-inner {
@@ -136,7 +136,7 @@ body {
     display: flex;
     position: absolute;
     top: 190px;
-    left: 190px;
+        right: 0px;
     gap: 20px;
 }
 
