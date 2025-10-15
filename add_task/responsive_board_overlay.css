@@ -27,7 +27,7 @@
 }
 
 .edit-overlay .title-container,
-.edit-overlay .padding-top20 { padding-top: 0 !important; }
+.edit-overlay .padding-top20 { padding-top: 20px !important; }
 
 .edit-overlay .task-inner-content > * + * {
   margin-top: 16px;
@@ -246,3 +246,8 @@
   height: 18px;
   background: #e5e7eb;
 }
+
+
+
+
+
