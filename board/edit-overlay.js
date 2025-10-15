@@ -1,5 +1,9 @@
 const EDIT_FORM_URL = './add_task/form_task.html';
 
+const ABS_FORM_URL  = new URL(EDIT_FORM_URL, location.href);
+const EDIT_FORM_DIR = new URL('.', ABS_FORM_URL);
+const EDIT_FORM_CSS = new URL('responsive_board_overlay.css', EDIT_FORM_DIR).href;
+
 function ensureEditOverlay() {
   let bg = document.getElementById('edit-overlay-bg');
   if (bg) return bg;
@@ -7,27 +11,25 @@ function ensureEditOverlay() {
   bg = document.createElement('div');
   bg.id = 'edit-overlay-bg';
   bg.className = 'overlay-bg';
-  bg.style.cssText =
-    'position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.5);z-index:999999;';
 
   const card = document.createElement('div');
   card.id = 'edit-overlay-card';
-  card.className = 'overlay-card';
-  card.style.cssText =
-    'background:#fff;max-width:92vw;max-height:90vh;border-radius:12px;position:relative;overflow:auto;';
+  card.className = 'overlay-card overlay-card--flex';
 
   const closeImg = document.createElement('img');
   closeImg.id = 'edit-overlay-close';
   closeImg.className = 'overlay-close';
   closeImg.src = './assets/Close.png';
   closeImg.alt = 'Close';
-  closeImg.style.cssText =
-    'position:absolute;right:12px;top:12px;width:24px;height:24px;cursor:pointer;';
 
   const host = document.createElement('div');
   host.id = 'edit-overlay-host';
+  host.className = 'overlay-host';
+  const footer = document.createElement('div');
+  footer.id = 'edit-overlay-footer';
+  footer.className = 'overlay-footer';
 
-  card.append(closeImg, host);
+  card.append(closeImg, host, footer);
   bg.append(card);
   document.body.append(bg);
 
@@ -39,128 +41,101 @@ function ensureEditOverlay() {
   return bg;
 }
 
-function openEditOverlay() {
-  const bg   = ensureEditOverlay();
-  const host = document.getElementById('edit-overlay-host');
+async function openEditOverlay() {
+  const bg     = ensureEditOverlay();
+  const host   = document.getElementById('edit-overlay-host');
+  const footer = document.getElementById('edit-overlay-footer');
 
-  host.innerHTML =
-    '<div class="overlay-loading" style="padding:16px;font:14px system-ui">Formular wird geladen …</div>';
-  host.querySelector('#edit-form-frame')?.remove();
+  ensureExternalCss(EDIT_FORM_CSS);
 
-  const frame = document.createElement('iframe');
-  frame.id = 'edit-form-frame';
-  frame.className = 'overlay-frame';
-  frame.src = EDIT_FORM_URL;
-  frame.style.cssText =
-    'width:100%;height:80vh;border:0;display:block;background:#fff;border-radius:8px;';
+  host.innerHTML = '<div class="overlay-loading">Formular wird geladen …</div>';
+  footer.innerHTML = '';
 
-  frame.onload = async () => {
-    host.querySelector('.overlay-loading')?.remove();
-    await activateIframeEditMode(frame);
-  };
+  try {
+    const res = await fetch(ABS_FORM_URL, { credentials: 'same-origin' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const html = await res.text();
 
-  host.appendChild(frame);
+    const tpl = document.createElement('template');
+    tpl.innerHTML = html.trim();
+    host.replaceChildren(tpl.content);
+    activateEmbeddedEditMode({ host, footer });
+  } catch (err) {
+    console.error('[overlay] Fehler beim Laden der Form:', err);
+    host.innerHTML = '<div class="overlay-error">Fehler beim Laden des Formulars.</div>';
+  }
 
-  bg.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
+  bg.classList.add('is-open');
+  document.body.classList.add('no-scroll');
 }
 
 function closeEditOverlay() {
   const bg = document.getElementById('edit-overlay-bg');
   if (!bg) return;
-  bg.style.display = 'none';
-  document.body.style.overflow = '';
+  bg.classList.remove('is-open');
+  document.body.classList.remove('no-scroll');
 }
 
-async function injectCssIntoFrame(frame) {
-  const doc = frame.contentDocument || frame.contentWindow?.document;
-  if (!doc) return;
+function ensureExternalCss(href) {
+  if (!href) return;
+  const id = 'edit-overlay-external-css';
+  if (document.getElementById(id)) return;
 
-  doc.getElementById('edit-overlay-inline-css')?.remove();
-
-  if (doc.getElementById('edit-overlay-external-css')) return;
-
-  const href = new URL('responsive_board_overlay.css', frame.src);
-  href.searchParams.set('v', String(Date.now())); 
-
-  const link = doc.createElement('link');
-  link.id  = 'edit-overlay-external-css';
+  const link = document.createElement('link');
+  link.id = id;
   link.rel = 'stylesheet';
-  link.href = href.href;
 
-  await new Promise((resolve, reject) => {
-    link.onload  = resolve;
-    link.onerror = (e) => {
-      console.error('[overlay css] Fehler beim Laden:', href.href, e);
-      reject(e);
-    };
-    doc.head.appendChild(link);
-  });
+  // Cache-Busting
+  const url = new URL(href);
+  url.searchParams.set('v', String(Date.now()));
+  link.href = url.href;
+
+  document.head.appendChild(link);
 }
 
-function installIframePolyfills(doc) {
-  const win = doc.defaultView || window;
-
-  if (!win.switchArrowIcon) {
-    win.switchArrowIcon = function switchArrowIcon() {
-      const el = doc.querySelector('[data-rotate-target]');
+function installPolyfills(root) {
+  if (!window.switchArrowIcon) {
+    window.switchArrowIcon = function switchArrowIcon() {
+      const el = root.querySelector('[data-rotate-target]');
       if (el) el.classList.toggle('is-open');
     };
   }
-
-  if (!win.showUserName) {
-    win.showUserName = function showUserName() {
-      const dd = doc.querySelector('.assigned-dropdown, [data-assignee-list]');
+  if (!window.showUserName) {
+    window.showUserName = function showUserName() {
+      const dd = root.querySelector('.assigned-dropdown, [data-assignee-list], #dropdownList');
       if (dd) dd.classList.toggle('is-open');
     };
   }
-
-  if (!win.openCalendar) {
-    win.openCalendar = function openCalendar() {
-      const input = doc.getElementById('date-input') || doc.querySelector('input[type="date"]');
-      if (input && input.showPicker) {
-        input.showPicker(); 
-      } else if (input) {
-        input.focus();
-        input.click();
-      }
+  if (!window.openCalendar) {
+    window.openCalendar = function openCalendar() {
+      const input = root.querySelector('#date-input, input[type="date"]');
+      if (!input) return;
+      if (input.showPicker) input.showPicker();
+      else { input.focus(); input.click(); }
     };
   }
 }
 
-async function activateIframeEditMode(frame) {
-  const doc = frame.contentDocument || frame.contentWindow?.document;
-  if (!doc) return;
+function activateEmbeddedEditMode({ host, footer }) {
+  host.classList.add('edit-overlay', 'task-content-scroll');
 
-  doc.documentElement.classList.add('edit-overlay');
-  doc.body.classList.add('edit-overlay');
+  installPolyfills(host);
 
-  await injectCssIntoFrame(frame);
+  host.querySelector('#add-task-button')?.classList.add('is-hidden');
+  host.querySelector('#clear-button')?.classList.add('is-hidden');
 
-  installIframePolyfills(doc);
-
-  doc.getElementById('add-task-button')?.setAttribute('style', 'display:none !important');
-  doc.getElementById('clear-button')?.setAttribute('style', 'display:none !important');
-
-  const btnWrap =
-    doc.querySelector('.createTaskBtn-svg-container') ||
-    doc.querySelector('.task-button-container') ||
-    doc.getElementById('tbc-wrapper-inner') ||
-    doc.body;
-
-  let okBtn = doc.getElementById('edit-overlay-accept');
-  if (!okBtn) {
-    okBtn = doc.createElement('button');
+  let okBtn = host.querySelector('#edit-overlay-accept');
+  if (okBtn) {
+    okBtn.remove();
+  } else {
+    okBtn = document.createElement('button');
     okBtn.id = 'edit-overlay-accept';
     okBtn.type = 'button';
     okBtn.textContent = 'OK';
-    okBtn.className = 'overlay-ok-btn';
+    okBtn.className = 'create-task-button';
   }
 
-  if (!okBtn.parentElement || okBtn.parentElement !== btnWrap) {
-    const before = btnWrap.querySelector('.check-icon');
-    before ? btnWrap.insertBefore(okBtn, before) : btnWrap.appendChild(okBtn);
-  }
+  footer.appendChild(okBtn);
 
   if (!okBtn.__bound) {
     okBtn.__bound = true;
