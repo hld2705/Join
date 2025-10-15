@@ -7,7 +7,6 @@
     .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
     .replaceAll('"','&quot;').replaceAll("'",'&#039;');
 
-  /** zentrale Tasks-Quelle (ersetzt getAllTasks) */
   function allTasks() {
     const list =
       (typeof window.getTasks === 'function' && window.getTasks()) ||
@@ -21,14 +20,12 @@
     return Array.isArray(list) ? list : [];
   }
 
-  /** Datum robust parsen (lokal), inkl. UNIX, dd.mm.yyyy, yyyy-mm-dd */
   function parseDateValue(v) {
     if (v == null || v === '') return null;
 
-    // reine Zahl (oder Zahlstring) -> UNIX sek/ms
     if (typeof v === 'number' || (/^\d+$/.test(String(v)))) {
       const n  = Number(v);
-      const ms = n < 1e12 ? n * 1000 : n; // <1e12 → Sekunden
+      const ms = n < 1e12 ? n * 1000 : n; 
       const d  = new Date(ms);
       return isNaN(d) ? null : d;
     }
@@ -116,7 +113,6 @@
     if (main === 'userstory') return 'userstory';
     if (main === 'techtask')  return 'techtask';
 
-    // Fallback: im Task suchen
     const id = getCardId(card);
     if (id != null) {
       const t = allTasks().find(x => String(x?.id) === String(id));
@@ -324,7 +320,7 @@
     else                    closeOverlayById('overlay-userstory');
 
     const id = getCardId(card);
-    const tasks = allTasks(); // <— ersetzt getAllTasks()
+    const tasks = allTasks(); 
     const taskById = (id!=null) ? tasks.find(x=>String(x?.id)===String(id)) : null;
 
     if (taskById) openOverlay(type, taskById);

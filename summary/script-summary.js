@@ -26,8 +26,6 @@ async function initSummary() {
   initProfileMenuAndLogout();
 }
 
-/* ---------------- User-Resolve ---------------- */
-
 function resolveUserFromSessionOrDb() {
   const users = getUsers() || [];
 
@@ -63,8 +61,6 @@ async function syncLoginFlag(correctUserId) {
     users.map(u => saveData('users', { ...u, login: Number(u.id) === Number(correctUserId) ? 1 : 0 }))
   );
 }
-
-/* ---------------- Badge & Greeting ---------------- */
 
 function setProfileBadge(user) {
   const img = document.querySelector('img.profil');
@@ -133,9 +129,6 @@ function setupMobileGatewayAuto() {
   apply();
   mq.addEventListener('change', () => { apply(); });
 }
-
-/* ---------------- Summary – Next Deadline ---------------- */
-
 
 function removeNextDeadlineUI() {
   const box = document.querySelector('.summary-task-status');

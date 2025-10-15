@@ -4,7 +4,7 @@
         display: none;
     }
     body.mobile-gateway #mobile-gateway { display: flex; flex-direction: column; min-height: 100dvh; }
-  body.mobile-gateway #summary-root   { display: none; }
+    body.mobile-gateway #summary-root   { display: none; }
 
   h1.mg-greeting{
     margin-top: 250px;
@@ -77,12 +77,9 @@ header{
     justify-content: flex-end;
   }
 
-  
-
   #task-container{
     display: none;
   }
-
 
 }
 
@@ -165,5 +162,5 @@ header{
 }
 
 @media (prefers-color-scheme: dark) {
-  .join-logo { background-image: url("/assets/logo-desktop-dark.svg"); }
+  .join-logo { background-image: url("/assets/logo-black.svg"); }
 }

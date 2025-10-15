@@ -116,8 +116,6 @@
     height: 168px;
 }
 
-
-
 .summary-todo:hover,
 .summary-task-status:hover,
 .count:hover,
@@ -128,7 +126,6 @@
   color: white;
 }
 
-/* Standard Kreis */
 .icon-summary {
   width: 69px;
   height: 69px;
@@ -146,7 +143,6 @@
   transition: filter 0.2s ease;
 }
 
-/* Hover-Effekt für Kreis & Stift, wenn die gesamte Kachel gehovered wird */
 .summary-todo:hover .icon-summary,
 .summary-task-status:hover .icon-summary,
 .count:hover .icon-summary,
@@ -160,18 +156,18 @@
 .summary-task-status:hover .icon-summary img,
 .count:hover .icon-summary img,
 .count1:hover .icon-summary img {
-  filter: brightness(0); /* Stift wird schwarz */
+  filter: brightness(0); 
 }
 
 
 
 .icon-summary path {
-  fill: white; /* Standard */
+  fill: white;
   transition: fill 0.2s ease;
 }
 
 .icon-summary:hover path {
-  fill: black; /* Hover → schwarz */
+  fill: black;
 }
 .number-container,
 .number-urgent-container {
@@ -296,8 +292,6 @@
     font-weight: 700;
     cursor: pointer;
 }
-
-
 
 .profil-container {
       position: relative;

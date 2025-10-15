@@ -1,12 +1,10 @@
 import { loadData, getTasks } from '../db.js';
 
-/** Navigiert zur gewünschten Seite */
 function navigateTo(page) {
     window.location.href = page;
 }
 window.navigateTo = navigateTo;
 
-/** Erstellt ein To-Do-Kachel-Element */
 function createSummaryTodo(icon, number, label, link = './board.html') {
     return `
         <div class="summary-todo" onclick="navigateTo('${link}')">
@@ -21,13 +19,6 @@ function createSummaryTodo(icon, number, label, link = './board.html') {
     `;
 }
 
-/**
- * Erstellt eine Status-Kachel mit nächster Deadline und Info-Text.
- * @param {string|Date} date - Deadline-Datum
- * @param {string} info - Beschreibung oder Info (z. B. "Tasks in Board")
- * @param {string} link - Zielseite beim Klick (Standard: './board.html')
- * @returns {string} - HTML-Template
- */
 function createSummaryTaskStatus(date, info, link = './board.html') {
   const deadline = new Date(date);
   const formattedDate = isNaN(deadline) ? '' : deadline.toLocaleDateString('en', {
@@ -58,7 +49,6 @@ function createSummaryTaskStatus(date, info, link = './board.html') {
   `;
 }
 
-/** Erstellt ein Zähler-Kachel-Element */
 function createSummaryCount(number, label, link = './board.html') {
     return `
         <div class="count" onclick="navigateTo('${link}')">
@@ -70,13 +60,11 @@ function createSummaryCount(number, label, link = './board.html') {
     `;
 }
 
-/** Gibt die Anzahl der Tasks mit bestimmtem Status zurück */
 function countTasksByStatus(status) {
     const tasks = getTasks();
     return tasks.filter(task => task.status === status).length;
 }
 
-/** Gibt die nächste anstehende Aufgabe mit Deadline zurück */
 function getNextDeadlineTask() {
     const today = new Date();
     const tasks = getTasks();
@@ -86,7 +74,6 @@ function getNextDeadlineTask() {
     return upcoming[0];
 }
 
-/** Lädt Daten und rendert die Task-Übersicht */
 document.addEventListener("DOMContentLoaded", async function () {
     await loadData();
     console.log("Tasks nach loadData:", getTasks());

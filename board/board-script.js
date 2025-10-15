@@ -62,7 +62,7 @@ function installDragClickGuards() {
     }
   }, true);
 }
-/* =================== Contacts & Avatare =================== */
+
 function getContacts() { return Array.isArray(window.CONTACTS) ? window.CONTACTS : []; }
 function resolveUser(userRef) {
   if (!userRef) return null;
@@ -88,7 +88,6 @@ function materializeAssignees(task) {
   return { ...task, assigneesResolved: resolved, assigneeBadgesHtml: badges };
 }
 
-/* =================== Init =================== */
 document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
@@ -122,7 +121,6 @@ async function init() {
   window.addEventListener('tasks:changed', () => requestRefresh(0));
 }
 
-/* =================== Render Board =================== */
 function renderBoard(tasks) {
   COLS.forEach(id => { const c = document.getElementById(id); if (c) c.innerHTML = ''; });
   const safe = Array.isArray(tasks) ? tasks : [];
@@ -154,7 +152,7 @@ function addPlaceholdersIfEmpty() {
     }
   });
 }
-/* ======= Card gesture guard: block foreign pointerdown-openers ======= */
+
 let __dragging = false;
 let __suppressUntil = 0;
 let __down = {x:0, y:0};
@@ -195,7 +193,6 @@ function installCardGuardsOnce() {
 }
 installCardGuardsOnce();
 
-/* =================== Drag & Drop =================== */
 function enableDragAndDrop() {
   document.querySelectorAll('.board-card').forEach(card => {
     card.setAttribute('draggable', 'true');
@@ -264,7 +261,7 @@ function bindCardOpenerOnce() {
     window.openEditOverlay?.();
   });
 }
-/* =================== Overlay Add Task =================== */
+
 function openOverlay() {
   const host = document.getElementById('overlay-add-task');
   if (!host) return;
@@ -289,7 +286,6 @@ function closeOverlay() {
 window.openOverlay = openOverlay;
 window.closeOverlay = closeOverlay;
 
-/* =================== Navbar / Profil =================== */
 document.addEventListener('DOMContentLoaded', initProfileMenuAndLogout);
 function initProfileMenuAndLogout() {
   const profilImg = document.querySelector('.profil');
