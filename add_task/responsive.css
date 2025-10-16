@@ -66,6 +66,10 @@
         font-size: 16px;
     }
 
+    #task-form-container {
+    overflow: visible;
+}
+
     .low-container input::placeholder {
         font-size: 12px;
     }

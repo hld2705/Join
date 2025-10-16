@@ -52,7 +52,7 @@ textarea {
     position: absolute;
     top: 62px;
     left: auto;
-        right: 12px;
+    right: 12px;
 }
 
 .clear-button {
@@ -250,4 +250,58 @@ textarea {
 
 .responsive-logo {
     display: none;
+}
+
+.header-logo {
+    background: url("/assets/logo-desktop.svg") no-repeat center / contain;
+    display: none;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.profil-container {
+    position: relative;
+    padding: 20px;
+}
+
+.profil {
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.navbar {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #1e1e2f;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    display: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 40px;
+    width: 150px;
+    height: 158px;
+}
+
+.navbar a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 8px;
+    font-size: 16px;
+    width: 130px;
+    height: 46px;
+}
+
+.navbar a:last-child {
+    margin-bottom: 0;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
 }

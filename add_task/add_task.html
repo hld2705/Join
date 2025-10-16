@@ -14,13 +14,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
     <script src="./add_task.js" defer></script>
+    <script src="./add_task_interactions.js" defer></script>
     <script src="./add_task_templates.js"></script>
     <title>Join</title>
 </head>
@@ -64,8 +64,8 @@
             <h3 class="header-title">Kanban Project Management Tool</h3>
             <div class="user-info">
                 <a href="../help.html"><img class="Hilfe" src="../assets/help.svg" alt="help"></a>
-                <img class="profil" src="../assets/sofia.svg" alt="Profilbild">
-            </div>
+                <img onclick="badgeOverlay()" id="header-badge" class="profil" src="../assets/sofia.svg"
+                    alt="Profilbild">
             </div>
         </header>
 
@@ -74,6 +74,7 @@
         </div>
         <div id="task-form-container"></div>
     </section>
+
 
 </body>
 

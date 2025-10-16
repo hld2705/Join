@@ -35,3 +35,8 @@ function subtaskOutputTemplate(text, i) {
       </div>
     </li>`;
 }
+
+function badgeOverlay() {
+  document.getElementById('test').classList.toggle('show');
+}
+
