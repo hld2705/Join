@@ -103,7 +103,7 @@ body.no-scroll { overflow: hidden; }
 
 .edit-overlay .drop-down-arrow-svg,
 .edit-overlay .drop-down-arrow-svg-category{
-  top: 72px !important;
+  top: 65px !important;
   right: 18px;
 }
 

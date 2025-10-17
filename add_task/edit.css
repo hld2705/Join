@@ -50,7 +50,7 @@
 }
 .edit-overlay .date-icon {
   position: absolute;
-  right: 12px; top: 70%; transform: translateY(-50%);
+  right: 12px; top: 82%; transform: translateY(-50%);
   width: 20px; height: 20px; opacity: .75; pointer-events: none;
 }
 .edit-overlay .date-input-wrapper:hover .date-icon { opacity: 1; }
@@ -138,7 +138,7 @@
 
 .edit-overlay .drop-down-arrow-svg,
 .drop-down-arrow-svg-category {
-    top: 72px !important;
+    top: 65px !important;
 }
 
 .task-title{
