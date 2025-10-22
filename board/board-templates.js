@@ -1,17 +1,13 @@
 const TITLES = { todo: 'To do', inprogress: 'In progress', review: 'Await feedback', done: 'Done' };
 
-let bg = document.getElementById('task-overlay-background');
-
 export function boardShell() {
   return `
   <div class="display-position">
     <div class="content-board">
-
       <div class="title-and-search">
         <div><h1>Board</h1></div>
         <div>
           <div class="task" aria-live="polite"></div>
-
           <div class="board-find-task">
             <div class="input-find">
               <input id="input-find-task" type="text" placeholder="Find Task">
@@ -25,7 +21,6 @@ export function boardShell() {
           </div>
         </div>
       </div>
-
       <div class="board">
         ${['todo', 'inprogress', 'review', 'done'].map(s => `
           <div class="columns">
@@ -37,25 +32,19 @@ export function boardShell() {
           </div>
         `).join('')}
       </div>
-
     </div>
   </div>`;
 }
 
-
-
-/* ---------- Cards ---------- */
 export function cardTemplate(task) {
   const desc = (task.description || '').trim();
   const subs = Array.isArray(task.subtasks) ? task.subtasks : [];
   const done = subs.filter(s => s?.status === 'done').length;
-
   return `
     <article class="board-card" id="card${task.id}" draggable="true">
       ${mainBadge(task.main)}
       <h4 class="card-title">${esc(task.title)}</h4>
       ${desc ? `<p class="card-desc">${esc(desc)}</p>` : ''}
-
       <div class="card-footer">
         <div class="card-assignees-wrap">${assigneesRow(task) || ''}</div>
         <div class="status-wrap" style="min-width:160px">${subtaskBar(done, subs.length)}</div>
@@ -70,23 +59,14 @@ function mainBadge(main) {
   return `<span class="card-badge" style="background:${cfg.c}">${esc(cfg.t)}</span>`;
 }
 
-
 function subtaskBar(done, total) {
   const has = total > 0;
   const pct = has ? Math.round((done / total) * 100) : 0;
   const label = has ? `${done}/${total} Subtasks` : `0 Subtasks`;
-  const color =
-    !has ? '#E5E7EB' :
-      pct >= 100 ? '#22c55e' :
-        pct >= 50 ? '#3B82F6' :
-          '#f59e0b';
-
+  const color = !has ? '#E5E7EB' : pct >= 100 ? '#22c55e' : pct >= 50 ? '#3B82F6' : '#f59e0b';
   return `
     <div class="status-line${has ? '' : ' is-empty'}">
-      <div class="status-bar"
-           role="progressbar"
-           aria-label="Subtask progress"
-           aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}">
+      <div class="status-bar" role="progressbar" aria-label="Subtask progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}">
         <div class="status-fill" style="width:${pct}%; background:${color}"></div>
       </div>
       <span class="status-count">${label}</span>
@@ -94,7 +74,6 @@ function subtaskBar(done, total) {
   `;
 }
 
-/* --- Assignee badges per card --- */
 function assigneesRow(task) {
   const list = normalizeAssignees(task);
   if (!list.length) return '';
@@ -105,17 +84,16 @@ function assigneesRow(task) {
   `;
 }
 
-/** Normalize assignees (IDs, strings, objects) */
 function normalizeAssignees(task) {
   const raw =
     Array.isArray(task?.assigned) ? task.assigned :
-      (task?.assigned && typeof task.assigned === 'object') ? [task.assigned] :
-        Array.isArray(task?.assignees) ? task.assignees :
-          Array.isArray(task?.assignedTo) ? task.assignedTo :
-            Array.isArray(task?.assigned_to) ? task.assigned_to :
-              Array.isArray(task?.team) ? task.team :
-                Array.isArray(task?.users) ? task.users :
-                  Array.isArray(task?.participants) ? task.participants : [];
+    (task?.assigned && typeof task.assigned === 'object') ? [task.assigned] :
+    Array.isArray(task?.assignees) ? task.assignees :
+    Array.isArray(task?.assignedTo) ? task.assignedTo :
+    Array.isArray(task?.assigned_to) ? task.assigned_to :
+    Array.isArray(task?.team) ? task.team :
+    Array.isArray(task?.users) ? task.users :
+    Array.isArray(task?.participants) ? task.participants : [];
 
   const book = getContactsBook();
   const byId = new Map(book.map(u => [String(u?.id ?? ''), u]));
@@ -127,16 +105,14 @@ function normalizeAssignees(task) {
       const c = byId.get(String(x));
       const label = c?.name || `User ${x}`;
       const key = colorIdentityKey(x, c);
-      return c ? contactToAvatar(c)
-        : { name: label, initials: initialsFromName(label), color: pickColor(key) };
+      return c ? contactToAvatar(c) : { name: label, initials: initialsFromName(label), color: pickColor(key) };
     }
     if (typeof x === 'string') {
       const k = x.toLowerCase();
       const c = byEmail.get(k) || byName.get(k);
       const name = c?.name || x;
       const key = colorIdentityKey(x, c);
-      return c ? contactToAvatar(c)
-        : { name, initials: initialsFromName(name), color: pickColor(key) };
+      return c ? contactToAvatar(c) : { name, initials: initialsFromName(name), color: pickColor(key) };
     }
     if (x && typeof x === 'object') {
       const via =
@@ -144,34 +120,17 @@ function normalizeAssignees(task) {
         (x.email && byEmail.get(String(x.email).toLowerCase())) ||
         (x.name && byName.get(String(x.name).toLowerCase())) || null;
 
-      const composed =
-        x.name ||
-        [x.firstName ?? x.firstname, x.lastName ?? x.lastname].filter(Boolean).join(' ') ||
-        x.email || x.username || (x.id != null ? `User ${x.id}` : '');
-
+      const composed = x.name || [x.firstName ?? x.firstname, x.lastName ?? x.lastname].filter(Boolean).join(' ') || x.email || x.username || (x.id != null ? `User ${x.id}` : '');
       const name = via?.name || composed;
       if (!name) return null;
-
       const key = colorIdentityKey(x, via);
-      return {
-        name,
-        badge: x.badge || via?.badge || null,
-        initials: x.initials || via?.initials || initialsFromName(name),
-        color: x.color || via?.color || pickColor(key),
-      };
+      return { name, badge: x.badge || via?.badge || null, initials: x.initials || via?.initials || initialsFromName(name), color: x.color || via?.color || pickColor(key) };
     }
     return null;
-  })
-    .filter(Boolean)
-    .filter(a => a.name);
+  }).filter(Boolean).filter(a => a.name);
 
   const seen = new Set();
-  return norm.filter(a => {
-    const key = String(a.name);
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
+  return norm.filter(a => { const key = String(a.name); if (seen.has(key)) return false; seen.add(key); return true; });
 }
 
 function getContactsBook() {
@@ -183,21 +142,12 @@ function getContactsBook() {
 function contactToAvatar(c) {
   const fixed = colorFromUser(c);
   const key = colorIdentityKey(c, c);
-  return {
-    name: c.name,
-    badge: c.badge || null,
-    initials: c.initials || initialsFromName(c.name),
-    color: fixed || c.color || pickColor(key),
-  };
+  return { name: c.name, badge: c.badge || null, initials: c.initials || initialsFromName(c.name), color: fixed || c.color || pickColor(key) };
 }
 function avatarBadge(a) {
-  if (a.badge) {
-    return `<img class="avatar-img" src="${esc(a.badge)}" alt="${esc(a.name)}" title="${esc(a.name)}">`;
-  }
+  if (a.badge) return `<img class="avatar-img" src="${esc(a.badge)}" alt="${esc(a.name)}" title="${esc(a.name)}">`;
   return `<span class="avatar" title="${esc(a.name)}" style="background:${esc(a.color)}">${esc(a.initials)}</span>`;
 }
-
-/* Utils */
 function initialsFromName(n) { return String(n).trim().split(/\s+/).slice(0, 2).map(s => s[0]?.toUpperCase() || '').join(''); }
 function pickColor(key) { const s = String(key ?? ''); let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 360; return `hsl(${h} 80% 75%)`; }
 function esc(s) { return String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;'); }
@@ -214,7 +164,6 @@ function colorIdentityKey(input, via) {
   return String(input ?? '').toLowerCase().trim() || 'unknown';
 }
 
-/* ---------- Add Task Overlay ---------- */
 export function renderAddTaskOverlay() {
   return `
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addtask-title">
@@ -251,9 +200,7 @@ export function renderAddTaskOverlay() {
                 </div>
               </div>
             </div>
-
             <div class="add-divider" aria-hidden="true"></div>
-
             <div>
               <div class="form-group">
                 <label for="task-status">Status<span class="req">*</span></label>
@@ -264,7 +211,6 @@ export function renderAddTaskOverlay() {
                   <option value="done">Done</option>
                 </select>
               </div>
-
               <div class="form-group">
                 <label for="task-subtask">Subtasks</label>
                 <div class="subtask-row">
@@ -278,7 +224,6 @@ export function renderAddTaskOverlay() {
         </form>
         <p class="hint">Felder mit <span class="req">*</span> sind Pflicht.</p>
       </div>
-
       <div class="modal-footer">
         <button class="btn ghost" type="button" id="btn-cancel">Cancel</button>
         <button id="edit-btn" class="btn primary" type="submit" form="addtask-form">Create task</button>
@@ -287,14 +232,10 @@ export function renderAddTaskOverlay() {
   `;
 }
 
-
-
 export function attachAddTaskOverlayEvents(root) {
   root.querySelector('.modal-close')?.addEventListener('click', () => window.closeOverlay?.());
   root.querySelector('#btn-cancel')?.addEventListener('click', () => window.closeOverlay?.());
   root.addEventListener('click', (e) => { if (e.target === root) window.closeOverlay?.(); });
-
-  // Priority toggle
   const prioBtns = [...root.querySelectorAll('.prio-btn')];
   const prioInput = root.querySelector('input[name="priority"]');
   prioBtns.forEach(btn => btn.addEventListener('click', () => {
@@ -303,8 +244,6 @@ export function attachAddTaskOverlayEvents(root) {
     if (prioInput) prioInput.value = btn.dataset.prio || 'medium';
   }));
   (prioBtns.find(b => b.dataset.prio === (prioInput?.value || 'medium')))?.classList.add('is-active');
-
-  // Subtasks
   const subInput = root.querySelector('#task-subtask');
   const subList = root.querySelector('#subtask-list');
   root.querySelector('#btn-add-subtask')?.addEventListener('click', () => {
@@ -316,14 +255,11 @@ export function attachAddTaskOverlayEvents(root) {
     subList.appendChild(li);
     subInput.value = '';
   });
-
-  // Submit
   const form = root.querySelector('#addtask-form');
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
     const data = collectFormData(root);
     if (!data.title || !data.status) return;
-
     const tasks = (window.getTasks?.() ?? []);
     const id = Math.max(0, ...tasks.map(t => +t.id || 0)) + 1;
     const task = { id, ...data };
@@ -336,40 +272,49 @@ function collectFormData(root) {
   const title = root.querySelector('#task-title')?.value?.trim() || '';
   const description = root.querySelector('#task-desc')?.value?.trim() || '';
   const due = root.querySelector('#task-date')?.value || '';
-  theStatus:
-  '';
   const status = root.querySelector('#task-status')?.value || 'todo';
   const priority = root.querySelector('input[name="priority"]')?.value || 'medium';
   const subs = [...root.querySelectorAll('#subtask-list li span')].map(s => ({ title: s.textContent, status: 'open' }));
   return { title, description, due, status, priority, subtasks: subs, main: 'techtask' };
 }
 
+let bg = document.getElementById('task-overlay-background');
 let bgEdit = document.getElementById('edit-overlay-background');
 
 function openTaskOverlay() {
-  document.getElementById('task-overlay').style.display = "block";
+  const mount = document.getElementById('task-form-container');
+  mount.innerHTML = renderAddTaskOverlay();
+  const modalRoot = mount.querySelector('.modal') || mount;
+  attachAddTaskOverlayEvents(modalRoot);
+  document.getElementById('task-overlay').style.display = 'block';
   bg?.classList.add('is-open');
+  document.body.classList.add('no-scroll');
+  document.getElementById('addTask-close-Img')?.addEventListener('click', closeTaskOverlay, { once: true });
 }
 
 function closeTaskOverlay() {
+  const mount = document.getElementById('task-form-container');
   bg?.classList.remove('is-open');
+  mount.innerHTML = '';
+  document.body.classList.remove('no-scroll');
 }
 
 function closeEditOverlay() {
   bgEdit?.classList.remove('is-open');
+  document.body.classList.remove('no-scroll');
 }
 
 function openEditOverlay() {
-  document.getElementById('edit-overlay').style.display = "block";
+  document.getElementById('edit-task-form-container').style.display = 'block';
+  document.getElementById('edit-overlay').style.display = 'block';
   bgEdit?.classList.add('is-open');
+  document.body.classList.add('no-scroll');
 }
 
 document.addEventListener('click', (e) => {
   if (e.target.closest('#bt-add-task, .btn-add')) openTaskOverlay();
   if (e.target.closest('#bt-edit-task, .btn-edit')) openEditOverlay();
-
   const closeIcon = e.target.closest('.addTask-close-Icon');
-
   if (closeIcon) {
     if (closeIcon.closest('#edit-overlay')) closeEditOverlay();
     else closeTaskOverlay();
@@ -379,10 +324,4 @@ document.addEventListener('click', (e) => {
   if (e.target === bgEdit) closeEditOverlay();
 });
 
-
-function test() {
-  document.getElementById('edit-task-form-container').style.display = "block";
-  document.getElementById('edit-overlay-background').style.display = "block";
-  document.getElementById('edit-overlay').style.display = "block";
-}
-
+window.closeOverlay = closeTaskOverlay;

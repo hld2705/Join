@@ -14,7 +14,6 @@ body {
 }
 
 
-
 .hidden {
   display: none !important;
 }
@@ -236,7 +235,7 @@ body.no-scroll {
   position: fixed;
   inset: 0;
   z-index: 10000;
-  display: none;
+  /*display: none;*/
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, .45);
@@ -571,7 +570,7 @@ textarea {
 }
 
 #task-overlay-background.is-open {
-  display: grid;
+  display: grid !important;
 }
 
 .addTask-close-Icon {
@@ -862,4 +861,58 @@ textarea {
 
 .responsive-logo{
   display: none;
+}
+
+
+
+.overlay{
+  position: fixed; inset: 0;
+  display: none;               
+  place-items: center;         
+  background: rgba(0,0,0,.45);
+  z-index: 1000000;
+}
+.overlay.is-open{ display: grid !important; } 
+.overlay .modal{
+  width: min(920px, 96vw);
+  max-height: 90vh;
+  background: #fff;
+  border-radius: 16px;
+  overflow: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+
+/* Backdrop sichtbar/zentriert */
+#task-overlay-background{ display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,.45); z-index:100000; place-items:center; }
+#task-overlay-background.is-open{ display:grid !important; }
+
+/* Modal selbst »normal« rendern */
+#task-overlay{ display:block !important; position:static !important; transform:none !important;
+  width:min(920px,96vw); max-height:90vh; background:#fff; border-radius:16px; overflow:auto;
+  box-shadow:0 20px 60px rgba(0,0,0,.25); }
+
+/* Problematische alte Regeln neutralisieren 
+#task-overlay .left-task-container{ z-index:auto !important; top:0 !important; }
+#task-overlay .task-content-container{ overflow-y:auto !important; }*/
+
+#overlay-add-task { display: none !important; pointer-events: none !important; }
+#task-overlay-background{
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.45); z-index: 100000; place-items: center;
+}
+#task-overlay-background.is-open{ display: grid !important; }
+
+#task-overlay{
+  display: block !important; position: static !important; transform: none !important;
+  width: min(920px,96vw); max-height: 90vh; background:#fff; border-radius:16px;
+  overflow: auto; box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+
+
+#task-overlay{
+  position: static !important;
+  transform: none !important;
+  width: auto;
+  height: auto;
 }

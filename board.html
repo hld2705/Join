@@ -94,17 +94,7 @@
         </div>
       </div>
 
-          <div id="edit-overlay-background">
-        <div class="edit-overlay" id="edit-overlay">
-          <div class="task-overlay-inner">
-            <img src="./assets/Close.png" id="addTask-edit-close-Img" class="addTask-close-Icon"></img>
-            <div id="edit-task-form-container">
-
-            </div>
-          </div>
-
-        </div>
-      </div>
+         
     
     </section>
 
@@ -113,7 +103,7 @@
   <script type="module" src="./db.js"></script>
 <script type="module" src="./firstdata.js"></script>
 <script type="module" src="./board/board-script.js"></script>
-<script type="module" src="./board/edit-overlay.js"></script> <!-- HIER -->
+<script type="module" src="./board/edit-overlay.js"></script>
 <script type="module" src="./board/userstory-overlay.script.js"></script>
 
     
@@ -124,5 +114,13 @@
 
 
 </body>
+
+<div id="overlay-add"  class="overlay" hidden>
+  <div class="modal">…Add Task…</div>
+</div>
+
+<div id="overlay-edit" class="overlay" hidden>
+  <div class="modal">…Edit Task…</div>
+</div>
 
 </html>

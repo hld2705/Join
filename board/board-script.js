@@ -361,3 +361,25 @@ async function setProfileAvatar() {
     el.innerHTML = badge;
   }
 }
+
+const backdrop = document.getElementById('task-overlay-background');
+const mount    = document.getElementById('task-form-container');
+
+function openAddTask() {
+  mount.innerHTML = renderAddTaskMarkup();   
+  backdrop.classList.add('is-open');
+  document.body.classList.add('no-scroll');
+}
+
+function closeAddTask() {
+  backdrop.classList.remove('is-open');
+  mount.innerHTML = '';
+  document.body.classList.remove('no-scroll');
+}
+
+// Close-Events
+backdrop.addEventListener('click', (e) => {
+  if (e.target.id === 'task-overlay-background') closeAddTask();
+});
+document.getElementById('addTask-close-Img')?.addEventListener('click', closeAddTask);
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAddTask(); });
