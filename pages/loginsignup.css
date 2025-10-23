@@ -19,11 +19,13 @@
 
 .login {
     position: absolute;
-    bottom: 17vh;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     background-color: white;
     border-radius: 30px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
-    padding: 48px 156px 48px 156px;
+    padding: 48px 152px 48px 152px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -251,7 +253,8 @@ h1 {
 .checkboxandbuttonplacement {
     margin-bottom: 15px;
 }
-.signupinputfield{
+
+.signupinputfield {
     border: none;
 }
 
@@ -291,6 +294,7 @@ h1 {
         position: absolute;
         bottom: 10%;
     }
+
     .userinputcustom {
         width: 219px;
         height: 35px;
@@ -329,18 +333,19 @@ h1 {
     }
 
 }
-    @keyframes logoanimation {
-        0% {
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(2);
-            opacity: 1;
-        }
 
-        100% {
-            top: 80px;
-            left: 70px;
-            transform: translate(0, 0) scale(1);
-            opacity: 1;
-        }
+@keyframes logoanimation {
+    0% {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 1;
     }
+
+    100% {
+        top: 80px;
+        left: 70px;
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+}

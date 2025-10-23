@@ -135,6 +135,7 @@ header {
 
 .bg-orange::placeholder {
     color: white;
+
 }
 
 .black-text {
@@ -377,8 +378,6 @@ ul {
     cursor: default;
 }
 
-
-
 .subtask-text:focus {
     outline: none;
 }
@@ -387,8 +386,6 @@ ul {
     position: relative;
     display: inline-block;
 }
-
-
 
 #subtask-content {
     height: 100px;
@@ -433,5 +430,4 @@ ul {
 #test a:hover {
     background-color: #2c3a52;
     box-shadow: 0 0 0 12px #2c3a52;
-    /* leuchtender Rand */
 }
