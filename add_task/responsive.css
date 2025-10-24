@@ -184,7 +184,7 @@
         bottom: 0;
         background-color: #2A3647;
         align-items: center;
-        z-index: 100;
+       z-index: 9999;
     }
 
     .left-side a {

@@ -30,7 +30,7 @@ header {
     min-width: 0;
     overflow-y: hidden;
     overflow-x: hidden;
-        background: linear-gradient(0deg, rgba(245, 246, 247, 1) 99%, rgb(223, 224, 225) 100%);
+    background: linear-gradient(0deg, rgba(245, 246, 247, 1) 99%, rgb(223, 224, 225) 100%);
     gap: clamp(12px, 2vw, 32px);
 }
 
@@ -425,9 +425,14 @@ ul {
     margin-top: 22px;
     color: white;
     text-decoration: none;
+    z-index: 9999;
 }
 
 #test a:hover {
     background-color: #2c3a52;
     box-shadow: 0 0 0 12px #2c3a52;
+}
+
+.subtask-input {
+    padding: 16px 76px 13px 20px;
 }

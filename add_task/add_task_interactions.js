@@ -249,12 +249,17 @@ function clearCategoryInput() {
 
 function handleSubtaskOutput(e) {
     let inputfield = document.getElementById('subtask-input');
-    if (e.target.closest('#subtask-accept')) {
+    if (e.target.closest?.('#subtask-accept') || (e.type === 'keydown' && e.key === 'Enter' && e.target.id === 'subtask-input')) {
+        e.preventDefault();
         handleSubtaskAccept(e);
         inputfield.value = '';
     }
     handleSubtaskCancel(e);
 }
+
+document.addEventListener('keydown', (e) => {
+    handleSubtaskOutput(e);
+});
 
 function handleSubtaskAccept(e) {
     let inputfield = document.getElementById('subtask-input');
