@@ -16,6 +16,7 @@ body.no-scroll { overflow: hidden; }
   box-shadow: 0 10px 30px rgba(0,0,0,.15);
   position: relative; display: flex; flex-direction: column;
   overflow: hidden;
+  height: 931px;
 }
 
 .overlay-host{
@@ -36,7 +37,7 @@ body.no-scroll { overflow: hidden; }
 
 .overlay-close { display: none; }
 
-.edit-overlay body { font-size: 16px; }
+
 
 .edit-overlay .textarea {
   resize: vertical;
@@ -106,7 +107,7 @@ body.no-scroll { overflow: hidden; }
   margin-bottom: 150px;
 }
 
-.edit-overlay .asterisk { display: none; }
+/*.edit-overlay .asterisk { display: none; }*/
 
 .edit-overlay .left-side{
   position: fixed;
@@ -141,7 +142,7 @@ body.no-scroll { overflow: hidden; }
 }
 
 .edit-overlay .user-info{ display: flex; align-items: center; gap: 16px; }
-.edit-overlay .responsive-logo{ display: block; width: 40px; }
+.edit-overlay .responsive-logo{display: flex; width: 40px; }
 
 .edit-overlay .input{
   width: 100%;
@@ -199,14 +200,13 @@ body.no-scroll { overflow: hidden; }
   padding: 0; margin: 0; top: 0; z-index: auto;
 }
 
-#edit-overlay-host .task-title{ display: none; }
 
 #edit-overlay-host .priority-input-container{
   justify-content: flex-start; align-items: center; gap: 12px;
 }
 
 #edit-overlay-host .task-button-container{ position: static; top: auto; right: auto; }
-#edit-overlay-host .tbc-wrapper{ display: none !important; }
+/*#edit-overlay-host .tbc-wrapper{ display: none !important; }*/
 
 .overlay-footer #edit-overlay-accept{
   display: inline-flex !important;
@@ -267,7 +267,7 @@ body.no-scroll { overflow: hidden; }
   .edit-overlay .left-task-container { padding-right: 0; }
   .edit-overlay .tbc-wrapper{
     position: fixed; height: 100px; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(0deg, rgba(245,246,247,1) 100%, rgb(223,224,225) 100%);
+    background: white;
     display: flex; align-items: center; padding: 0 16px; z-index: 0;
   }
 }
@@ -392,7 +392,7 @@ Code kopieren
 .edit-overlay .tbc-wrapper {
   position: sticky; bottom: 0;
   display: flex; justify-content: flex-end;
-  padding: 16px 0 0; background: linear-gradient(180deg, rgba(255,255,255,0) 0%, #fff 40%);
+  padding: 16px 0 0;
   margin-top: 24px;
 }
 
@@ -425,7 +425,7 @@ Code kopieren
     top: 72px !important;
 }
 
-.task-title{
+.edit-overlay .addTask-close-Icon{
     display: none;
 }
 
@@ -484,3 +484,7 @@ Code kopieren
   width: 66vw;
   height: 74vh;
 }
+
+#overlay-add-task { display:none !important; }
+
+
