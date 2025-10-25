@@ -360,5 +360,9 @@
     };
   });
 
+<<<<<<< Updated upstream
   window.openCardDetailsFromCard = openFromCard;
 })();
+=======
+})();
+>>>>>>> Stashed changes
