@@ -56,10 +56,16 @@ function scheduleRefresh() {
 
 async function refreshBoard() {
   if (__isRefreshing) return;
+  if (performance.now() < __suppressRefreshUntil) return; // <-- skip refresh immediately after drop
   __isRefreshing = true;
-  try { await loadData(); renderBoard(getTasks() ?? []); }
-  finally { __isRefreshing = false; }
+  try {
+    await loadData();
+    renderBoard(getTasks() ?? []);
+  } finally {
+    __isRefreshing = false;
+  }
 }
+
 
 function requestRefresh(delay = 0) {
   const req = ++__refreshReq;
@@ -122,17 +128,30 @@ function enableDragAndDrop() {
   });
 }
 
+let __suppressRefreshUntil = 0;
+
 function handleDrop(e, col) {
-  e.preventDefault(); col.classList.remove('drop-target');
+  e.preventDefault();
+  col.classList.remove('drop-target');
+
   const cardId = e.dataTransfer.getData('text/plain');
-  const card = document.getElementById(cardId); if (!card) return;
+  const card = document.getElementById(cardId);
+  if (!card) return;
+
   col.appendChild(card);
+
   const id = cardId.replace('card', '');
-  const tasks = getTasks?.() || [];
+  const tasks = getTasks() || [];
   const task = tasks.find(t => String(t.id) === id);
-  if (task) task.status = col.dataset.status;
+  if (task) {
+    task.status = col.dataset.status;
+    saveTasks(tasks); 
+  }
+
+  // suppress automatic refresh for 1s
+  __suppressRefreshUntil = performance.now() + 1000;
+
   window.dispatchEvent(new CustomEvent('tasks:changed'));
-  __suppressClicksUntil = performance.now() + 600;
 }
 
 function bindCardOpenerOnce() {
@@ -147,6 +166,10 @@ function bindCardOpenerOnce() {
     const task = tasks.find(t => String(t.id) === id); if (!task) return;
     window.openEditOverlay?.();
   });
+}
+
+export function saveTasks(tasks) {
+  localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
 function initProfileMenuAndLogout() {
