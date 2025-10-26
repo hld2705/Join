@@ -16,14 +16,14 @@
 
 @media (max-width: 1400px) {
 
-.left-task-container {
-    padding-right: 100px;
-}
+    .left-task-container {
+        padding-right: 100px;
+    }
 
-.left-task::after {
-    right: 20px;
+    .left-task::after {
+        right: 20px;
 
-}
+    }
 
     .input {
         padding: 14px 12px;
@@ -67,8 +67,8 @@
     }
 
     #task-form-container {
-    overflow: visible;
-}
+        overflow: visible;
+    }
 
     .low-container input::placeholder {
         font-size: 12px;
@@ -175,6 +175,10 @@
         font-size: 18px;
     }
 
+    .required-text {
+        display: none;
+    }
+
     .left-side {
         position: fixed;
         height: 100px;
@@ -184,7 +188,7 @@
         bottom: 0;
         background-color: #2A3647;
         align-items: center;
-       z-index: 9999;
+        z-index: 9999;
     }
 
     .left-side a {
@@ -347,7 +351,7 @@
         display: grid !important;
     }
 
-        .priority-input-container {
+    .priority-input-container {
         gap: 5px;
     }
 }

@@ -68,7 +68,7 @@ function inputBorderColorSwitch(e) {
 document.addEventListener("click", inputBorderColorSwitch)
 
 async function renderAssignDropdown(e) {
-    if (!e.target.closest('#assign-input')) return;
+    if (!e.target.closest('#assign-input') && !e.target.closest('#drop-down-svg-assign')) return;
     let dropdownList = document.getElementById('dropdownList');
     let assignedInput = document.getElementById('assign-input');
     let isOpen = dropdownList.classList.contains('open');
@@ -95,6 +95,7 @@ function openAssignDropdown() {
 }
 
 document.addEventListener('click', renderAssignDropdown);
+
 
 function switchAssignedArrow() {
     let arrowIcon = document.getElementById('drop-down-svg-assign');
@@ -186,7 +187,7 @@ function switchArrowIcon() {
 }
 
 function closeAssignedInputOutclick(e) {
-    if (e.target.id !== 'assign-input' && !e.target.closest('#dropdownList') && document.getElementById('dropdownList').classList.contains('open')) {
+    if (e.target.id !== 'assign-input' && e.target.id !== 'drop-down-svg-assign' && !e.target.closest('#dropdownList') && document.getElementById('dropdownList').classList.contains('open')) {
         document.getElementById('dropdownList').classList.remove('open');
         document.getElementById('assign-input').classList.remove('borderColorBlue');
         document.getElementById('assign-input').placeholder = "Select contact to assign";
@@ -211,13 +212,13 @@ function switchCategoryPlaceholder(e) {
     let dropDownCategory = document.getElementById('category-input')
     let dropdownListCategory = document.getElementById('dropdownListCategory')
     let option = e.target.closest('#technical-task-option, #user-story-option');
-    
+
     if (option) {
         dropDownCategory.placeholder = option.id === "technical-task-option"
             ? "Technical Task"
             : "User Story";
         dropdownListCategory.classList.remove('open');
-          document.getElementById('category-input').classList.remove("borderColorBlue");
+        document.getElementById('category-input').classList.remove("borderColorBlue");
         switchArrowIcon();
         removeRequiredCategory();
     }
@@ -393,9 +394,23 @@ function handleIcons(e) {
     handleConfirmEdit(editIcon, acceptIcon, li, text, icons, afterEditIcons, inputfield);
 }
 
+document.addEventListener('dblclick', (e) => {
+    let container = e.target.closest('.single-subtask-container');
+    if (!container) return;
+    let li = container.closest('li.single-subtask') || container;
+    if (!li || li.classList.contains('edit-text')) return;
+    let text = li.querySelector('.subtask-text');
+    let icons = li.querySelector('.subtask-icons');
+    let afterEditIcons = li.querySelector('.edit-subtask-icons');
+    let inputfield = document.getElementById('subtask-input');
+    if (!text) return;
+    handleEditIcon(li, text, icons, afterEditIcons, inputfield);
+});
+
 document.addEventListener('click', handleIcons);
 
 function cursorToEnd(el) {
     el.focus();
     document.getSelection().collapse(el, 1);
 }
+
