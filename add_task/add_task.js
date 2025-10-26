@@ -105,10 +105,12 @@ function addNewTask() {
         id: Date.now(),
         taskData,
     };
+    cardTemplate(task);
     return firebase.database().ref('tasks/' + newTask.id).set(newTask)
         .catch((error) => {
             console.error('Task wurde nicht weitergeleitet:', error);
         })
+        
 };
 
 function getTaskInputs() {
@@ -257,6 +259,10 @@ function addedTaskTransition(e) {
     }
 };
 
+ function TaskTransitionRequirement(e) {
+    e.preventDefault();
+    }
+
 function TaskTransitionRequirement(e) {
     if (e.target.id !== 'add-task-button') return;
     checkRequiredCategory(); checkRequiredDate(); checkRequiredTitle();
@@ -276,6 +282,7 @@ function TaskTransitionRequirement(e) {
     }
     addNewTask();
 };
+
 
 document.addEventListener("click", TaskTransitionRequirement);
 

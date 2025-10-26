@@ -54,6 +54,12 @@ export function cardTemplate(task) {
   `;
 }
 
+async function loadAndRenderTasks() {
+  const snapshot = await firebase.database().ref('tasks').get();
+  const tasks = snapshot.exists() ? Object.values(snapshot.val()) : [];
+  renderBoard(tasks);
+}
+
 function mainBadge(main) {
   const map = { userstory: { t: 'User Story', c: '#3B82F6' }, techtask: { t: 'Technical Task', c: '#10B981' } };
   const cfg = map[main] ?? { t: (main || 'Task'), c: '#6B7280' };
@@ -203,5 +209,6 @@ document.addEventListener('click', (e) => {
   if (closeIcon && closeIcon.closest('#task-overlay')) closeTaskOverlay();
 });
 
+window.loadAndRenderTasks = loadAndRenderTasks()
 window.closeOverlay = closeTaskOverlay;
 export function attachAddTaskOverlayEvents() {}

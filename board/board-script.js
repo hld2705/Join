@@ -82,6 +82,7 @@ function renderBoard(tasks) {
   addPlaceholdersIfEmpty();
   enableDragAndDrop();
   bindCardOpenerOnce();
+  cardTemplate(task);
 }
 
 function addPlaceholdersIfEmpty() {
