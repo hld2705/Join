@@ -434,3 +434,8 @@ ul {
 .subtask-input {
     padding: 16px 76px 13px 20px;
 }
+
+#test {
+    height:100px;
+    width:400px;
+}

@@ -1,5 +1,4 @@
 <form novalidate return false; class="task-form">
-    <div id="test" class="test">
         <a href="../legal_notice.html">Legal Notice</a>
         <a href="../privacy_policy.html">Privacy Policy</a>
         <a href="../index.html" id="logout-link">Log out</a>
@@ -33,25 +32,23 @@
  <span class="required-text"><span class="asterisk">*</span>This field ist required</span>
         </div>
 
-
         <div class="vertical-line"></div>
-
         <div class="right-task">
             <div class="right-side-inner">
                 <div class="priority-container">
                     <div class="em-05">Priority</div>
                     <div class="priority-input-container">
-                        <div id="urg-container" onclick="changeUrgentColor()" class="urgent-container">
-                            <input id="urgent" class="input priority-input" placeholder="Urgent" readonly
+                        <div id="urg-container" onclick="changeUrgentColor(), overlayTemplate()" class="urgent-container">
+                            <input  id="urgent" class="input priority-input" placeholder="Urgent" readonly
                                 data-prio="urgent">
                             <img id="double-arrow" class="double-up-arrow" src="../assets/Prio alta.svg">
                         </div>
-                        <div onclick="changeMediumColor()" class="medium-container">
+                        <div onclick="changeMediumColor(), overlayTemplate()" class="medium-container">
                             <input id="medium-input" class="input priority-input" placeholder="Medium" readonly
                                 data-prio="medium">
                             <img id="equal" class="equals-icon" src="../assets/Prio media.svg">
                         </div>
-                        <div onclick="changeLowColor()" id="low-container" class="low-container">
+                        <div onclick="changeLowColor(), overlayTemplate()" id="low-container" class="low-container">
                             <input id="low-input" class="input priority-input" placeholder="Low" readonly
                                 data-prio="low">
                             <img id="double-down" class="double-down" src="../assets/double-down.svg">
@@ -94,6 +91,7 @@
                
                     <div id="subtask-content"></div>
                     <span class="mobile-required-text"><span class="asterisk">*</span>This field ist required</span>
+                              <div id="test"></div>
 
                     <div class="tbc-wrapper">
                         <div id="tbc-wrapper-inner">
@@ -120,11 +118,16 @@
                                             fill="white" />
                                     </svg>
                                 </div>
+                            
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+     
         </div>
+
+
+
 
 </form>

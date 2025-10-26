@@ -50,7 +50,7 @@ body.no-scroll { overflow: hidden; }
 }
 
 .edit-overlay .task-title { opacity: 0; }
-.task-title { padding-top: 0 !important; }
+.task-title { padding-top: 0 }
 
 .edit-overlay .task-content-container{
   flex-direction: column;

@@ -146,7 +146,7 @@ function getSubtasks() {
         let text = (el.textContent || el.innerText || "").trim();
         if (text) {
             subtasks.push({
-                id: "st" + index,
+                id: "subTask" + index,
                 text: text,
                 done: false
             });
@@ -304,4 +304,5 @@ function setupIdSwitchingForForms() {
 }
 
 setupIdSwitchingForForms();
+
 
