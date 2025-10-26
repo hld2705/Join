@@ -478,7 +478,7 @@ Code kopieren
 }
 
 #task-overlay{
-  top: 38% !important;
+  /*top: 38% !important;*/
   left: 50%;
   transform: translate(-50%, -50%);
   width: 66vw;
