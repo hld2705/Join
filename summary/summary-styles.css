@@ -116,6 +116,11 @@
     height: 168px;
 }
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
 .summary-todo:hover,
 .summary-task-status:hover,
 .count:hover,
@@ -126,6 +131,10 @@
   color: white;
 }
 
+<<<<<<< Updated upstream
+=======
+/* Standard Kreis */
+>>>>>>> Stashed changes
 .icon-summary {
   width: 69px;
   height: 69px;
@@ -143,6 +152,10 @@
   transition: filter 0.2s ease;
 }
 
+<<<<<<< Updated upstream
+=======
+/* Hover-Effekt für Kreis & Stift, wenn die gesamte Kachel gehovered wird */
+>>>>>>> Stashed changes
 .summary-todo:hover .icon-summary,
 .summary-task-status:hover .icon-summary,
 .count:hover .icon-summary,
@@ -156,18 +169,30 @@
 .summary-task-status:hover .icon-summary img,
 .count:hover .icon-summary img,
 .count1:hover .icon-summary img {
+<<<<<<< Updated upstream
   filter: brightness(0); 
+=======
+  filter: brightness(0); /* Stift wird schwarz */
+>>>>>>> Stashed changes
 }
 
 
 
 .icon-summary path {
+<<<<<<< Updated upstream
   fill: white;
+=======
+  fill: white; /* Standard */
+>>>>>>> Stashed changes
   transition: fill 0.2s ease;
 }
 
 .icon-summary:hover path {
+<<<<<<< Updated upstream
   fill: black;
+=======
+  fill: black; /* Hover → schwarz */
+>>>>>>> Stashed changes
 }
 .number-container,
 .number-urgent-container {

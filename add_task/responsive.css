@@ -137,7 +137,7 @@
         height: 100px;
         left: 0;
         right: 0;
-        bottom: 0;
+
         background: linear-gradient(0deg, rgba(245, 246, 247, 1) 100%, rgb(223, 224, 225) 100%);
         display: flex;
         align-items: center;

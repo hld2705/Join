@@ -6,22 +6,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Join – Board</title>
 
+<<<<<<< Updated upstream
+ <link rel="icon" type="image/x-icon" href="./assets/favicon.svg" />
+=======
   <link rel="icon" type="image/x-icon" href="./assets/favicon.svg" />
   <link rel="stylesheet" href="./style.css" />
-  <link rel="stylesheet" href="./add_task/responsive_board_overlay.css" />
   <link rel="stylesheet" href="./add_task/task_style.css">
   <link rel="stylesheet" href="./board/board.css" />
   <link rel="stylesheet" href="./board/overlay.css">
-  <link rel="stylesheet" href="./add_task/responsive.css">
    <link rel="stylesheet" href="./add_task/responsive.css">
-  <link rel="stylesheet" href="./add_task/edit.css">
-   <link rel="stylesheet" href="./board/responsive.css">
+
   <script src="./add_task/add_task.js" defer></script>
-  <script src="./add_task/add_task_templates.js"></script>
+   <script src="./add_task/add_task_templates.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+>>>>>>> Stashed changes
 
-  <link
+<link rel="stylesheet" href="./style.css" />
+<link rel="stylesheet" href="./add_task/task_style.css">
+<link rel="stylesheet" href="./add_task/responsive.css">
+<link rel="stylesheet" href="./add_task/edit.css">
+<link rel="stylesheet" href="./add_task/responsive_board_overlay.css">
+<link rel="stylesheet" href="./board/board.css">
+<link rel="stylesheet" href="./board/responsive.css">
+<link rel="stylesheet" href="./add_task/add_task_components.css">
+<link rel="stylesheet" href="./add_task/add_task_inputs.css">
+<link rel="stylesheet" href="./board/overlay.css">
+ 
+
+<script src="./add_task/add_task.js" defer></script>
+<script src="./add_task/add_task_interactions.js" defer></script>
+<script src="./add_task/add_task_templates.js"></script> 
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<link
     href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
     rel="stylesheet" />
 
@@ -80,19 +100,16 @@
     </header>
 
     <section class="content">
+           <div id="board-root"></div>
 
-      <div id="board-root"></div>
-      <div id="overlay-add-task" class="hidden" aria-hidden="true"></div>
+<div id="task-overlay-background" class="overlay-bg">
+  <div id="task-overlay" class="overlay-card">
+    <img src="./assets/Close.png" id="addTask-close-Img" class="overlay-close addTask-close-Icon" alt="Close">
+    <div id="task-form-container" class="overlay-host"></div>
+    <div class="overlay-footer"></div>
+  </div>
+</div>
 
-      <div id="task-overlay-background">
-        <div id="task-overlay">
-          <div class="task-overlay-inner">
-            <img src="./assets/Close.png" id="addTask-close-Img" class="addTask-close-Icon"></img>
-            <div id="task-form-container">
-            </div>
-          </div>
-        </div>
-      </div>
 
          
     
@@ -105,6 +122,7 @@
 <script type="module" src="./board/board-script.js"></script>
 <script type="module" src="./board/edit-overlay.js"></script>
 <script type="module" src="./board/userstory-overlay.script.js"></script>
+
 
     
 

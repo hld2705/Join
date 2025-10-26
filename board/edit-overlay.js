@@ -1,7 +1,23 @@
-const EDIT_FORM_URL = './add_task/form_task.html';
-const ABS_FORM_URL = new URL(EDIT_FORM_URL, location.href);
-const EDIT_FORM_DIR = new URL('.', ABS_FORM_URL);
-const EDIT_FORM_CSS = new URL('edit.css', EDIT_FORM_DIR).href;
+const EDIT_PAGE_URL = './add_task/form_task.html';
+const ADD_TASK_CSS = [
+  'task_style.css',
+  'add_task_inputs.css',
+  
+  'responsive.css',
+  'add_task_inputs.css',
+  'add_task_components.css'
+];
+const GOOGLE_FONTS = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap';
+
+const ADD_TASK_JS = [
+  'add_task.js',
+  'add_task_interactions.js'
+];
+
+const FIREBASE_JS = [
+  'https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js',
+  'https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js'
+];
 
 function ensureEditOverlay() {
   let bg = document.getElementById('edit-overlay-bg');
@@ -33,99 +49,98 @@ function ensureEditOverlay() {
   return bg;
 }
 
-async function openEditOverlay() {
+function injectCss(doc) {
+  const base = new URL('./add_task/', document.baseURI);
+  const head = doc.head || doc.getElementsByTagName('head')[0];
+  const g = doc.createElement('link');
+  g.rel = 'stylesheet';
+  g.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap';
+  head.appendChild(g);
+  ADD_TASK_CSS.forEach(file => {
+    const link = doc.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = new URL(file, base).href;
+    head.appendChild(link);
+  });
+  const s = doc.createElement('style');
+  s.textContent = `
+    body{background:transparent!important}
+    .left-side,header,footer,.navbar,.join-logo{display:none!important}
+    .content{padding:0!important}
+  `;
+  head.appendChild(s);
+}
+
+function loadScriptsSequential(doc, urls) {
+  return urls.reduce((p, src) => p.then(() => new Promise((res, rej) => {
+    const s = doc.createElement('script');
+    s.src = src;
+    s.onload = () => res();
+    s.onerror = rej;
+    doc.body.appendChild(s);
+  })), Promise.resolve());
+}
+
+function injectJs(doc) {
+  const base = new URL('./add_task/', document.baseURI);
+  const ordered = [...FIREBASE_JS, ...ADD_TASK_JS.map(f => new URL(f, base).href)];
+  return loadScriptsSequential(doc, ordered);
+}
+
+function afterFrameReady(doc) {
+  const addBtn = doc.getElementById('add-task-button');
+  const clearBtn = doc.getElementById('clear-button');
+  if (addBtn) addBtn.style.display = 'none';
+  if (clearBtn) clearBtn.style.display = 'none';
+}
+
+function openEditOverlay() {
+  window.__editTaskOpen = true;
   const bg = ensureEditOverlay();
   const host = document.getElementById('edit-overlay-host');
   const footer = document.getElementById('edit-overlay-footer');
-  ensureExternalCss(EDIT_FORM_CSS);
-  host.innerHTML = '<div class="overlay-loading">Formular wird geladen …</div>';
+  host.innerHTML = '';
   footer.innerHTML = '';
-  try {
-    const res = await fetch(ABS_FORM_URL, { credentials: 'same-origin' });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const html = await res.text();
-    const tpl = document.createElement('template');
-    tpl.innerHTML = html.trim();
-    host.replaceChildren(tpl.content);
-    activateEmbeddedEditMode({ host, footer });
-  } catch (err) {
-    console.error('[overlay] Fehler beim Laden der Form:', err);
-    host.innerHTML = '<div class="overlay-error">Fehler beim Laden des Formulars.</div>';
-  }
+
+  const frame = document.createElement('iframe');
+  frame.src = new URL(EDIT_PAGE_URL, document.baseURI).href;
+  frame.title = 'Edit Task';
+  frame.style.cssText = 'width:100%;height:100%;border:0;display:block';
+  host.appendChild(frame);
+
+  frame.addEventListener('load', async () => {
+    const doc = frame.contentDocument || frame.contentWindow?.document;
+    if (!doc) return;
+    injectCss(doc);
+    try { await injectJs(doc); } catch {}
+    afterFrameReady(doc);
+  });
+
+  const okBtn = document.createElement('button');
+  okBtn.id = 'edit-overlay-accept';
+  okBtn.type = 'button';
+  okBtn.textContent = 'OK';
+  okBtn.className = 'create-task-button';
+  okBtn.addEventListener('click', () => {
+    try { window.dispatchEvent(new CustomEvent('tasks:changed')); } catch {}
+    closeEditOverlay();
+  });
+  footer.appendChild(okBtn);
+
   bg.classList.add('is-open');
   document.body.classList.add('no-scroll');
 }
 
 function closeEditOverlay() {
+  window.__editTaskOpen = false;
   const bg = document.getElementById('edit-overlay-bg');
   if (!bg) return;
   bg.classList.remove('is-open');
   document.body.classList.remove('no-scroll');
 }
 
-function ensureExternalCss(href) {
-  if (!href) return;
-  const id = 'edit-overlay-external-css';
-  if (document.getElementById(id)) return;
-  const link = document.createElement('link');
-  link.id = id;
-  link.rel = 'stylesheet';
-  const url = new URL(href);
-  url.searchParams.set('v', String(Date.now()));
-  link.href = url.href;
-  document.head.appendChild(link);
-}
-
-function installPolyfills(root) {
-  if (!window.switchArrowIcon) {
-    window.switchArrowIcon = function switchArrowIcon() {
-      const el = root.querySelector('[data-rotate-target]');
-      if (el) el.classList.toggle('is-open');
-    };
-  }
-  if (!window.showUserName) {
-    window.showUserName = function showUserName() {
-      const dd = root.querySelector('.assigned-dropdown, [data-assignee-list], #dropdownList');
-      if (dd) dd.classList.toggle('is-open');
-    };
-  }
-  if (!window.openCalendar) {
-    window.openCalendar = function openCalendar() {
-      const input = root.querySelector('#date-input, input[type="date"]');
-      if (!input) return;
-      if (input.showPicker) input.showPicker();
-      else { input.focus(); input.click(); }
-    };
-  }
-}
-
-function activateEmbeddedEditMode({ host, footer }) {
-  host.classList.add('edit-overlay', 'task-content-scroll');
-  installPolyfills(host);
-  host.querySelector('#add-task-button')?.classList.add('is-hidden');
-  host.querySelector('#clear-button')?.classList.add('is-hidden');
-  let okBtn = host.querySelector('#edit-overlay-accept');
-  if (okBtn) {
-    okBtn.remove();
-  } else {
-    okBtn = document.createElement('button');
-    okBtn.id = 'edit-overlay-accept';
-    okBtn.type = 'button';
-    okBtn.textContent = 'OK';
-    okBtn.className = 'create-task-button';
-  }
-  footer.appendChild(okBtn);
-  if (!okBtn.__bound) {
-    okBtn.__bound = true;
-    okBtn.addEventListener('click', () => {
-      try { window.dispatchEvent(new CustomEvent('tasks:changed')); } catch {}
-      closeEditOverlay();
-    });
-  }
-}
-
 document.addEventListener('click', (e) => {
-  const el = e.target.closest('[data-action="edit"], a[href="#edit"]');
+  const el = e.target.closest('[data-action="edit"], .btn-edit, a[href="#edit"]');
   if (!el) return;
   e.preventDefault();
   e.stopPropagation();

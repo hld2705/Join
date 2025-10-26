@@ -1,4 +1,5 @@
 const TITLES = { todo: 'To do', inprogress: 'In progress', review: 'Await feedback', done: 'Done' };
+const ADD_FORM_URL = './add_task/form_task.html';
 
 export function boardShell() {
   return `
@@ -77,11 +78,7 @@ function subtaskBar(done, total) {
 function assigneesRow(task) {
   const list = normalizeAssignees(task);
   if (!list.length) return '';
-  return `
-    <div class="card-assignees">
-      ${list.map(a => avatarBadge(a)).join('')}
-    </div>
-  `;
+  return `<div class="card-assignees">${list.map(a => avatarBadge(a)).join('')}</div>`;
 }
 
 function normalizeAssignees(task) {
@@ -164,164 +161,47 @@ function colorIdentityKey(input, via) {
   return String(input ?? '').toLowerCase().trim() || 'unknown';
 }
 
-export function renderAddTaskOverlay() {
-  return `
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addtask-title">
-      <button class="modal-close" type="button" aria-label="Close">&times;</button>
-      <div class="modal-header">
-        <h2 id="addtask-title">Add Task</h2>
-      </div>
-      <div class="modal-body">
-        <form id="addtask-form" novalidate>
-          <div class="add-task-grid">
-            <div>
-              <div class="form-group">
-                <label for="task-title">Title<span class="req">*</span></label>
-                <input id="task-title" name="title" type="text" required placeholder="Enter a title">
-              </div>
-              <div class="form-group">
-                <label for="task-desc">Description</label>
-                <textarea id="task-desc" name="description" rows="4" placeholder="What needs to be done?"></textarea>
-              </div>
-              <div class="form-group">
-                <label for="task-date">Due date</label>
-                <div class="input-icon">
-                  <input id="task-date" name="due" type="date">
-                  <span class="icon-calendar">📅</span>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="task-prio">Priority</label>
-                <div class="priority-group" id="task-prio">
-                  <button type="button" class="prio-btn" data-prio="low">Low</button>
-                  <button type="button" class="prio-btn" data-prio="medium">Medium</button>
-                  <button type="button" class="prio-btn" data-prio="high">High</button>
-                  <input type="hidden" name="priority" value="medium">
-                </div>
-              </div>
-            </div>
-            <div class="add-divider" aria-hidden="true"></div>
-            <div>
-              <div class="form-group">
-                <label for="task-status">Status<span class="req">*</span></label>
-                <select id="task-status" name="status" required>
-                  <option value="todo" selected>To do</option>
-                  <option value="inprogress">In progress</option>
-                  <option value="review">Await feedback</option>
-                  <option value="done">Done</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="task-subtask">Subtasks</label>
-                <div class="subtask-row">
-                  <input id="task-subtask" type="text" placeholder="e.g. Create draft">
-                  <button type="button" class="icon-btn" id="btn-add-subtask" aria-label="Add subtask">+</button>
-                </div>
-                <ul class="subtask-list" id="subtask-list"></ul>
-              </div>
-            </div>
-          </div>
-        </form>
-        <p class="hint">Felder mit <span class="req">*</span> sind Pflicht.</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn ghost" type="button" id="btn-cancel">Cancel</button>
-        <button id="edit-btn" class="btn primary" type="submit" form="addtask-form">Create task</button>
-      </div>
-    </div>
-  `;
-}
-
-export function attachAddTaskOverlayEvents(root) {
-  root.querySelector('.modal-close')?.addEventListener('click', () => window.closeOverlay?.());
-  root.querySelector('#btn-cancel')?.addEventListener('click', () => window.closeOverlay?.());
-  root.addEventListener('click', (e) => { if (e.target === root) window.closeOverlay?.(); });
-  const prioBtns = [...root.querySelectorAll('.prio-btn')];
-  const prioInput = root.querySelector('input[name="priority"]');
-  prioBtns.forEach(btn => btn.addEventListener('click', () => {
-    prioBtns.forEach(b => b.classList.remove('is-active'));
-    btn.classList.add('is-active');
-    if (prioInput) prioInput.value = btn.dataset.prio || 'medium';
-  }));
-  (prioBtns.find(b => b.dataset.prio === (prioInput?.value || 'medium')))?.classList.add('is-active');
-  const subInput = root.querySelector('#task-subtask');
-  const subList = root.querySelector('#subtask-list');
-  root.querySelector('#btn-add-subtask')?.addEventListener('click', () => {
-    const txt = (subInput.value || '').trim();
-    if (!txt) return;
-    const li = document.createElement('li');
-    li.innerHTML = `<span>${esc(txt)}</span><button type="button" class="icon-btn" aria-label="Remove">🗑</button>`;
-    li.querySelector('button')?.addEventListener('click', () => li.remove());
-    subList.appendChild(li);
-    subInput.value = '';
-  });
-  const form = root.querySelector('#addtask-form');
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const data = collectFormData(root);
-    if (!data.title || !data.status) return;
-    const tasks = (window.getTasks?.() ?? []);
-    const id = Math.max(0, ...tasks.map(t => +t.id || 0)) + 1;
-    const task = { id, ...data };
-    tasks.push(task);
-    window.location.reload();
-  });
-}
-
-function collectFormData(root) {
-  const title = root.querySelector('#task-title')?.value?.trim() || '';
-  const description = root.querySelector('#task-desc')?.value?.trim() || '';
-  const due = root.querySelector('#task-date')?.value || '';
-  const status = root.querySelector('#task-status')?.value || 'todo';
-  const priority = root.querySelector('input[name="priority"]')?.value || 'medium';
-  const subs = [...root.querySelectorAll('#subtask-list li span')].map(s => ({ title: s.textContent, status: 'open' }));
-  return { title, description, due, status, priority, subtasks: subs, main: 'techtask' };
-}
-
-let bg = document.getElementById('task-overlay-background');
-let bgEdit = document.getElementById('edit-overlay-background');
-
-function openTaskOverlay() {
+async function openTaskOverlay() {
+  const bg = document.getElementById('task-overlay-background');
   const mount = document.getElementById('task-form-container');
-  mount.innerHTML = renderAddTaskOverlay();
-  const modalRoot = mount.querySelector('.modal') || mount;
-  attachAddTaskOverlayEvents(modalRoot);
-  document.getElementById('task-overlay').style.display = 'block';
+  window.closeEditOverlay?.();
+  mount.innerHTML = '<div class="overlay-loading">Form wird geladen …</div>';
   bg?.classList.add('is-open');
   document.body.classList.add('no-scroll');
-  document.getElementById('addTask-close-Img')?.addEventListener('click', closeTaskOverlay, { once: true });
+  try {
+    const res = await fetch(ADD_FORM_URL, { credentials: 'same-origin' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const html = await res.text();
+    const tpl = document.createElement('template');
+    tpl.innerHTML = html.trim();
+    mount.replaceChildren(tpl.content);
+    mount.querySelector('#addTask-close-Img')?.addEventListener('click', closeTaskOverlay);
+    const onBgClick = (e) => { if (e.target === bg) closeTaskOverlay(); };
+    bg.addEventListener('click', onBgClick, { once: true });
+    const onEsc = (e) => { if (e.key === 'Escape') { closeTaskOverlay(); document.removeEventListener('keydown', onEsc); } };
+    document.addEventListener('keydown', onEsc);
+  } catch {
+    mount.innerHTML = '<div class="overlay-error">Formular konnte nicht geladen werden.</div>';
+  }
 }
 
 function closeTaskOverlay() {
+  const bg = document.getElementById('task-overlay-background');
   const mount = document.getElementById('task-form-container');
   bg?.classList.remove('is-open');
   mount.innerHTML = '';
   document.body.classList.remove('no-scroll');
 }
 
-function closeEditOverlay() {
-  bgEdit?.classList.remove('is-open');
-  document.body.classList.remove('no-scroll');
-}
-
-function openEditOverlay() {
-  document.getElementById('edit-task-form-container').style.display = 'block';
-  document.getElementById('edit-overlay').style.display = 'block';
-  bgEdit?.classList.add('is-open');
-  document.body.classList.add('no-scroll');
-}
+function openEditOverlay() { window.openEditOverlay?.(); }
+function closeEditOverlay() { window.closeEditOverlay?.(); }
 
 document.addEventListener('click', (e) => {
   if (e.target.closest('#bt-add-task, .btn-add')) openTaskOverlay();
   if (e.target.closest('#bt-edit-task, .btn-edit')) openEditOverlay();
   const closeIcon = e.target.closest('.addTask-close-Icon');
-  if (closeIcon) {
-    if (closeIcon.closest('#edit-overlay')) closeEditOverlay();
-    else closeTaskOverlay();
-    return;
-  }
-  if (e.target === bg) closeTaskOverlay();
-  if (e.target === bgEdit) closeEditOverlay();
+  if (closeIcon && closeIcon.closest('#task-overlay')) closeTaskOverlay();
 });
 
 window.closeOverlay = closeTaskOverlay;
+export function attachAddTaskOverlayEvents() {}
