@@ -269,11 +269,23 @@ function TaskTransitionRequirement(e) {
         e.stopPropagation?.();
         return;
     }
-    addedTaskTransition(e);
+    if (!window.location.pathname.endsWith('board.html')) {
+        addedTaskTransition(e);
+    } else {
+        redirectToBoard();
+    }
     addNewTask();
 };
 
 document.addEventListener("click", TaskTransitionRequirement);
+
+function closeTaskOverlay() {
+    const bg = document.getElementById('task-overlay-background');
+    const mount = document.getElementById('task-form-container');
+    bg?.classList.remove('is-open');
+    mount.innerHTML = '';
+    document.body.classList.remove('no-scroll');
+}
 
 function redirectToBoard() {
     let title = document.getElementById('title-input');
@@ -284,8 +296,15 @@ function redirectToBoard() {
         checkRequiredDate?.();
         return;
     }
-    location.assign("../board.html");
+    if (window.location.href.includes("board.html")) {
+        document.getElementById('task-added-info').style.display = "none";
+        closeTaskOverlay();
+    } else {
+        location.assign("../board.html");
+    }
 }
+
+document.addEventListener('click', reRenderBoard);
 
 function setupIdSwitchingForForms() {
     let originalGetElementById = document.getElementById.bind(document);
@@ -304,5 +323,6 @@ function setupIdSwitchingForForms() {
 }
 
 setupIdSwitchingForForms();
+
 
 
