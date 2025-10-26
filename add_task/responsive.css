@@ -137,13 +137,12 @@
         height: 100px;
         left: 0;
         right: 0;
-
+        bottom: 100px;
         background: linear-gradient(0deg, rgba(245, 246, 247, 1) 100%, rgb(223, 224, 225) 100%);
         display: flex;
         align-items: center;
         padding: 0 16px;
         z-index: 9998;
-        margin-bottom: 100px;
     }
 
     #tbc-wrapper-inner {

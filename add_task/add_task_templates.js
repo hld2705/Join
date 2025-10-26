@@ -40,3 +40,27 @@ function badgeOverlay() {
   document.getElementById('test').classList.toggle('show');
 }
 
+function overlayTemplate() {
+   let test = document.getElementById('test')
+    let task = getTaskInputs();
+
+     let subtasksText = '';
+    for (let i = 0; i < task.subtasks.length; i++) {
+        let singleTask = task.subtasks[i];
+        subtasksText += `${singleTask.id}: ${singleTask.text} (done: ${singleTask.done})<br>`;
+    }
+
+    if (test) {
+        test.innerHTML = `<div>
+    Title: ${task.title}<br>
+    Description: ${task.description}<br>
+    Date: ${task.date}<br>
+    Category: ${task.category}<br>
+    Priority: ${getPriority()}<br>
+    Assigned: ${task.assignedUser}<br>
+    Subtasks: ${subtasksText}
+    </div>`;
+    }
+}
+
+overlayTemplate();
