@@ -2,7 +2,6 @@ const EDIT_PAGE_URL = './add_task/form_task.html';
 const ADD_TASK_CSS = [
   'task_style.css',
   'add_task_inputs.css',
-  
   'responsive.css',
   'add_task_inputs.css',
   'add_task_components.css'

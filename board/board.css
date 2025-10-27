@@ -934,7 +934,7 @@ textarea {
 
 #task-overlay .cancel-accept-container {
   display: none;
-  top: 18%;
+  top: 10%;
   right: 12px;
   transform: translateY(-50%);
   align-items: center;

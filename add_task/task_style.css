@@ -30,7 +30,7 @@ header {
     min-width: 0;
     overflow-y: hidden;
     overflow-x: hidden;
-    background: linear-gradient(0deg, rgba(245, 246, 247, 1) 99%, rgb(223, 224, 225) 100%);
+    background: white;
     gap: clamp(12px, 2vw, 32px);
 }
 

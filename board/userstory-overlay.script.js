@@ -346,23 +346,19 @@
     openFromCard(card);
   }
 
-  document.addEventListener('DOMContentLoaded', ()=>{
-    const opts = { capture:true, passive:false };
+   document.addEventListener('DOMContentLoaded', () => {
+    const opts = { capture: true, passive: false };
     document.addEventListener('pointerdown', onPreActivate, opts);
-    document.addEventListener('click',       onActivate,    opts);
+    document.addEventListener('click', onActivate, opts);
 
-    window.debugUSSimpleEdit = ()=>{
+    window.debugUSSimpleEdit = () => {
       const card = document.querySelector('.board-card');
       if (!card) return;
       const type = detectCardType(card) || 'userstory';
-      const id   = getCardId(card);
+      const id = getCardId(card);
       openOverlay(type, fallbackFromCard(card, id, type));
     };
   });
 
-<<<<<<< Updated upstream
   window.openCardDetailsFromCard = openFromCard;
 })();
-=======
-})();
->>>>>>> Stashed changes
