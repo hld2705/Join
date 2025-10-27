@@ -572,7 +572,7 @@ textarea {
   transform: scale(105%);
 }
 
-/*.input-find {
+.input-find {
   position: relative;
   display: inline-block;
 }
@@ -585,7 +585,7 @@ textarea {
 .input-find-icon img {
   width: 100%;
   height: auto;
-}*/
+}
 
 .board-toolbar {
   display: flex;
@@ -723,78 +723,6 @@ textarea {
   text-decoration: underline;
 }
 
-.edit-overlay #edit-task-form-container {
-  display: block;
-  flex: 1;
-  flex-direction: column;
-  min-height: 0;
-  font-weight: 400;
-  justify-content: space-evenly;
-}
-
-.edit-overlay .task-content-container {
-  flex-direction: column;
-  height: 94vh;
-  width: 100%;
-  border-radius: 40px;
-  overflow: auto;
-}
-
-#edit-overlay-background {
-  display: none;
-  position: fixed;
-  background-color: rgba(0, 0, 0, 0.5);
-  inset: 0;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-#edit-overlay {
-  display: none;
-  position: fixed;
-  overflow: hidden;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, .06);
-  width: 500px;
-  max-width: 90vw;
-  height: 90vh;
-  border-radius: 40px;
-  border: 1px solid rgba(116, 116, 116, 0.5);
-  z-index: 2000;
-}
-
-*/#edit-task-form-container {
-  display: none;
-  flex: 1;
-  height: 100vh;
-  font-weight: 400;
-  justify-content: space-evenly !important;
-}
-
-*/ .edit-overlay .task-inner-content {
-  flex: 1;
-  min-height: 0;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-
-#edit-overlay-background.is-open {
-  display: grid;
-}
-
-/*#task-overlay .tbc-wrapper {
-  height: 72px;
-  left: 0;
-  right: 20px;
-  bottom: -210px;
-  padding: 0 16px;
-  margin-bottom: 0px;
-}*/
-
 .board-card.is-dragging {
   opacity: 0.5;
 }
@@ -907,10 +835,6 @@ textarea {
   height: auto;
 }
 
-
-
-
-
 -------------------------------------
 
 */
@@ -933,12 +857,12 @@ textarea {
 }
 
 #task-overlay .cancel-accept-container {
-  display: none;
-  top: 10%;
-  right: 12px;
-  transform: translateY(-50%);
-  align-items: center;
-  gap: 8px;
+  display:none;
+  top: 26px;
+}
+
+#task-overlay .overlay-close {
+  display: block
 }
 
 @media (max-width: 1400px) {
@@ -973,14 +897,10 @@ textarea {
     background-color: grey;
   }
 
-  #task-overlay .task-title {
-    padding-top: 100px;
-  }
-
   #task-overlay .date-icon {
     left: auto;
     right: 16px;
-    top: 68px;
+    top: 62px;
   }
 
   #task-overlay .task-button-container {
@@ -993,11 +913,124 @@ textarea {
   }
 
   #task-overlay .check-icon {
-    left: 242px;
-}
+   left: 234px;
+  }
 
-#task-overlay .task-content-container {
-  
-}
 
 }
+
+@media (max-width: 1230px) {
+
+  #task-overlay .date-icon {
+    top: 70px;
+  }
+
+  #task-overlay .task-title {
+    display: flex;
+  }
+
+  #task-overlay .task-title {
+    padding-top: 100px;
+  }
+
+  #task-overlay .tbc-wrapper {
+    display: block;
+    right: 44px;
+
+  }
+
+  #task-overlay .task-button-container {
+    bottom: 0px;
+    right: 60px;
+  }
+
+  #task-overlay .task-content-container {
+    min-height: 86dvh;
+    height: 86vh;
+  }
+
+  #task-overlay .drop-down-arrow-svg,
+  .drop-down-arrow-svg-category {
+    top: 68px;
+    right: 12px;
+  }
+
+  #task-overlay .cancel-accept-container {
+    top: 26px;
+  }
+
+  #task-overlay .mobile-required-text {
+    margin-bottom: 0px;
+  }
+      #task-overlay .check-icon {
+        left: 242px;
+    }
+}
+
+
+
+
+
+.edit-overlay #edit-task-form-container {
+  display: block;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  font-weight: 400;
+  justify-content: space-evenly;
+}
+
+.edit-overlay .task-content-container {
+  flex-direction: column;
+  height: 94vh;
+  width: 100%;
+  border-radius: 40px;
+  overflow: auto;
+}
+
+#edit-overlay-background {
+  display: none;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#edit-overlay {
+  display: none;
+  position: fixed;
+  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, .06);
+  width: 500px;
+  max-width: 90vw;
+  height: 90vh;
+  border-radius: 40px;
+  border: 1px solid rgba(116, 116, 116, 0.5);
+  z-index: 2000;
+}
+
+*/#edit-task-form-container {
+  display: none;
+  flex: 1;
+  height: 100vh;
+  font-weight: 400;
+  justify-content: space-evenly !important;
+}
+
+*/ .edit-overlay .task-inner-content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+#edit-overlay-background.is-open {
+  display: grid;
+}
+

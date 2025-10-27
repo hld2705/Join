@@ -13,9 +13,7 @@
   padding: 14px 12px; 
 }
 
-.priority-input::placeholder {
-    color: black;
-}
+
 
 .assign-Input::placeholder {
     color: black;

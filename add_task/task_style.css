@@ -69,10 +69,6 @@ header {
     width: clamp(320px, 30vw, 1120px);
 }
 
-.right-side-inner {
-    transform: translateY(0%);
-}
-
 .task-title {
     position: relative;
     top: -40px;
@@ -123,6 +119,10 @@ header {
     box-shadow: none !important;
 }
 
+.priority-input::placeholder {
+    color: black;
+}
+
 .bg-green::placeholder {
     color: white;
 }
@@ -133,7 +133,6 @@ header {
 
 .bg-orange::placeholder {
     color: white;
-
 }
 
 .black-text {
@@ -400,7 +399,7 @@ ul {
     left: 180px;
 }
 
-.test {
+#badge-overlay {
     display: none;
     height: 150px;
     width: 140px;
@@ -414,11 +413,11 @@ ul {
     align-items: center;
 }
 
-#test.show {
+#badge-overlay.show {
     display: flex;
 }
 
-#test a {
+#badge-overlay a {
     font-size: 14px;
     margin-top: 22px;
     color: white;
@@ -426,7 +425,7 @@ ul {
     z-index: 9999;
 }
 
-#test a:hover {
+#badge-overlay a:hover {
     background-color: #2c3a52;
     box-shadow: 0 0 0 12px #2c3a52;
 }
@@ -436,6 +435,7 @@ ul {
 }
 
 #test {
+    display:none;
     height:100px;
     width:400px;
 }

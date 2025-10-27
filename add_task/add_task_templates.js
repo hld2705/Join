@@ -37,7 +37,7 @@ function subtaskOutputTemplate(text, i) {
 }
 
 function badgeOverlay() {
-  document.getElementById('test').classList.toggle('show');
+  document.getElementById('badge-overlay').classList.toggle('show');
 }
 
 function overlayTemplate() {
@@ -63,4 +63,4 @@ function overlayTemplate() {
     }
 }
 
-overlayTemplate();
+

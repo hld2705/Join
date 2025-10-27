@@ -412,7 +412,7 @@ Code kopieren
 }
 
 .edit-overlay .task-button-container {
-    top: 26px !important;
+    top: 26px;
     left: 196px;
 }
 
@@ -423,7 +423,7 @@ Code kopieren
 
 .edit-overlay .drop-down-arrow-svg,
 .drop-down-arrow-svg-category {
-    top: 72px !important;
+    top: 72px;
 }
 
 .edit-overlay .addTask-close-Icon{

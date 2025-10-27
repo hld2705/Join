@@ -283,7 +283,6 @@ function TaskTransitionRequirement(e) {
     addNewTask();
 };
 
-
 document.addEventListener("click", TaskTransitionRequirement);
 
 function closeTaskOverlay() {
@@ -311,8 +310,6 @@ function redirectToBoard() {
     }
 }
 
-document.addEventListener('click', reRenderBoard);
-
 function setupIdSwitchingForForms() {
     let originalGetElementById = document.getElementById.bind(document);
     let currentFormContainer = null;
@@ -330,6 +327,3 @@ function setupIdSwitchingForForms() {
 }
 
 setupIdSwitchingForForms();
-
-
-
