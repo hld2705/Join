@@ -478,7 +478,7 @@ textarea {
 
 #task-overlay .drop-down-arrow-svg,
 .drop-down-arrow-svg-category {
-  top: 68px;
+  top: 72px;
   right: 12px;
 }
 
@@ -848,21 +848,54 @@ textarea {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  height: 870px;
+  transform: translate(calc(-50% + 120vw), -50%);
+  height: 90vh;
   border-radius: 38px;
   width: 80vw;
   border: 1px solid rgba(116, 116, 116, 0.5);
   z-index: 9999;
+  transition: transform .25s cubic-bezier(.2,.8,.2,1); 
+  will-change: transform;
+}
+
+#task-overlay.is-open {
+  transform: translate(-50%, -50%);
 }
 
 #task-overlay .cancel-accept-container {
-  display:none;
+  display: none;
   top: 26px;
 }
 
 #task-overlay .overlay-close {
   display: block
+}
+
+#task-overlay .left-task {
+  padding-left: 100px;
+}
+
+#task-overlay .right-task {
+  margin-right: 50px;
+}
+
+@media (max-width: 1500px) {
+  #task-overlay .equals-icon {
+    width: 16px;
+    right: 10px;
+  }
+
+  #task-overlay .double-down {
+    width: 16px;
+    right: 22px;
+  }
+
+  #task-overlay .double-up-arrow {
+    width: 16px;
+    top: 20px;
+    right: 15px;
+  }
+
 }
 
 @media (max-width: 1400px) {
@@ -880,11 +913,6 @@ textarea {
 
   #task-overlay .priority-input-container {
     gap: 20px;
-  }
-
-  #task-overlay .equals-icon {
-    width: 16px;
-    right: 10px;
   }
 
   #task-overlay .left-task::after {
@@ -913,13 +941,17 @@ textarea {
   }
 
   #task-overlay .check-icon {
-   left: 234px;
+    left: 234px;
   }
 
 
 }
 
 @media (max-width: 1230px) {
+
+  #task-overlay .left-task {
+    padding-left: 0px;
+  }
 
   #task-overlay .date-icon {
     top: 70px;
@@ -962,9 +994,10 @@ textarea {
   #task-overlay .mobile-required-text {
     margin-bottom: 0px;
   }
-      #task-overlay .check-icon {
-        left: 242px;
-    }
+
+  #task-overlay .check-icon {
+    left: 242px;
+  }
 }
 
 
@@ -1033,4 +1066,3 @@ textarea {
 #edit-overlay-background.is-open {
   display: grid;
 }
-

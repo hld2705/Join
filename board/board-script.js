@@ -146,7 +146,7 @@ function handleDrop(e, col) {
   const task = tasks.find(t => String(t.id) === id);
   if (task) {
     task.status = col.dataset.status;
-    saveTasks(tasks); 
+    saveTasks(tasks);
   }
 
   // suppress automatic refresh for 1s
@@ -187,7 +187,7 @@ function initProfileMenuAndLogout() {
 
 function onLogoutClick(e) {
   e.preventDefault();
-  try { sessionStorage.removeItem('currentUserId'); sessionStorage.removeItem('currentUserEmail'); } catch {}
+  try { sessionStorage.removeItem('currentUserId'); sessionStorage.removeItem('currentUserEmail'); } catch { }
   window.location.href = 'index.html';
 }
 
@@ -237,11 +237,11 @@ function rebindAddTaskGuards() {
   const guard = () => !!window.__addTaskOpen;
   const wrapDoc = (type, name) => {
     const fn = window[name]; if (typeof fn !== 'function') return;
-    try { document.removeEventListener(type, fn); } catch {}
-    const wrapped = function(ev){ if (!guard()) return; try { return fn.call(this, ev); } catch {} };
+    try { document.removeEventListener(type, fn); } catch { }
+    const wrapped = function (ev) { if (!guard()) return; try { return fn.call(this, ev); } catch { } };
     document.addEventListener(type, wrapped); window[name] = wrapped;
   };
-  ['closeAssignedInputOutclick','renderCategoryDropdown','toggleSubtaskFocus','handleAssignedSearch','showSubtaskIcons','handleSubtaskOutput','handleSubtaskDelete','handleIcons','clearAll']
+  ['closeAssignedInputOutclick', 'renderCategoryDropdown', 'toggleSubtaskFocus', 'handleAssignedSearch', 'showSubtaskIcons', 'handleSubtaskOutput', 'handleSubtaskDelete', 'handleIcons', 'clearAll']
     .forEach(n => wrapDoc(n === 'handleAssignedSearch' ? 'input' : (n === 'showSubtaskIcons' ? 'keyup' : 'click'), n));
 }
 
@@ -260,7 +260,7 @@ function ensureGlobalToast() {
 function patchAddedTaskTransition() {
   const orig = window.addedTaskTransition;
   if (typeof orig !== 'function' || orig.__patched) return;
-  function patched(e){ ensureGlobalToast(); return orig.call(this, e); }
+  function patched(e) { ensureGlobalToast(); return orig.call(this, e); }
   patched.__patched = true; window.addedTaskTransition = patched;
 }
 
@@ -269,26 +269,31 @@ function wireDirectCreateButton(root) {
   btn.addEventListener('click', (ev) => {
     ev.preventDefault(); ev.stopPropagation();
     if (typeof window.TaskTransitionRequirement === 'function') {
-      window.TaskTransitionRequirement({ target: btn, preventDefault(){}, stopPropagation(){} });
+      window.TaskTransitionRequirement({ target: btn, preventDefault() { }, stopPropagation() { } });
     }
   });
 }
 
-async function openAddTask() {
+async function openAddTask(e) {
+  if (switchToAddTask(e)) return;
   window.__addTaskOpen = true;
   const bg = document.getElementById('task-overlay-background');
   const panel = document.getElementById('task-overlay');
   const mount = document.getElementById('task-form-container');
   if (!bg || !panel || !mount) return;
   prepareOverlay(bg, panel, mount);
+  animateOverlayIn(panel);
   try {
     const html = await fetchHtml(ADD_FORM_URL);
     mount.replaceChildren(htmlToFragment(html));
-    ensureGlobalToast(); patchAddedTaskTransition();
+    ensureGlobalToast();
+    patchAddedTaskTransition();
     mount.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
     wireDirectCreateButton(mount);
     bindOverlayClose(bg);
-  } catch { mount.innerHTML = '<div class="overlay-error">Formular konnte nicht geladen werden.</div>'; }
+  } catch {
+    mount.innerHTML = '<div class="overlay-error">Formular konnte nicht geladen werden.</div>';
+  }
   rebindAddTaskGuards();
 }
 
@@ -324,6 +329,7 @@ function closeAddTask() {
   const bg = document.getElementById('task-overlay-background');
   const panel = document.getElementById('task-overlay');
   const mount = document.getElementById('task-form-container');
+  animateOverlayOut(overlay)
   if (!bg || !panel || !mount) return;
   bg.classList.remove('is-open');
   panel.style.display = 'none';
@@ -332,3 +338,28 @@ function closeAddTask() {
 }
 
 window.openAddTask = openAddTask;
+
+
+function switchToAddTask(e) {
+  if (window.matchMedia('(max-width: 1229px)').matches) {
+    e?.preventDefault();
+    e?.stopImmediatePropagation();
+    window.location.assign('add_task/add_task.html');
+    throw new Error('Mobile redirect – Overlay unterbunden');
+  }
+}
+
+function animateOverlayIn(overlay) {
+  overlay.classList.remove('is-open');
+  requestAnimationFrame(() => {
+    overlay.classList.add('is-open');
+  });
+}
+
+function animateOverlayOut(overlay) {
+  overlay.classList.remove('is-open');
+  overlay.addEventListener('transitionend', (e) => {
+    if (e.propertyName === 'transform' && e.target === overlay) done();
+  }, { once: true });
+  setTimeout(600); 
+}

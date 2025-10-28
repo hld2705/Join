@@ -350,7 +350,7 @@ function handleConfirmEditText(li, text, icons, afterEditIcons, inputfield) {
     let newText = text.innerText.trim()
     if (newText === '') {
         li.remove();
-        return;
+        clearSubtaskOutput();
     }
     text.contentEditable = 'false';
     icons.style.display = 'block';
