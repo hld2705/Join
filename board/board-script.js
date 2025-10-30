@@ -149,7 +149,6 @@ function handleDrop(e, col) {
     saveTasks(tasks);
   }
 
-  // suppress automatic refresh for 1s
   __suppressRefreshUntil = performance.now() + 1000;
 
   window.dispatchEvent(new CustomEvent('tasks:changed'));
