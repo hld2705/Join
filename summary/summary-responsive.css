@@ -112,6 +112,13 @@ header{
     height: 116px;
   }
 
+  .urgent-icon img{
+  margin-left: 0px;
+  margin-top: 10px;
+  width: 40px;
+  height: 40px;
+}
+
  .icon-summary{
     width: 40px;
     height: 40px;
@@ -143,6 +150,7 @@ header{
 
   .number-urgent-container{
     gap: 0;
+    margin: 0;
   } 
 
   .vector{
@@ -158,6 +166,32 @@ header{
   .number span, .number-container span, .number-urgent-container span{
 
     font-size: 11px;
+  }
+}
+
+@media(max-width: 450px){
+
+  .todo{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .summary-count{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .summary-task-status{
+    width: 300px;
+  }
+
+  .summary-task-status .info{
+    display: none;
+  }
+
+  .vector{
+
+    margin: 0;
   }
 }
 

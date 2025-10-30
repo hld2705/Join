@@ -126,6 +126,12 @@
   color: white;
 }
 
+.urgent-icon{
+  margin-left: 30px;
+  margin-top: 20px;
+  width: 60px;
+  height: 60px;
+}
 .icon-summary {
   width: 69px;
   height: 69px;

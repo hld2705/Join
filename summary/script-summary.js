@@ -132,10 +132,6 @@ function setupMobileGatewayAuto() {
   mq.addEventListener('change', () => { apply(); });
 }
 
-/* ---------------- Summary – Next Deadline ---------------- */
-
-
-
 function removeNextDeadlineUI() {
   const box = document.querySelector('.summary-task-status');
   if (box) box.innerHTML = '';
@@ -180,7 +176,6 @@ function getOrCreateSummaryStatusHost() {
   host = document.createElement('div');
   host.className = 'summary-task-status';
   container.prepend(host);
-  console.warn('[summary] .summary-task-status fehlte – neu erstellt.');
   return host;
 }
 
@@ -218,8 +213,6 @@ function renderSummaryTaskStatus() {
   `;
   console.log('[summary] nächste Deadline:', dateRaw, 'title:', t.title);
 }
-
-/* ---------------- Profilmenü & Logout ---------------- */
 
 function initProfileMenuAndLogout() {
   const profilImg = document.querySelector('.profil');

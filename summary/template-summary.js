@@ -1,12 +1,9 @@
 import { loadData, getTasks } from '../db.js';
 
-/** Navigiert zur gewünschten Seite */
 function navigateTo(page) {
     window.location.href = page;
 }
 window.navigateTo = navigateTo;
-
-/** Erstellt ein To-Do-Kachel-Element */
 
 function createSummaryTodo(icon, number, label, link = './board.html') {
     return `
@@ -22,13 +19,6 @@ function createSummaryTodo(icon, number, label, link = './board.html') {
     `;
 }
 
-/**
- * Erstellt eine Status-Kachel mit nächster Deadline und Info-Text.
- * @param {string|Date} date - Deadline-Datum
- * @param {string} info - Beschreibung oder Info (z. B. "Tasks in Board")
- * @param {string} link - Zielseite beim Klick (Standard: './board.html')
- * @returns {string} - HTML-Template
- */
 
 function createSummaryTaskStatus(date, info, link = './board.html') {
   const deadline = new Date(date);
@@ -41,8 +31,8 @@ function createSummaryTaskStatus(date, info, link = './board.html') {
   return `
     <div class="summary-task-status" role="button" tabindex="0" onclick="navigateTo('${link}')">
       <div class="status-left">
-        <div class="icon-summary">
-          <img src="./assets/pencil2.svg" alt="Urgent icon">
+        <div class="urgent-icon">
+          <img src="./assets/urgent-icon.png" alt="Urgent icon">
         </div>
         <div class="number-urgent-container">
           <div class="number">1</div>
@@ -60,7 +50,6 @@ function createSummaryTaskStatus(date, info, link = './board.html') {
   `;
 }
 
-/** Erstellt ein Zähler-Kachel-Element */
 function createSummaryCount(number, label, link = './board.html') {
     return `
         <div class="count" onclick="navigateTo('${link}')">
