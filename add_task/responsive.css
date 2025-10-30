@@ -88,6 +88,7 @@
     }
 
     .task-title {
+        display: none;
         padding-top: 100px;
         font-size: 45px;
     }
@@ -135,7 +136,7 @@
 
     .tbc-wrapper {
         display: none;
-        position: fixed;
+       /* position: fixed;*/
         height: 100px;
         left: 0;
         right: 0;
@@ -341,7 +342,6 @@
     }
 }
 
-
 @media (max-width: 520px) {
     .task-content-container {
         display: grid !important;
@@ -353,6 +353,3 @@
 }
 
 
- #edit-overlay-card .task-title {
-        display: none;
-    }

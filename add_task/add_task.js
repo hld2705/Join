@@ -332,5 +332,9 @@ function setupIdSwitchingForForms() {
   // Keep getElementById untouched; handle scoping in code, not globally
 }
 
+<<<<<<< HEAD
 
 setupIdSwitchingForForms();
+=======
+setupIdSwitchingForForms();
+>>>>>>> 75e22d9e2b4fccbb34f0ab2a1b91295446fbf68e

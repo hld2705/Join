@@ -78,7 +78,7 @@ body.no-scroll { overflow: hidden; }
 }
 
 .edit-overlay .tbc-wrapper{
-  display: none ;
+  display: none !important;
   position: fixed;
   height: 72px;
   left: 0;

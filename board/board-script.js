@@ -12,6 +12,7 @@ let __isDraggingCard = false;
 let __suppressClicksUntil = 0;
 let __lastDown = { x: 0, y: 0, t: 0 };
 let __refreshReq = 0;
+let __suppressRefreshUntil = 0;
 
 document.addEventListener('DOMContentLoaded', init);
 
@@ -56,7 +57,7 @@ function scheduleRefresh() {
 
 async function refreshBoard() {
   if (__isRefreshing) return;
-  if (performance.now() < __suppressRefreshUntil) return; // <-- skip refresh immediately after drop
+  if (performance.now() < __suppressRefreshUntil) return;
   __isRefreshing = true;
   try {
     await loadData();
@@ -65,7 +66,6 @@ async function refreshBoard() {
     __isRefreshing = false;
   }
 }
-
 
 function requestRefresh(delay = 0) {
   const req = ++__refreshReq;
@@ -83,7 +83,6 @@ function renderBoard(tasks) {
   enableDragAndDrop();
   bindCardButtonStops();
   bindCardOpenerOnce();
-  cardTemplate(task);
 }
 
 function addPlaceholdersIfEmpty() {
@@ -130,8 +129,6 @@ function enableDragAndDrop() {
   });
 }
 
-let __suppressRefreshUntil = 0;
-
 function handleDrop(e, col) {
   e.preventDefault();
   col.classList.remove('drop-target');
@@ -146,13 +143,17 @@ function handleDrop(e, col) {
   const tasks = getTasks() || [];
   const task = tasks.find(t => String(t.id) === id);
   if (task) {
-    task.status = col.dataset.status;
+    const newStatus =
+      col.dataset.status ||
+      col.id ||
+      col.closest('[data-status]')?.dataset.status ||
+      task.status;
+
+    if (COLS.includes(newStatus)) task.status = newStatus;
     saveTasks(tasks);
   }
 
-  // suppress automatic refresh for 1s
   __suppressRefreshUntil = performance.now() + 1000;
-
   window.dispatchEvent(new CustomEvent('tasks:changed'));
 }
 
@@ -355,19 +356,35 @@ function bindOverlayClose(bg) {
 
 function closeAddTask() {
   window.__addTaskOpen = false;
-  const bg = document.getElementById('task-overlay-background');
+  const bg    = document.getElementById('task-overlay-background');
   const panel = document.getElementById('task-overlay');
   const mount = document.getElementById('task-form-container');
-  animateOverlayOut(overlay)
   if (!bg || !panel || !mount) return;
-  bg.classList.remove('is-open');
-  panel.style.display = 'none';
-  mount.innerHTML = '';
-  document.body.classList.remove('no-scroll');
+
+  animateOverlayOut(panel, () => {
+    bg.classList.remove('is-open');
+    panel.style.display = 'none';
+    mount.innerHTML = '';
+    document.body.classList.remove('no-scroll');
+  });
+}
+
+function animateOverlayOut(el, done) {
+  if (!el) { if (typeof done === 'function') done(); return; }
+  const onEnd = (e) => {
+    if (e.target !== el) return;
+    el.removeEventListener('transitionend', onEnd);
+    if (typeof done === 'function') done();
+  };
+  el.addEventListener('transitionend', onEnd);
+  el.classList.remove('is-open');
+  setTimeout(() => {
+    el.removeEventListener('transitionend', onEnd);
+    if (typeof done === 'function') done();
+  }, 600);
 }
 
 window.openAddTask = openAddTask;
-
 
 function switchToAddTask(e) {
   if (window.matchMedia('(max-width: 1229px)').matches) {
@@ -383,12 +400,4 @@ function animateOverlayIn(overlay) {
   requestAnimationFrame(() => {
     overlay.classList.add('is-open');
   });
-}
-
-function animateOverlayOut(overlay) {
-  overlay.classList.remove('is-open');
-  overlay.addEventListener('transitionend', (e) => {
-    if (e.propertyName === 'transform' && e.target === overlay) done();
-  }, { once: true });
-  setTimeout(600); 
 }
