@@ -30,7 +30,6 @@ header {
     min-width: 0;
     overflow-y: hidden;
     overflow-x: hidden;
-    background: white;
     gap: clamp(12px, 2vw, 32px);
 }
 
