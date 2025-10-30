@@ -1,4 +1,4 @@
-import { loadData, getTasks, getUsers, initializeDefaultData } from '../db.js';
+import { loadData, getTasks, getUsers, initializeDefaultData, saveData, restoreSeedTasks } from '../db.js';
 import { boardShell, cardTemplate } from './board-templates.js';
 
 const COLS = ['todo', 'inprogress', 'review', 'done'];
@@ -13,6 +13,8 @@ let __suppressClicksUntil = 0;
 let __lastDown = { x: 0, y: 0, t: 0 };
 let __refreshReq = 0;
 let __suppressRefreshUntil = 0;
+const FIREBASE_BASE_URL = 'https://join-gruppenarbeit-75ecf-default-rtdb.europe-west1.firebasedatabase.app';
+let __hiddenTaskIds = new Set();
 
 document.addEventListener('DOMContentLoaded', init);
 
@@ -21,7 +23,11 @@ function init() {
   document.getElementById('board-root').innerHTML = boardShell();
   bindAddButtons();
   bindFind();
+  bindDataEvents();
   bootData();
+  // expose minimal helpers for manual restore (no UI changes)
+  window.restoreHiddenTasks = () => { __hiddenTaskIds = new Set(); renderBoard(getTasks() ?? []); };
+  window.restoreSeedTasksFromBackup = async () => { await restoreSeedTasks(); window.dispatchEvent(new CustomEvent('tasks:changed')); };
 }
 
 function bindAddButtons() {
@@ -34,6 +40,27 @@ function bindFind() {
     QUERY = e.target.value.trim().toLowerCase();
     renderBoard(getTasks() ?? []);
   });
+}
+
+function bindDataEvents() {
+  document.addEventListener('userstory:delete', onDeleteEvent);
+  document.addEventListener('techtask:delete', onDeleteEvent);
+  document.addEventListener('task:update', onTaskUpdate);
+}
+
+async function onDeleteEvent(e) {
+  const task = e?.detail?.task; if (!task || task.id == null) return;
+  __hiddenTaskIds.add(String(task.id));
+  renderBoard(getTasks() ?? []);
+}
+
+async function onTaskUpdate(e) {
+  const updated = e?.detail?.task; if (!updated || updated.id == null) return;
+  try {
+    await saveData('tasks', updated);
+  } catch {}
+  __suppressRefreshUntil = performance.now() + 300;
+  window.dispatchEvent(new CustomEvent('tasks:changed'));
 }
 
 async function bootData() {
@@ -77,6 +104,7 @@ function renderBoard(tasks) {
   const safe = Array.isArray(tasks) ? tasks : [];
   const filtered = safe
     .filter(t => t && typeof t === 'object' && COLS.includes(t.status))
+    .filter(t => !__hiddenTaskIds.has(String(t.id)))
     .filter(t => !QUERY || (`${t.title ?? ''} ${t.description ?? ''}`).toLowerCase().includes(QUERY));
   filtered.forEach(t => document.getElementById(t.status)?.insertAdjacentHTML('beforeend', cardTemplate(t)));
   addPlaceholdersIfEmpty();
@@ -115,8 +143,8 @@ function enableDragAndDrop() {
   document.querySelectorAll('.board-card').forEach(card => {
     card.setAttribute('draggable', 'true');
     card.addEventListener('dragstart', (e) => {
-      e.dataTransfer.setData('text/plain', card.id);
-      e.dataTransfer.effectAllowed = 'move';
+      try { e.dataTransfer.setData('text/plain', card.id); } catch {}
+      try { e.dataTransfer.effectAllowed = 'move'; } catch {}
       card.classList.add('is-dragging');
       __isDraggingCard = true; __suppressClicksUntil = performance.now() + 600;
     });
@@ -171,7 +199,7 @@ function bindCardOpenerOnce() {
     __lastDown = { x: e.clientX ?? 0, y: e.clientY ?? 0, t: performance.now() };
   });
 
-  document.addEventListener('pointerup', (e) => {
+  document.addEventListener('click', (e) => {
     const card = e.target.closest?.('.board-card');
     if (!card || card !== activeCard) return;
     activeCard = null;
@@ -181,11 +209,7 @@ function bindCardOpenerOnce() {
     if (__isDraggingCard || moved || tooSoon) return;
     if (e.target.closest('.edit-btn, .delete-btn, [data-no-open]')) return;
 
-    const id = card.id.replace('card', '');
-    const tasks = getTasks?.() || [];
-    const task = tasks.find(t => String(t.id) === id);
-    if (!task) return;
-    window.openEditOverlay?.(task);
+    try { window.openCardDetailsFromCard?.(card); } catch {}
   });
 }
 

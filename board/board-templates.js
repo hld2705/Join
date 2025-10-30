@@ -52,6 +52,7 @@ export function cardTemplate(task) {
       </div>
     </article>
   `;
+  
 }
 
 async function loadAndRenderTasks() {

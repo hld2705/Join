@@ -58,6 +58,24 @@ export async function initializeDefaultData() {
   await loadData();
 }
 
+// Restore seed tasks that are missing or were deleted. Does not remove existing ones.
+export async function restoreSeedTasks() {
+  try {
+    const existing = Array.isArray(tasks) ? tasks : [];
+    const byId = new Set(existing.map(t => String(t?.id)));
+    for (const task of join.tasks) {
+      if (!byId.has(String(task.id))) {
+        await saveData('tasks', task);
+      }
+    }
+    await loadData();
+    return true;
+  } catch (e) {
+    console.error('❌ Fehler beim Wiederherstellen der Seed-Tasks:', e);
+    return false;
+  }
+}
+
 export function getUsers() { return users; }
 export function getTasks() { return tasks; }
 export function getLoggedInUser() { return loggedInUser; }
