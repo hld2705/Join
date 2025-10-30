@@ -81,6 +81,7 @@ function renderBoard(tasks) {
   filtered.forEach(t => document.getElementById(t.status)?.insertAdjacentHTML('beforeend', cardTemplate(t)));
   addPlaceholdersIfEmpty();
   enableDragAndDrop();
+  bindCardButtonStops();
   bindCardOpenerOnce();
   cardTemplate(task);
 }
@@ -158,16 +159,44 @@ function handleDrop(e, col) {
 function bindCardOpenerOnce() {
   if (document.__boardCardOpenerBound) return;
   document.__boardCardOpenerBound = true;
-  document.addEventListener('click', (e) => {
-    const card = e.target.closest?.('.board-card'); if (!card) return;
+
+  let activeCard = null;
+
+  document.addEventListener('pointerdown', (e) => {
+    const card = e.target.closest?.('.board-card');
+    if (!card) return;
+    if (e.target.closest('.edit-btn, .delete-btn, [data-no-open]')) return;
+    activeCard = card;
+    __lastDown = { x: e.clientX ?? 0, y: e.clientY ?? 0, t: performance.now() };
+  });
+
+  document.addEventListener('pointerup', (e) => {
+    const card = e.target.closest?.('.board-card');
+    if (!card || card !== activeCard) return;
+    activeCard = null;
+
     const moved = Math.hypot((e.clientX ?? 0) - __lastDown.x, (e.clientY ?? 0) - __lastDown.y) > 5;
     const tooSoon = performance.now() < __suppressClicksUntil;
     if (__isDraggingCard || moved || tooSoon) return;
-    const id = card.id.replace('card', ''); const tasks = getTasks?.() || [];
-    const task = tasks.find(t => String(t.id) === id); if (!task) return;
-    window.openEditOverlay?.();
+    if (e.target.closest('.edit-btn, .delete-btn, [data-no-open]')) return;
+
+    const id = card.id.replace('card', '');
+    const tasks = getTasks?.() || [];
+    const task = tasks.find(t => String(t.id) === id);
+    if (!task) return;
+    window.openEditOverlay?.(task);
   });
 }
+
+
+function bindCardButtonStops() {
+  document.querySelectorAll('.edit-btn, .delete-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+  });
+}
+
 
 export function saveTasks(tasks) {
   localStorage.setItem('tasks', JSON.stringify(tasks));
