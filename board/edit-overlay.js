@@ -4,13 +4,15 @@ const ADD_TASK_CSS = [
   'add_task_inputs.css',
   'responsive.css',
   'add_task_inputs.css',
-  'add_task_components.css'
+  'add_task_components.css',
+  'responive_board_overlay.css'
 ];
 const GOOGLE_FONTS = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap';
 
 const ADD_TASK_JS = [
   'add_task.js',
   'add_task_interactions.js'
+  
 ];
 
 const FIREBASE_JS = [

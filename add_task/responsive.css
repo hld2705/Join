@@ -135,7 +135,7 @@
 
     .tbc-wrapper {
         display: none;
-        position: fixed;
+       /* position: fixed;*/
         height: 100px;
         left: 0;
         right: 0;
