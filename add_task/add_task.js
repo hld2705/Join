@@ -282,6 +282,7 @@ function TaskTransitionRequirement(e) {
 
 document.addEventListener("click", TaskTransitionRequirement);
 
+
 function redirectToBoard() {
     let title = document.getElementById('title-input');
     let date = document.getElementById('date-input');
@@ -291,8 +292,13 @@ function redirectToBoard() {
         checkRequiredDate?.();
         return;
     }
-    location.assign("../board.html");
+
+    if(window.location.href("../board.html")){
+    closeTaskOverlay();
+    cardTemplate();}
+    else{location.assign("../board.html")} 
 }
+
 
 function setupIdSwitchingForForms() {
     let originalGetElementById = document.getElementById.bind(document);
