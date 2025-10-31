@@ -78,12 +78,13 @@ body.no-scroll { overflow: hidden; }
 }
 
 .edit-overlay .tbc-wrapper{
+  display: none !important;
   position: fixed;
   height: 72px;
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(0deg, rgba(245,246,247,1) 100%, rgb(223,224,225) 100%);
+  background: white;
   display: flex;
   align-items: center;
   padding: 0 16px;
@@ -206,7 +207,7 @@ body.no-scroll { overflow: hidden; }
 }
 
 #edit-overlay-host .task-button-container{ position: static; top: auto; right: auto; }
-/*#edit-overlay-host .tbc-wrapper{ display: none !important; }*/
+#edit-overlay-host .tbc-wrapper{ display: none !important; }
 
 .overlay-footer #edit-overlay-accept{
   display: inline-flex !important;
@@ -266,7 +267,7 @@ body.no-scroll { overflow: hidden; }
   .edit-overlay .textarea { resize: vertical; width: auto !important; }
   .edit-overlay .left-task-container { padding-right: 0; }
   .edit-overlay .tbc-wrapper{
-    position: fixed; height: 100px; left: 0; right: 0; bottom: 0;
+    position: fixed; height: 100px; left: 0; right: 0; bottom: 0;display: none;
     background: white;
     display: flex; align-items: center; padding: 0 16px; z-index: 0;
   }
@@ -390,7 +391,7 @@ Code kopieren
 }
 
 .edit-overlay .tbc-wrapper {
-  position: sticky; bottom: 0;
+  position: sticky; bottom: 0; display: none;
   display: flex; justify-content: flex-end;
   padding: 16px 0 0;
   margin-top: 24px;
@@ -411,7 +412,7 @@ Code kopieren
 }
 
 .edit-overlay .task-button-container {
-    top: 26px !important;
+    top: 26px;
     left: 196px;
 }
 
@@ -422,7 +423,7 @@ Code kopieren
 
 .edit-overlay .drop-down-arrow-svg,
 .drop-down-arrow-svg-category {
-    top: 72px !important;
+    top: 72px;
 }
 
 .edit-overlay .addTask-close-Icon{

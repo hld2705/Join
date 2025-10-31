@@ -1,18 +1,10 @@
 import { loadData, getTasks } from '../db.js';
 
-<<<<<<< Updated upstream
-=======
-/** Navigiert zur gewünschten Seite */
->>>>>>> Stashed changes
 function navigateTo(page) {
     window.location.href = page;
 }
 window.navigateTo = navigateTo;
 
-<<<<<<< Updated upstream
-=======
-/** Erstellt ein To-Do-Kachel-Element */
->>>>>>> Stashed changes
 function createSummaryTodo(icon, number, label, link = './board.html') {
     return `
         <div class="summary-todo" onclick="navigateTo('${link}')">
@@ -27,16 +19,7 @@ function createSummaryTodo(icon, number, label, link = './board.html') {
     `;
 }
 
-<<<<<<< Updated upstream
-=======
-/**
- * Erstellt eine Status-Kachel mit nächster Deadline und Info-Text.
- * @param {string|Date} date - Deadline-Datum
- * @param {string} info - Beschreibung oder Info (z. B. "Tasks in Board")
- * @param {string} link - Zielseite beim Klick (Standard: './board.html')
- * @returns {string} - HTML-Template
- */
->>>>>>> Stashed changes
+
 function createSummaryTaskStatus(date, info, link = './board.html') {
   const deadline = new Date(date);
   const formattedDate = isNaN(deadline) ? '' : deadline.toLocaleDateString('en', {
@@ -48,8 +31,8 @@ function createSummaryTaskStatus(date, info, link = './board.html') {
   return `
     <div class="summary-task-status" role="button" tabindex="0" onclick="navigateTo('${link}')">
       <div class="status-left">
-        <div class="icon-summary">
-          <img src="./assets/pencil2.svg" alt="Urgent icon">
+        <div class="urgent-icon">
+          <img src="./assets/urgent-icon.png" alt="Urgent icon">
         </div>
         <div class="number-urgent-container">
           <div class="number">1</div>
@@ -67,10 +50,6 @@ function createSummaryTaskStatus(date, info, link = './board.html') {
   `;
 }
 
-<<<<<<< Updated upstream
-=======
-/** Erstellt ein Zähler-Kachel-Element */
->>>>>>> Stashed changes
 function createSummaryCount(number, label, link = './board.html') {
     return `
         <div class="count" onclick="navigateTo('${link}')">

@@ -22,16 +22,19 @@
 
   function parseDateValue(v) {
     if (v == null || v === '') return null;
-
     if (typeof v === 'number' || (/^\d+$/.test(String(v)))) {
       const n  = Number(v);
-      const ms = n < 1e12 ? n * 1000 : n; 
+      const ms = n < 1e12 ? n * 1000 : n;
       const d  = new Date(ms);
       return isNaN(d) ? null : d;
     }
-
+    if (typeof v === 'object') {
+      if (typeof v.toDate === 'function') { const d = v.toDate(); return isNaN(d) ? null : d; }
+      if (typeof v.seconds === 'number')  { const d = new Date(v.seconds*1000); return isNaN(d) ? null : d; }
+      const nested = v.date || v.due || v.dueDate || v.enddate || v.datetime || v.dateTime;
+      if (nested != null) return parseDateValue(nested);
+    }
     const s = String(v).trim();
-
     let m = s.match(/^(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{2,4})$/);
     if (m) {
       let [, dd, mm, yyyy] = m; dd = +dd; mm = +mm - 1; yyyy = +yyyy;
@@ -39,14 +42,12 @@
       const d = new Date(yyyy, mm, dd);
       return isNaN(d) ? null : d;
     }
-
     m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
     if (m) {
       const yyyy = +m[1], mm = +m[2] - 1, dd = +m[3];
       const d = new Date(yyyy, mm, dd);
       return isNaN(d) ? null : d;
     }
-
     const d = new Date(s);
     return isNaN(d) ? null : d;
   }
@@ -71,21 +72,19 @@
 
   function getDueRaw(task) {
     if (!task || typeof task !== 'object') return null;
-
     const keysInOrder = [
-      'due', 'dueDate', 'due_date', 'duedate',
+      'due','dueDate','due_date','duedate',
       'deadline',
-      'enddate', 'end_date', 'enddatum',
-      'date'
+      'enddate','end_date','enddatum',
+      'date',
+      'dueAt','due_at','datetime','dateTime'
     ];
-
     for (const k of keysInOrder) {
       const val = task[k];
-      if (val != null && String(val).trim() !== '') return val;
+      if (val != null && String(val).trim?.() !== '') return val;
     }
-
     for (const k of Object.keys(task)) {
-      if (/^(due|deadline|end.?date|date)$/i.test(k) && task[k] != null && String(task[k]).trim() !== '') {
+      if (/^(due|deadline|end.?date|date|datetime|due.?at)$/i.test(k) && task[k] != null && String(task[k]).trim() !== '') {
         return task[k];
       }
     }
@@ -107,12 +106,10 @@
     if (badgeNorm === 'techtask' || badgeNorm === 'technicaltask') return 'techtask';
     if (/user/i.test(badgeRaw)) return 'userstory';
     if (/tech/i.test(badgeRaw)) return 'techtask';
-
     const ds = card?.dataset || {};
     const main = norm(ds.main || ds.type || '');
     if (main === 'userstory') return 'userstory';
     if (main === 'techtask')  return 'techtask';
-
     const id = getCardId(card);
     if (id != null) {
       const t = allTasks().find(x => String(x?.id) === String(id));
@@ -145,7 +142,6 @@
       if (x && typeof x==='object') return { name:x.name||x.email||'User', badge:x.badge||x.avatar, color:x.color };
       return null;
     }).filter(Boolean);
-
     if (!list.length){
       const card = document.getElementById(`card${task?.id}`); if (card){
         list = [];
@@ -201,8 +197,29 @@
     document.body.classList.remove('no-scroll');
   }
 
+  function readDueFromCard(card){
+    if(!card) return null;
+    const ds = card.dataset || {};
+    const dsKey = ['due','dueDate','duedate','deadline','enddate','date','datetime','dueAt','dateTime']
+      .find(k => ds[k] != null && String(ds[k]).trim() !== '');
+    if (dsKey) return ds[dsKey];
+    const el =
+      card.querySelector('[data-due],[data-deadline],[data-date],[data-datetime],[data-due-at]') ||
+      card.querySelector('.card-due,.card-deadline,.card-date,.due,.deadline,.date') ||
+      card.querySelector('time[datetime]');
+    if (el) {
+      const v = el.getAttribute?.('datetime') || el.textContent || '';
+      if (String(v).trim()) return v;
+    }
+    const txt = (card.textContent || '').trim();
+    const m = txt.match(/(\d{1,2}[.\-/]\d{1,2}[.\-/]\d{2,4}|\d{4}-\d{2}-\d{2})/);
+    return m ? m[1] : null;
+  }
+
   function renderOverlay(type, task){
-    const dueText = fmtDate(getDueRaw(task));
+    const cardEl = document.getElementById(`card${task?.id}`) || null;
+    const dueRaw = getDueRaw(task) ?? readDueFromCard(cardEl);
+    const dueText = fmtDate(dueRaw);
     const prText  = fmtPrioLabel(task.priority);
     const subs    = Array.isArray(task.subtasks) ? task.subtasks : [];
     const subtasksHtml = subs.length
@@ -267,13 +284,11 @@
   function openOverlay(type, task){
     const hostId = (type==='userstory') ? 'overlay-userstory' : 'overlay-techtask';
     const host = ensureHost(hostId);
-
     host.innerHTML = renderOverlay(type, task);
     host.classList.remove('hidden'); host.classList.add('active');
     host.setAttribute('aria-hidden','false');
     host.style.display='flex';
     document.body.classList.add('no-scroll');
-
     attachOverlayEvents(type, host, task);
   }
 
@@ -293,8 +308,12 @@
 
     root.querySelector('[data-action="edit"]')?.addEventListener('click', (e)=>{
       e.preventDefault();
-      try { window.openEditOverlay?.(); }
-      finally { close(); }
+      try {
+        window.__editTaskPending = task;
+        window.openEditOverlay?.(task);
+      } finally {
+        close();
+      }
     });
   }
 
@@ -315,14 +334,11 @@
   async function openFromCard(card){
     const now=Date.now(); if (now - lastOpenAt < 200) return; lastOpenAt=now;
     const type = detectCardType(card); if (!type) return;
-
     if (type==='userstory') closeOverlayById('overlay-techtask');
     else                    closeOverlayById('overlay-userstory');
-
     const id = getCardId(card);
-    const tasks = allTasks(); 
+    const tasks = allTasks();
     const taskById = (id!=null) ? tasks.find(x=>String(x?.id)===String(id)) : null;
-
     if (taskById) openOverlay(type, taskById);
     else          openOverlay(type, fallbackFromCard(card, id, type));
   }
@@ -346,23 +362,18 @@
     openFromCard(card);
   }
 
-  document.addEventListener('DOMContentLoaded', ()=>{
-    const opts = { capture:true, passive:false };
+  document.addEventListener('DOMContentLoaded', () => {
+    const opts = { capture: true, passive: false };
     document.addEventListener('pointerdown', onPreActivate, opts);
-    document.addEventListener('click',       onActivate,    opts);
-
-    window.debugUSSimpleEdit = ()=>{
+    document.addEventListener('click', onActivate, opts);
+    window.debugUSSimpleEdit = () => {
       const card = document.querySelector('.board-card');
       if (!card) return;
       const type = detectCardType(card) || 'userstory';
-      const id   = getCardId(card);
+      const id = getCardId(card);
       openOverlay(type, fallbackFromCard(card, id, type));
     };
   });
 
-<<<<<<< Updated upstream
   window.openCardDetailsFromCard = openFromCard;
 })();
-=======
-})();
->>>>>>> Stashed changes

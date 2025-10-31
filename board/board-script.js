@@ -1,4 +1,4 @@
-import { loadData, getTasks, getUsers, initializeDefaultData } from '../db.js';
+import { loadData, getTasks, getUsers, initializeDefaultData, saveData, restoreSeedTasks } from '../db.js';
 import { boardShell, cardTemplate } from './board-templates.js';
 
 const COLS = ['todo', 'inprogress', 'review', 'done'];
@@ -12,6 +12,9 @@ let __isDraggingCard = false;
 let __suppressClicksUntil = 0;
 let __lastDown = { x: 0, y: 0, t: 0 };
 let __refreshReq = 0;
+let __suppressRefreshUntil = 0;
+const FIREBASE_BASE_URL = 'https://join-gruppenarbeit-75ecf-default-rtdb.europe-west1.firebasedatabase.app';
+let __hiddenTaskIds = new Set();
 
 document.addEventListener('DOMContentLoaded', init);
 
@@ -20,7 +23,11 @@ function init() {
   document.getElementById('board-root').innerHTML = boardShell();
   bindAddButtons();
   bindFind();
+  bindDataEvents();
   bootData();
+  // expose minimal helpers for manual restore (no UI changes)
+  window.restoreHiddenTasks = () => { __hiddenTaskIds = new Set(); renderBoard(getTasks() ?? []); };
+  window.restoreSeedTasksFromBackup = async () => { await restoreSeedTasks(); window.dispatchEvent(new CustomEvent('tasks:changed')); };
 }
 
 function bindAddButtons() {
@@ -33,6 +40,27 @@ function bindFind() {
     QUERY = e.target.value.trim().toLowerCase();
     renderBoard(getTasks() ?? []);
   });
+}
+
+function bindDataEvents() {
+  document.addEventListener('userstory:delete', onDeleteEvent);
+  document.addEventListener('techtask:delete', onDeleteEvent);
+  document.addEventListener('task:update', onTaskUpdate);
+}
+
+async function onDeleteEvent(e) {
+  const task = e?.detail?.task; if (!task || task.id == null) return;
+  __hiddenTaskIds.add(String(task.id));
+  renderBoard(getTasks() ?? []);
+}
+
+async function onTaskUpdate(e) {
+  const updated = e?.detail?.task; if (!updated || updated.id == null) return;
+  try {
+    await saveData('tasks', updated);
+  } catch {}
+  __suppressRefreshUntil = performance.now() + 300;
+  window.dispatchEvent(new CustomEvent('tasks:changed'));
 }
 
 async function bootData() {
@@ -56,7 +84,7 @@ function scheduleRefresh() {
 
 async function refreshBoard() {
   if (__isRefreshing) return;
-  if (performance.now() < __suppressRefreshUntil) return; // <-- skip refresh immediately after drop
+  if (performance.now() < __suppressRefreshUntil) return;
   __isRefreshing = true;
   try {
     await loadData();
@@ -65,7 +93,6 @@ async function refreshBoard() {
     __isRefreshing = false;
   }
 }
-
 
 function requestRefresh(delay = 0) {
   const req = ++__refreshReq;
@@ -77,12 +104,13 @@ function renderBoard(tasks) {
   const safe = Array.isArray(tasks) ? tasks : [];
   const filtered = safe
     .filter(t => t && typeof t === 'object' && COLS.includes(t.status))
+    .filter(t => !__hiddenTaskIds.has(String(t.id)))
     .filter(t => !QUERY || (`${t.title ?? ''} ${t.description ?? ''}`).toLowerCase().includes(QUERY));
   filtered.forEach(t => document.getElementById(t.status)?.insertAdjacentHTML('beforeend', cardTemplate(t)));
   addPlaceholdersIfEmpty();
   enableDragAndDrop();
+  bindCardButtonStops();
   bindCardOpenerOnce();
-  cardTemplate(task);
 }
 
 function addPlaceholdersIfEmpty() {
@@ -115,8 +143,8 @@ function enableDragAndDrop() {
   document.querySelectorAll('.board-card').forEach(card => {
     card.setAttribute('draggable', 'true');
     card.addEventListener('dragstart', (e) => {
-      e.dataTransfer.setData('text/plain', card.id);
-      e.dataTransfer.effectAllowed = 'move';
+      try { e.dataTransfer.setData('text/plain', card.id); } catch {}
+      try { e.dataTransfer.effectAllowed = 'move'; } catch {}
       card.classList.add('is-dragging');
       __isDraggingCard = true; __suppressClicksUntil = performance.now() + 600;
     });
@@ -128,8 +156,6 @@ function enableDragAndDrop() {
     col.addEventListener('drop', (e) => handleDrop(e, col));
   });
 }
-
-let __suppressRefreshUntil = 0;
 
 function handleDrop(e, col) {
   e.preventDefault();
@@ -145,29 +171,57 @@ function handleDrop(e, col) {
   const tasks = getTasks() || [];
   const task = tasks.find(t => String(t.id) === id);
   if (task) {
-    task.status = col.dataset.status;
-    saveTasks(tasks); 
+    const newStatus =
+      col.dataset.status ||
+      col.id ||
+      col.closest('[data-status]')?.dataset.status ||
+      task.status;
+
+    if (COLS.includes(newStatus)) task.status = newStatus;
+    saveTasks(tasks);
   }
 
-  // suppress automatic refresh for 1s
   __suppressRefreshUntil = performance.now() + 1000;
-
   window.dispatchEvent(new CustomEvent('tasks:changed'));
 }
 
 function bindCardOpenerOnce() {
   if (document.__boardCardOpenerBound) return;
   document.__boardCardOpenerBound = true;
+
+  let activeCard = null;
+
+  document.addEventListener('pointerdown', (e) => {
+    const card = e.target.closest?.('.board-card');
+    if (!card) return;
+    if (e.target.closest('.edit-btn, .delete-btn, [data-no-open]')) return;
+    activeCard = card;
+    __lastDown = { x: e.clientX ?? 0, y: e.clientY ?? 0, t: performance.now() };
+  });
+
   document.addEventListener('click', (e) => {
-    const card = e.target.closest?.('.board-card'); if (!card) return;
+    const card = e.target.closest?.('.board-card');
+    if (!card || card !== activeCard) return;
+    activeCard = null;
+
     const moved = Math.hypot((e.clientX ?? 0) - __lastDown.x, (e.clientY ?? 0) - __lastDown.y) > 5;
     const tooSoon = performance.now() < __suppressClicksUntil;
     if (__isDraggingCard || moved || tooSoon) return;
-    const id = card.id.replace('card', ''); const tasks = getTasks?.() || [];
-    const task = tasks.find(t => String(t.id) === id); if (!task) return;
-    window.openEditOverlay?.();
+    if (e.target.closest('.edit-btn, .delete-btn, [data-no-open]')) return;
+
+    try { window.openCardDetailsFromCard?.(card); } catch {}
   });
 }
+
+
+function bindCardButtonStops() {
+  document.querySelectorAll('.edit-btn, .delete-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+  });
+}
+
 
 export function saveTasks(tasks) {
   localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -187,7 +241,7 @@ function initProfileMenuAndLogout() {
 
 function onLogoutClick(e) {
   e.preventDefault();
-  try { sessionStorage.removeItem('currentUserId'); sessionStorage.removeItem('currentUserEmail'); } catch {}
+  try { sessionStorage.removeItem('currentUserId'); sessionStorage.removeItem('currentUserEmail'); } catch { }
   window.location.href = 'index.html';
 }
 
@@ -237,11 +291,11 @@ function rebindAddTaskGuards() {
   const guard = () => !!window.__addTaskOpen;
   const wrapDoc = (type, name) => {
     const fn = window[name]; if (typeof fn !== 'function') return;
-    try { document.removeEventListener(type, fn); } catch {}
-    const wrapped = function(ev){ if (!guard()) return; try { return fn.call(this, ev); } catch {} };
+    try { document.removeEventListener(type, fn); } catch { }
+    const wrapped = function (ev) { if (!guard()) return; try { return fn.call(this, ev); } catch { } };
     document.addEventListener(type, wrapped); window[name] = wrapped;
   };
-  ['closeAssignedInputOutclick','renderCategoryDropdown','toggleSubtaskFocus','handleAssignedSearch','showSubtaskIcons','handleSubtaskOutput','handleSubtaskDelete','handleIcons','clearAll']
+  ['closeAssignedInputOutclick', 'renderCategoryDropdown', 'toggleSubtaskFocus', 'handleAssignedSearch', 'showSubtaskIcons', 'handleSubtaskOutput', 'handleSubtaskDelete', 'handleIcons', 'clearAll']
     .forEach(n => wrapDoc(n === 'handleAssignedSearch' ? 'input' : (n === 'showSubtaskIcons' ? 'keyup' : 'click'), n));
 }
 
@@ -260,7 +314,7 @@ function ensureGlobalToast() {
 function patchAddedTaskTransition() {
   const orig = window.addedTaskTransition;
   if (typeof orig !== 'function' || orig.__patched) return;
-  function patched(e){ ensureGlobalToast(); return orig.call(this, e); }
+  function patched(e) { ensureGlobalToast(); return orig.call(this, e); }
   patched.__patched = true; window.addedTaskTransition = patched;
 }
 
@@ -269,26 +323,31 @@ function wireDirectCreateButton(root) {
   btn.addEventListener('click', (ev) => {
     ev.preventDefault(); ev.stopPropagation();
     if (typeof window.TaskTransitionRequirement === 'function') {
-      window.TaskTransitionRequirement({ target: btn, preventDefault(){}, stopPropagation(){} });
+      window.TaskTransitionRequirement({ target: btn, preventDefault() { }, stopPropagation() { } });
     }
   });
 }
 
-async function openAddTask() {
+async function openAddTask(e) {
+  if (switchToAddTask(e)) return;
   window.__addTaskOpen = true;
   const bg = document.getElementById('task-overlay-background');
   const panel = document.getElementById('task-overlay');
   const mount = document.getElementById('task-form-container');
   if (!bg || !panel || !mount) return;
   prepareOverlay(bg, panel, mount);
+  animateOverlayIn(panel);
   try {
     const html = await fetchHtml(ADD_FORM_URL);
     mount.replaceChildren(htmlToFragment(html));
-    ensureGlobalToast(); patchAddedTaskTransition();
+    ensureGlobalToast();
+    patchAddedTaskTransition();
     mount.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
     wireDirectCreateButton(mount);
     bindOverlayClose(bg);
-  } catch { mount.innerHTML = '<div class="overlay-error">Formular konnte nicht geladen werden.</div>'; }
+  } catch {
+    mount.innerHTML = '<div class="overlay-error">Formular konnte nicht geladen werden.</div>';
+  }
   rebindAddTaskGuards();
 }
 
@@ -321,14 +380,48 @@ function bindOverlayClose(bg) {
 
 function closeAddTask() {
   window.__addTaskOpen = false;
-  const bg = document.getElementById('task-overlay-background');
+  const bg    = document.getElementById('task-overlay-background');
   const panel = document.getElementById('task-overlay');
   const mount = document.getElementById('task-form-container');
   if (!bg || !panel || !mount) return;
-  bg.classList.remove('is-open');
-  panel.style.display = 'none';
-  mount.innerHTML = '';
-  document.body.classList.remove('no-scroll');
+
+  animateOverlayOut(panel, () => {
+    bg.classList.remove('is-open');
+    panel.style.display = 'none';
+    mount.innerHTML = '';
+    document.body.classList.remove('no-scroll');
+  });
+}
+
+function animateOverlayOut(el, done) {
+  if (!el) { if (typeof done === 'function') done(); return; }
+  const onEnd = (e) => {
+    if (e.target !== el) return;
+    el.removeEventListener('transitionend', onEnd);
+    if (typeof done === 'function') done();
+  };
+  el.addEventListener('transitionend', onEnd);
+  el.classList.remove('is-open');
+  setTimeout(() => {
+    el.removeEventListener('transitionend', onEnd);
+    if (typeof done === 'function') done();
+  }, 600);
 }
 
 window.openAddTask = openAddTask;
+
+function switchToAddTask(e) {
+  if (window.matchMedia('(max-width: 1229px)').matches) {
+    e?.preventDefault();
+    e?.stopImmediatePropagation();
+    window.location.assign('add_task/add_task.html');
+    throw new Error('Mobile redirect – Overlay unterbunden');
+  }
+}
+
+function animateOverlayIn(overlay) {
+  overlay.classList.remove('is-open');
+  requestAnimationFrame(() => {
+    overlay.classList.add('is-open');
+  });
+}

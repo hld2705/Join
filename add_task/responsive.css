@@ -14,6 +14,7 @@
     }
 }
 
+
 @media (max-width: 1400px) {
 
     .left-task-container {
@@ -87,6 +88,7 @@
     }
 
     .task-title {
+        display: none;
         padding-top: 100px;
         font-size: 45px;
     }
@@ -133,12 +135,13 @@
     }
 
     .tbc-wrapper {
-        position: fixed;
+        display: none;
+       /* position: fixed;*/
         height: 100px;
         left: 0;
         right: 0;
         bottom: 100px;
-        background: linear-gradient(0deg, rgba(245, 246, 247, 1) 100%, rgb(223, 224, 225) 100%);
+        background:white;
         display: flex;
         align-items: center;
         padding: 0 16px;
@@ -296,12 +299,7 @@
         top: 79px;
         right: 18px;
     }
-
-    .drop-down-arrow-svg-category {
-        top: 79px;
-        right: 18px;
-    }
-
+    
     .check-icon {
         position: absolute;
         top: 21px;
@@ -344,7 +342,6 @@
     }
 }
 
-
 @media (max-width: 520px) {
     .task-content-container {
         display: grid !important;
@@ -354,3 +351,5 @@
         gap: 5px;
     }
 }
+
+

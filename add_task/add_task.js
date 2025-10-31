@@ -110,7 +110,7 @@ function addNewTask() {
         .catch((error) => {
             console.error('Task wurde nicht weitergeleitet:', error);
         })
-        
+
 };
 
 function getTaskInputs() {
@@ -218,7 +218,7 @@ function removeRequiredDate() {
 function removeRequiredCategory() {
     let categoryInput = document.getElementById('category-input');
     let msg = document.getElementById('required-message-category');
-    if (!categoryInput || !msg) return;
+    if (!categoryInput || !msg) return;setupIdSwitchingForForms
 
     if (categoryInput.placeholder !== "Select task category") {
         categoryInput.classList.remove("submit");
@@ -235,15 +235,16 @@ function clearAllInputs() {
     date.value = "";
 }
 
-function clearAll(e) {
-    if (e.target.closest('#clear-button')) {
-        clearAllInputs();
-        resetAllButton();
-        clearAssignedInput();
-        clearCategoryInput();
-        clearSubtaskOutput();
-    }
-}
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('#task-form-container')) return;
+    clearAll(e);
+    clearAllInputs();
+    resetAllButton();
+    clearAssignedInput();
+    clearCategoryInput();
+    clearSubtaskOutput();
+});
+
 
 document.addEventListener('click', clearAll);
 
@@ -259,9 +260,9 @@ function addedTaskTransition(e) {
     }
 };
 
- function TaskTransitionRequirement(e) {
+function TaskTransitionRequirement(e) {
     e.preventDefault();
-    }
+}
 
 function TaskTransitionRequirement(e) {
     if (e.target.id !== 'add-task-button') return;
@@ -275,12 +276,27 @@ function TaskTransitionRequirement(e) {
         e.stopPropagation?.();
         return;
     }
-    addedTaskTransition(e);
+    if (!window.location.pathname.endsWith('board.html')) {
+        addedTaskTransition(e);
+    } else {
+        redirectToBoard();
+    }
     addNewTask();
 };
 
+document.addEventListener("click", (e) => {
+    const container = e.target.closest('#task-form-container');
+    if (!container) return;
+    TaskTransitionRequirement(e);
+});
 
-document.addEventListener("click", TaskTransitionRequirement);
+function closeTaskOverlay() {
+    const bg = document.getElementById('task-overlay-background');
+    const mount = document.getElementById('task-form-container');
+    bg?.classList.remove('is-open');
+    mount.innerHTML = '';
+    document.body.classList.remove('no-scroll');
+}
 
 
 function redirectToBoard() {
@@ -292,30 +308,37 @@ function redirectToBoard() {
         checkRequiredDate?.();
         return;
     }
+<<<<<<< HEAD
 
     if(window.location.href("../board.html")){
     closeTaskOverlay();
     cardTemplate();}
     else{location.assign("../board.html")} 
+=======
+    if (window.location.href.includes("board.html")) {
+        document.getElementById('task-added-info').style.display = "none";
+        closeTaskOverlay();
+    } else {
+        location.assign("../board.html");
+    }
+>>>>>>> c3afc1aa3a306c27910eea98cefa9df2fd794a18
 }
 
 
 function setupIdSwitchingForForms() {
-    let originalGetElementById = document.getElementById.bind(document);
-    let currentFormContainer = null;
-    document.addEventListener('pointerdown', function (e) {
-        let container = e.target.closest('#task-form-container, #edit-task-form-container');
-        if (container) currentFormContainer = container;
-    }, true);
-    document.getElementById = function (id) {
-        if (currentFormContainer) {
-            let cont = currentFormContainer.querySelector('#' + id);
-            if (cont) return cont;
+  const forms = ['#task-form-container', '#edit-task-form-container'];
+  document.addEventListener('pointerdown', function (e) {
+    const container = e.target.closest(forms.join(', '));
+    if (container) {
+      container.dataset.active = 'true';
+      forms.forEach(sel => {
+        if (sel !== `#${container.id}`) {
+          document.querySelector(sel)?.removeAttribute('data-active');
         }
-        return originalGetElementById(id);
-    };
+      });
+    }
+  }, true);
+
 }
 
 setupIdSwitchingForForms();
-
-

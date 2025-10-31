@@ -138,7 +138,7 @@
 
 .edit-overlay .drop-down-arrow-svg,
 .drop-down-arrow-svg-category {
-    top: 72px !important;
+    top: 72px;
 }
 
 .priority-input-container{

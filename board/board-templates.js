@@ -52,12 +52,12 @@ export function cardTemplate(task) {
       </div>
     </article>
   `;
+  
 }
 
 async function loadAndRenderTasks() {
   const snapshot = await firebase.database().ref('tasks').get();
   const tasks = snapshot.exists() ? Object.values(snapshot.val()) : [];
-  renderBoard(tasks);
 }
 
 function mainBadge(main) {
