@@ -966,6 +966,7 @@ textarea {
   }
 
   #task-overlay .tbc-wrapper {
+    background: white;
     display: block;
     right: 44px;
 

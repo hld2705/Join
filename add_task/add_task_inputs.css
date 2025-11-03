@@ -75,8 +75,6 @@ input.priority-input:focus::placeholder {
     outline: none;
 }
 
-
-
 input[type="date"]::-webkit-calendar-picker-indicator {
     opacity: 0;
     display: none;
@@ -86,4 +84,50 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .date-field .input {
     width: 100%;
     padding-right: 40px;
+}
+
+.subtask-input {
+    padding: 16px 76px 13px 20px;
+}
+
+.bg-orange {
+    background-color: #FFA800
+}
+
+.bg-orange::placeholder {
+    color: white;
+}
+
+.bg-grey {
+    background-color: #2A3647;
+    border-radius: 10px;
+    color: white;
+}
+
+.bg-red {
+    background-color: #FF3D00;
+}
+
+.bg-green {
+    background-color: #7AE229;
+}
+
+.bg-green:hover {
+    box-shadow: none !important;
+}
+
+.priority-input::placeholder {
+    color: black;
+}
+
+.bg-green::placeholder {
+    color: white;
+}
+
+.bg-red::placeholder {
+    color: white;
+}
+
+.bg-orange::placeholder {
+    color: white;
 }
