@@ -6,43 +6,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Join – Board</title>
 
- <link rel="icon" type="image/x-icon" href="./assets/favicon.svg" />
+  <link rel="icon" type="image/x-icon" href="./assets/favicon.svg" />
   <link rel="icon" type="image/x-icon" href="./assets/favicon.svg" />
   <link rel="stylesheet" href="./style.css" />
   <link rel="stylesheet" href="./add_task/task_style.css">
   <link rel="stylesheet" href="./board/board.css" />
   <link rel="stylesheet" href="./board/overlay.css">
   <link rel="stylesheet" href="./add_task/responsive.css">
+
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./add_task/task_style.css">
+  <link rel="stylesheet" href="./add_task/responsive.css">
+  <link rel="stylesheet" href="./add_task/edit.css">
+  <link rel="stylesheet" href="./add_task/responsive_board_overlay.css">
+  <link rel="stylesheet" href="./board/board.css">
+  <link rel="stylesheet" href="./board/responsive.css">
+  <link rel="stylesheet" href="./add_task/add_task_components.css">
+  <link rel="stylesheet" href="./add_task/add_task_inputs.css">
+  <link rel="stylesheet" href="./board/overlay.css">
+  <script src="./add_task/add_task.js" defer></script>
+  <script src="./add_task/add_task_interactions.js" defer></script>
+  <script src="./add_task/add_task_templates.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
-<link rel="stylesheet" href="./style.css" />
-<link rel="stylesheet" href="./add_task/task_style.css">
-<link rel="stylesheet" href="./add_task/responsive.css">
-<link rel="stylesheet" href="./add_task/edit.css">
-<link rel="stylesheet" href="./add_task/responsive_board_overlay.css">
-<link rel="stylesheet" href="./board/board.css">
-<link rel="stylesheet" href="./board/responsive.css">
-<link rel="stylesheet" href="./add_task/add_task_components.css">
-<link rel="stylesheet" href="./add_task/add_task_inputs.css">
-<link rel="stylesheet" href="./board/overlay.css">
- 
-
-<script src="./add_task/add_task.js" defer></script>
-<script src="./add_task/add_task_interactions.js" defer></script>
-<script src="./add_task/add_task_templates.js"></script> 
-
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
-<link
+  <link
     href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
     rel="stylesheet" />
 
 </head>
 
 <body class="board-site">
-
   <section class="left-side">
     <a href="./index.html">
       <img class="join-logo" src="./assets/logo_white.svg" alt="Join" />
@@ -85,7 +78,7 @@
         <a href="./help.html"><img class="Hilfe" src="./assets/help.svg" alt="help"></a>
         <img class="profil" src="./assets/sofia.svg" alt="badges-header">
         <div id="navbar" class="navbar">
-         <a href="legal_notice.html">Legal Notice</a>
+          <a href="legal_notice.html">Legal Notice</a>
           <a href="privacy_policy.html">Privacy Policy</a>
           <a href="#" id="logout-link">Log out</a>
         </div>
@@ -93,34 +86,69 @@
     </header>
 
     <section class="content">
-           <div id="board-root"></div>
 
-<div id="task-overlay-background" class="overlay-bg">
-  <div id="task-overlay" class="overlay-card">
-    <img src="./assets/Close.png" id="addTask-close-Img" class="overlay-close addTask-close-Icon" alt="Close">
-    <div id="task-form-container" class="overlay-host"></div>
-    <div class="overlay-footer"></div>
-  </div>
+      <div class="board-top-content">
+        <div class="board-title">
+          <h1>Board</h1>
+        </div>
+        <div class="search-bar-container">
+         <div class="search-bar">
+          <input placeholder="Find Task" class="board-search-input">
+          <img class="seperation-line" src="./assets/Vector 5.png">
+          <img class="search-icon" src="./assets/search.svg">
+          <button class="board-add-task-button">Add Task
+            <img src="./assets/add.png">
+          </button>
+         </div>
+        </div>
+      </div>
+
+      <div class="distribution">
+        <div class="distribution-progress">To do
+          <img src="./assets/plus button.png">
+        </div>
+          <div class="distribution-progress">In progress
+               <img src="./assets/plus button.png">
+          </div>
+            <div class="distribution-progress">Await feedback
+                 <img src="./assets/plus button.png">
+            </div>
+              <div class="distribution-progress">Done</div>
+      </div>
+
+<div class="template-container">
+  <div class="template-wrapper"></div>
+  <div class="template-wrapper"></div>
+  <div class="template-wrapper"></div>
+  <div class="template-wrapper"></div>
 </div>
-   
+
+      <div id="task-overlay-background" class="overlay-bg">
+        <div id="task-overlay" class="overlay-card">
+          <img src="./assets/Close.png" id="addTask-close-Img" class="overlay-close addTask-close-Icon" alt="Close">
+          <div id="task-form-container" class="overlay-host"></div>
+          <div class="overlay-footer"></div>
+        </div>
+      </div>
+
     </section>
 
-<script type="module" src="./db.js"></script>
-<script type="module" src="./firstdata.js"></script>
-<script type="module" src="./board/board-script.js" defer></script>
-<script type="module" src="./board/edit-overlay.js"></script>
-<script type="module" src="./board/userstory-overlay.script.js"></script>
-<script type="module" src="./board/board-templates.js"></script>
-
+    <script type="module" src="./db.js"></script>
+    <script type="module" src="./firstdata.js"></script>
+    <script type="module" src="./board/board-script.js" defer></script>
+    <script type="module" src="./board/edit-overlay.js"></script>
+    <script type="module" src="./board/userstory-overlay.script.js"></script>
+    <script type="module" src="./board/board-templates.js"></script>
 
 </body>
 
-<div id="overlay-add"  class="overlay" hidden>
+<!-- <div id="overlay-add"  class="overlay" hidden>
   <div class="modal">…Add Task…</div>
 </div>
 
 <div id="overlay-edit" class="overlay" hidden>
   <div class="modal">…Edit Task…</div>
 </div>
+-->
 
 </html>

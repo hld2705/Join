@@ -5,14 +5,14 @@
     margin: 0;
 }
 
-.display-position{
- 
+.display-position {
+
     height: 100%;
     max-width: 1440px;
     margin: 0 auto;
 }
 
-.bg-color{
+.bg-color {
     background-color: #091931;
 }
 
@@ -32,7 +32,7 @@ body {
     min-width: 232px;
     background-color: #2A3647;
     position: relative;
-        z-index: 2;
+    z-index: 2;
 }
 
 .left-side a {
@@ -81,7 +81,7 @@ footer {
     display: flex;
     flex-direction: column;
     flex: 1;
-        background-color: #f5f6f7;
+    background-color: #f5f6f7;
     background: linear-gradient(0deg, rgba(245, 246, 247, 1) 99%, rgb(223, 224, 225) 100%);
 }
 
@@ -100,10 +100,10 @@ header {
     gap: 16px;
 }
 
-.profil{
+.profil {
 
-    width: 56px ;
-    height: 56px ;
+    width: 56px;
+    height: 56px;
 }
 
 .help {
@@ -138,3 +138,12 @@ header {
     animation: moveLogo 10s ease-in-out forwards;
 }
 
+.privacy-policy:hover {
+    color: #007CEE;
+    transform: scale(1.05);
+}
+
+.legal-notice:hover {
+    color: #007CEE;
+    transform: scale(1.05);
+}
