@@ -776,8 +776,6 @@ textarea {
   display: none;
 }
 
-
-
 .overlay {
   position: fixed;
   inset: 0;
@@ -838,7 +836,7 @@ textarea {
 -------------------------------------
 
 */
-
+/*Behalten*/
 #task-overlay .task-content-container {
   height: 94vh;
   background: white;
@@ -1000,6 +998,7 @@ textarea {
     left: 242px;
   }
 }
+/*Behalten*/
 
 .edit-overlay #edit-task-form-container {
   display: block;
