@@ -1,5 +1,33 @@
 const boardTaskFormURL = './add_task/form_task.html';
 
+//---------------------Drag&Drop------------------------
+function dragAndDrop() {
+  let container = document.getElementById("template-container");
+  container.innerHTML = '';
+  for (let i = 0; i < tasks.length; i++) {
+    const task = tasks[i];
+    container.innerHTML += dragAndDropTemplate(task.id);
+  }
+}
+
+let currentDraggedElemet;
+
+function startDragging(id, ev){
+currentDraggedElemet = id;
+ev.dataTransfer.setData("text", `task-${id}`);
+}
+
+function dragoverHandler(ev) {
+  ev.preventDefault();
+}
+
+function moveTo(ev) {
+  ev.preventDefault();
+  const data = ev.dataTransfer.getData("text");
+  const dragged = document.getElementById(data);
+  ev.target.appendChild(dragged);
+}
+//---------------------Drag&Drop------------------------
 function openAddTaskOverlay() {
   let overlayBg = document.getElementById("task-overlay-background");
   let overlay = document.getElementById("task-overlay");
@@ -46,4 +74,9 @@ document.getElementById("task-overlay-background").addEventListener("click", (e)
   if (!overlay.contains(e.target)) {
     closeAddTaskOverlay();
   }
+});
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadData();
+  dragAndDrop();
 });
