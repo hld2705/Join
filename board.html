@@ -13,7 +13,6 @@
   <link rel="stylesheet" href="./board/board.css" />
   <link rel="stylesheet" href="./board/overlay.css">
   <link rel="stylesheet" href="./add_task/responsive.css">
-
   <link rel="stylesheet" href="./style.css" />
   <link rel="stylesheet" href="./add_task/task_style.css">
   <link rel="stylesheet" href="./add_task/responsive.css">
@@ -92,14 +91,14 @@
           <h1>Board</h1>
         </div>
         <div class="search-bar-container">
-         <div class="search-bar">
-          <input placeholder="Find Task" class="board-search-input">
-          <img class="seperation-line" src="./assets/Vector 5.png">
-          <img class="search-icon" src="./assets/search.svg">
-          <button class="board-add-task-button">Add Task
-            <img src="./assets/add.png">
-          </button>
-         </div>
+          <div class="search-bar">
+            <input placeholder="Find Task" class="board-search-input">
+            <img class="seperation-line" src="./assets/Vector 5.png">
+            <img class="search-icon" src="./assets/search.svg">
+            <button onclick="openAddTaskOverlay()" class="board-add-task-button">Add Task
+              <img src="./assets/add.png">
+            </button>
+          </div>
         </div>
       </div>
 
@@ -107,25 +106,26 @@
         <div class="distribution-progress">To do
           <img src="./assets/plus button.png">
         </div>
-          <div class="distribution-progress">In progress
-               <img src="./assets/plus button.png">
-          </div>
-            <div class="distribution-progress">Await feedback
-                 <img src="./assets/plus button.png">
-            </div>
-              <div class="distribution-progress">Done</div>
+        <div class="distribution-progress">In progress
+          <img src="./assets/plus button.png">
+        </div>
+        <div class="distribution-progress">Await feedback
+          <img src="./assets/plus button.png">
+        </div>
+        <div class="distribution-progress">Done</div>
       </div>
 
-<div class="template-container">
-  <div class="template-wrapper"></div>
-  <div class="template-wrapper"></div>
-  <div class="template-wrapper"></div>
-  <div class="template-wrapper"></div>
-</div>
+      <div class="template-container">
+        <div id="template-wrapper" class="template-wrapper"></div>
+        <div class="template-wrapper"></div>
+        <div class="template-wrapper"></div>
+        <div class="template-wrapper"></div>
+      </div>
 
       <div id="task-overlay-background" class="overlay-bg">
         <div id="task-overlay" class="overlay-card">
-          <img src="./assets/Close.png" id="addTask-close-Img" class="overlay-close addTask-close-Icon" alt="Close">
+          <img onclick="closeAddTaskOverlay()" src="./assets/Close.png" id="addTask-close-Img"
+            class="overlay-close addTask-close-Icon" alt="Close">
           <div id="task-form-container" class="overlay-host"></div>
           <div class="overlay-footer"></div>
         </div>
@@ -133,19 +133,18 @@
 
     </section>
 
-    <script type="module" src="./db.js"></script>
-    <script type="module" src="./firstdata.js"></script>
-    <script type="module" src="./board/board-script.js" defer></script>
-    <script type="module" src="./board/edit-overlay.js"></script>
-    <script type="module" src="./board/userstory-overlay.script.js"></script>
-    <script type="module" src="./board/board-templates.js"></script>
-
+    <script src="./db.js"></script>
+    <script src="./firstdata.js"></script>
+    <script src="./board/board-script.js" defer></script>
+    <script src="./board/edit-overlay.js"></script>
+    <script src="./board/userstory-overlay.script.js"></script>
+    <script src="./board/board-templates.js"></script>
 </body>
 
-<!-- <div id="overlay-add"  class="overlay" hidden>
+<div id="overlay-add" class="overlay" hidden>
   <div class="modal">…Add Task…</div>
 </div>
-
+<!--
 <div id="overlay-edit" class="overlay" hidden>
   <div class="modal">…Edit Task…</div>
 </div>

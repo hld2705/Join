@@ -852,7 +852,7 @@ textarea {
   width: 80vw;
   border: 1px solid rgba(116, 116, 116, 0.5);
   z-index: 9999;
-  transition: transform .25s cubic-bezier(.2, .8, .2, 1);
+  transition: transform .25s;
   will-change: transform;
 }
 
