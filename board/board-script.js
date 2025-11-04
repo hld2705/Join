@@ -11,10 +11,8 @@ function dragAndDrop() {
 }
 
 let currentDraggedElemet;
-
-function startDragging(id, ev){
-currentDraggedElemet = id;
-ev.dataTransfer.setData("text", `task-${id}`);
+function startDragging(ev, id) {
+  ev.dataTransfer.setData("text", id);
 }
 
 function dragoverHandler(ev) {
@@ -23,9 +21,10 @@ function dragoverHandler(ev) {
 
 function moveTo(ev) {
   ev.preventDefault();
-  const data = ev.dataTransfer.getData("text");
-  const dragged = document.getElementById(data);
-  ev.target.appendChild(dragged);
+  const id = ev.dataTransfer.getData("text");
+  const dragged = document.getElementById(id);
+  const target = ev.target.closest('.startendcontainer');
+  if (target) target.appendChild(dragged);
 }
 //---------------------Drag&Drop------------------------
 function openAddTaskOverlay() {
