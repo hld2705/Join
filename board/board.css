@@ -1208,5 +1208,19 @@ textarea {
   font-weight: 400;
   font-size: 16px;
   color: #A8A8A8;
+}
 
+.progress-bar-subtasks {
+  width: 220px;
+  height: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+progress {
+  background: #4589FF;
+  width: 110px;
+  height: 8px;
+  border-radius: 16px;
 }
