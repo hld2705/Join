@@ -4,13 +4,15 @@ const boardTaskFormURL = './add_task/form_task.html';
 function dragAndDrop() {
   let container = document.getElementById("template-container");
   container.innerHTML = '';
-  for (let i = 0; i < tasks.length; i++) {
+
+ for (let i = 0; i < tasks.length; i++) {
     const task = tasks[i];
-    container.innerHTML += dragAndDropTemplate(task.id);
+  
+      container.innerHTML += dragAndDropTemplate(task.id, task.title);
+   
   }
 }
 
-let currentDraggedElemet;
 function startDragging(ev, id) {
   ev.dataTransfer.setData("text", id);
 }
