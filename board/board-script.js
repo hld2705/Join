@@ -6,9 +6,13 @@ function dragAndDrop() {
   container.innerHTML = '';
  for (let i = 0; i < tasks.length; i++) {
     const task = tasks[i];
-    container.innerHTML += dragAndDropTemplate(task.id, task.title, task.main, task.description, task.subtasks);
+    container.innerHTML += dragAndDropTemplate(task.id, task.title, task.main, task.description, task.subtasks, task.assigned);
   }
 }
+/*
+function renderAssignedUsers(){
+ let users = await getAllUser("/users");
+}*/
 
 function startDragging(ev, id) {
   ev.dataTransfer.setData("text", id);

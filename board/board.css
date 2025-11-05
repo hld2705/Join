@@ -1158,7 +1158,7 @@ textarea {
 
 .template-container {
   height: 640px;
- background: linear-gradient(0deg, rgba(245, 246, 247, 1) 100%, rgb(223, 224, 225) 100%);
+  background: linear-gradient(0deg, rgba(245, 246, 247, 1) 100%, rgb(223, 224, 225) 100%);
   display: flex;
   gap: 200px;
   padding-left: 100px;
@@ -1216,7 +1216,7 @@ textarea {
   color: #A8A8A8;
 }
 
-.progress-bar-subtasks {
+.progress-bar-container {
   width: 220px;
   height: 19px;
   display: flex;
@@ -1225,8 +1225,26 @@ textarea {
 }
 
 progress {
-  background: #4589FF;
+  appearance: none;
   width: 110px;
   height: 8px;
+  border-radius: 8px;
+  background-color: #4589FF;
+}
+
+progress::-webkit-progress-bar {
+  background-color: #4589FF;
   border-radius: 16px;
+}
+
+progress::-webkit-progress-value {
+  background-color: #F4F4F4;
+}
+
+.contacts-badge-container {
+  width: 220px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
