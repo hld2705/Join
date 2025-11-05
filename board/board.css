@@ -1093,6 +1093,7 @@ textarea {
   justify-content: space-between;
   align-items: center;
   height: 180px;
+  max-width: 90vw;
 }
 
 .board-add-task-button {
@@ -1144,20 +1145,24 @@ textarea {
 .distribution {
   display: flex;
   justify-content: space-around;
+  max-width: 1200px;
 }
 
 .distribution-progress {
   display: flex;
   justify-content: space-around;
   width: 244px;
+  color: #42526E;
+  font-weight: 700;
 }
 
 .template-container {
   height: 640px;
-  background-color: #A8A8A8;
+ background: linear-gradient(0deg, rgba(245, 246, 247, 1) 100%, rgb(223, 224, 225) 100%);
   display: flex;
   gap: 200px;
   padding-left: 100px;
+  padding-top: 50px;
 }
 
 .template-wrapper {
@@ -1205,6 +1210,7 @@ textarea {
 }
 
 .card-container-title-content p {
+  width: 200px;
   font-weight: 400;
   font-size: 16px;
   color: #A8A8A8;
