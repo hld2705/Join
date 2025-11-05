@@ -186,6 +186,10 @@ body.no-scroll {
   border-radius: 14px;
   box-shadow: var(--shadow);
   padding: 12px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .card-badge {
@@ -1109,8 +1113,8 @@ textarea {
 }
 
 .board-add-task-button:hover {
- background-color: #29ABE2;
-box-shadow: 0px 4px 10px -4px rgb(0, 0, 0);
+  background-color: #29ABE2;
+  box-shadow: 0px 4px 10px -4px rgb(0, 0, 0);
 }
 
 .search-bar {
@@ -1138,12 +1142,12 @@ box-shadow: 0px 4px 10px -4px rgb(0, 0, 0);
 }
 
 .distribution {
-  display:flex;
+  display: flex;
   justify-content: space-around;
 }
 
 .distribution-progress {
-  display:flex;
+  display: flex;
   justify-content: space-around;
   width: 244px;
 }
@@ -1151,7 +1155,7 @@ box-shadow: 0px 4px 10px -4px rgb(0, 0, 0);
 .template-container {
   height: 640px;
   background-color: #A8A8A8;
-  display:flex;
+  display: flex;
   gap: 200px;
   padding-left: 100px;
 }
@@ -1165,9 +1169,44 @@ box-shadow: 0px 4px 10px -4px rgb(0, 0, 0);
   height: 100px;
   width: 100px;
 }
-.startendcontainer{
+
+.startendcontainer {
   width: 100px;
   height: 100px;
   display: inline-block;
   position: relative;
+}
+
+.task-main-container {
+  height: 27px;
+  width: 113px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 400;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.card-container-title-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card-container-title-content h2 {
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 16px;
+}
+
+.card-container-title-content p {
+  font-weight: 400;
+  font-size: 16px;
+  color: #A8A8A8;
+
 }

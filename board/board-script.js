@@ -4,12 +4,9 @@ const boardTaskFormURL = './add_task/form_task.html';
 function dragAndDrop() {
   let container = document.getElementById("template-container");
   container.innerHTML = '';
-
  for (let i = 0; i < tasks.length; i++) {
     const task = tasks[i];
-  
-      container.innerHTML += dragAndDropTemplate(task.id, task.title);
-   
+    container.innerHTML += dragAndDropTemplate(task.id, task.title, task.main, task.description);
   }
 }
 
@@ -29,6 +26,8 @@ function moveTo(ev) {
   if (target) target.appendChild(dragged);
 }
 //---------------------Drag&Drop------------------------
+
+
 function openAddTaskOverlay() {
   let overlayBg = document.getElementById("task-overlay-background");
   let overlay = document.getElementById("task-overlay");
@@ -80,4 +79,5 @@ document.getElementById("task-overlay-background").addEventListener("click", (e)
 document.addEventListener('DOMContentLoaded', async () => {
   await loadData();
   dragAndDrop();
+  //cardsSortment();
 });
