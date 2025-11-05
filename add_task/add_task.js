@@ -98,24 +98,24 @@ function openCalendar() {
 }
 
 function addNewTask() {
-    let taskData = getTaskInputs();
-    let newTask = {
-        id: Date.now(),
-        taskData,
-    };
-    return firebase.database().ref('tasks/' + newTask.id).set(newTask)
-        .catch((error) => {
-            console.error('Task wurde nicht weitergeleitet:', error);
-        })
+  const taskData = getTaskInputs(); 
+  const newTask = {
+    id: Date.now(),
+    ...taskData, 
+  };
 
-};
+  return firebase.database().ref('tasks/' + newTask.id).set(newTask)
+    .catch((error) => {
+      console.error('Task wurde nicht weitergeleitet:', error);
+    });
+}
 
 function getTaskInputs() {
     return {
         title: document.getElementById('title-input').value,
         description: document.getElementById('description-input').value,
         date: document.getElementById('date-input').value,
-        category: getCategory(),
+        main: getCategory(),
         subtasks: getSubtasks(),
         priority: getPriority(),
         assignedUser: getAssignedUsers(),
