@@ -6,7 +6,7 @@ function dragAndDrop() {
   container.innerHTML = '';
  for (let i = 0; i < tasks.length; i++) {
     const task = tasks[i];
-    container.innerHTML += dragAndDropTemplate(task.id, task.title, task.main, task.description);
+    container.innerHTML += dragAndDropTemplate(task.id, task.title, task.main, task.description, task.subtasks);
   }
 }
 

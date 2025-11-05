@@ -1,5 +1,5 @@
 
-function dragAndDropTemplate(taskId, title, main, description) {
+function dragAndDropTemplate(taskId, title, main, description, subtasks) {
 
     let bgColor = "#fff"
     if(main === "userstory") bgColor = "#0038FF";
@@ -17,6 +17,7 @@ function dragAndDropTemplate(taskId, title, main, description) {
                 <h2>${title}<h2>
                 <p>${description}</p>
                 </div>
+                <div>${subtasks}</div>
             </div>
       </div>
     </div>
