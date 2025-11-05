@@ -14,7 +14,8 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks) {
                 <h2>${title}<h2>
                 <p>${description}</p>
                 </div>
-                <div>${subtasks}</div>
+                <progress value="${subtasks}" max="100">${subtasks}</progress>
+                <p>${subtasks} Subtasks</p>
             </div>
       </div>
     </div>

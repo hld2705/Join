@@ -97,7 +97,11 @@ const join = {"users": [
     description: 'Build start page with recipe recommendation...',
     enddate: '2025-12-30',
     assigned: [1,3,4],   
+<<<<<<< HEAD
+    subtasks: ['1/2'],
+=======
     subtasks: [1],
+>>>>>>> a7ded261d72ad99ed1bf153bb94e56f9ecea0554
     priority: 'urgent',
     status: 'todo'
   },
