@@ -19,7 +19,7 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
     return `
     <div class="startendcontainer" ondrop="moveTo(event)" ondragover="dragoverHandler(event)">
       <div id="${taskId}" class="template-wrapper" draggable="true" ondragstart="startDragging(event, ${taskId})">
-            <div id="cards" class="board-card" onclick="detailedCardInfoTemplate()">
+            <div id="cards" class="board-card" onclick="detailedCardInfo()">
                 <div class="task-main-container" style="background-color: ${bgColor}">${main}
                 </div> 
                     <div class="card-container-title-content">
@@ -48,7 +48,7 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
 
 function detailedCardInfoTemplate(){
     
-    return`<div class="overlay-bg">
+    return`<div class="overlay-card">
 
             </div>
     `

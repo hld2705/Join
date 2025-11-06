@@ -11,6 +11,9 @@
 
 body {
   background: var(--bg);
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
 }
 
 
@@ -1199,10 +1202,11 @@ textarea {
 
 .card-container-title-content {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   flex-direction: column;
   gap: 8px;
+  margin-bottom: 12px;
 }
 
 .card-container-title-content h2 {
@@ -1276,10 +1280,24 @@ progress::-webkit-progress-value {
 .badges-img {
   height: 32px;
   width: 32px;
+  margin-left: -12px;
 }
 
 .priority-badge {
   width: 20px;
   height: 32px;
   padding-top: 10px;
+}
+.overlay-card {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.45);
+  display: grid;
+  place-items: center;
+  z-index: 999999;
+  margin: 0;
+  padding: 0;
 }
