@@ -1274,6 +1274,7 @@ progress::-webkit-progress-value {
 }
 
 .badges-img {
+  margin-left: -8px;
   height: 32px;
   width: 32px;
 }
