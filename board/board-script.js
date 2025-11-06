@@ -13,13 +13,37 @@ function dragAndDrop() {
  } else {
    badges = [];
  } */
-    container.innerHTML += dragAndDropTemplate(task.id, task.title, task.main, task.description, task.subtasks, badges);
+    container.innerHTML += dragAndDropTemplate(
+      task.id,
+      task.title,
+      task.main,
+      task.description,
+      task.subtasks,
+      task.assigned,
+      task.priority
+    );
   }
+  renderBadges();
 }
-/*
-function renderAssignedUsers(){
- let users = await getAllUser("/users");
-}*/
+
+function renderBadges(assigned) {
+  if (!assigned || assigned.length === 0) {
+    return [];
+  }
+  let badges = [];
+  for (let i = 0; i < assigned.length; i++) {
+    let userId = typeof assigned[i] === "object" ? assigned[i].id : assigned[i];
+    let user = join.users.find(u => u.id === userId);
+    if (user) {
+      badges.push({
+        badge: user.badge,
+        name: user.name,
+        color: user.color
+      });
+    }
+  }
+  return badges;
+}
 
 function startDragging(ev, id) {
   ev.dataTransfer.setData("text", id);
@@ -37,7 +61,10 @@ function moveTo(ev) {
   if (target) target.appendChild(dragged);
 }
 //---------------------Drag&Drop------------------------
-
+function detailedCardInfo(){
+  let body = document.body;
+  body.innerHTML += detailedCardInfoTemplate();
+}
 
 function openAddTaskOverlay() {
   let overlayBg = document.getElementById("task-overlay-background");

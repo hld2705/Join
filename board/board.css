@@ -190,6 +190,7 @@ body.no-scroll {
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .card-badge {
@@ -1247,6 +1248,15 @@ progress::-webkit-progress-value {
   height: 32px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.only-badges-container {
+  width: 80px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .task-badge {
@@ -1260,5 +1270,16 @@ progress::-webkit-progress-value {
   position: absolute;
   height: 500px;
   width: 260px;
-  z-index:0;
+  z-index: 0;
+}
+
+.badges-img {
+  height: 32px;
+  width: 32px;
+}
+
+.priority-badge {
+  width: 20px;
+  height: 32px;
+  padding-top: 10px;
 }
