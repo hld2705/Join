@@ -81,6 +81,7 @@ function appendUserItem(dropList, user) {
     div.dataset.name = user.name.toLowerCase();
     name.textContent = user.name;
     img.src = user.badge.replace("./", "/");
+    div.dataset.badge = user.badge.replace("./", "/");
     img.classList.add("userBadge");
     div.append(img, name, renderCheckButton());
     dropList.appendChild(div);
@@ -119,12 +120,18 @@ function getTaskInputs() {
         subtasks: getSubtasks(),
         priority: getPriority(),
         assignedUser: getAssignedUsers(),
+        assignedBadge: getAssignedUserBadge(),
     };
 }
 
 function getAssignedUsers() {
     return Array.from(document.querySelectorAll('.Assigned-dropdown-username.bg-grey'))
         .map(el => el.dataset.name);
+}
+
+function getAssignedUserBadge() {
+    return Array.from(document.querySelectorAll('.Assigned-dropdown-username.bg-grey'))
+        .map(el => el.dataset.badge);
 }
 
 function getPriority() {

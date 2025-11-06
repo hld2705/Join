@@ -82,16 +82,6 @@
     flex-direction: row;
 }
 
-.summary-todo:hover,
-.summary-task-status:hover,
-.count:hover,
-.count1:hover {
-    background-color: #2A3647;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    transform: scale(1.05);
-    color: white;
-}
-
 .urgent-icon {
     margin-left: 30px;
     margin-top: 20px;
@@ -116,36 +106,13 @@
     transition: filter 0.2s ease;
 }
 
-.summary-todo:hover .icon-summary,
-.summary-task-status:hover .icon-summary,
-.count:hover .icon-summary,
-.count1:hover .icon-summary {
-    background: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, .25);
-    transform: scale(1.05);
-}
-
-.summary-todo:hover .icon-summary img,
-.summary-task-status:hover .icon-summary img,
-.count:hover .icon-summary img,
-.count1:hover .icon-summary img {
-    filter: brightness(0);
-    filter: brightness(0);
-}
 
 
 
-.icon-summary path {
 
-    fill: white;
-    fill: white;
-    transition: fill 0.2s ease;
-}
 
-.icon-summary:hover path {
-    fill: black;
 
-}
+
 
 .number-container,
 .number-urgent-container {
@@ -371,7 +338,6 @@
 
 .content-summary {
     padding: 60px 80px;
-    max-width: 60vw;
 }
 
 .vector {
@@ -387,18 +353,35 @@
 .greeting {
     width: 338px;
     font-size: 47px;
+    font-weight:600;
+    color: #2A3647;
 }
 
 .progress-bar-1 {
     width: 55px;
-    height:8px;
-    background-color:#4589FF;
+    height: 8px;
+    background-color: #4589FF;
     border-radius: 8px;
 }
 
 .progress-bar-2 {
     width: 110px;
-    height:8px;
-    background-color:#4589FF;
+    height: 8px;
+    background-color: #4589FF;
     border-radius: 8px;
+}
+
+.summary-container {
+    display:flex;
+gap: 80px;
+}
+
+.status-box:hover .icon-summary {
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, .25);
+  transform: scale(1.05);
+}
+
+.status-box:hover .icon-summary path {
+  fill: #2A3647;
 }

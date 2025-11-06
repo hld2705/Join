@@ -4,9 +4,16 @@ const boardTaskFormURL = './add_task/form_task.html';
 function dragAndDrop() {
   let container = document.getElementById("template-container");
   container.innerHTML = '';
- for (let i = 0; i < tasks.length; i++) {
+  for (let i = 0; i < tasks.length; i++) {
     const task = tasks[i];
-    container.innerHTML += dragAndDropTemplate(task.id, task.title, task.main, task.description, task.subtasks, task.assigned);
+    const badges = Array.isArray(task.assignedBadge) ? task.assignedBadge : [];
+    // Die Zeile über dem hier musste ich so machen, weil mehrere Badges ausgewählt werden müssen wenn nötig. Also quasi, WENN task.assignedBadge ein Array ist, NIMM task.assignedBadge SONST Leeres Array. Die auskommentierten Zeilen unter dem hier, erklären nochmal wie man es noch schreiben kann, kann aber gelöscht werden
+    /* if (Array.isArray(task.assignedBadge)) {
+   badges = task.assignedBadge;
+ } else {
+   badges = [];
+ } */
+    container.innerHTML += dragAndDropTemplate(task.id, task.title, task.main, task.description, task.subtasks, badges);
   }
 }
 /*
@@ -37,18 +44,18 @@ function openAddTaskOverlay() {
   let overlay = document.getElementById("task-overlay");
   let container = document.getElementById("task-form-container");
 
-fetch(boardTaskFormURL)
+  fetch(boardTaskFormURL)
     .then(response => response.text())
     .then(html => {
-      container.innerHTML = html; 
+      container.innerHTML = html;
       overlayBg.style.display = "block";
-       animateOverlayIn(overlay);
-      })
-      .catch(err => console.error("Fehler beim Laden von addTask:", err));
+      animateOverlayIn(overlay);
+    })
+    .catch(err => console.error("Fehler beim Laden von addTask:", err));
 }
 
 function animateOverlayIn(overlay) {
-  overlay.classList.remove("is-open"); 
+  overlay.classList.remove("is-open");
   setTimeout(() => {
     overlay.classList.add("is-open");
   }, 20);
