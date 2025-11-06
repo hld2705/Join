@@ -74,7 +74,6 @@
 .summary-count {
     display: flex;
     gap: 30px;
-
 }
 
 .status-left {
@@ -87,6 +86,17 @@
     margin-top: 20px;
     width: 60px;
     height: 60px;
+}
+
+.icon-to-do {
+    width: 69px;
+    height: 69px;
+    border-radius: 50%;
+    background: #2A3647;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
 }
 
 .icon-summary {
@@ -105,13 +115,6 @@
     height: 24px;
     transition: filter 0.2s ease;
 }
-
-
-
-
-
-
-
 
 
 .number-container,
@@ -143,8 +146,6 @@
     align-items: center;
     justify-content: center;
 }
-
-
 
 .day {
     margin-top: 20px;
@@ -186,19 +187,15 @@
     display: none;
 }
 
-
 .highlight-name {
     color: rgba(41, 171, 226, 1);
     font-weight: bold;
     font-size: 64px;
 }
 
-
 #summary-To-do:hover svg path {
     fill: #2A3647;
 }
-
-
 
 #log-out-menu.active {
     display: flex;
@@ -294,7 +291,6 @@
 
 
 
-
 .status-box-container {
     display: flex;
     gap: 30px;
@@ -338,6 +334,7 @@
 
 .content-summary {
     padding: 60px 80px;
+
 }
 
 .vector {
@@ -353,7 +350,7 @@
 .greeting {
     width: 338px;
     font-size: 47px;
-    font-weight:600;
+    font-weight: 600;
     color: #2A3647;
 }
 
@@ -372,16 +369,62 @@
 }
 
 .summary-container {
-    display:flex;
-gap: 80px;
+    display: flex;
+    gap: 80px;
+}
+
+.status-box:hover .icon-to-do {
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, .25);
+    transform: scale(1.05);
+}
+
+.status-box:hover .icon-to-do path {
+    fill: #2A3647;
+}
+
+.check-icon path {
+    stroke: white;
+    transition: stroke 0.2s ease;
+}
+
+.status-box:hover {
+    background-color: #2A3647;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    transform: scale(1.05);
+    color: white;
 }
 
 .status-box:hover .icon-summary {
-  background: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, .25);
-  transform: scale(1.05);
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    transform: scale(1.05);
 }
 
-.status-box:hover .icon-summary path {
-  fill: #2A3647;
+.status-box:hover .check-icon path {
+    stroke: #2A3647;
+}
+
+.task-count {
+    font-size: 60px;
+    font-weight: 600;
+    padding-right: 10px;
+}
+
+.done-text-container {
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.status-overview {
+    display: flex;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.overview-box {
+    width: 160px;
+
 }

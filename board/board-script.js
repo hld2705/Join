@@ -7,12 +7,7 @@ function dragAndDrop() {
   for (let i = 0; i < tasks.length; i++) {
     const task = tasks[i];
     const badges = Array.isArray(task.assignedBadge) ? task.assignedBadge : [];
-    // Die Zeile über dem hier musste ich so machen, weil mehrere Badges ausgewählt werden müssen wenn nötig. Also quasi, WENN task.assignedBadge ein Array ist, NIMM task.assignedBadge SONST Leeres Array. Die auskommentierten Zeilen unter dem hier, erklären nochmal wie man es noch schreiben kann, kann aber gelöscht werden
-    /* if (Array.isArray(task.assignedBadge)) {
-   badges = task.assignedBadge;
- } else {
-   badges = [];
- } */
+
     container.innerHTML += dragAndDropTemplate(
       task.id,
       task.title,
