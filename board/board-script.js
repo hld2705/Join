@@ -25,7 +25,7 @@ function init() {
   bindFind();
   bindDataEvents();
   bootData();
-  // expose minimal helpers for manual restore (no UI changes)
+ 
   window.restoreHiddenTasks = () => { __hiddenTaskIds = new Set(); renderBoard(getTasks() ?? []); };
   window.restoreSeedTasksFromBackup = async () => { await restoreSeedTasks(); window.dispatchEvent(new CustomEvent('tasks:changed')); };
 }

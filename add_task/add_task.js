@@ -308,20 +308,20 @@ function redirectToBoard() {
         checkRequiredDate?.();
         return;
     }
-<<<<<<< HEAD
+
 
     if(window.location.href("../board.html")){
     closeTaskOverlay();
     cardTemplate();}
     else{location.assign("../board.html")} 
-=======
+
     if (window.location.href.includes("board.html")) {
         document.getElementById('task-added-info').style.display = "none";
         closeTaskOverlay();
     } else {
         location.assign("../board.html");
     }
->>>>>>> c3afc1aa3a306c27910eea98cefa9df2fd794a18
+
 }
 
 

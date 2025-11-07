@@ -7,7 +7,7 @@ export const join = {"users": [
     password: "",
     login: 0,
     badge: "./assets/profilebadge/guest.svg",
-    color: "rgba(218, 26, 228, 1)",
+    color: "rgba(28, 26, 228, 1)",
   },
   {
     id: 1,
