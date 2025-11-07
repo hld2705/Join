@@ -1316,7 +1316,119 @@ progress::-webkit-progress-value {
   gap: 24px;
   background: #FFFFFF;
   box-shadow: 0px 0px 4px 0px #00000029;
+  cursor: default;
 }
-.cards-content-header{
-  
+
+.cards-content-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
+
+.card-overlay-main-container {
+  height: 27px;
+  width: 113px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 400;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-overlay-main-container-img{
+ cursor: pointer;
+}
+
+.card-overlay-title-container {
+  width: 445px;
+  font-weight: 700;
+  font-style: bold;
+  font-size: 43px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.card-overlay-description-details-container {
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+}
+
+.card-overlay-description-details-container p {
+  margin-bottom: 10px;
+}
+
+.card-overlay-priority-details-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.card-overlay-assigned_to-details-container {
+  width: 445px;
+  height: 208px;
+  gap: 8px;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 20px;
+}
+
+.card-overlay-user-details-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+.card-overlay-badge-name-details-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  width: 216px;
+  height: 42px;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.card-overlay-subtasks-details-container {
+  gap: 8px;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 20px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 50px;
+}
+
+.card-overlay-icons-details-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.card-overlay-separationline-details-container {
+  width: 0px;
+  height: 24px;
+  border-width: 1px;
+  border: 1px solid #D1D1D1
+}
+
+.card-overlay-delete-icon-details-container {
+  width: 81px;
+  height: 24px;
+  gap: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  cursor: pointer;
+}
+

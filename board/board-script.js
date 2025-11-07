@@ -15,7 +15,8 @@ function dragAndDrop() {
       task.description,
       task.subtasks,
       task.assigned,
-      task.priority
+      task.priority,
+      task.enddate
     );
   }
   renderBadges();
@@ -56,9 +57,38 @@ function moveTo(ev) {
   if (target) target.appendChild(dragged);
 }
 //---------------------Drag&Drop------------------------
-function detailedCardInfo(){
+function detailedCardInfo(taskId){
   let body = document.body;
-  body.innerHTML += detailedCardInfoTemplate();
+  const task = join.tasks.find(t => t.id === taskId);
+  if (!task) return;
+  body.innerHTML += detailedCardInfoTemplate(taskId);
+  document.body.insertAdjacentHTML("beforeend", detailedCardInfoTemplate(task));
+}
+
+function renderSubtask(subtasks) {
+  if (!subtasks || subtasks.length === 0) return ["Currently no subtasks available"];
+
+  let rendered = [];
+  for (let i = 0; i < subtasks.length; i++) {
+    rendered.push({
+      name: subtasks[i],
+      done: false //möglicher platzhalter?
+    });
+  }
+  return rendered;
+}
+
+function getBgColor(main) {
+  if (main === "User Story" || main === "userstory") return "#0038FF";
+  if (main === "Technical Task" || main === "techtask") return "#1FD7C1";
+  return "#fff";
+}
+
+function getPriorityImg(priority) {
+  if (priority === "urgent") return "./assets/urgent-priority-board.svg";
+  if (priority === "medium") return "./assets/medium-priority-board.svg";
+  if (priority === "low") return "./assets/low-priority-board.svg";
+  return "";
 }
 
 function closeOverlayCard(){
@@ -119,5 +149,4 @@ document.getElementById("task-overlay-background").addEventListener("click", (e)
 document.addEventListener('DOMContentLoaded', async () => {
   await loadData();
   dragAndDrop();
-  //cardsSortment();
 });

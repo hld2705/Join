@@ -1,15 +1,8 @@
 
 function dragAndDropTemplate(taskId, title, main, description, subtasks, assigned, priority) {
 
-    let bgColor = "#fff"
-    if (main === "User Story") bgColor = "#0038FF";
-    else if (main === "Technical Task") bgColor = "#1FD7C1";
-
-    let imgSrc = ""
-    if(priority === "urgent") imgSrc="./assets/urgent-priority-board.svg"
-    if(priority === "medium") imgSrc="./assets/medium-priority-board.svg"
-    if(priority === "low") imgSrc="./assets/low-priority-board.svg"
-    if(priority === "") return[]; //????????
+    const bgColor = getBgColor(main);
+    const imgSrc = getPriorityImg(priority);
 
     let done = 0; //???
     let progress = subtasks / (done / subtasks) * 100;//???
@@ -19,7 +12,7 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
     return `
     <div class="startendcontainer" ondrop="moveTo(event)" ondragover="dragoverHandler(event)">
       <div id="${taskId}" class="template-wrapper" draggable="true" ondragstart="startDragging(event, ${taskId})">
-            <div id="cards" class="board-card" onclick='detailedCardInfo(${JSON.stringify({taskId, title, main, description, subtasks, assigned, priority})})'>
+            <div id="cards" class="board-card" onclick='detailedCardInfo(${taskId})'>
                 <div class="task-main-container" style="background-color: ${bgColor}">${main}
                 </div> 
                     <div class="card-container-title-content">
@@ -46,17 +39,54 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
   `;
 }
 
-function detailedCardInfoTemplate(task){
-    let bgColor = "#fff"
-    if (task.main === "User Story") bgColor = "#0038FF";
-    else if (task.main === "Technical Task") bgColor = "#1FD7C1";
-
-    return`
+function detailedCardInfoTemplate(task) {
+    const bgColor = getBgColor(task.main);
+    const imgSrc = getPriorityImg(task.priority);
+    const badges = renderBadges(task.assigned);
+    const subtask = renderSubtask(task.subtasks)
+    return `
     <div class="overlay-cards" id="overlayclose" onclick="closeOverlayCard()">
         <div class="card-content" onclick="event.stopPropagation()">
             <div class="cards-content-header">
-             <div class="task-main-container" style="background-color: ${bgColor}">${task.main}
-            </div>    
+                <div class="card-overlay-main-container" style="background-color: ${bgColor}">${task.main}</div>
+                    <img class="card-overlay-main-container-img" src="./assets/close.svg" onclick="closeOverlayCard()">    
+                </div>
+                <div class="card-overlay-title-container">
+                    <p>${task.title}</p>
+                </div>
+            <div class="card-overlay-description-details-container">
+                <p>${task.description}</p>
+                <p>Due date: ${task.enddate}</p>
+                <div class="card-overlay-priority-details-container">
+                    <p>Priority: ${task.priority}</p> <img src="${imgSrc}">
+                </div>
+            </div>
+            <div class="card-overlay-assigned_to-details-container">
+                <p>Assigned To:</p>
+                    <div>
+                        ${badges.map(b => `
+                            <div class="card-overlay-badge-name-details-container">
+                            <img class="" src="${b.badge}" title="${b.name}" style="border-color:${b.color}">
+                            <p>${b.name}</p>
+                            </div>`).join('')}
+                    </div>   
+            </div>
+            <div class="card-overlay-subtasks-details-container">
+                <p>Subtasks</p>
+                <div>
+                ${subtask}
+                </div>               
+            </div>
+            <div class="card-overlay-icons-details-container">
+                <div class="card-overlay-delete-icon-details-container" onclick="deleteCard()">
+                    <img src="./assets/delete.svg">
+                    <p>Delete</p>
+                </div>
+                <div class="card-overlay-separationline-details-container"></div>
+                <div class="card-overlay-delete-icon-details-container">
+                <img src="./assets/edit.png"
+                <p>Edit</p>
+                </div>
             </div>
         </div>      
     </div>
