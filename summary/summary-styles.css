@@ -237,6 +237,8 @@
     padding: 20px;
 }
 
+
+
 .profil {
 
     border-radius: 50%;
@@ -433,8 +435,6 @@
 .split {
     display: flex;
     padding-left: 96px;
-
-
 }
 
 .left-content {
@@ -442,7 +442,6 @@
 }
 
 .greeting {
-
     flex: 1;
     display: flex;
     justify-content: center;
@@ -451,4 +450,10 @@
     font-weight: 600;
     color: #2A3647;
     text-align: center;
+}
+
+.summary-todo {
+    display:flex;
+    align-items: center;
+   gap:20px;
 }
