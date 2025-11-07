@@ -294,9 +294,11 @@
 .status-box-container {
     display: flex;
     gap: 30px;
+    justify-content: space-between;
 }
 
 .status-box {
+    flex: 1;
     background-color: white;
     border-radius: 30px;
     width: 264px;
@@ -332,10 +334,11 @@
     transition: background-color 0.3s ease;
 }
 
-.content-summary {
-    padding: 60px 80px;
-
+.summary-task-status {
+    width: 100%;
 }
+
+.content-summary {}
 
 .vector {
     width: 2px;
@@ -347,12 +350,9 @@
     background-color: #D1D1D1
 }
 
-.greeting {
-    width: 338px;
-    font-size: 47px;
-    font-weight: 600;
-    color: #2A3647;
-}
+
+
+
 
 .progress-bar-1 {
     width: 55px;
@@ -422,9 +422,33 @@
     display: flex;
     gap: 40px;
     margin-top: 20px;
+    justify-content: space-around;
 }
 
 .overview-box {
     width: 160px;
 
+}
+
+.split {
+    display: flex;
+    padding-left: 96px;
+
+
+}
+
+.left-content {
+    flex: 0 0 700px;
+}
+
+.greeting {
+
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 47px;
+    font-weight: 600;
+    color: #2A3647;
+    text-align: center;
 }
