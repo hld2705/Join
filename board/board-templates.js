@@ -19,7 +19,7 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
     return `
     <div class="startendcontainer" ondrop="moveTo(event)" ondragover="dragoverHandler(event)">
       <div id="${taskId}" class="template-wrapper" draggable="true" ondragstart="startDragging(event, ${taskId})">
-            <div id="cards" class="board-card" onclick="detailedCardInfo()">
+            <div id="cards" class="board-card" onclick='detailedCardInfo(${JSON.stringify({taskId, title, main, description, subtasks, assigned, priority})})'>
                 <div class="task-main-container" style="background-color: ${bgColor}">${main}
                 </div> 
                     <div class="card-container-title-content">
@@ -46,10 +46,20 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
   `;
 }
 
-function detailedCardInfoTemplate(){
-    
-    return`<div class="overlay-card">
+function detailedCardInfoTemplate(task){
+    let bgColor = "#fff"
+    if (task.main === "User Story") bgColor = "#0038FF";
+    else if (task.main === "Technical Task") bgColor = "#1FD7C1";
 
+
+    return`
+    <div class="overlay-cards" id="overlayclose" onclick="closeOverlayCard()">
+        <div class="card-content" onclick="event.stopPropagation()">
+            <div class="cards-content-header">
+             <div class="task-main-container" style="background-color: ${bgColor}">${task.main}
+            </div>    
             </div>
+        </div>      
+    </div>
     `
 }

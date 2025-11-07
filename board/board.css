@@ -1289,7 +1289,8 @@ progress::-webkit-progress-value {
   height: 32px;
   padding-top: 10px;
 }
-.overlay-card {
+
+.overlay-cards {
   position: fixed;
   top: 0;
   left: 0;
@@ -1301,4 +1302,21 @@ progress::-webkit-progress-value {
   z-index: 999999;
   margin: 0;
   padding: 0;
+  cursor: pointer;
+}
+
+.card-content {
+  width: 525px;
+  height: 700px;
+  border-radius: 30px;
+  padding-top: 48px;
+  padding-right: 40px;
+  padding-bottom: 48px;
+  padding-left: 40px;
+  gap: 24px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 4px 0px #00000029;
+}
+.cards-content-header{
+  
 }

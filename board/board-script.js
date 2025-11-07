@@ -61,6 +61,13 @@ function detailedCardInfo(){
   body.innerHTML += detailedCardInfoTemplate();
 }
 
+function closeOverlayCard(){
+  let close = document.getElementById("overlayclose");
+  if(close){
+    close.remove();
+  }
+}
+
 function openAddTaskOverlay() {
   let overlayBg = document.getElementById("task-overlay-background");
   let overlay = document.getElementById("task-overlay");
