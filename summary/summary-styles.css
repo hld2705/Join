@@ -14,13 +14,13 @@
     margin-left: 96px;
 }
 
-.summary-header h1{
-        font-size: 61px;
+.summary-header h1 {
+    font-size: 61px;
 }
 
-.summary-header span{
+.summary-header span {
 
-        font-size: 27px;
+    font-size: 27px;
 }
 
 .summary-header p {
@@ -30,14 +30,7 @@
     margin: 0 20px;
 }
 
-.content-summary {
-    padding: 60px 80px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    flex: 1;
-}
+
 
 .split-view {
     display: flex;
@@ -45,7 +38,8 @@
     padding: 20px;
 }
 
-.task, #task-container {
+.task,
+#task-container {
     flex: 1;
 }
 
@@ -60,14 +54,11 @@
     justify-content: center;
 }
 
-#greeting {
-    width: 338px;
-    font-size: 47px;
-}
+
 
 .join {
     margin-bottom: 40px;
-   flex-direction: row;
+    flex-direction: row;
 }
 
 .join h1 {
@@ -75,111 +66,57 @@
     font-size: 61px;
 }
 
-.vector {
-    height: 120px;
-    display: block;
-    margin-left: 50px;
-}
-
 .join span {
     font-size: 27px;
 }
 
-.todo, .summary-count {
+.todo,
+.summary-count {
     display: flex;
     gap: 30px;
-
 }
 
-.summary-todo,
-.summary-task-status,
-.count,
-.count1 {
-    background-color: white;
-    border-radius: 30px;
-    height: 168px;
-    width: 168px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 18px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-.status-left{
+.status-left {
     display: flex;
     flex-direction: row;
 }
-.summary-todo{
 
-    width: 264px;
-    height: 168px;
+.urgent-icon {
+    margin-left: 30px;
+    margin-top: 20px;
+    width: 60px;
+    height: 60px;
 }
 
-.summary-todo:hover,
-.summary-task-status:hover,
-.count:hover,
-.count1:hover {
-  background-color: #2A3647;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  transform: scale(1.05);
-  color: white;
+.icon-to-do {
+    width: 69px;
+    height: 69px;
+    border-radius: 50%;
+    background: #2A3647;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
 }
 
-.urgent-icon{
-  margin-left: 30px;
-  margin-top: 20px;
-  width: 60px;
-  height: 60px;
-}
 .icon-summary {
-  width: 69px;
-  height: 69px;
-  border-radius: 50%;
-  background: #2A3647;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
+    width: 69px;
+    height: 69px;
+    border-radius: 50%;
+    background: #2A3647;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
 }
 
 .icon-summary img {
-  width: 24px;
-  height: 24px;
-  transition: filter 0.2s ease;
-}
-
-.summary-todo:hover .icon-summary,
-.summary-task-status:hover .icon-summary,
-.count:hover .icon-summary,
-.count1:hover .icon-summary {
-  background: white;
-  box-shadow: 0 4px 8px rgba(0,0,0,.25);
-  transform: scale(1.05);
-}
-
-.summary-todo:hover .icon-summary img,
-.summary-task-status:hover .icon-summary img,
-.count:hover .icon-summary img,
-.count1:hover .icon-summary img {
-  filter: brightness(0); 
-
-  filter: brightness(0); 
+    width: 24px;
+    height: 24px;
+    transition: filter 0.2s ease;
 }
 
 
-
-.icon-summary path {
-
-  fill: white;
-  fill: white; 
-  transition: fill 0.2s ease;
-}
-
-.icon-summary:hover path {
-  fill: black;
- 
-}
 .number-container,
 .number-urgent-container {
     display: flex;
@@ -208,11 +145,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.summary-task-status {
-    width: 560px;
-    gap: 18px;
 }
 
 .day {
@@ -250,11 +182,10 @@
 
 }
 
-.responsive-logo{
+.responsive-logo {
     background: url("/assets/logo-desktop.svg") no-repeat center / contain;
     display: none;
 }
-
 
 .highlight-name {
     color: rgba(41, 171, 226, 1);
@@ -262,12 +193,9 @@
     font-size: 64px;
 }
 
-
 #summary-To-do:hover svg path {
-  fill: #2A3647;
+    fill: #2A3647;
 }
-
-
 
 #log-out-menu.active {
     display: flex;
@@ -305,48 +233,222 @@
 }
 
 .profil-container {
-      position: relative;
-      padding: 20px;
-    }
+    position: relative;
+    padding: 20px;
+}
 
-    .profil {
-     
-      border-radius: 50%;
-      cursor: pointer;
-    }
+.profil {
 
-  .navbar {
-      position: absolute;
-      top: 60px; 
-      right: 0;
-      background-color: #1e1e2f;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
-      display: none; 
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      margin-top: 40px;
-      width: 150px;
-      height: 158px;
-    }
+    border-radius: 50%;
+    cursor: pointer;
+}
 
-    .navbar a {
-      display: block;
-      color: white;
-      text-decoration: none;
-      margin-bottom: 8px;
-      font-size: 16px;
-      width: 130px;
-      height: 46px;
-    }
+.navbar {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #1e1e2f;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    display: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 40px;
+    width: 150px;
+    height: 158px;
+}
 
-    .navbar a:last-child {
-      margin-bottom: 0;
-    }
+.navbar a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 8px;
+    font-size: 16px;
+    width: 130px;
+    height: 46px;
+}
 
-    .navbar a:hover {
-      text-decoration: underline;
-    }
+.navbar a:last-child {
+    margin-bottom: 0;
+}
 
-    #mobile-gateway { display: none; }
-#summary-root   { display: block; }
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.status-box-container {
+    display: flex;
+    gap: 30px;
+    justify-content: space-between;
+}
+
+.status-box {
+    flex: 1;
+    background-color: white;
+    border-radius: 30px;
+    width: 264px;
+    height: 168px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.status-box:hover {
+    background-color: #2A3647;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    transform: scale(1.05);
+    color: white;
+}
+
+.summary-task-status,
+.count,
+.count1 {
+    position: relative;
+    margin-top: 30px;
+    background-color: white;
+    border-radius: 30px;
+    height: 168px;
+    width: 560px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.summary-task-status {
+    width: 100%;
+}
+
+.content-summary {}
+
+.vector {
+    width: 2px;
+    height: 120px;
+    display: block;
+    margin-left: 50px;
+    color: #1e1e2f;
+    z-index: 9999;
+    background-color: #D1D1D1
+}
+
+
+
+
+
+.progress-bar-1 {
+    width: 55px;
+    height: 8px;
+    background-color: #4589FF;
+    border-radius: 8px;
+}
+
+.progress-bar-2 {
+    width: 110px;
+    height: 8px;
+    background-color: #4589FF;
+    border-radius: 8px;
+}
+
+.summary-container {
+    display: flex;
+    gap: 80px;
+}
+
+.status-box:hover .icon-to-do {
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, .25);
+    transform: scale(1.05);
+}
+
+.status-box:hover .icon-to-do path {
+    fill: #2A3647;
+}
+
+.check-icon path {
+    stroke: white;
+    transition: stroke 0.2s ease;
+}
+
+.status-box:hover {
+    background-color: #2A3647;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    transform: scale(1.05);
+    color: white;
+}
+
+.status-box:hover .icon-summary {
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    transform: scale(1.05);
+}
+
+.status-box:hover .check-icon path {
+    stroke: #2A3647;
+}
+
+.task-count {
+    font-size: 60px;
+    font-weight: 600;
+    padding-right: 10px;
+}
+
+.done-text-container {
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.status-overview {
+    display: flex;
+    gap: 40px;
+    margin-top: 20px;
+    justify-content: space-around;
+}
+
+.overview-box {
+    width: 160px;
+
+}
+
+.split {
+    display: flex;
+    padding-left: 96px;
+
+
+}
+
+.left-content {
+    flex: 0 0 700px;
+}
+
+.greeting {
+
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 47px;
+    font-weight: 600;
+    color: #2A3647;
+    text-align: center;
+}

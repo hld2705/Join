@@ -96,7 +96,6 @@ function openAssignDropdown() {
 
 document.addEventListener('click', renderAssignDropdown);
 
-
 function switchAssignedArrow() {
     let arrowIcon = document.getElementById('drop-down-svg-assign');
     let currentSrc = arrowIcon.src;
@@ -132,21 +131,6 @@ async function handleAssignedSearch(e) {
         await showUserName();
     }
     filterList(e);
-}
-
-function filterList(e) {
-    let inputText = e.target.value.trim().toLowerCase();
-    let list = document.getElementById('dropdownList');
-    let items = list.querySelectorAll('.Assigned-dropdown-username');
-    if (inputText.length < 1) {
-        items.forEach(div => div.style.display = '');
-        return;
-    }
-    items.forEach(div => {
-        let name = (div.dataset.name || '').toLowerCase();
-        div.style.display = name.includes(inputText) ? '' : 'none';
-    });
-    list.classList.add('open');
 }
 
 document.addEventListener('input', handleAssignedSearch);
@@ -409,8 +393,4 @@ document.addEventListener('dblclick', (e) => {
 
 document.addEventListener('click', handleIcons);
 
-function cursorToEnd(el) {
-    el.focus();
-    document.getSelection().collapse(el, 1);
-}
 

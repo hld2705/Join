@@ -45,8 +45,6 @@ function loadAddTaskForm() {
             if (!formContainer) return;
             if (formContainer) {
                 formContainer.innerHTML = html;
-                let btn = document.getElementById('add-task-button');
-                btn.addEventListener('click', addNewTask);
             }
         })
 }
@@ -83,6 +81,7 @@ function appendUserItem(dropList, user) {
     div.dataset.name = user.name.toLowerCase();
     name.textContent = user.name;
     img.src = user.badge.replace("./", "/");
+    div.dataset.badge = user.badge.replace("./", "/");
     img.classList.add("userBadge");
     div.append(img, name, renderCheckButton());
     dropList.appendChild(div);
@@ -100,34 +99,39 @@ function openCalendar() {
 }
 
 function addNewTask() {
-    let taskData = getTaskInputs();
-    let newTask = {
-        id: Date.now(),
-        taskData,
-    };
-    cardTemplate(task);
-    return firebase.database().ref('tasks/' + newTask.id).set(newTask)
-        .catch((error) => {
-            console.error('Task wurde nicht weitergeleitet:', error);
-        })
+  const taskData = getTaskInputs(); 
+  const newTask = {
+    id: Date.now(),
+    ...taskData, 
+  };
 
-};
+  return firebase.database().ref('tasks/' + newTask.id).set(newTask)
+    .catch((error) => {
+      console.error('Task wurde nicht weitergeleitet:', error);
+    });
+}
 
 function getTaskInputs() {
     return {
         title: document.getElementById('title-input').value,
         description: document.getElementById('description-input').value,
         date: document.getElementById('date-input').value,
-        category: getCategory(),
+        main: getCategory(),
         subtasks: getSubtasks(),
         priority: getPriority(),
         assignedUser: getAssignedUsers(),
+        assignedBadge: getAssignedUserBadge(),
     };
 }
 
 function getAssignedUsers() {
     return Array.from(document.querySelectorAll('.Assigned-dropdown-username.bg-grey'))
         .map(el => el.dataset.name);
+}
+
+function getAssignedUserBadge() {
+    return Array.from(document.querySelectorAll('.Assigned-dropdown-username.bg-grey'))
+        .map(el => el.dataset.badge);
 }
 
 function getPriority() {
@@ -218,7 +222,7 @@ function removeRequiredDate() {
 function removeRequiredCategory() {
     let categoryInput = document.getElementById('category-input');
     let msg = document.getElementById('required-message-category');
-    if (!categoryInput || !msg) return;setupIdSwitchingForForms
+    if (!categoryInput || !msg) return; setupIdSwitchingForForms
 
     if (categoryInput.placeholder !== "Select task category") {
         categoryInput.classList.remove("submit");
@@ -235,18 +239,32 @@ function clearAllInputs() {
     date.value = "";
 }
 
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('#task-form-container')) return;
-    clearAll(e);
-    clearAllInputs();
-    resetAllButton();
-    clearAssignedInput();
-    clearCategoryInput();
-    clearSubtaskOutput();
-});
-
+function clearAll(e) {
+    if (e.target.closest('#clear-button')) {
+        clearAllInputs();
+        resetAllButton();
+        clearAssignedInput();
+        clearCategoryInput();
+        clearSubtaskOutput();
+    }
+}
 
 document.addEventListener('click', clearAll);
+
+function filterList(e) {
+    let inputText = e.target.value.trim().toLowerCase();
+    let list = document.getElementById('dropdownList');
+    let items = list.querySelectorAll('.Assigned-dropdown-username');
+    if (inputText.length < 1) {
+        items.forEach(div => div.style.display = '');
+        return;
+    }
+    items.forEach(div => {
+        let name = (div.dataset.name || '').toLowerCase();
+        div.style.display = name.includes(inputText) ? '' : 'none';
+    });
+    list.classList.add('open');
+}
 
 function addedTaskTransition(e) {
     if (e.target.id === 'add-task-button') {
@@ -265,7 +283,6 @@ function TaskTransitionRequirement(e) {
 }
 
 function TaskTransitionRequirement(e) {
-    if (e.target.id !== 'add-task-button') return;
     checkRequiredCategory(); checkRequiredDate(); checkRequiredTitle();
     let validTitle = document.getElementById('title-input').checkValidity();
     let validDate = document.getElementById('date-input').checkValidity();
@@ -273,21 +290,24 @@ function TaskTransitionRequirement(e) {
     let allValid = validTitle && validDate && validCategory;
     if (!allValid) {
         e.preventDefault();
-        e.stopPropagation?.();
         return;
     }
+    addNewTask();
+    switchToBoard(e);
+};
+
+function switchToBoard(e) {
     if (!window.location.pathname.endsWith('board.html')) {
         addedTaskTransition(e);
     } else {
         redirectToBoard();
     }
-    addNewTask();
-};
+}
 
 document.addEventListener("click", (e) => {
-    const container = e.target.closest('#task-form-container');
-    if (!container) return;
-    TaskTransitionRequirement(e);
+    if (e.target.id === 'add-task-button') {
+        TaskTransitionRequirement(e);
+    }
 });
 
 function closeTaskOverlay() {
@@ -298,7 +318,6 @@ function closeTaskOverlay() {
     document.body.classList.remove('no-scroll');
 }
 
-
 function redirectToBoard() {
     let title = document.getElementById('title-input');
     let date = document.getElementById('date-input');
@@ -308,37 +327,32 @@ function redirectToBoard() {
         checkRequiredDate?.();
         return;
     }
-
-
-    if(window.location.href("../board.html")){
-    closeTaskOverlay();
-    cardTemplate();}
-    else{location.assign("../board.html")} 
-
     if (window.location.href.includes("board.html")) {
         document.getElementById('task-added-info').style.display = "none";
         closeTaskOverlay();
     } else {
         location.assign("../board.html");
     }
-
 }
 
-
 function setupIdSwitchingForForms() {
-  const forms = ['#task-form-container', '#edit-task-form-container'];
-  document.addEventListener('pointerdown', function (e) {
-    const container = e.target.closest(forms.join(', '));
-    if (container) {
-      container.dataset.active = 'true';
-      forms.forEach(sel => {
-        if (sel !== `#${container.id}`) {
-          document.querySelector(sel)?.removeAttribute('data-active');
+    const forms = ['#task-form-container', '#edit-task-form-container'];
+    document.addEventListener('pointerdown', function (e) {
+        const container = e.target.closest(forms.join(', '));
+        if (container) {
+            container.dataset.active = 'true';
+            forms.forEach(sel => {
+                if (sel !== `#${container.id}`) {
+                    document.querySelector(sel)?.removeAttribute('data-active');
+                }
+            });
         }
-      });
-    }
-  }, true);
-
+    }, true);
 }
 
 setupIdSwitchingForForms();
+
+function cursorToEnd(el) {
+    el.focus();
+    document.getSelection().collapse(el, 1);
+}
