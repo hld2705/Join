@@ -12,7 +12,9 @@ const FIREBASE_BASE_URL = 'https://join-gruppenarbeit-75ecf-default-rtdb.europe-
 const ADD_TASK_JS = [
   'add_task_templates.js',
   'add_task.js',
-  'add_task_interactions.js'
+   'add_task_interactions.js'
+  
+ 
 ];
 
 const FIREBASE_JS = [

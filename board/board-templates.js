@@ -51,7 +51,6 @@ function detailedCardInfoTemplate(task){
     if (task.main === "User Story") bgColor = "#0038FF";
     else if (task.main === "Technical Task") bgColor = "#1FD7C1";
 
-
     return`
     <div class="overlay-cards" id="overlayclose" onclick="closeOverlayCard()">
         <div class="card-content" onclick="event.stopPropagation()">
