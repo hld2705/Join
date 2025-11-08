@@ -61,7 +61,6 @@ function detailedCardInfo(taskId){
   let body = document.body;
   const task = join.tasks.find(t => t.id === taskId);
   if (!task) return;
-  body.innerHTML += detailedCardInfoTemplate(taskId);
   document.body.insertAdjacentHTML("beforeend", detailedCardInfoTemplate(task));
 }
 
@@ -76,6 +75,21 @@ function renderSubtask(subtasks) {
     });
   }
   return rendered;
+}
+
+function deleteCard(taskId) {
+  let deleteIcon = document.getElementById("deleticon");
+  let templateContainer = document.getElementById(taskId);
+  let card = document.getElementById("cards");
+  const container = document.getElementById(taskId).closest(".startendcontainer");
+
+  if (deleteIcon) {
+    closeOverlayCard();
+    card.style.display = "none";
+    templateContainer.innerHTML += noCardsTemplate(taskId);
+  }else if(container && !container.querySelector(".board-card")){
+    container.innerHTML = noCardsTemplate(taskId);
+  }
 }
 
 function getBgColor(main) {

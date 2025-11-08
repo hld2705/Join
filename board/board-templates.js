@@ -78,7 +78,7 @@ function detailedCardInfoTemplate(task) {
                 </div>               
             </div>
             <div class="card-overlay-icons-details-container">
-                <div class="card-overlay-delete-icon-details-container" onclick="deleteCard()">
+                <div class="card-overlay-delete-icon-details-container" onclick="deleteCard(${task.id})" id="deleticon">
                     <img src="./assets/delete.svg">
                     <p>Delete</p>
                 </div>
@@ -89,6 +89,14 @@ function detailedCardInfoTemplate(task) {
                 </div>
             </div>
         </div>      
+    </div>
+    `
+}
+
+function noCardsTemplate(taskId){
+    return `
+    <div class="notasks-container">
+    <p>No tasks To do<p>
     </div>
     `
 }
