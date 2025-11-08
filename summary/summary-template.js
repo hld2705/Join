@@ -1,11 +1,11 @@
 
 async function getToDo() {
-    await loadData();
+  await loadData();
 
-    const todoTasks = tasks.filter(todo => todo.status === "todo");
-    const ToDoCard = document.getElementById("summary-To-do");
+  const todoTasks = tasks.filter(todo => todo.status === "todo");
+  const ToDoCard = document.getElementById("summary-To-do");
 
-    ToDoCard.innerHTML = `
+  ToDoCard.innerHTML = `
     <div class="summary-todo">
       <div class="icon-to-do">
         <svg width="34" height="30" viewBox="0 0 24 24" fill="none"
@@ -37,12 +37,12 @@ async function getToDo() {
 getToDo()
 
 async function getDoneTasks() {
-    await loadData();
+  await loadData();
 
-    const DoneTasks = tasks.filter(done => done.status === "done");
-    const DoneCard = document.getElementById("summary-done");
+  const DoneTasks = tasks.filter(done => done.status === "done");
+  const DoneCard = document.getElementById("summary-done");
 
-    DoneCard.innerHTML = `
+  DoneCard.innerHTML = `
              <div class="summary-todo">
                   <div class="icon-summary">
                     <svg class="check-icon" width="37" height="30" viewBox="0 0 37 30" fill="none"
@@ -55,24 +55,97 @@ async function getDoneTasks() {
                 <div class="done-text-container">
                   <h1 class="task-count">${DoneTasks.length}</h1>
                   <span>Done</span>
-                </div>`
+                </div>
+                `
 }
 
 getDoneTasks();
 
 
 async function getUrgent() {
-    await loadData();
+  await loadData();
 
-    const Urgent = tasks.filter(urgent => urgent.priority === "urgent");
-    let SummaryCard = document.getElementById("deadline-container");
+  const Urgent = tasks.filter(urgent => urgent.priority === "urgent");
+  let SummaryCard = document.getElementById("deadline-container");
 
-    SummaryCard.innerHTML = `
+  SummaryCard.innerHTML = `
            <img src="./assets/urgent-icon.png">
                 <div class="done-text-container">
                   <h1 class="task-count">${Urgent.length}</h1>
-                  <span>Done</span>
-                </div>`
+                  <span>Urgent</span>
+                </div>
+                 <div class="vector"></div>`
 }
 
 getUrgent()
+
+async function getendDate() {
+  await loadData();
+
+  const endDate = "2025-12-30";
+  const foundTask = tasks.find(date => date.enddate === "2025-12-30");
+  let SummaryCard = document.getElementById("enddate");
+  console.log(endDate);
+  if (!SummaryCard) {
+    return;
+  }
+
+  if (foundTask) {
+    const formattedDate = new Date(endDate).toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric"
+    });
+
+    SummaryCard.innerHTML = `<h1 class="urgent-date-text">${formattedDate}</h1>
+    <span>Upcoming deadline</span>`;
+  }
+}
+
+getendDate();
+
+async function getTasksInBoard() {
+  await loadData();
+
+  const total = Array.isArray(tasks) ? tasks.length : 0;
+  let boardCard = document.getElementById('current-board-tasks');
+
+
+  boardCard.innerHTML = `
+  <div class="overview-box-wrapper" >
+  <h1 class="task-count">${total}</h1>
+  <span>Tasks in <br>Board</span>
+  </div>`
+}
+
+getTasksInBoard()
+
+async function getTasksInProgress() {
+  await loadData();
+
+  const inProgress = tasks.filter(progress => progress.status === "inprogress");
+  let ProgressCard = document.getElementById('progress-board-tasks');
+
+
+  ProgressCard.innerHTML = `
+  <div class="overview-box-wrapper" >
+  <h1 class="task-count">${inProgress.length}</h1>
+  <span>Tasks in <br>Progress</span>
+  </div>`
+}
+
+getTasksInProgress()
+
+async function getFeedbackTasks() {
+  await loadData();
+
+  const feedback = tasks.filter(f => f.status === "review");
+  let feedbackCard = document.getElementById('feedback-board-tasks');
+  feedbackCard.innerHTML = `
+  <div class="overview-box-wrapper" >
+  <h1 class="task-count">${feedback.length}</h1>
+  <span>Awaiting<br>Feedback</span>
+  </div>`
+}
+
+getFeedbackTasks();

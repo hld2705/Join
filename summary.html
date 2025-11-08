@@ -56,11 +56,6 @@
       <div class="user-info">
         <a href="./help.html"><img class="Hilfe" src="./assets/help.svg" alt="help"></a>
         <img class="profil" src="./assets/sofia.svg" alt="badges-header">
-        <div id="navbar" class="navbar">
-          <a href="legal_notice.html">Legal Notice</a>
-          <a href="privacy_policy.html">Privacy Policy</a>
-          <a href="#" id="logout-link">Log out</a>
-        </div>
       </div>
     </header>
 
@@ -83,20 +78,24 @@
             </div>
 
             <div class="summary-container">
-              <div id="deadline-container" class="summary-task-status status-box">
-                <div class="vector"></div>
+              <div class="summary-task-status status-box">
+                <div id="deadline-container"></div>
+                <div id="enddate"></div>
               </div>
             </div>
-   
+
             <div class="status-overview">
-              <div class="status-box overview-box"></div>
-              <div class="status-box overview-box"></div>
-              <div class="status-box overview-box"></div>
+              <div id="current-board-tasks" class="status-box overview-box"></div>
+              <div id="progress-board-tasks" class="status-box overview-box"></div>
+              <div id="feedback-board-tasks" class="status-box overview-box"></div>
             </div>
 
           </div>
 
-          <h1 class="greeting">Good morning,</h1>
+          <h1 class="greeting">
+            <span>Good morning,</span>
+            <span class="logged-user">Sofia Müller</span>
+          </h1>
         </div>
       </section>
     </div>
