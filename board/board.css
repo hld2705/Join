@@ -1027,7 +1027,7 @@ textarea {
 }
 
 #edit-overlay-background {
-  display: none;
+  display: block;
   position: fixed;
   background-color: rgba(0, 0, 0, 0.5);
   inset: 0;
@@ -1037,7 +1037,7 @@ textarea {
 }
 
 #edit-overlay {
-  display: none;
+  display: block;
   position: fixed;
   overflow: hidden;
   top: 50%;
@@ -1053,7 +1053,7 @@ textarea {
 }
 
 */#edit-task-form-container {
-  display: none;
+  display: block;
   flex: 1;
   height: 100vh;
   font-weight: 400;
