@@ -149,3 +149,8 @@ async function getFeedbackTasks() {
 }
 
 getFeedbackTasks();
+
+
+function redirectToBoard() {
+    location.assign("../board.html");
+}
