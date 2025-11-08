@@ -46,7 +46,7 @@ function detailedCardInfoTemplate(task) {
     const subtask = renderSubtask(task.subtasks)
     return `
     <div class="overlay-cards" id="overlayclose" onclick="closeOverlayCard()">
-        <div class="card-content" onclick="event.stopPropagation()">
+        <div id="card-content" class="card-content" onclick="event.stopPropagation()">
             <div class="cards-content-header">
                 <div class="card-overlay-main-container" style="background-color: ${bgColor}">${task.main}</div>
                     <img class="card-overlay-main-container-img" src="./assets/close.svg" onclick="closeOverlayCard()">    
@@ -83,7 +83,7 @@ function detailedCardInfoTemplate(task) {
                     <p>Delete</p>
                 </div>
                 <div class="card-overlay-separationline-details-container"></div>
-                <div class="card-overlay-delete-icon-details-container">
+                <div onclick="openEditOverlay()" id="edit-btn" class="card-overlay-delete-icon-details-container">
                 <img src="./assets/edit.png"
                 <p>Edit</p>
                 </div>

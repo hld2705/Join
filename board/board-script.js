@@ -57,11 +57,10 @@ function moveTo(ev) {
   if (target) target.appendChild(dragged);
 }
 //---------------------Drag&Drop------------------------
-function detailedCardInfo(taskId){
+function detailedCardInfo(taskId) {
   let body = document.body;
   const task = join.tasks.find(t => t.id === taskId);
   if (!task) return;
-  body.innerHTML += detailedCardInfoTemplate(taskId);
   document.body.insertAdjacentHTML("beforeend", detailedCardInfoTemplate(task));
 }
 
@@ -91,9 +90,9 @@ function getPriorityImg(priority) {
   return "";
 }
 
-function closeOverlayCard(){
+function closeOverlayCard() {
   let close = document.getElementById("overlayclose");
-  if(close){
+  if (close) {
     close.remove();
   }
 }
@@ -150,3 +149,31 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadData();
   dragAndDrop();
 });
+
+
+function openEditOverlay() {
+  let bg = document.getElementById('edit-overlay-background');
+  let formContainer = document.getElementById('edit-task-form-container');
+  if (!bg || !formContainer) return;
+
+  closeOverlayCard()
+
+  bg.classList.add('is-open');
+  loadEditTaskForm();
+
+  bg.addEventListener('click', function (e) {
+    if (e.target === bg) {
+      closeEditOverlay();
+    }
+  })
+
+}
+
+function closeEditOverlay() {
+  let bg = document.getElementById('edit-overlay-background');
+
+  if (!bg) return;
+
+  bg.classList.remove('is-open');
+  document.body.classList.remove('no-scroll');
+}
