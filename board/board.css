@@ -21,9 +21,7 @@ body {
   display: none !important;
 }
 
-body.no-scroll {
-  overflow: hidden;
-}
+
 
 .title-and-search {
   display: flex;
@@ -1009,22 +1007,10 @@ textarea {
 
 /*Behalten*/
 
-.edit-overlay #edit-task-form-container {
-  display: block;
-  flex: 1;
-  flex-direction: column;
-  min-height: 0;
-  font-weight: 400;
-  justify-content: space-evenly;
-}
 
-.edit-overlay .task-content-container {
-  flex-direction: column;
-  height: 94vh;
-  width: 100%;
-  border-radius: 40px;
-  overflow: auto;
-}
+
+
+
 
 #edit-overlay-background {
   display: block;
@@ -1037,30 +1023,47 @@ textarea {
 }
 
 #edit-overlay {
-  display: block;
+  display: flex;
+  flex-direction: column;
   position: fixed;
-  overflow: hidden;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, .06);
-  width: 500px;
+  width: 480px;
   max-width: 90vw;
   height: 90vh;
-  border-radius: 40px;
+  max-height: 90vh;
+  background: #fff;
+  border-radius: 30px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
   border: 1px solid rgba(116, 116, 116, 0.5);
   z-index: 2000;
+  overflow: hidden;
+  min-height: 0;
+  color: #2A3647;
 }
 
-*/#edit-task-form-container {
-  display: block;
+.edit-overlay .contents {
+  flex-direction: column;
+  display: flex;
   flex: 1;
-  height: 100vh;
-  font-weight: 400;
-  justify-content: space-evenly !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 20px 20px 20px;
+  scrollbar-width: thin;
 }
 
-*/ .edit-overlay .task-inner-content {
+#edit-task-form-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;   
+  min-height: 0;    
+  overflow: hidden; 
+  font-weight: 400;
+  justify-content: flex-start;
+}
+
+.edit-overlay .task-inner-content {
   flex: 1;
   min-height: 0;
   overflow: auto;
@@ -1070,6 +1073,13 @@ textarea {
 
 #edit-overlay-background.is-open {
   display: grid;
+}
+
+
+
+
+body.no-scroll {
+  overflow-y: hidden;
 }
 
 

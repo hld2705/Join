@@ -192,3 +192,4 @@ function closeEditOverlay() {
   bg.classList.remove('is-open');
   document.body.classList.remove('no-scroll');
 }
+
