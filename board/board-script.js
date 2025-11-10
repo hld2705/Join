@@ -87,7 +87,7 @@ function deleteCard(taskId) {
     closeOverlayCard();
     card.style.display = "none";
     templateContainer.innerHTML += noCardsTemplate(taskId);
-  }else if(container && !container.querySelector(".board-card")){
+  } else if (container && !container.querySelector(".board-card")) {
     container.innerHTML = noCardsTemplate(taskId);
   }
 }
@@ -107,9 +107,16 @@ function getPriorityImg(priority) {
 
 function closeOverlayCard() {
   let close = document.getElementById("overlayclose");
-  if (close) {
+  let overlay = document.getElementById("card-content");
+  overlay.classList.remove("is-open");
+  setTimeout(() => {
     close.remove();
-  }
+  }, 250);
+}
+
+function closeOverlayCardInstant() {
+  const close = document.getElementById("overlayclose");
+  if (close) close.remove();
 }
 
 function openAddTaskOverlay() {
@@ -124,7 +131,6 @@ function openAddTaskOverlay() {
       overlayBg.style.display = "block";
       animateOverlayIn(overlay);
     })
-    .catch(err => console.error("Fehler beim Laden von addTask:", err));
 }
 
 function animateOverlayIn(overlay) {
@@ -151,7 +157,6 @@ function animateOverlayOut(overlay) {
   overlay.classList.remove("is-open");
 }
 
-
 document.getElementById("task-overlay-background").addEventListener("click", (e) => {
   let overlay = document.getElementById("task-overlay");
 
@@ -165,13 +170,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   dragAndDrop();
 });
 
-
 function openEditOverlay() {
   let bg = document.getElementById('edit-overlay-background');
   let formContainer = document.getElementById('edit-task-form-container');
   if (!bg || !formContainer) return;
 
-  closeOverlayCard()
+  closeOverlayCardInstant();
 
   bg.classList.add('is-open');
   loadEditTaskForm();
@@ -184,6 +188,10 @@ function openEditOverlay() {
 
 }
 
+function animateDetailedCardOut(overlay) {
+  overlay.classList.remove("is-open");
+}
+
 function closeEditOverlay() {
   let bg = document.getElementById('edit-overlay-background');
 
@@ -193,3 +201,9 @@ function closeEditOverlay() {
   document.body.classList.remove('no-scroll');
 }
 
+function animateDetailedCardIn(overlay) {
+  overlay.classList.remove("is-open");
+  setTimeout(() => {
+    overlay.classList.add("is-open");
+  }, 20);
+}

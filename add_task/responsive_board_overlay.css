@@ -59,17 +59,6 @@ body.no-scroll {
   background: #d0d4da;
 }
 
-.overlay-host {
-  scrollbar-width: thin;
-  scrollbar-color: #d0d4da transparent;
-}
-
-.overlay-close {
-  display: none;
-}
-
-
-
 .edit-overlay .textarea {
   resize: vertical;
   width: auto !important;
@@ -128,18 +117,6 @@ body.no-scroll {
   display: none;
 }
 
-
-.edit-overlay .task-content-container {
-  background: white;
-  height: 100%;
-  min-height: 0;
-    display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-height: 0; 
-  height: 100%;
-}
-
 .edit-overlay form {
   display: flex;
   flex-direction: column;
@@ -148,13 +125,6 @@ body.no-scroll {
   height: 100%;
 }
 
-.edit-overlay .edit-task-form-container {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-height: 0;
-  height: 100%;
-}
 
 .edit-overlay .task-overlay-inner {
   display: flex;
@@ -165,29 +135,6 @@ body.no-scroll {
 }
 
 
-.edit-overlay .date-input-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-.edit-overlay #date-input.input {
-  padding-right: 36px;
-  cursor: pointer;
-}
-
-.edit-overlay #date-input::-webkit-calendar-picker-indicator {
-  opacity: 0;
-  appearance: none;
-  -webkit-appearance: none;
-  cursor: pointer;
-}
-
-.edit-overlay .date-input-wrapper:hover .date-icon {
-  opacity: 1;
-}
-
 .edit-overlay .priority-input-container {
   display: flex;
   gap: 12px;
@@ -195,39 +142,9 @@ body.no-scroll {
   ;
 }
 
-.edit-overlay .urgent-container.active {
-  border-color: #EF4444;
-  color: #EF4444;
-  background: #fff;
-}
-
-.edit-overlay .medium-container.active {
-  border-color: #F59E0B;
-  background: #F59E0B;
-  color: #fff;
-}
-
-.edit-overlay .low-container.active {
-  border-color: #10B981;
-  color: #10B981;
-  background: #fff;
-}
-
-.edit-overlay .urgent-container:hover,
-.edit-overlay .medium-container:hover,
-.edit-overlay .low-container:hover {
-  border-color: #D1D5DB;
-}
-
-.edit-overlay .assign-Input {
-  position: relative;
-  padding-right: 40px;
-}
-
-
 .edit-overlay .tbc-wrapper {
   position: sticky;
-     bottom: 0px;
+  bottom: 0px;
   display: none;
   display: flex;
   justify-content: flex-end;
@@ -244,9 +161,6 @@ body.no-scroll {
 .edit-overlay .cancel-icon {
   display: none;
 }
-
-
-
 
 .edit-overlay .title-container {
   padding-top: 42px;
@@ -272,25 +186,8 @@ body.no-scroll {
   flex-direction: row;
 }
 
-.subtask-input-wrapper {
-  position: relative;
-  width: 100%;
-}
 
-.subtask-input-wrapper .input {
-  width: 100%;
-  padding: 10px 60px 10px 12px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-sizing: border-box;
-  font: inherit;
-}
 
-.cancel-accept-container .divider {
-  width: 1px;
-  height: 18px;
-  background: #ddd;
-}
 
 .subtask-close-svg,
 .subtask-check-svg {
@@ -301,16 +198,17 @@ body.no-scroll {
   transition: opacity .2s;
 }
 
-.subtask-close-svg:hover,
-.subtask-check-svg:hover {
-  opacity: 1;
+.edit-overlay #edit-accept-icon {
+  width: 18px;
+  height: 17px;
+  margin-right: 2px;
+  margin-left: 4px;
 }
 
-#overlay-add-task {
-  display: none !important;
+.edit-overlay #edit-delete-icon {
+ cursor: pointer;
+    width: 16px;
 }
-
-
 
 .edit-overlay .left-task {
 
@@ -320,4 +218,26 @@ body.no-scroll {
 .edit-overlay .right-task {
   width: 100%;
   padding-top: 30px;
+}
+
+.edit-overlay .subtask-check-svg {
+  width: 20px;
+  height: 12px;
+}
+
+.edit-overlay .subtask-close-svg {
+  width: 24px;
+  height: 24px;
+}
+
+.edit-overlay .cancel-accept-container {
+  gap: 2px;
+}
+
+.edit-overlay .asterisk {
+  display: none;
+}
+
+.edit-overlay .check-icon {
+  left: 160px;
 }
