@@ -49,7 +49,12 @@ function dragoverHandler(ev) {
   ev.preventDefault();
 }
 
-function moveTo(ev) {
+function moveTo(ev, taskId) {
+  let cardCounter = document.getElementById(taskId);
+  let dragContainer = document.getElementById("dragcontainer");
+  if(cardCounter === 0){
+    dragContainer.innerHTML += noCardsTemplate();
+  }
   ev.preventDefault();
   const id = ev.dataTransfer.getData("text");
   const dragged = document.getElementById(id);
@@ -78,19 +83,20 @@ function renderSubtask(subtasks) {
 }
 
 function deleteCard(taskId) {
-  let deleteIcon = document.getElementById("deleticon");
-  let templateContainer = document.getElementById(taskId);
-  let card = document.getElementById("cards");
-  const container = document.getElementById(taskId).closest(".startendcontainer");
-
-  if (deleteIcon) {
+    const taskIndex = tasks.findIndex(t => t.id === taskId);
+    if (taskIndex !== -1) {
+        tasks.splice(taskIndex, 1);
+    }
+    const cardElement = document.getElementById(taskId);
+    if (!cardElement) return;
+    const cardContainer = cardElement.querySelectorAll('.startendcontainer');
+    if (cardContainer) {
+        cardContainer.innerHTML = noCardsTemplate();
+    }
     closeOverlayCard();
-    card.style.display = "none";
-    templateContainer.innerHTML += noCardsTemplate(taskId);
-  } else if (container && !container.querySelector(".board-card")) {
-    container.innerHTML = noCardsTemplate(taskId);
-  }
 }
+
+
 
 function getBgColor(main) {
   if (main === "User Story" || main === "userstory") return "#0038FF";
