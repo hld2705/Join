@@ -104,6 +104,7 @@ function addNewTask() {
   const taskData = getTaskInputs(); 
   const newTask = {
     id: Date.now(),
+    status: "todo",
     ...taskData, 
   };
 

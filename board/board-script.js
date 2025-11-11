@@ -214,7 +214,6 @@ function animateDetailedCardOut(overlay) {
 
 function closeEditOverlay() {
   let bg = document.getElementById('edit-overlay-background');
-
   if (!bg) return;
 
   bg.classList.remove('is-open');
@@ -222,6 +221,7 @@ function closeEditOverlay() {
 }
 
 function animateDetailedCardIn(overlay) {
+  
   overlay.classList.remove("is-open");
   setTimeout(() => {
     overlay.classList.add("is-open");
