@@ -67,6 +67,10 @@
         font-size: 16px;
     }
 
+    .contents {
+        flex-direction: column;
+    }
+
     #task-form-container {
         overflow: visible;
     }

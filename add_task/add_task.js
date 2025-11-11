@@ -72,6 +72,8 @@ async function showUserName() {
     }
 }
 
+
+
 function appendUserItem(dropList, user) {
     let div = document.createElement("div");
     let name = document.createElement("span");

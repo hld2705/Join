@@ -78,14 +78,20 @@ function renderSubtask(subtasks) {
 }
 
 function deleteCard(taskId) {
-  let deleteIcon = document.getElementById("deleticon");
-  let card = document.getElementById("dragcontainer");
-  let cardId = document.getElementById(taskId);
- if(deleteIcon && cardId === 0){
-  closeOverlayCard();
-  card.innerHTML += noCardsTemplate(taskId)
- }
+    const taskIndex = tasks.findIndex(t => t.id === taskId);
+    if (taskIndex !== -1) {
+        tasks.splice(taskIndex, 1);
+    }
+    const cardElement = document.getElementById(taskId);
+    if (!cardElement) return;
+    const cardContainer = cardElement.closest('.startendcontainer');
+    if (cardContainer) {
+        cardContainer.innerHTML = noCardsTemplate();
+    }
+    closeOverlayCard();
 }
+
+
 
 function getBgColor(main) {
   if (main === "User Story" || main === "userstory") return "#0038FF";
@@ -102,9 +108,16 @@ function getPriorityImg(priority) {
 
 function closeOverlayCard() {
   let close = document.getElementById("overlayclose");
-  if (close) {
+  let overlay = document.getElementById("card-content");
+  overlay.classList.remove("is-open");
+  setTimeout(() => {
     close.remove();
-  }
+  }, 250);
+}
+
+function closeOverlayCardInstant() {
+  const close = document.getElementById("overlayclose");
+  if (close) close.remove();
 }
 
 function openAddTaskOverlay() {
@@ -119,7 +132,6 @@ function openAddTaskOverlay() {
       overlayBg.style.display = "block";
       animateOverlayIn(overlay);
     })
-    .catch(err => console.error("Fehler beim Laden von addTask:", err));
 }
 
 function animateOverlayIn(overlay) {
@@ -146,7 +158,6 @@ function animateOverlayOut(overlay) {
   overlay.classList.remove("is-open");
 }
 
-
 document.getElementById("task-overlay-background").addEventListener("click", (e) => {
   let overlay = document.getElementById("task-overlay");
 
@@ -160,13 +171,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   dragAndDrop();
 });
 
-
 function openEditOverlay() {
   let bg = document.getElementById('edit-overlay-background');
   let formContainer = document.getElementById('edit-task-form-container');
   if (!bg || !formContainer) return;
 
-  closeOverlayCard()
+  closeOverlayCardInstant();
 
   bg.classList.add('is-open');
   loadEditTaskForm();
@@ -179,6 +189,10 @@ function openEditOverlay() {
 
 }
 
+function animateDetailedCardOut(overlay) {
+  overlay.classList.remove("is-open");
+}
+
 function closeEditOverlay() {
   let bg = document.getElementById('edit-overlay-background');
 
@@ -186,4 +200,11 @@ function closeEditOverlay() {
 
   bg.classList.remove('is-open');
   document.body.classList.remove('no-scroll');
+}
+
+function animateDetailedCardIn(overlay) {
+  overlay.classList.remove("is-open");
+  setTimeout(() => {
+    overlay.classList.add("is-open");
+  }, 20);
 }
