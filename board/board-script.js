@@ -7,7 +7,8 @@ function dragAndDrop() {
   for (let i = 0; i < tasks.length; i++) {
     const task = tasks[i];
     const badges = Array.isArray(task.assignedBadge) ? task.assignedBadge : [];
-
+    //task = tasks.status.find(t => t.status === statusId);
+    //task.document.createElement("div id='$(statusId)'");
     container.innerHTML += dragAndDropTemplate(
       task.id,
       task.title,

@@ -98,22 +98,25 @@
       <div class="distribution">
         <div class="distribution-progress">To do
           <img src="./assets/plus button.png">
-          <div class="taskcontainer" id="todo"></div>
         </div>
+
         <div class="distribution-progress">In progress
           <img src="./assets/plus button.png">
-          <div class="taskcontainer" id="inprogress"></div>
         </div>
+
         <div class="distribution-progress">Await feedback
           <img src="./assets/plus button.png">
-          <div class="taskcontainer" id="awaitfeedback"></div>
         </div>
+
         <div class="distribution-progress">Done</div>
         <img src="./assets/plus button.png">
-        <div class="taskcontainer" id="done"></div>
-      </div>
+        </div>
 
       <div class="template-container" id="template-container">
+        <div class="taskcontainer" id="todo"></div>
+        <div class="taskcontainer" id="inprogress"></div>
+        <div class="taskcontainer" id="awaitfeedback"></div>
+        <div class="taskcontainer" id="done"></div>
       </div>
 
 
@@ -127,28 +130,28 @@
       </div>
 
       <div id="overlay-add" class="overlay" hidden>
-  <div class="modal">…Add Task…</div>
-</div>
-
-<div id="edit-overlay-background">
-  <div class="edit-overlay" id="edit-overlay">
-    <div class="task-overlay-inner">
-      <img src="./assets/Close.png" id="addTask-edit-close-Img" class="addTask-close-Icon"></img>
-      <div id="edit-task-form-container">
+        <div class="modal">…Add Task…</div>
       </div>
-    </div>
-  </div>
-</div>
+
+      <div id="edit-overlay-background">
+        <div class="edit-overlay" id="edit-overlay">
+          <div class="task-overlay-inner">
+            <img src="./assets/Close.png" id="addTask-edit-close-Img" class="addTask-close-Icon"></img>
+            <div id="edit-task-form-container">
+            </div>
+          </div>
+        </div>
+      </div>
 
     </section>
 
     <script src="./db.js"></script>
     <script src="./firstdata.js"></script>
-<script src="./board/board-script.js" defer></script>
-<script src="./board/board-templates.js" defer></script>
-<script src="./add_task/add_task.js" defer></script>
-<script src="./add_task/add_task_interactions.js" defer></script>
-<script src="./add_task/add_task_templates.js" defer></script>
+    <script src="./board/board-script.js" defer></script>
+    <script src="./board/board-templates.js" defer></script>
+    <script src="./add_task/add_task.js" defer></script>
+    <script src="./add_task/add_task_interactions.js" defer></script>
+    <script src="./add_task/add_task_templates.js" defer></script>
 </body>
 
 
