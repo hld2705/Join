@@ -97,21 +97,32 @@
 
       <div class="distribution">
         <div class="distribution-progress">To do
-          <div id="toDo"></div>
-          <img src="./assets/plus button.png">
+          <img onclick="openAddTaskOverlay()" class="distribution-icon"  src="./assets/plus button.png">
         </div>
         <div class="distribution-progress">In progress
-          <img src="./assets/plus button.png">
+          <img onclick="openAddTaskOverlay()" class="distribution-icon" src="./assets/plus button.png">
         </div>
         <div class="distribution-progress">Await feedback
-          <img src="./assets/plus button.png">
+          <img onclick="openAddTaskOverlay()" class="distribution-icon" src="./assets/plus button.png">
         </div>
         <div class="distribution-progress">Done</div>
-        <img src="./assets/plus button.png">
+      </div>
+
+            <div class="template-overview" id="template-overview">
+         <div class="task-container" id="todo-container"></div>
+         <div class="task-container" id="in-progress-container"></div>
+         <div class="task-container" id="feedback-container"></div>
+         <div class="task-container" id="done-container"></div>
       </div>
 
       <div class="template-container" id="template-container">
+         <div class="task-container" id="todo-container"></div>
+         <div class="task-container" id="in-progress-container"></div>
+         <div class="task-container" id="feedback-container"></div>
+         <div class="task-container" id="done-container"></div>
       </div>
+
+     
 
       <div id="task-overlay-background" class="overlay-bg">
         <div id="task-overlay" class="overlay-card">
