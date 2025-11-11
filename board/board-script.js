@@ -61,17 +61,21 @@ function renderBadges(assigned) {
 }
 
 function startDragging(ev, id) {
-  ev.dataTransfer.setData("text", id);
+  ev.dataTransfer.setData("text", `card-${id}`);
 }
 
 function dragoverHandler(ev) {
   ev.preventDefault();
 }
 
-function moveTo(ev) {
+function moveTo(ev, newStatus) {
  ev.preventDefault();
   const data = ev.dataTransfer.getData("text");
-  ev.target.appendChild(document.getElementById(data));
+  const card = document.getElementById(data);
+  const target = ev.currentTarget
+  if (!card || !target) return;
+  target.appendChild(card);
+
 }
 //---------------------Drag&Drop------------------------
 function detailedCardInfo(taskId) {

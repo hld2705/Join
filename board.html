@@ -111,11 +111,11 @@
         <div class="distribution-progress">Done</div>
       </div>
 
-      <div class="template-overview" id="template-overview" ondrop="moveTo(event)" ondragover="dragoverHandler(event)">
-        <div class="task-container" id="todo-container"></div>
-        <div class="task-container" id="in-progress-container"></div>
-        <div class="task-container" id="feedback-container"></div>
-        <div class="task-container" id="done-container"></div>
+      <div class="template-overview" id="template-overview">
+        <div class="task-container" id="todo-container" ondrop="moveTo(event, 'todo')" ondragover="dragoverHandler(event)"></div>
+        <div class="task-container" id="in-progress-container" ondrop="moveTo(event, 'inprogress')" ondragover="dragoverHandler(event)"></div>
+        <div class="task-container" id="feedback-container" ondrop="moveTo(event, 'review')" ondragover="dragoverHandler(event)"></div>
+        <div class="task-container" id="done-container" ondrop="moveTo(event, 'done-container')" ondragover="dragoverHandler(event)"></div>
       </div>
 
 
