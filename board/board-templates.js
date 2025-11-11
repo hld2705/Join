@@ -8,9 +8,7 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
     const badges = renderBadges(assigned);
 
     return `
-    <div id="dragcontainer" class="startendcontainer" ondrop="moveTo(event, ${taskId})" ondragover="dragoverHandler(event)">
-      <div id="${taskId}" class="template-wrapper" draggable="true" ondragstart="startDragging(event, ${taskId})">
-           <div id="cards" class="board-card" onclick='detailedCardInfo(${taskId}); animateDetailedCardIn(document.getElementById("card-content"))'>
+           <div id="cards"  draggable="true" ondragstart="startDragging(event)" class="board-card" onclick='detailedCardInfo(${taskId}); animateDetailedCardIn(document.getElementById("card-content"))'>
                 <div class="task-main-container" style="background-color: ${bgColor}">${main}
                 </div> 
                     <div class="card-container-title-content">
@@ -33,7 +31,6 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
                     </div>
                 </div>
             </div>
-        </div>
   `;
 }
 

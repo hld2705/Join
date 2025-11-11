@@ -2,13 +2,23 @@ const boardTaskFormURL = './add_task/form_task.html';
 
 //---------------------Drag&Drop------------------------
 function dragAndDrop() {
-  let container = document.getElementById("template-container");
-  container.innerHTML = '';
+  let container = document.getElementById("template-overview");
+  const containers = {
+    todo: document.getElementById("todo-container"),
+    inprogress: document.getElementById("in-progress-container"),
+    review: document.getElementById("feedback-container"),
+    done: document.getElementById("done-container")
+  };
+
+  for(let key in containers){
+    if (containers[key]) containers[key].innerHTML = "";
+  }
+
   for (let i = 0; i < tasks.length; i++) {
     const task = tasks[i];
+    const container = containers[task.status]
     const badges = Array.isArray(task.assignedBadge) ? task.assignedBadge : [];
-    //task = tasks.status.find(t => t.status === statusId);
-    //task.document.createElement("div id='$(statusId)'");
+    if(container){
     container.innerHTML += dragAndDropTemplate(
       task.id,
       task.title,
@@ -18,7 +28,15 @@ function dragAndDrop() {
       task.assigned,
       task.priority,
       task.enddate
-    );
+      );
+    }
+  }
+
+  for(let key in containers){
+    const container = containers[key];
+    if(container && container.children.length === 0){
+      container.innerHTML = noCardsTemplate();
+    }
   }
   renderBadges();
 }
@@ -50,17 +68,10 @@ function dragoverHandler(ev) {
   ev.preventDefault();
 }
 
-function moveTo(ev, taskId) {
-  let cardCounter = document.getElementById(taskId);
-  let dragContainer = document.getElementById("dragcontainer");
-  if(cardCounter === 0){
-    dragContainer.innerHTML += noCardsTemplate();
-  }
-  ev.preventDefault();
-  const id = ev.dataTransfer.getData("text");
-  const dragged = document.getElementById(id);
-  const target = ev.target.closest('.startendcontainer');
-  if (target) target.appendChild(dragged);
+function moveTo(ev) {
+ ev.preventDefault();
+  const data = ev.dataTransfer.getData("text");
+  ev.target.appendChild(document.getElementById(data));
 }
 //---------------------Drag&Drop------------------------
 function detailedCardInfo(taskId) {

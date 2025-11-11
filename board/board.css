@@ -1169,7 +1169,7 @@ body.no-scroll {
 
 .distribution-progress {
   display: flex;
-justify-content: space-between;
+  justify-content: space-between;
   width: 244px;
   color: #42526E;
   font-weight: 700;
@@ -1330,9 +1330,9 @@ progress::-webkit-progress-value {
   background: #FFFFFF;
   box-shadow: 0px 0px 4px 0px #00000029;
   cursor: default;
-    transition: transform .25s;
-     will-change: transform;
-      
+  transition: transform .25s;
+  will-change: transform;
+
   position: fixed;
   top: 50%;
   left: 50%;
@@ -1340,7 +1340,7 @@ progress::-webkit-progress-value {
 }
 
 #card-content.is-open {
-   transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 
@@ -1482,6 +1482,31 @@ progress::-webkit-progress-value {
 }
 
 .distribution-icon:hover {
- filter: brightness(0) saturate(100%) invert(61%) sepia(75%) saturate(640%) hue-rotate(156deg) brightness(95%) contrast(89%);
+  filter: brightness(0) saturate(100%) invert(61%) sepia(75%) saturate(640%) hue-rotate(156deg) brightness(95%) contrast(89%);
+}
 
+.template-overview {
+    max-width: 1090px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    height: 640px;
+    background: linear-gradient(0deg, rgba(245, 246, 247, 1) 100%, rgb(223, 224, 225) 100%);
+    padding-left: 70px;
+    padding-top: 60px;
+}
+
+.task-container {
+  background-color: rgba(0, 0, 0, .06);
+  width: 200px;
+  height: 500px;
+}
+
+.distribution-icon {
+  transition: filter 0.2s ease;
+}
+
+.distribution-icon:hover {
+  filter: brightness(0) saturate(100%) invert(61%) sepia(75%) saturate(640%) hue-rotate(156deg) brightness(95%) contrast(89%);
+  cursor: pointer;
 }
