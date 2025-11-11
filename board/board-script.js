@@ -99,20 +99,13 @@ function renderSubtask(subtasks) {
 }
 
 function deleteCard(taskId) {
-    const taskIndex = tasks.findIndex(t => t.id === taskId);
-    if (taskIndex !== -1) {
-        tasks.splice(taskIndex, 1);
-    }
-    const cardElement = document.getElementById(taskId);
-    if (!cardElement) return;
-    const cardContainer = cardElement.querySelectorAll('.startendcontainer');
-    if (cardContainer) {
-        cardContainer.innerHTML = noCardsTemplate();
-    }
-    closeOverlayCard();
+  const cardElement = document.getElementById(`card-${taskId}`);
+  if (cardElement) {
+    tasks.splice(taskId, 1);
+  }
+  closeOverlayCard();
+
 }
-
-
 
 function getBgColor(main) {
   if (main === "User Story" || main === "userstory") return "#0038FF";
