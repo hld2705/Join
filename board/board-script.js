@@ -49,7 +49,12 @@ function dragoverHandler(ev) {
   ev.preventDefault();
 }
 
-function moveTo(ev) {
+function moveTo(ev, taskId) {
+  let cardCounter = document.getElementById(taskId);
+  let dragContainer = document.getElementById("dragcontainer");
+  if(cardCounter === 0){
+    dragContainer.innerHTML += noCardsTemplate();
+  }
   ev.preventDefault();
   const id = ev.dataTransfer.getData("text");
   const dragged = document.getElementById(id);
@@ -84,7 +89,7 @@ function deleteCard(taskId) {
     }
     const cardElement = document.getElementById(taskId);
     if (!cardElement) return;
-    const cardContainer = cardElement.closest('.startendcontainer');
+    const cardContainer = cardElement.querySelectorAll('.startendcontainer');
     if (cardContainer) {
         cardContainer.innerHTML = noCardsTemplate();
     }
