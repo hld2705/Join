@@ -1164,11 +1164,12 @@ body.no-scroll {
   display: flex;
   justify-content: space-around;
   max-width: 1200px;
+  padding-left: 60px;
 }
 
 .distribution-progress {
   display: flex;
-  justify-content: space-around;
+justify-content: space-between;
   width: 244px;
   color: #42526E;
   font-weight: 700;
@@ -1178,7 +1179,7 @@ body.no-scroll {
   height: 640px;
   background: linear-gradient(0deg, rgba(245, 246, 247, 1) 100%, rgb(223, 224, 225) 100%);
   display: flex;
-  gap: 200px;
+
   padding-left: 100px;
   padding-top: 60px;
 }
@@ -1474,4 +1475,14 @@ progress::-webkit-progress-value {
   font-weight: 400;
   font-style: normal;
   font-size: 16px;
+}
+
+.distribution-icon {
+  transition: filter 0.2s ease;
+  cursor: pointer;
+}
+
+.distribution-icon:hover {
+ filter: brightness(0) saturate(100%) invert(61%) sepia(75%) saturate(640%) hue-rotate(156deg) brightness(95%) contrast(89%);
+
 }

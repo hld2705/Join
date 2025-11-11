@@ -171,21 +171,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function openEditOverlay() {
+  loadEditTaskForm();
   let bg = document.getElementById('edit-overlay-background');
   let formContainer = document.getElementById('edit-task-form-container');
   if (!bg || !formContainer) return;
 
   closeOverlayCardInstant();
-
   bg.classList.add('is-open');
-  loadEditTaskForm();
 
   bg.addEventListener('click', function (e) {
     if (e.target === bg) {
       closeEditOverlay();
     }
   })
-
 }
 
 function animateDetailedCardOut(overlay) {
