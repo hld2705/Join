@@ -2,6 +2,7 @@ const boardTaskFormURL = './add_task/form_task.html';
 
 //---------------------Drag&Drop------------------------
 function dragAndDrop() {
+
   const containers = {
     todo: document.getElementById("todo-container"),
     inprogress: document.getElementById("in-progress-container"),
@@ -9,33 +10,36 @@ function dragAndDrop() {
     done: document.getElementById("done-container")
   };
 
-  for(let key in containers){
+  for (let key in containers) {
     if (containers[key]) containers[key].innerHTML = "";
   }
-
+  console.log("Tasks:", tasks);
+  console.log("Statuses in tasks:", tasks.map(t => t.status));
   for (let i = 0; i < tasks.length; i++) {
     const task = tasks[i];
     const container = containers[task.status]
+    if (!container) continue;
     const badges = Array.isArray(task.assignedBadge) ? task.assignedBadge : [];
-    if(container){
-    container.innerHTML += dragAndDropTemplate(
-      task.id,
-      task.title,
-      task.main,
-      task.description,
-      task.subtasks,
-      task.assigned,
-      task.priority,
-      task.enddate
+    if (container) {
+      container.innerHTML += dragAndDropTemplate(
+        task.id,
+        task.title,
+        task.main,
+        task.description,
+        task.subtasks,
+        task.assigned,
+        task.priority,
+        task.enddate
       );
     }
   }
 
-  for(let key in containers){
+  for (let key in containers) {
     const container = containers[key];
-    if(container && container.children.length === 0){
-      container.innerHTML += noCardsTemplate();
+    if (container && container.children.length === 0) {
+      container.innerHTML = noCardsTemplate();
     }
+
   }
   renderBadges();
 }
@@ -68,14 +72,37 @@ function dragoverHandler(ev) {
 }
 
 function moveTo(ev, newStatus) {
- ev.preventDefault();
+  ev.preventDefault();
   const data = ev.dataTransfer.getData("text");
   const card = document.getElementById(data);
-  const target = ev.currentTarget
+  const target = ev.currentTarget;
   if (!card || !target) return;
+  const oldContainer = card.parentElement;
+
+  const emptyTemplate = target.querySelector(".notasks-container");
+  if (emptyTemplate) emptyTemplate.remove();
+
   target.appendChild(card);
 
+  if (oldContainer && oldContainer.children.length === 0) {
+    oldContainer.innerHTML = noCardsTemplate();
+  }
+
+  updateContainerTemplate(oldContainer);
+  updateContainerTemplate(target);
 }
+
+function updateContainerTemplate(container) {
+  if (!container) return;
+
+  const emptyTemplate = container.querySelector(".notasks-container");
+   if (emptyTemplate) emptyTemplate.remove();
+  const cards = container.querySelectorAll(".board-card");
+ if (cards.length === 0) {
+        container.innerHTML = noCardsTemplate();
+    }
+}
+
 //---------------------Drag&Drop------------------------
 function detailedCardInfo(taskId) {
   let body = document.body;
@@ -91,25 +118,37 @@ function renderSubtask(subtasks) {
   for (let i = 0; i < subtasks.length; i++) {
     rendered.push({
       name: subtasks[i],
-      done: false //möglicher platzhalter?
+      done: false
     });
   }
   return rendered;
 }
 
 function deleteCard(taskId) {
- /* const containers = {
+  const cardElement = document.getElementById(`card-${taskId}`);
+  if (!cardElement) return;
+
+  /*const containers = {
     todo: document.getElementById("todo-container"),
     inprogress: document.getElementById("in-progress-container"),
     review: document.getElementById("feedback-container"),
-    done: document.getElementById("done-container")
+    done: document.getElementById("done-container"),
   };*/
-  const cardElement = document.getElementById(`card-${taskId}`);
-  if (cardElement) {
+
+  const container = cardElement.parentElement;
+  cardElement.remove();
+  updateContainerTemplate(container);
+  /*if (cardElement) {
+    const container = cardElement.parentElement;
     cardElement.remove();
-  }
+    if (container && container.children.length === 0) {
+      container.innerHTML = noCardsTemplate();
+    }
+  }*/
   closeOverlayCard();
 }
+
+
 
 function getBgColor(main) {
   if (main === "User Story" || main === "userstory") return "#0038FF";
@@ -218,7 +257,7 @@ function closeEditOverlay() {
 }
 
 function animateDetailedCardIn(overlay) {
-  
+
   overlay.classList.remove("is-open");
   setTimeout(() => {
     overlay.classList.add("is-open");
