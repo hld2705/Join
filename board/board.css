@@ -184,7 +184,7 @@ body {
 .board-card {
   background: var(--card);
   border: 1px solid #EEF0F2;
-  border-radius: 14px;
+  border-radius: 24px;
   box-shadow: var(--shadow);
   padding: 12px;
   display: flex;
@@ -192,6 +192,8 @@ body {
   justify-content: center;
   flex-direction: column;
   cursor: pointer;
+  margin-bottom: 10px;
+  min-height: 190px;
 }
 
 .card-badge {
@@ -1163,14 +1165,14 @@ body.no-scroll {
   position: relative;
   display: flex;
   justify-content: space-around;
-  max-width: 1200px;
+  max-width: 1400px;
   padding-left: 60px;
 }
 
 .distribution-progress {
   display: flex;
   justify-content: space-between;
-  width: 244px;
+  width: 258px;
   color: #42526E;
   font-weight: 700;
 }
@@ -1206,11 +1208,11 @@ body.no-scroll {
   border-radius: 8px;
   color: white;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 10px;
+ margin-bottom: 22px;
 }
 
 .card-container-title-content {
@@ -1241,6 +1243,8 @@ body.no-scroll {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 16px;
 }
 
 progress {
@@ -1486,19 +1490,29 @@ progress::-webkit-progress-value {
 }
 
 .template-overview {
-    max-width: 1090px;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    height: 640px;
-    background: linear-gradient(0deg, rgba(245, 246, 247, 1) 100%, rgb(223, 224, 225) 100%);
-    padding-left: 70px;
-    padding-top: 60px;
+  max-width: 1090px;
+  display: flex;
+  justify-content: space-around;
+  max-width: 1400px;
+  flex-direction: row;
+  height: 640px;
+  background: linear-gradient(0deg, rgba(245, 246, 247, 1) 100%, rgb(223, 224, 225) 100%);
+  padding-left: 60px;
+  padding-top: 10px;
 }
 
+.distribution,
+.template-overview {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 1400px;
+  padding-left: 60px;
+  gap: 20px;
+}
+
+
 .task-container {
-  background-color: rgba(0, 0, 0, .06);
-  width: 200px;
+  width: 260px;
   height: 500px;
 }
 

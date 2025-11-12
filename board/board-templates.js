@@ -90,9 +90,8 @@ function detailedCardInfoTemplate(task) {
     `
 }
 
-function noCardsTemplate(taskId) {
-    return `
-    <div class="notasks-container">
+function noCardsTemplate() {
+    return `<div class="notasks-container">
     <p>No tasks To do<p>
     </div>
     `

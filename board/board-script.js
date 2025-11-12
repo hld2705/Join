@@ -2,7 +2,6 @@ const boardTaskFormURL = './add_task/form_task.html';
 
 //---------------------Drag&Drop------------------------
 function dragAndDrop() {
-  let container = document.getElementById("template-overview");
   const containers = {
     todo: document.getElementById("todo-container"),
     inprogress: document.getElementById("in-progress-container"),
@@ -35,7 +34,7 @@ function dragAndDrop() {
   for(let key in containers){
     const container = containers[key];
     if(container && container.children.length === 0){
-      container.innerHTML = noCardsTemplate();
+      container.innerHTML += noCardsTemplate();
     }
   }
   renderBadges();
@@ -99,12 +98,17 @@ function renderSubtask(subtasks) {
 }
 
 function deleteCard(taskId) {
+ /* const containers = {
+    todo: document.getElementById("todo-container"),
+    inprogress: document.getElementById("in-progress-container"),
+    review: document.getElementById("feedback-container"),
+    done: document.getElementById("done-container")
+  };*/
   const cardElement = document.getElementById(`card-${taskId}`);
   if (cardElement) {
-    tasks.splice(taskId, 1);
+    cardElement.remove();
   }
   closeOverlayCard();
-
 }
 
 function getBgColor(main) {
@@ -207,7 +211,6 @@ function animateDetailedCardOut(overlay) {
 
 function closeEditOverlay() {
   let bg = document.getElementById('edit-overlay-background');
-
   if (!bg) return;
 
   bg.classList.remove('is-open');
@@ -215,6 +218,7 @@ function closeEditOverlay() {
 }
 
 function animateDetailedCardIn(overlay) {
+  
   overlay.classList.remove("is-open");
   setTimeout(() => {
     overlay.classList.add("is-open");
