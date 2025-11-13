@@ -40,18 +40,20 @@ function badgeOverlay() {
   document.getElementById('badge-overlay').classList.toggle('show');
 }
 
-function overlayTemplate() {
-   let test = document.getElementById('test')
-    let task = getTaskInputs();
+function overlayTemplateValues() {
+  let test = document.getElementById('test')
+  let task = getTaskInputs();
+  let title = document.getElementById('title-input')
+  let subtasksText = '';
+  for (let i = 0; i < task.subtasks.length; i++) {
+    let singleTask = task.subtasks[i];
+    subtasksText += `${singleTask.id}: ${singleTask.text} (done: ${singleTask.done})<br>`;
+  }
 
-     let subtasksText = '';
-    for (let i = 0; i < task.subtasks.length; i++) {
-        let singleTask = task.subtasks[i];
-        subtasksText += `${singleTask.id}: ${singleTask.text} (done: ${singleTask.done})<br>`;
-    }
+  if (title) title.value = task.title;
 
-    if (test) {
-        test.innerHTML = `<div>
+  if (test) {
+    test.innerHTML = `<div>
     Title: ${task.title}<br>
     Description: ${task.description}<br>
     Date: ${task.date}<br>
@@ -60,5 +62,5 @@ function overlayTemplate() {
     Assigned: ${task.assignedUser}<br>
     Subtasks: ${subtasksText}
     </div>`;
-    }
+  }
 }

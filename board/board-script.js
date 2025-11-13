@@ -10,7 +10,7 @@ function dragAndDrop() {
     done: document.getElementById("done-container")
   };
 
-  for(let key in containers){
+  for (let key in containers) {
     if (containers[key]) containers[key].innerHTML = "";
   }
 
@@ -18,23 +18,23 @@ function dragAndDrop() {
     const task = tasks[i];
     const container = containers[task.status]
     const badges = Array.isArray(task.assignedBadge) ? task.assignedBadge : [];
-    if(container){
-    container.innerHTML += dragAndDropTemplate(
-      task.id,
-      task.title,
-      task.main,
-      task.description,
-      task.subtasks,
-      task.assigned,
-      task.priority,
-      task.enddate
+    if (container) {
+      container.innerHTML += dragAndDropTemplate(
+        task.id,
+        task.title,
+        task.main,
+        task.description,
+        task.subtasks,
+        task.assigned,
+        task.priority,
+        task.enddate
       );
     }
   }
 
-  for(let key in containers){
+  for (let key in containers) {
     const container = containers[key];
-    if(container && container.children.length === 0){
+    if (container && container.children.length === 0) {
       container.innerHTML = noCardsTemplate();
     }
   }
@@ -69,7 +69,7 @@ function dragoverHandler(ev) {
 }
 
 function moveTo(ev, newStatus) {
- ev.preventDefault();
+  ev.preventDefault();
   const data = ev.dataTransfer.getData("text");
   const card = document.getElementById(data);
   const target = ev.currentTarget
@@ -80,7 +80,7 @@ function moveTo(ev, newStatus) {
 //---------------------Drag&Drop------------------------
 function detailedCardInfo(taskId) {
   let body = document.body;
-  const task = join.tasks.find(t => t.id === taskId);
+  const task = tasks.find(t => t.id === taskId);
   if (!task) return;
   document.body.insertAdjacentHTML("beforeend", detailedCardInfoTemplate(task));
 }
@@ -99,17 +99,17 @@ function renderSubtask(subtasks) {
 }
 
 function deleteCard(taskId) {
-    const taskIndex = tasks.findIndex(t => t.id === taskId);
-    if (taskIndex !== -1) {
-        tasks.splice(taskIndex, 1);
-    }
-    const cardElement = document.getElementById(taskId);
-    if (!cardElement) return;
-    const cardContainer = cardElement.querySelectorAll('.startendcontainer');
-    if (cardContainer) {
-        cardContainer.innerHTML = noCardsTemplate();
-    }
-    closeOverlayCard();
+  const taskIndex = tasks.findIndex(t => t.id === taskId);
+  if (taskIndex !== -1) {
+    tasks.splice(taskIndex, 1);
+  }
+  const cardElement = document.getElementById(taskId);
+  if (!cardElement) return;
+  const cardContainer = cardElement.querySelectorAll('.startendcontainer');
+  if (cardContainer) {
+    cardContainer.innerHTML = noCardsTemplate();
+  }
+  closeOverlayCard();
 }
 
 
@@ -192,15 +192,26 @@ document.addEventListener('DOMContentLoaded', async () => {
   dragAndDrop();
 });
 
-function openEditOverlay() {
+function openEditOverlay(taskId) {
   loadEditTaskForm();
   let bg = document.getElementById('edit-overlay-background');
   let formContainer = document.getElementById('edit-task-form-container');
   if (!bg || !formContainer) return;
 
+
+  setTimeout(() => {
+    const task = tasks.find(t => t.id === taskId);
+
+    document.getElementById('title-input').value = task.title;
+    document.getElementById('description-input').value = task.description;
+    document.getElementById('date-input').value = task.enddate;
+   document.getElementById('filteredBadgesContainer').value =  task.assignedUser;
+
+  }, 30);
+   
+
   closeOverlayCardInstant();
   bg.classList.add('is-open');
-
   bg.addEventListener('click', function (e) {
     if (e.target === bg) {
       closeEditOverlay();
@@ -220,8 +231,8 @@ function closeEditOverlay() {
   document.body.classList.remove('no-scroll');
 }
 
-function animateDetailedCardIn(overlay) {
-  
+function animateDetailedCardIn() {
+  let overlay = document.getElementById("card-content");
   overlay.classList.remove("is-open");
   setTimeout(() => {
     overlay.classList.add("is-open");

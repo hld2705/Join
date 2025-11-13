@@ -8,7 +8,7 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
     const badges = renderBadges(assigned);
 
     return `
-           <div id="card-${taskId}" draggable="true" ondragstart="startDragging(event, ${taskId})" class="board-card" onclick='detailedCardInfo(${taskId}); animateDetailedCardIn(document.getElementById("card-content"))'>
+           <div id="card-${taskId}" draggable="true" ondragstart="startDragging(event, ${taskId})" class="board-card" onclick='detailedCardInfo(${taskId}); animateDetailedCardIn()'>
                 <div class="task-main-container" style="background-color: ${bgColor}">${main}
                 </div> 
                     <div class="card-container-title-content">
@@ -33,6 +33,8 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
             </div>
   `;
 }
+
+
 
 
 
@@ -80,7 +82,7 @@ function detailedCardInfoTemplate(task) {
                     <p>Delete</p>
                 </div>
                 <div class="card-overlay-separationline-details-container"></div>
-                <div onclick="openEditOverlay()" id="edit-btn" class="card-overlay-delete-icon-details-container">
+                <div onclick="openEditOverlay(${task.id})" id="edit-btn" class="card-overlay-delete-icon-details-container">
                 <img src="./assets/edit.png"
                 <p>Edit</p>
                 </div>
