@@ -2,7 +2,7 @@ const boardTaskFormURL = './add_task/form_task.html';
 
 //---------------------Drag&Drop------------------------
 function dragAndDrop() {
-  let container = document.getElementById("template-overview");
+
   const containers = {
     todo: document.getElementById("todo-container"),
     inprogress: document.getElementById("in-progress-container"),
@@ -13,10 +13,12 @@ function dragAndDrop() {
   for (let key in containers) {
     if (containers[key]) containers[key].innerHTML = "";
   }
-
+  console.log("Tasks:", tasks);
+  console.log("Statuses in tasks:", tasks.map(t => t.status));
   for (let i = 0; i < tasks.length; i++) {
     const task = tasks[i];
     const container = containers[task.status]
+    if (!container) continue;
     const badges = Array.isArray(task.assignedBadge) ? task.assignedBadge : [];
     if (container) {
       container.innerHTML += dragAndDropTemplate(
@@ -37,6 +39,7 @@ function dragAndDrop() {
     if (container && container.children.length === 0) {
       container.innerHTML = noCardsTemplate();
     }
+
   }
   renderBadges();
 }
@@ -72,11 +75,34 @@ function moveTo(ev, newStatus) {
   ev.preventDefault();
   const data = ev.dataTransfer.getData("text");
   const card = document.getElementById(data);
-  const target = ev.currentTarget
+  const target = ev.currentTarget;
   if (!card || !target) return;
+  const oldContainer = card.parentElement;
+
+  const emptyTemplate = target.querySelector(".notasks-container");
+  if (emptyTemplate) emptyTemplate.remove();
+
   target.appendChild(card);
 
+  if (oldContainer && oldContainer.children.length === 0) {
+    oldContainer.innerHTML = noCardsTemplate();
+  }
+
+  updateContainerTemplate(oldContainer);
+  updateContainerTemplate(target);
 }
+
+function updateContainerTemplate(container) {
+  if (!container) return;
+
+  const emptyTemplate = container.querySelector(".notasks-container");
+   if (emptyTemplate) emptyTemplate.remove();
+  const cards = container.querySelectorAll(".board-card");
+ if (cards.length === 0) {
+        container.innerHTML = noCardsTemplate();
+    }
+}
+
 //---------------------Drag&Drop------------------------
 function detailedCardInfo(taskId) {
   let body = document.body;
@@ -92,13 +118,14 @@ function renderSubtask(subtasks) {
   for (let i = 0; i < subtasks.length; i++) {
     rendered.push({
       name: subtasks[i],
-      done: false //möglicher platzhalter?
+      done: false
     });
   }
   return rendered;
 }
 
 function deleteCard(taskId) {
+<<<<<<< HEAD
   const taskIndex = tasks.findIndex(t => t.id === taskId);
   if (taskIndex !== -1) {
     tasks.splice(taskIndex, 1);
@@ -109,6 +136,28 @@ function deleteCard(taskId) {
   if (cardContainer) {
     cardContainer.innerHTML = noCardsTemplate();
   }
+=======
+  const cardElement = document.getElementById(`card-${taskId}`);
+  if (!cardElement) return;
+
+  /*const containers = {
+    todo: document.getElementById("todo-container"),
+    inprogress: document.getElementById("in-progress-container"),
+    review: document.getElementById("feedback-container"),
+    done: document.getElementById("done-container"),
+  };*/
+
+  const container = cardElement.parentElement;
+  cardElement.remove();
+  updateContainerTemplate(container);
+  /*if (cardElement) {
+    const container = cardElement.parentElement;
+    cardElement.remove();
+    if (container && container.children.length === 0) {
+      container.innerHTML = noCardsTemplate();
+    }
+  }*/
+>>>>>>> e95780ba878d0792db8a52e21bad1ab7a8d87f00
   closeOverlayCard();
 }
 
@@ -231,8 +280,13 @@ function closeEditOverlay() {
   document.body.classList.remove('no-scroll');
 }
 
+<<<<<<< HEAD
 function animateDetailedCardIn() {
   let overlay = document.getElementById("card-content");
+=======
+function animateDetailedCardIn(overlay) {
+
+>>>>>>> e95780ba878d0792db8a52e21bad1ab7a8d87f00
   overlay.classList.remove("is-open");
   setTimeout(() => {
     overlay.classList.add("is-open");
