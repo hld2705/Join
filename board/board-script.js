@@ -71,12 +71,26 @@ function moveTo(ev, newStatus) {
   ev.preventDefault();
   const data = ev.dataTransfer.getData("text");
   const card = document.getElementById(data);
-  const target = ev.currentTarget
+  const target = ev.currentTarget;
   if (!card || !target) return;
+  const oldContainer = card.parentElement;
   target.appendChild(card);
-
+  updateContainerTemplate(oldContainer);
+  updateContainerTemplate(target);
 }
 //---------------------Drag&Drop------------------------
+function updateContainerTemplate(container) {
+  if (!container) return;
+
+  const emptyTemplate = container.querySelector(".notasks-container");
+
+  if (container.children.length === 0) {
+    container.innerHTML = noCardsTemplate();
+  } else if (emptyTemplate) {
+    emptyTemplate.remove();
+  }
+}
+
 function detailedCardInfo(taskId) {
   let body = document.body;
   const task = tasks.find(t => t.id === taskId);
@@ -140,7 +154,6 @@ function closeOverlayCardInstant() {
 }
 
 
-
 function animateOverlayIn(overlay) {
   overlay.classList.remove("is-open");
   setTimeout(() => {
@@ -195,9 +208,6 @@ function openAddTaskOverlay() {
 function openEditOverlay(taskId) {
   loadEditTaskForm();
 
-
-
-
   let bg = document.getElementById('edit-overlay-background');
   let formContainer = document.getElementById('edit-task-form-container');
   if (!bg || !formContainer) return;
@@ -251,7 +261,6 @@ function animateDetailedCardOut(overlay) {
 function closeEditOverlay() {
   let bg = document.getElementById('edit-overlay-background');
   if (!bg) return;
-
   bg.classList.remove('is-open');
   document.body.classList.remove('no-scroll');
   detailedCardInfo(taskId);
