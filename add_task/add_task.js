@@ -8,6 +8,7 @@ let subtaskCounter = 0;
 
 function init() {
     removeRequiredTitle();
+    loadAddTaskForm();
     removeRequiredDate();
     getAllUser("/users")
 }
@@ -101,17 +102,17 @@ function openCalendar() {
 }
 
 function addNewTask() {
-  const taskData = getTaskInputs(); 
-  const newTask = {
-    id: Date.now(),
-    status: "todo",
-    ...taskData, 
-  };
+    const taskData = getTaskInputs();
+    const newTask = {
+        id: Date.now(),
+        status: "todo",
+        ...taskData,
+    };
 
-  return firebase.database().ref('tasks/' + newTask.id).set(newTask)
-    .catch((error) => {
-      console.error('Task wurde nicht weitergeleitet:', error);
-    });
+    return firebase.database().ref('tasks/' + newTask.id).set(newTask)
+        .catch((error) => {
+            console.error('Task wurde nicht weitergeleitet:', error);
+        });
 }
 
 function getTaskInputs() {
@@ -122,14 +123,14 @@ function getTaskInputs() {
         main: getCategory(),
         subtasks: getSubtasks(),
         priority: getPriority(),
-        assignedUser: getAssignedUsers(),
-        assignedBadge: getAssignedUserBadge(),
+        assigned: getAssignedUsers(),
+
     };
 }
 
 function getAssignedUsers() {
     return Array.from(document.querySelectorAll('.Assigned-dropdown-username.bg-grey'))
-        .map(el => el.dataset.name);
+        .map(el => el.dataset.userId);
 }
 
 function getAssignedUserBadge() {
