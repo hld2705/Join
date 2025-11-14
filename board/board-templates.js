@@ -1,14 +1,20 @@
 function dragAndDropTemplate(taskId, title, main, description, subtasks, assigned, priority) {
     const bgColor = getBgColor(main);
     const imgSrc = getPriorityImg(priority);
+    subtasks = Array.isArray(subtasks) ? subtasks : Object.values(subtasks || []);
+    let total = subtasks.length;
+    let progress = 0;
 
-    let done = 0; //???
-    let progress = subtasks / (done / subtasks) * 100;//???
+    if (total === 1) {
+        progress = 50;
+    } else if (total >= 2) {
+        progress = 100;
+    }
 
     const badges = renderBadges(assigned);
 
     return `
-           <div id="card-${taskId}" draggable="true" ondragstart="startDragging(event, ${taskId})" class="board-card" onclick='detailedCardInfo(${taskId}); animateDetailedCardIn()'>
+           <div id="card-${taskId}" draggable="true" ondragstart="startDragging(event, ${taskId})" data-title="${title.toLowerCase()}" class="board-card" onclick='detailedCardInfo(${taskId}); animateDetailedCardIn()'>
                 <div class="task-main-container" style="background-color: ${bgColor}">${main}
                 </div> 
                     <div class="card-container-title-content">
@@ -16,8 +22,8 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
                         <p>${description}</p>
                     </div>
                         <div class="progress-bar-container">
-                            <progress value="${progress}" max="${subtasks}"></progress>
-                            <p>${subtasks} Subtasks</p>
+                            <progress value="${progress}" max="${100}"></progress>
+                            <p>${total} Subtasks</p>
                         </div>
                     <div class="contacts-badge-container">
                         <div class="only-badges-container">
@@ -33,10 +39,6 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
             </div>
   `;
 }
-
-
-
-
 
 function detailedCardInfoTemplate(task) {
     const bgColor = getBgColor(task.main);
