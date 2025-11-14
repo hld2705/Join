@@ -125,7 +125,6 @@ function renderSubtask(subtasks) {
 }
 
 function deleteCard(taskId) {
-<<<<<<< HEAD
   const taskIndex = tasks.findIndex(t => t.id === taskId);
   if (taskIndex !== -1) {
     tasks.splice(taskIndex, 1);
@@ -136,31 +135,8 @@ function deleteCard(taskId) {
   if (cardContainer) {
     cardContainer.innerHTML = noCardsTemplate();
   }
-=======
-  const cardElement = document.getElementById(`card-${taskId}`);
-  if (!cardElement) return;
-
-  /*const containers = {
-    todo: document.getElementById("todo-container"),
-    inprogress: document.getElementById("in-progress-container"),
-    review: document.getElementById("feedback-container"),
-    done: document.getElementById("done-container"),
-  };*/
-
-  const container = cardElement.parentElement;
-  cardElement.remove();
-  updateContainerTemplate(container);
-  /*if (cardElement) {
-    const container = cardElement.parentElement;
-    cardElement.remove();
-    if (container && container.children.length === 0) {
-      container.innerHTML = noCardsTemplate();
-    }
-  }*/
->>>>>>> e95780ba878d0792db8a52e21bad1ab7a8d87f00
   closeOverlayCard();
 }
-
 
 
 function getBgColor(main) {
@@ -280,13 +256,8 @@ function closeEditOverlay() {
   document.body.classList.remove('no-scroll');
 }
 
-<<<<<<< HEAD
 function animateDetailedCardIn() {
   let overlay = document.getElementById("card-content");
-=======
-function animateDetailedCardIn(overlay) {
-
->>>>>>> e95780ba878d0792db8a52e21bad1ab7a8d87f00
   overlay.classList.remove("is-open");
   setTimeout(() => {
     overlay.classList.add("is-open");
