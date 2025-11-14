@@ -114,7 +114,6 @@ function deleteCard(taskId) {
 }
 
 
-
 function getBgColor(main) {
   if (main === "User Story" || main === "userstory") return "#0038FF";
   if (main === "Technical Task" || main === "techtask") return "#1FD7C1";
