@@ -77,8 +77,10 @@ function moveTo(ev, newStatus) {
 
 }
 //---------------------Drag&Drop------------------------
+let openedCardId = null;
+
 function detailedCardInfo(taskId) {
-  let body = document.body;
+  openedCardId = taskId;
   const task = tasks.find(t => t.id === taskId);
   if (!task) return;
   document.body.insertAdjacentHTML("beforeend", detailedCardInfoTemplate(task));
@@ -255,7 +257,11 @@ function closeEditOverlay() {
 
   bg.classList.remove('is-open');
   document.body.classList.remove('no-scroll');
-  detailedCardInfo(taskId);
+  if (openedCardId !== null) {
+    detailedCardInfo(openedCardId);
+    animateDetailedCardIn();
+  }
+
 }
 
 function animateDetailedCardIn() {
