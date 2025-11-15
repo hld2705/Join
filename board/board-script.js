@@ -1,3 +1,4 @@
+
 const boardTaskFormURL = './add_task/form_task.html';
 //---------------------Drag&Drop------------------------
 function dragAndDrop() {
@@ -79,6 +80,8 @@ function moveTo(ev, newStatus) {
   updateContainerTemplate(target);
 }
 //---------------------Drag&Drop------------------------
+let openedCardId = null;
+
 function updateContainerTemplate(container) {
   if (!container) return;
 
@@ -92,7 +95,7 @@ function updateContainerTemplate(container) {
 }
 
 function detailedCardInfo(taskId) {
-  let body = document.body;
+  openedCardId = taskId;
   const task = tasks.find(t => t.id === taskId);
   if (!task) return;
   document.body.insertAdjacentHTML("beforeend", detailedCardInfoTemplate(task));
@@ -112,17 +115,16 @@ function renderSubtask(subtasks) {
 }
 
 function deleteCard(taskId) {
-  const taskIndex = tasks.findIndex(t => t.id === taskId);
-  if (taskIndex !== -1) {
-    tasks.splice(taskIndex, 1);
-  }
-  const cardElement = document.getElementById(taskId);
-  if (!cardElement) return;
-  const cardContainer = cardElement.querySelectorAll('.startendcontainer');
-  if (cardContainer) {
-    cardContainer.innerHTML = noCardsTemplate();
+  const index = tasks.findIndex(t => t.id === taskId);
+  if (index !== -1) tasks.splice(index, 1);
+  const card = document.getElementById(`card-${taskId}`);
+  if (card) {
+    const parent = card.parentElement;
+    card.remove();
+    updateContainerTemplate(parent);
   }
   closeOverlayCard();
+  dragAndDrop();
 }
 
 
@@ -245,7 +247,7 @@ function openEditOverlay(taskId) {
 
   }, 30);
 
-  closeOverlayCardInstant();
+ closeOverlayCardInstant();
   bg.classList.add('is-open');
   bg.addEventListener('click', function (e) {
     if (e.target === bg) {
@@ -263,7 +265,11 @@ function closeEditOverlay() {
   if (!bg) return;
   bg.classList.remove('is-open');
   document.body.classList.remove('no-scroll');
-  detailedCardInfo(taskId);
+  if (openedCardId !== null) {
+    detailedCardInfo(openedCardId);
+    animateDetailedCardIn();
+  }
+
 }
 
 function animateDetailedCardIn() {

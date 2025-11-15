@@ -1,4 +1,4 @@
-const join = {"users": [
+export const join = {"users": [
   {
     id: 0,
     name: "Gast",
