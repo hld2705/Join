@@ -20,10 +20,7 @@ function subtaskOutputTemplate(text, i) {
        <div class="single-subtask-container">
         <div>
           <span id="subtask-text-${i}" class="subtask-text">${text}</span>
-           
-          <input type="text" id="subtask-text-${i}" class="edit-subtask-input" data-index="${i}" value="${text}">
         </div>
-
         <div  class="subtask-icons subtaskoutput-icon-container">
           <img class="edit-icon" src="../assets/edit.png" alt="edit">
           <img class="delete-icon" src="../assets/delete.svg" alt="delete">

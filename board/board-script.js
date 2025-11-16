@@ -101,16 +101,15 @@ function detailedCardInfo(taskId) {
 }
 
 function renderSubtask(subtasks) {
-  if (!subtasks || subtasks.length === 0) return ["Currently no subtasks available"];
+  if (!subtasks || subtasks.length === 0)
+    return "<p>Currently no subtasks available</p>";
 
-  let rendered = [];
-  for (let i = 0; i < subtasks.length; i++) {
-    rendered.push({
-      name: subtasks[i],
-      done: false
-    });
-  }
-  return rendered;
+  return subtasks.map(st => `
+    <div class="subtask-item">
+      <input type="checkbox" ${st.done ? "checked" : ""}>
+      <p>${st.text}</p>
+    </div>
+  `).join('');
 }
 
 function deleteCard(taskId) {
@@ -259,61 +258,30 @@ function animateDetailedCardOut(overlay) {
   overlay.classList.remove("is-open");
 }
 
-<<<<<<< HEAD
-function closeEditOverlay() {
-  let task = tasks.find(t => t.id === openedCardId);
-=======
 async function closeEditOverlay() {
->>>>>>> ce5887eca684772ee94b6a12beb901020d3500ec
   let bg = document.getElementById('edit-overlay-background');
   if (!bg) return;
   bg.classList.remove('is-open');
 
-<<<<<<< HEAD
-  if (task) {
-    let titleInput = document.getElementById('title-input');
-    let descInput = document.getElementById('description-input');
-    let dateInput = document.getElementById('date-input');
-    let subtaskInput = document.querySelectorAll(".edit-subtask-input")
-    let newSubtasks = [];
-    subtaskInput.forEach(input =>{
-      newSubtasks.push({
-        text: input.value,
-        done: false //zmbspl
-      });
-    });
-    task.subtasks = newSubtasks;
-
-    if (titleInput) task.title = titleInput.value;
-    if (descInput) task.description = descInput.value;
-    if (dateInput) task.enddate = dateInput.value;
-    if (subtaskInput) subtaskInput = document.getElementById("subtask-input").value;
-
-  let card = document.getElementById(`card-${openedCardId}`);
-  if (card) {
-    card.querySelector("h2").innerText = task.title;
-    card.querySelector("p").innerText = task.description;
-    const progressBar = card.querySelector("progress");
-    const total = task.subtasks.length;
-    const progress = total === 0 ? 0 : total === 1 ? 50 : 100; //??
-    progressBar.value = progress;
-    card.querySelector("#subtask-template").innerHTML = `${total} Subtasks`;
-  }
-
-  document.body.classList.remove('no-scroll');
-=======
   await editTask();
   await loadData();
-  dragAndDrop()
+  await dragAndDrop()
 
->>>>>>> ce5887eca684772ee94b6a12beb901020d3500ec
   if (openedCardId !== null) {
     closeOverlayCardInstant();
     detailedCardInfo(openedCardId);
     animateDetailedCardIn();
+    
   }
 }
-}
+
+  document.body.classList.remove('no-scroll');
+  if (openedCardId !== null) {
+    detailedCardInfo(openedCardId);
+    animateDetailedCardIn();
+
+  }
+
 function animateDetailedCardIn() {
   let overlay = document.getElementById("card-content");
   overlay.classList.remove("is-open");

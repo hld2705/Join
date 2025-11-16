@@ -124,7 +124,7 @@ function editTask() {
         ...editTaskData,
         id: oldTask.id,
     };
-    return firebase.database().ref('tasks/' + oldTask.id).set(updatedTask)
+    return firebase.database().ref('tasks/' + oldTask.id).update(updatedTask)
         .catch((error) => {
             console.error('Task wurde nicht weitergeleitet:', error);
         });
