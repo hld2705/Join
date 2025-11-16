@@ -38,7 +38,6 @@ function dragAndDrop() {
       container.innerHTML = noCardsTemplate();
     }
   }
-  renderBadges();
 }
 
 function renderBadges(assigned) {
@@ -187,7 +186,7 @@ document.getElementById("task-overlay-background").addEventListener("click", (e)
     closeAddTaskOverlay();
   }
 });
-
+// hier hab ich dragAndDrop() gelöscht
 document.addEventListener('DOMContentLoaded', async () => {
   await loadData();
   dragAndDrop();

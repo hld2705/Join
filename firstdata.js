@@ -1,4 +1,4 @@
-export const join = {"users": [
+const join = {"users": [
   {
     id: 0,
     name: "Gast",
@@ -148,3 +148,6 @@ export const join = {"users": [
 ]
 }
 
+if (typeof window !== "undefined") {
+  window.join = join;
+}

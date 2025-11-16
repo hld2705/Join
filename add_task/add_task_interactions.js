@@ -176,7 +176,7 @@ function closeAssignedInputOutclick(e) {
     }
 }
 
-//document.addEventListener('click', closeAssignedInputOutclick);
+document.addEventListener('click', closeAssignedInputOutclick);
 
 function filterBadges(badge, badgeContainer, userId) {
     let existing = badgeContainer.querySelector(`[data-user-id="${userId}"]`);
@@ -218,7 +218,7 @@ function renderCategoryDropdown(e) {
 }
 
 document.addEventListener("click", switchCategoryPlaceholder);
-//document.addEventListener("click", renderCategoryDropdown);
+document.addEventListener("click", renderCategoryDropdown);
 
 function clearCategoryInput() {
     let dropDownCategory = document.getElementById('category-input');
@@ -277,7 +277,7 @@ function toggleSubtaskFocus(e) {
     }
 }
 
-//document.addEventListener('click', toggleSubtaskFocus);
+document.addEventListener('click', toggleSubtaskFocus);
 
 function showSubtaskIcons(e) {
     if (e.target.id === 'subtask-input') {
