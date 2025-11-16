@@ -260,42 +260,39 @@ function animateDetailedCardOut(overlay) {
 }
 
 function closeEditOverlay() {
-  let titleEdit = document.getElementById('title-input').value
-  let descriptionEdit = document.getElementById('description-input').value;
-  let dateEdit = document.getElementById('date-input').value;
-
-  let newEditedInfo = {
-    title : titleEdit,
-    description : descriptionEdit,
-    date : dateEdit
-  }
-
-    task.users.push(newEditedInfo);
-    dragAndDrop();
-    detailedCardInfo();
- 
-
+  let task = tasks.find(t => t.id === openedCardId);
   let bg = document.getElementById('edit-overlay-background');
   if (!bg) return;
   bg.classList.remove('is-open');
-  let task = tasks.find(t => t.id === openedCardId);
 
   if (task) {
     let titleInput = document.getElementById('title-input');
     let descInput = document.getElementById('description-input');
     let dateInput = document.getElementById('date-input');
+    let subtaskInput = document.querySelectorAll(".edit-subtask-input")
+    let newSubtasks = [];
+    subtaskInput.forEach(input =>{
+      newSubtasks.push({
+        text: input.value,
+        done: false //zmbspl
+      });
+    });
+    task.subtasks = newSubtasks;
 
     if (titleInput) task.title = titleInput.value;
     if (descInput) task.description = descInput.value;
     if (dateInput) task.enddate = dateInput.value;
-  }
+    if (subtaskInput) subtaskInput = document.getElementById("subtask-input").value;
 
   let card = document.getElementById(`card-${openedCardId}`);
   if (card) {
-    subtasks = Array.isArray(subtasks) ? subtasks : Object.values(subtasks || []);
     card.querySelector("h2").innerText = task.title;
     card.querySelector("p").innerText = task.description;
-    document.getElementById("subtask-template").innerText = subtasks.length;
+    const progressBar = card.querySelector("progress");
+    const total = task.subtasks.length;
+    const progress = total === 0 ? 0 : total === 1 ? 50 : 100; //??
+    progressBar.value = progress;
+    card.querySelector("#subtask-template").innerHTML = `${total} Subtasks`;
   }
 
   document.body.classList.remove('no-scroll');
@@ -305,7 +302,7 @@ function closeEditOverlay() {
 
   }
 }
-
+}
 function animateDetailedCardIn() {
   let overlay = document.getElementById("card-content");
   overlay.classList.remove("is-open");
