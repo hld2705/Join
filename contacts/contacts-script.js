@@ -1,4 +1,3 @@
-import { join } from '../firstdata.js';
 
 let activeUserId = null;
 
