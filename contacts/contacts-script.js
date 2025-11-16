@@ -1,5 +1,3 @@
-import { join } from '../firstdata.js';
-
 let activeUserId = null;
 
 let nextUserId = join.users.length + 1;
