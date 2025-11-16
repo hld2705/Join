@@ -23,7 +23,7 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
                     </div>
                         <div class="progress-bar-container">
                             <progress value="${progress}" max="${100}"></progress>
-                            <p>${total} Subtasks</p>
+                            <p id="subtask-template">${total} Subtasks</p>
                         </div>
                     <div class="contacts-badge-container">
                         <div class="only-badges-container">

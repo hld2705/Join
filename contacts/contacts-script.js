@@ -1,4 +1,3 @@
-
 let activeUserId = null;
 
 let nextUserId = join.users.length + 1;

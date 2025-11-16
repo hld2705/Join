@@ -246,7 +246,7 @@ function openEditOverlay(taskId) {
 
   }, 30);
 
- closeOverlayCardInstant();
+  closeOverlayCardInstant();
   bg.classList.add('is-open');
   bg.addEventListener('click', function (e) {
     if (e.target === bg) {
@@ -278,12 +278,32 @@ function closeEditOverlay() {
   let bg = document.getElementById('edit-overlay-background');
   if (!bg) return;
   bg.classList.remove('is-open');
+  let task = tasks.find(t => t.id === openedCardId);
+
+  if (task) {
+    let titleInput = document.getElementById('title-input');
+    let descInput = document.getElementById('description-input');
+    let dateInput = document.getElementById('date-input');
+
+    if (titleInput) task.title = titleInput.value;
+    if (descInput) task.description = descInput.value;
+    if (dateInput) task.enddate = dateInput.value;
+  }
+
+  let card = document.getElementById(`card-${openedCardId}`);
+  if (card) {
+    subtasks = Array.isArray(subtasks) ? subtasks : Object.values(subtasks || []);
+    card.querySelector("h2").innerText = task.title;
+    card.querySelector("p").innerText = task.description;
+    document.getElementById("subtask-template").innerText = subtasks.length;
+  }
+
   document.body.classList.remove('no-scroll');
   if (openedCardId !== null) {
     detailedCardInfo(openedCardId);
     animateDetailedCardIn();
-  }
 
+  }
 }
 
 function animateDetailedCardIn() {
