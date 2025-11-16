@@ -259,12 +259,17 @@ function animateDetailedCardOut(overlay) {
   overlay.classList.remove("is-open");
 }
 
+<<<<<<< HEAD
 function closeEditOverlay() {
   let task = tasks.find(t => t.id === openedCardId);
+=======
+async function closeEditOverlay() {
+>>>>>>> ce5887eca684772ee94b6a12beb901020d3500ec
   let bg = document.getElementById('edit-overlay-background');
   if (!bg) return;
   bg.classList.remove('is-open');
 
+<<<<<<< HEAD
   if (task) {
     let titleInput = document.getElementById('title-input');
     let descInput = document.getElementById('description-input');
@@ -296,10 +301,16 @@ function closeEditOverlay() {
   }
 
   document.body.classList.remove('no-scroll');
+=======
+  await editTask();
+  await loadData();
+  dragAndDrop()
+
+>>>>>>> ce5887eca684772ee94b6a12beb901020d3500ec
   if (openedCardId !== null) {
+    closeOverlayCardInstant();
     detailedCardInfo(openedCardId);
     animateDetailedCardIn();
-
   }
 }
 }

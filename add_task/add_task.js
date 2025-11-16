@@ -115,6 +115,21 @@ function addNewTask() {
         });
 }
 
+function editTask() {
+    const editTaskData = getTaskInputs();
+    const oldTask = tasks.find(t => t.id === openedCardId);
+
+    const updatedTask = {
+        ...oldTask,
+        ...editTaskData,
+        id: oldTask.id,
+    };
+    return firebase.database().ref('tasks/' + oldTask.id).set(updatedTask)
+        .catch((error) => {
+            console.error('Task wurde nicht weitergeleitet:', error);
+        });
+}
+
 function getTaskInputs() {
     return {
         title: document.getElementById('title-input').value,
@@ -124,7 +139,6 @@ function getTaskInputs() {
         subtasks: getSubtasks(),
         priority: getPriority(),
         assigned: getAssignedUsers(),
-
     };
 }
 
