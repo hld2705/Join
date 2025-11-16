@@ -107,7 +107,7 @@ function renderSubtask(subtasks) {
   for (let i = 0; i < subtasks.length; i++) {
     rendered.push({
       name: subtasks[i],
-      done: false //möglicher platzhalter?
+      done: false
     });
   }
   return rendered;
@@ -186,7 +186,7 @@ document.getElementById("task-overlay-background").addEventListener("click", (e)
     closeAddTaskOverlay();
   }
 });
-// hier hab ich dragAndDrop() gelöscht
+
 document.addEventListener('DOMContentLoaded', async () => {
   await loadData();
   dragAndDrop();
@@ -269,9 +269,9 @@ async function closeEditOverlay() {
   dragAndDrop()
 
   if (openedCardId !== null) {
-     closeOverlayCardInstant();
-  detailedCardInfo(openedCardId);
-  animateDetailedCardIn();
+    closeOverlayCardInstant();
+    detailedCardInfo(openedCardId);
+    animateDetailedCardIn();
   }
 }
 
