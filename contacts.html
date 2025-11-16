@@ -7,7 +7,7 @@
     <title>Join</title>
 
     <link rel="icon" type="image/x-icon" href="./assets/favicon.svg" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css"/>
     <link rel="stylesheet" href="./board/board.css" />
     <link rel="stylesheet" href="./contacts/contacts.css">
     <script src="./db.js" type="module"></script>
@@ -41,18 +41,18 @@
                 <img src="./assets/Board.svg" alt="Board Icon" />
                 <p>Board</p>
             </a>
-            <a href="./contacts.html" class="leftsideicons">
+            <a class="active" href="./contacts.html" class="leftsideicons">
                 <img src="./assets/contacts.svg" alt="Contacts Icon" />
                 <p>Contacts</p>
             </a>
         </nav>
 
         <footer>
-            <a href="./privacy_policy.html">
-                <p>Privacy Policy</p>
-            </a>
-            <a href="./legal_notice.html">
-                <p>Legal notice</p>
+            <div>
+               <a class="legal-notice" href="privacy_policy.html">Privacy Policy</a>
+               </div>
+               <div>
+        <a class="legal-notice" href="../legal_notice.html"><p>Legal notice</p>
             </a>
         </footer>
     </section>
@@ -67,8 +67,8 @@
                 <a href="./help.html"><img class="Hilfe" src="./assets/help.svg" alt="help"></a>
                 <img class="profil" src="./assets/sofia.svg" alt="badges-header">
                 <div id="navbar" class="navbar">
-                    <a href="legal_notice.html">Legal Notice</a>
-                    <a href="privacy_policy.html">Privacy Policy</a>
+                        <a class="legal-notice" href="../legal_notice.html"><p>Legal notice</p>
+                    <a class="legal-notice" href="privacy_policy.html">Privacy Policy</a>
                     <a href="#" id="logout-link">Log out</a>
                 </div>
             </div>
