@@ -1,5 +1,6 @@
 
 const boardTaskFormURL = './add_task/form_task.html';
+let originalParent;
 //---------------------Drag&Drop------------------------
 function dragAndDrop() {
   let container = document.getElementById("template-overview");
@@ -61,6 +62,45 @@ function renderBadges(assigned) {
 
 function startDragging(ev, id) {
   ev.dataTransfer.setData("text", `card-${id}`);
+
+  const emptyImg = new Image();
+  emptyImg.src = '';
+  ev.dataTransfer.setDragImage(emptyImg, 0, 0);  // das Standard sichtbare Design vom Browser wird entfernt
+  originalParent = document.getElementById(`card-${id}`).parentElement; //
+  createDraggableCard(ev, id);
+}
+
+function createDraggableCard(ev, id) {
+  const original = document.getElementById(`card-${id}`);
+
+  lastContainer = original.parentElement;
+
+  original.classList.add("drag-origin"); // das ist opacity: 0.  Damit die Original-Card kurz unsichtbar wird.
+
+  draggableCard = original.cloneNode(true); // kopieren der Karte ohne events, also nur HTML
+  draggableCard.classList.add("drag-follow");
+
+  document.body.appendChild(draggableCard); // wird ganz oben im body platziert, weil er sonst von anderen Effekten beeinflusst wird.
+
+  offsetX = ev.offsetX;
+  offsetY = ev.offsetY; // damit die Karte direkt dort erscheint wo sie angeklickt wurde (nicht ganz oben im body halt)
+
+  followMouse(ev); // die Karte wird an die Maus gesetzt und bleibt dort "kleben"
+
+  document.addEventListener("dragover", followMouse); // beim bewegen der Maus wird jedes mal aktualisiert
+  document.addEventListener("dragend", removeDraggableCard); // Klon wird entfernt wenn Maus losgelassen wird.
+}
+
+function followMouse(ev) {
+  draggableCard.style.left = (ev.pageX - offsetX) + "px";
+  draggableCard.style.top = (ev.pageY - offsetY) + "px"; // quasi einfach die Maus Position minus dem Klick Abstand
+}
+
+function removeDraggableCard() {
+  if (draggableCard) draggableCard.remove();
+  draggableCard = null;
+  document.removeEventListener("dragover", followMouse);
+  document.removeEventListener("dragend", removeDraggableCard); // denke selbsterklärend
 }
 
 function dragoverHandler(ev) {
@@ -75,6 +115,7 @@ function moveTo(ev, newStatus) {
   if (!card || !target) return;
   const oldContainer = card.parentElement;
   target.appendChild(card);
+  card.classList.remove("drag-origin");
   updateContainerTemplate(oldContainer);
   updateContainerTemplate(target);
 }
@@ -298,4 +339,3 @@ function filterBoardCards(value) {
     }
   }
 }
-
