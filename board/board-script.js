@@ -142,16 +142,15 @@ function detailedCardInfo(taskId) {
 }
 
 function renderSubtask(subtasks) {
-  if (!subtasks || subtasks.length === 0) return ["Currently no subtasks available"];
+  if (!subtasks || subtasks.length === 0)
+    return "<p>Currently no subtasks available</p>";
 
-  let rendered = [];
-  for (let i = 0; i < subtasks.length; i++) {
-    rendered.push({
-      name: subtasks[i],
-      done: false
-    });
-  }
-  return rendered;
+  return subtasks.map(st => `
+    <div class="subtask-item">
+      <input type="checkbox" ${st.done ? "checked" : ""}>
+      <p>${st.text}</p>
+    </div>
+  `).join('');
 }
 
 function deleteCard(taskId) {
@@ -307,14 +306,22 @@ async function closeEditOverlay() {
 
   await editTask();
   await loadData();
-  dragAndDrop()
+  await dragAndDrop()
 
   if (openedCardId !== null) {
     closeOverlayCardInstant();
     detailedCardInfo(openedCardId);
     animateDetailedCardIn();
+    
   }
 }
+
+  document.body.classList.remove('no-scroll');
+  if (openedCardId !== null) {
+    detailedCardInfo(openedCardId);
+    animateDetailedCardIn();
+
+  }
 
 function animateDetailedCardIn() {
   let overlay = document.getElementById("card-content");

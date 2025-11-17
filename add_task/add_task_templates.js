@@ -21,7 +21,6 @@ function subtaskOutputTemplate(text, i) {
         <div>
           <span id="subtask-text-${i}" class="subtask-text">${text}</span>
         </div>
-
         <div  class="subtask-icons subtaskoutput-icon-container">
           <img class="edit-icon" src="../assets/edit.png" alt="edit">
           <img class="delete-icon" src="../assets/delete.svg" alt="delete">
