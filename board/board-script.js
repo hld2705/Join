@@ -1,6 +1,7 @@
 
 const boardTaskFormURL = './add_task/form_task.html';
 let originalParent;
+let isDragging = false;
 //---------------------Drag&Drop------------------------
 function dragAndDrop() {
   let container = document.getElementById("template-overview");
@@ -61,6 +62,7 @@ function renderBadges(assigned) {
 }
 
 function startDragging(ev, id) {
+  isDragging = true;
   ev.dataTransfer.setData("text", `card-${id}`);
 
   const emptyImg = new Image();
@@ -103,6 +105,10 @@ function removeDraggableCard() {
   document.removeEventListener("dragend", removeDraggableCard); // denke selbsterklärend
 }
 
+function onDragEnd() {
+  setTimeout(() => { isDragging = false; }, 50); 
+}
+
 function dragoverHandler(ev) {
   ev.preventDefault();
 }
@@ -119,6 +125,7 @@ function moveTo(ev, newStatus) {
   updateContainerTemplate(oldContainer);
   updateContainerTemplate(target);
 }
+
 //---------------------Drag&Drop------------------------
 let openedCardId = null;
 
