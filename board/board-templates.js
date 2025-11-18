@@ -103,7 +103,9 @@ function noCardsTemplate() {
 
 function renderSubtaskEdit(subtasks) {
   let html = "<ul>";
-
+ if (!subtasks || subtasks.length === 0) {
+    return "<ul></ul>";
+  }
   subtasks.forEach((st, i) => {
     html += `
       <li class="single-subtask" data-subtask-id="${i}">
