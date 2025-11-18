@@ -142,15 +142,14 @@ function getBgColor(main) {
 }
 
 function getPriorityClass(currentPriority, buttonPriority) {
-  if (currentPriority !== buttonPriority) return ""; // neutral
-
+  if (currentPriority !== buttonPriority) return "";
   const classes = {
     low: "bg-green",
     medium: "bg-orange",
     urgent: "bg-red"
   };
-
-  return classes[buttonPriority] || "";
+document.getElementById('double-arrow').classList.add('icon-white');
+  return classes[buttonPriority];
 }
 
 function getPriorityImg(priority) {

@@ -1573,3 +1573,7 @@ progress::-webkit-progress-value {
   display: flex;
   width: 50px;
 }
+
+.icon-white {
+  filter: invert(100%) brightness(200%);
+}
