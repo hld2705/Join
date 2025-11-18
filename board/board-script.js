@@ -215,20 +215,9 @@ function openAddTaskOverlay() {
 }
 
 function openEditOverlay(taskId) {
-  editOverlayTemplate(taskId);
-
-  let bg = document.getElementById('edit-overlay-background');
+  const task = tasks.find(t => t.id === taskId);
   let formContainer = document.getElementById('edit-task-form-container');
-  if (!bg || !formContainer) return;
-
-
-  closeOverlayCardInstant();
-  bg.classList.add('is-open');
-  bg.addEventListener('click', function (e) {
-    if (e.target === bg) {
-      closeEditOverlay();
-    }
-  })
+  formContainer.innerHTML += editOverlayTemplate(task)
 }
 
 function animateDetailedCardOut(overlay) {
