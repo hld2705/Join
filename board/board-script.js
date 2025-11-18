@@ -62,52 +62,13 @@ function renderBadges(assigned) {
 }
 
 function startDragging(ev, id) {
-  isDragging = true;
   ev.dataTransfer.setData("text", `card-${id}`);
 
-  const emptyImg = new Image();
-  emptyImg.src = '';
-  ev.dataTransfer.setDragImage(emptyImg, 0, 0);  // das Standard sichtbare Design vom Browser wird entfernt
   originalParent = document.getElementById(`card-${id}`).parentElement; //
   createDraggableCard(ev, id);
 }
 
-function createDraggableCard(ev, id) {
-  const original = document.getElementById(`card-${id}`);
 
-  lastContainer = original.parentElement;
-
-  original.classList.add("drag-origin"); // das ist opacity: 0.  Damit die Original-Card kurz unsichtbar wird.
-
-  draggableCard = original.cloneNode(true); // kopieren der Karte ohne events, also nur HTML
-  draggableCard.classList.add("drag-follow");
-
-  document.body.appendChild(draggableCard); // wird ganz oben im body platziert, weil er sonst von anderen Effekten beeinflusst wird.
-
-  offsetX = ev.offsetX;
-  offsetY = ev.offsetY; // damit die Karte direkt dort erscheint wo sie angeklickt wurde (nicht ganz oben im body halt)
-
-  followMouse(ev); // die Karte wird an die Maus gesetzt und bleibt dort "kleben"
-
-  document.addEventListener("dragover", followMouse); // beim bewegen der Maus wird jedes mal aktualisiert
-  document.addEventListener("dragend", removeDraggableCard); // Klon wird entfernt wenn Maus losgelassen wird.
-}
-
-function followMouse(ev) {
-  draggableCard.style.left = (ev.pageX - offsetX) + "px";
-  draggableCard.style.top = (ev.pageY - offsetY) + "px"; // quasi einfach die Maus Position minus dem Klick Abstand
-}
-
-function removeDraggableCard() {
-  if (draggableCard) draggableCard.remove();
-  draggableCard = null;
-  document.removeEventListener("dragover", followMouse);
-  document.removeEventListener("dragend", removeDraggableCard); // denke selbsterklärend
-}
-
-function onDragEnd() {
-  setTimeout(() => { isDragging = false; }, 50); 
-}
 
 function dragoverHandler(ev) {
   ev.preventDefault();
@@ -254,44 +215,12 @@ function openAddTaskOverlay() {
 }
 
 function openEditOverlay(taskId) {
-  loadEditTaskForm();
+  editOverlayTemplate(taskId);
 
   let bg = document.getElementById('edit-overlay-background');
   let formContainer = document.getElementById('edit-task-form-container');
   if (!bg || !formContainer) return;
 
-
-  setTimeout(() => {
-    let task = tasks.find(t => t.id === taskId);
-    let badges = renderBadges(task.assigned);
-    let subtasksText = "";
-
-    document.getElementById('title-input').value = task.title;
-    document.getElementById('description-input').value = task.description;
-    document.getElementById('date-input').value = task.enddate;
-    document.getElementById('filteredBadgesContainer').innerHTML =
-      badges.map((b, index) => `
-                            <div class="card-overlay-badge-name-details-container" data-user-id="${task.assigned[index]}">
-                            <img class="userBadge" src="${b.badge}" style="border-color:${b.color}">
-                            </div>
-                            `).join('');
-
-    for (let i = 0; i < task.subtasks.length; i++) {
-      let singleTask = task.subtasks[i];
-      subtasksText += `${singleTask.text}<br>`;
-    }
-    let subtaskOutput = document.getElementById('subtask-content');
-    subtaskOutput.innerHTML = "<ul></ul>";
-    let ul = subtaskOutput.querySelector("ul");
-
-    task.subtasks.forEach((st, index) => {
-      ul.insertAdjacentHTML(
-        "beforeend",
-        subtaskOutputTemplate(st.text, index)
-      );
-    });
-
-  }, 30);
 
   closeOverlayCardInstant();
   bg.classList.add('is-open');
@@ -319,16 +248,16 @@ async function closeEditOverlay() {
     closeOverlayCardInstant();
     detailedCardInfo(openedCardId);
     animateDetailedCardIn();
-    
+
   }
 }
 
-  document.body.classList.remove('no-scroll');
-  if (openedCardId !== null) {
-    detailedCardInfo(openedCardId);
-    animateDetailedCardIn();
+document.body.classList.remove('no-scroll');
+if (openedCardId !== null) {
+  detailedCardInfo(openedCardId);
+  animateDetailedCardIn();
 
-  }
+}
 
 function animateDetailedCardIn() {
   let overlay = document.getElementById("card-content");

@@ -50,7 +50,7 @@ function loadAddTaskForm() {
         })
 }
 
-function loadEditTaskForm() {
+/* function loadEditTaskForm() {
     fetch(taskFormURL)
         .then(response => response.text())
         .then(html => {
@@ -61,6 +61,9 @@ function loadEditTaskForm() {
             }
         });
 }
+        */
+
+
 
 async function showUserName() {
     let dropList = document.getElementById('dropdownList');
