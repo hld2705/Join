@@ -141,6 +141,18 @@ function getBgColor(main) {
   return "#fff";
 }
 
+function getPriorityClass(currentPriority, buttonPriority) {
+  if (currentPriority !== buttonPriority) return ""; // neutral
+
+  const classes = {
+    low: "bg-green",
+    medium: "bg-orange",
+    urgent: "bg-red"
+  };
+
+  return classes[buttonPriority] || "";
+}
+
 function getPriorityImg(priority) {
   if (priority === "urgent") return "./assets/urgent-priority-board.svg";
   if (priority === "medium") return "./assets/medium-priority-board.svg";
@@ -215,12 +227,12 @@ function openAddTaskOverlay() {
 }
 
 function openEditOverlay(taskId) {
-  editOverlayTemplate(taskId);
+  let task = tasks.find(t => t.id === taskId);
+  editOverlayTemplate(task);
 
   let bg = document.getElementById('edit-overlay-background');
   let formContainer = document.getElementById('edit-task-form-container');
   if (!bg || !formContainer) return;
-
 
   closeOverlayCardInstant();
   bg.classList.add('is-open');

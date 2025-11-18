@@ -103,7 +103,6 @@ function noCardsTemplate() {
 
 
 function editOverlayTemplate(task) {
-    console.log(task);
     let formContainer = document.getElementById('edit-task-form-container');
     if (!formContainer) return;
     if (formContainer) {
@@ -129,12 +128,12 @@ function editOverlayTemplate(task) {
                     </div>
                     <div class="padding-top20">
                         <div class="em-05">Description</div>
-                        <textarea id="description-input" class="input" placeholder="Enter a Description"></textarea>
+                        <textarea id="description-input"  class="input" placeholder="Enter a Description">${task.description}</textarea>
                     </div>
                     <div class="due-date-container padding-top20">
                         <div class="em-05">Due date<span class="asterisk">*</span></div>
                         <label for="date-input" style="align-items: center; gap: 6px; cursor: pointer;">
-                            <input type="date" required id="date-input" class="input" placeholder="dd/mm/yyyy">
+                            <input value="${task.enddate}" type="date" required id="date-input" class="input" placeholder="dd/mm/yyyy">
                             <img id="calendar-icon" onclick="openCalendar()" class="date-icon"
                                 src="../add_task_assets/img/event.svg">
                         </label>
@@ -151,18 +150,18 @@ function editOverlayTemplate(task) {
                     <div class="priority-container">
                         <div class="em-05">Priority</div>
                         <div class="priority-input-container">
-                            <div id="urg-container" onclick="changeUrgentColor()" class="urgent-container">
-                                <input id="urgent" class="input priority-input" placeholder="Urgent" readonly
+                            <div data-prio="urgent" id="urg-container" onclick="changeUrgentColor()" class="urgent-container">
+                                <input id="urgent" class="input priority-input  ${getPriorityClass(task.priority, 'urgent')}" placeholder="Urgent" readonly
                                     data-prio="urgent">
                                 <img id="double-arrow" class="double-up-arrow" src="../assets/Prio alta.svg">
                             </div>
-                            <div onclick="changeMediumColor()" class="medium-container">
-                                <input id="medium-input" class="input priority-input" placeholder="Medium" readonly
+                            <div data-prio="medium" onclick="changeMediumColor()" class="medium-container">
+                                <input id="medium-input" class="input priority-input ${getPriorityClass(task.priority, 'medium')}" placeholder="Medium" readonly
                                     data-prio="medium">
                                 <img id="equal" class="equals-icon" src="../assets/Prio media.svg">
                             </div>
-                            <div onclick="changeLowColor()" id="low-container" class="low-container">
-                                <input id="low-input" class="input priority-input" placeholder="Low" readonly
+                            <div data-prio="low" onclick="changeLowColor()" id="low-container" class="low-container">
+                                <input id="low-input" class="input priority-input  ${getPriorityClass(task.priority, 'low')}" placeholder="Low" readonly
                                     data-prio="low">
                                 <img id="double-down" class="double-down" src="../assets/double-down.svg">
                             </div>
