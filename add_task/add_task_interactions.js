@@ -12,6 +12,8 @@ function resetAllButton() {
     lowActive = false;
 }
 
+let selectedPriority = null;
+
 function changeUrgentColor() {
     if (urgentActive) {
         resetAllButton();

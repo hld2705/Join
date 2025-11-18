@@ -141,15 +141,11 @@ function getBgColor(main) {
   return "#fff";
 }
 
-function getPriorityClass(currentPriority, buttonPriority) {
-  if (currentPriority !== buttonPriority) return "";
-  const classes = {
-    low: "bg-green",
-    medium: "bg-orange",
-    urgent: "bg-red"
-  };
-document.getElementById('double-arrow').classList.add('icon-white');
-  return classes[buttonPriority];
+function changePriorityColor(priority) {
+  selectedPriority = priority;
+  if (priority === "urgent") changeUrgentColor();
+  if (priority === "medium") changeMediumColor();
+  if (priority === "low") changeLowColor();
 }
 
 function getPriorityImg(priority) {
@@ -228,7 +224,7 @@ function openAddTaskOverlay() {
 function openEditOverlay(taskId) {
   let task = tasks.find(t => t.id === taskId);
   editOverlayTemplate(task);
-
+  changePriorityColor(task.priority);
   let bg = document.getElementById('edit-overlay-background');
   let formContainer = document.getElementById('edit-task-form-container');
   if (!bg || !formContainer) return;
