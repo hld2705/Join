@@ -200,7 +200,7 @@ body {
 
 .board-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0px 6px 12px rgba(0,0,0,0.12);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.12);
 }
 
 .board-card.drag-origin {
@@ -212,7 +212,7 @@ body {
   pointer-events: none;
   opacity: 1;
   transform: scale(1.05) rotate(1deg);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.25);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
 }
 
 .card-badge {
@@ -1365,7 +1365,7 @@ progress::-webkit-progress-value {
 
 #card-content {
   width: 525px;
-  height: 700px;
+  height: 90vh;
   border-radius: 30px;
   padding-top: 48px;
   padding-right: 40px;
@@ -1415,7 +1415,7 @@ progress::-webkit-progress-value {
   width: 445px;
   font-weight: 700;
   font-style: bold;
-  font-size: 43px;
+  font-size: 60px;
   margin-top: 20px;
   margin-bottom: 10px;
 }
@@ -1423,11 +1423,12 @@ progress::-webkit-progress-value {
 .card-overlay-description-details-container {
   font-weight: 400;
   font-style: normal;
+  padding-top: 20px;
   font-size: 18px;
 }
 
 .card-overlay-description-details-container p {
-  margin-bottom: 10px;
+  padding-bottom: 20px;
 }
 
 .card-overlay-priority-details-container {
@@ -1465,7 +1466,7 @@ progress::-webkit-progress-value {
 }
 
 .card-overlay-subtasks-details-container {
-  gap: 8px;
+  gap: 12px;
   font-weight: 400;
   font-style: normal;
   font-size: 20px;
@@ -1474,12 +1475,16 @@ progress::-webkit-progress-value {
   justify-content: center;
   flex-direction: column;
   margin-bottom: 50px;
+  margin-top: 22px;
 }
 
 .card-overlay-icons-details-container {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  position: fixed;
+  bottom: 48px;
+  right: 40px;
 }
 
 .card-overlay-separationline-details-container {
@@ -1576,4 +1581,16 @@ progress::-webkit-progress-value {
 
 .icon-white {
   filter: invert(100%) brightness(200%);
+}
+
+.distance {
+  margin-left: 24px;
+}
+
+.subtask-item input {
+  display: flex;
+  align-items: center;
+  Font-size: 16px;
+  width: auto;
+  margin-right: 10px;
 }
