@@ -325,6 +325,7 @@ function openEditOverlay(taskId) {
   let formContainer = document.getElementById('edit-task-form-container');
   if (!bg || !formContainer) return;
 
+ 
   closeOverlayCardInstant();
   bg.classList.add('is-open');
   bg.addEventListener('click', function (e) {
