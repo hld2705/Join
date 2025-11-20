@@ -134,11 +134,12 @@ function editTask() {
 }
 
 function getTaskInputs() {
+    const oldTask = tasks.find(t => t.id === openedCardId);// das auch
     return {
         title: document.getElementById('title-input').value,
         description: document.getElementById('description-input').value,
         date: document.getElementById('date-input').value,
-        main: getCategory(),
+        main: oldTask ? oldTask.main : getCategory(), // Das hab ich hinzugefügt (Halid), wenn nicht würde der task.main immer überschrieben, weil task.main = "" ist, weil der nutzer nichts eingibt
         subtasks: getSubtasks(),
         priority: getPriority(),
         assigned: getAssignedUsers(),
