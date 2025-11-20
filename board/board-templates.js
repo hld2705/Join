@@ -205,7 +205,7 @@ function editOverlayTemplate(task) {
 
                     <div class="assigned-to-container">
                         <div class="em-05 padding-top20">Assigned to</div>
-                        <input id="assign-input" type="text" class="input assign-Input cursorPointer"
+                        <input onclick="renderAssignDropdown()" id="assign-input" type="text" class="input assign-Input cursorPointer"
                             placeholder="Select contact to assign">
                         <img id="drop-down-svg-assign" class="drop-down-arrow-svg" src="../assets/arrow_drop_down.svg">
                         <div id="dropdownList" class="dropdown-list"></div>

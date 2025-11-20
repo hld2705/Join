@@ -13,6 +13,7 @@ function resetAllButton() {
 }
 
 
+
 function changeUrgentColor() {
     if (urgentActive) {
         resetAllButton();
@@ -65,8 +66,7 @@ function inputBorderColorSwitch(e) {
 
 document.addEventListener("click", inputBorderColorSwitch)
 
-async function renderAssignDropdown(e) {
-    if (!e.target.closest('#assign-input') && !e.target.closest('#drop-down-svg-assign')) return;
+async function renderAssignDropdown() {
     let dropdownList = document.getElementById('dropdownList');
     let assignedInput = document.getElementById('assign-input');
     let isOpen = dropdownList.classList.contains('open');
@@ -92,7 +92,7 @@ function openAssignDropdown() {
     switchAssignedArrow();
 }
 
-document.addEventListener('click', renderAssignDropdown);
+
 
 function switchAssignedArrow() {
     let arrowIcon = document.getElementById('drop-down-svg-assign');
