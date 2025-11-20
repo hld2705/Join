@@ -125,6 +125,7 @@ function editTask() {
     const updatedTask = {
         ...oldTask,
         ...editTaskData,
+        subtasks: editTaskData.subtasks ?? oldTask.subtasks,
         id: oldTask.id,
     };
     return firebase.database().ref('tasks/' + oldTask.id).update(updatedTask)

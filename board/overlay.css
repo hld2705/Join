@@ -3,47 +3,48 @@
   height: 931px !important;
 }
 
-.modal-header h2{
-    font-size: 40px !important;
-    font-weight: 700;
-    font-style: bold;
-    margin-top: 20px;
+.modal-header h2 {
+  font-size: 40px !important;
+  font-weight: 700;
+  font-style: bold;
+  margin-top: 20px;
 }
 
-.muted{
+.muted {
 
-    font-size: 20px !important;
-    font-weight: 400 !important;
-    font-style: normal !important;
+  font-size: 20px !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
 }
 
-.meta-item{
-   
-    display: flex;
-    flex-direction: row;
-    font-size: 20px;
-    gap: 25px;
-    height: 24px;
-    width: fill 24px;
-    margin-bottom: 10px;
+.meta-item {
+
+  display: flex;
+  flex-direction: row;
+  font-size: 20px;
+  gap: 25px;
+  height: 24px;
+  width: fill 24px;
+  margin-bottom: 10px;
 }
 
-.meta-row{
-   flex-direction: column;
-}
-.us-block{
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 20px;
+.meta-row {
+  flex-direction: column;
 }
 
-.block-title{
-    margin-top: 10px !important;
-    font-size: 20px;
+.us-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 20px;
 }
 
-.meta-value{
+.block-title {
+  margin-top: 10px !important;
+  font-size: 20px;
+}
+
+.meta-value {
   font-size: 20px !important;
 }
 
@@ -67,10 +68,10 @@
   white-space: nowrap;
 }
 
-.assignee-name { 
-    font-size: 19px;
-     margin-left: 16px;
-     font-style: normal !important;
+.assignee-name {
+  font-size: 19px;
+  margin-left: 16px;
+  font-style: normal !important;
 }
 
 .avatar-img,
@@ -85,7 +86,7 @@
   user-select: none;
 }
 
-.meta-label{
+.meta-label {
 
   font-size: 20px !important;
 }
@@ -94,21 +95,55 @@
   background: var(--surface-3, #e5e7eb);
 }
 
-.meta-row { display:flex; }
-.assignee-list { display:flex; flex-direction:column; }
-.subtasks-wrap { display:flex; flex-direction:column; }
-.subtask-item { display:flex; align-items:center; }
-
- .badge-blue{
-    border-radius: 8px !important;
-    border-style: solid;
-    border-color: rgba(0, 56, 255, 1);
-    background-color: rgba(0, 56, 255, 1);
-   color: white;
-   font-size: 23px !important;
+.meta-row {
+  display: flex;
 }
-#edit-overlay-background{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999999;align-items:center;justify-content:center;}
-  #addTask-edit-close-Img{position:absolute;right:12px;top:12px;width:24px;height:24px;cursor:pointer;}
+
+.assignee-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.subtasks-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.subtask-item {
+  display: flex;
+  align-items: center;
+  width: 400px;
+  font-size: 16px;
+  padding-bottom: 10px;
+}
+
+.badge-blue {
+  border-radius: 8px !important;
+  border-style: solid;
+  border-color: rgba(0, 56, 255, 1);
+  background-color: rgba(0, 56, 255, 1);
+  color: white;
+  font-size: 23px !important;
+}
+
+#edit-overlay-background {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .5);
+  z-index: 999999;
+  align-items: center;
+  justify-content: center;
+}
+
+#addTask-edit-close-Img {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
 
 .edit-overlay body {
   font-family: system-ui, sans-serif;
@@ -132,9 +167,7 @@
 }
 
 
-.edit-overlay-card{
+.edit-overlay-card {
 
-    width: 525px;
+  width: 525px;
 }
-
-

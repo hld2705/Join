@@ -109,6 +109,8 @@ function detailedCardInfo(taskId) {
   document.body.insertAdjacentHTML("beforeend", detailedCardInfoTemplate(task));
 }
 
+
+
 function renderSubtask(subtasks) {
   if (!subtasks || subtasks.length === 0)
     return "<p>Currently no subtasks available</p>";
@@ -127,6 +129,8 @@ function renderSubtask(subtasks) {
         </div>
     `).join('');
 }
+
+
 
 function deleteCard(taskId) {
   const index = tasks.findIndex(t => t.id === taskId);
@@ -250,9 +254,16 @@ function editTask() {
 }
 
 
+function loadAddTaskInteractions() {
+    let script = document.createElement("script");
+    script.src = "./add_task/add_task_interactions.js";
+    document.body.appendChild(script);
+}
+
 function openEditOverlay(taskId) {
   let task = tasks.find(t => t.id === taskId);
   editOverlayTemplate(task);
+  loadAddTaskInteractions();
   changePriorityColor(task.priority);
   let bg = document.getElementById('edit-overlay-background');
   let formContainer = document.getElementById('edit-task-form-container');
@@ -284,7 +295,6 @@ async function closeEditOverlay() {
     closeOverlayCardInstant();
     detailedCardInfo(openedCardId);
     animateDetailedCardIn();
-
   }
 }
 

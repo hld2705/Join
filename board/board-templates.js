@@ -101,8 +101,43 @@ function noCardsTemplate() {
     `
 }
 
+function renderSubtaskEdit(subtasks) {
+    let html = "<ul>";
+    if (!subtasks || subtasks.length === 0) {
+        return "<ul></ul>";
+    }
+    subtasks.forEach((st, i) => {
+        html += `
+      <li class="single-subtask" data-subtask-id="${i}">
+        <div class="single-subtask-container">
+          
+          <div>
+            <span id="subtask-text-${i}" class="subtask-text">${st.text}</span>
+          </div>
+
+          <div class="subtask-icons subtaskoutput-icon-container">
+            <img class="edit-icon" src="../assets/edit.png" alt="edit">
+            <img class="delete-icon" src="../assets/delete.svg" alt="delete">
+          </div>
+          
+          <div class="edit-subtask-icons hidden">
+            <img id="edit-delete-icon" class="delete-icon" src="../assets/delete.svg" alt="delete">
+            <div class="divider"></div>
+            <img id="edit-accept-icon" class="subtask-check-svg" src="../assets/check-grey.svg" alt="accept">
+          </div>
+
+        </div>
+      </li>
+    `;
+    });
+
+    html += "</ul>";
+    return html;
+}
+
 
 function editOverlayTemplate(task) {
+    const subtaskContent = renderSubtaskEdit(task.subtasks);
     let formContainer = document.getElementById('edit-task-form-container');
     let priorityColor = changePriorityColor(task.priority);
     let priorityImage = getPriorityImg(task.priority);
@@ -202,7 +237,7 @@ function editOverlayTemplate(task) {
                             </div>
                         </div>
 
-                        <div id="subtask-content"></div>
+                        <div id="subtask-content">${subtaskContent}</div>
                         <span class="mobile-required-text"><span class="asterisk">*</span>This field ist required</span>
                         <div class="tbc-wrapper">
                             <div id="tbc-wrapper-inner">
