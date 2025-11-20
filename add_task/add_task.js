@@ -122,16 +122,19 @@ function editTask() {
     const editTaskData = getTaskInputs();
     const oldTask = tasks.find(t => t.id === openedCardId);
 
-    const updatedTask = {
-        ...oldTask,
-        ...editTaskData,
-        subtasks: editTaskData.subtasks ?? oldTask.subtasks,
-        id: oldTask.id,
-    };
-    return firebase.database().ref('tasks/' + oldTask.id).update(updatedTask)
-        .catch((error) => {
-            console.error('Task wurde nicht weitergeleitet:', error);
-        });
+    const filteredData = {};
+
+    for (const key in editTaskData) {
+        const value = editTaskData[key];
+        if (key === "main") continue;
+        if (value === "" || value === undefined ||  value === null) continue;
+        filteredData[key] = value;
+    }
+
+    return firebase.database()
+        .ref("tasks/" + oldTask.id)
+        .update(filteredData)
+        .catch(err => console.error("Task update failed:", err));
 }
 
 function getTaskInputs() {
