@@ -155,9 +155,10 @@ function getBgColor(main) {
 }
 
 function changePriorityColor(priority) {
-  if (priority === "urgent" || priority === "Urgent") return "#FF3D00" ;
-  if (priority === "medium" || priority === "Medium") return "#FFA800";
-  if (priority === "low" || priority === "Low") return "#7AE229";
+  selectedPriority = priority;
+  if (priority === "urgent")  changeUrgentColor();
+  if (priority === "medium")  changeMediumColor();
+  if (priority === "low")  changeLowColor();
 }
 
 function getPriorityImg(priority) {
@@ -241,11 +242,8 @@ function editTask() {
 
     for (const key in editTaskData) {
         const value = editTaskData[key];
-
         if (key === "main") continue;
-
         if (value === "" || value === undefined || value === null) continue;
-
         filteredData[key] = value;
     }
 
@@ -266,11 +264,16 @@ function openEditOverlay(taskId) {
   let task = tasks.find(t => t.id === taskId);
   editOverlayTemplate(task);
   loadAddTaskInteractions();
-  changePriorityColor(task.priority);
+
+  setTimeout(() => {
+        changePriorityColor(task.priority);
+    }, 100);
+    
   let bg = document.getElementById('edit-overlay-background');
   let formContainer = document.getElementById('edit-task-form-container');
   if (!bg || !formContainer) return;
 
+ 
   closeOverlayCardInstant();
   bg.classList.add('is-open');
   bg.addEventListener('click', function (e) {

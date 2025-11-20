@@ -187,17 +187,17 @@ function editOverlayTemplate(task) {
                         <div class="em-05">Priority</div>
                         <div class="priority-input-container">
                             <div data-prio="urgent" id="urg-container" onclick="changeUrgentColor()" class="urgent-container">
-                                <input id="urgent" style="background-color: ${priorityColor}" class="input priority-input " placeholder="Urgent" readonly
+                                <input id="urgent" class="input priority-input " placeholder="Urgent" readonly
                                     data-prio="urgent">
                                 <img id="double-arrow" class="double-up-arrow" src="${priorityImage}">
                             </div>
                             <div data-prio="medium" onclick="changeMediumColor()" class="medium-container">
-                                <input id="medium-input" style="background-color: ${priorityColor}" class="input priority-input " placeholder="Medium" readonly
+                                <input id="medium-input" class="input priority-input " placeholder="Medium" readonly
                                     data-prio="medium">
                                 <img id="equal" class="equals-icon" src="${priorityImage}">
                             </div>
                             <div data-prio="low" onclick="changeLowColor()" id="low-container" class="low-container">
-                                <input id="low-input" style="background-color: ${priorityColor}" class="input priority-input  " placeholder="Low" readonly
+                                <input id="low-input" class="input priority-input  " placeholder="Low" readonly
                                     data-prio="low">
                                 <img id="double-down" class="double-down" src="${priorityImage}">
                             </div>
