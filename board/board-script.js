@@ -69,7 +69,7 @@ function startDragging(ev, id) {
 
 
 function onDragEnd() {
-  setTimeout(() => { isDragging = false; }, 50); 
+  setTimeout(() => { isDragging = false; }, 50);
 }
 
 function dragoverHandler(ev) {
@@ -117,14 +117,14 @@ function renderSubtask(subtasks) {
   if (!subtasks || subtasks.length === 0)
     return "<p>Currently no subtasks available</p>";
 
-  let safe = Array.isArray(subtasks) 
-        ? subtasks 
-        : Object.values(subtasks);
+  let safe = Array.isArray(subtasks)
+    ? subtasks
+    : Object.values(subtasks);
 
-    if (safe.length === 0)
-        return "<p>Currently no subtasks available</p>";
+  if (safe.length === 0)
+    return "<p>Currently no subtasks available</p>";
 
-    return safe.map(st => `
+  return safe.map(st => `
         <div class="subtask-item">
             <input type="checkbox" ${st.done ? "checked" : ""}>
             <p>${st.text}</p>
@@ -155,61 +155,55 @@ function getBgColor(main) {
 }
 
 function resetAllButton() {
-    document.getElementById('urgent').classList.remove('bg-red');
-    document.getElementById('double-arrow').src = "../assets/Prio alta.svg"
-    urgentActive = false;
+  document.getElementById('urgent').classList.remove('bg-red');
+  document.getElementById('double-arrow').src = "../assets/Prio alta.svg"
+  urgentActive = false;
 
-    document.getElementById('medium-input').classList.remove('bg-orange');
-    document.getElementById('equal').src = "../assets/Prio media.svg"
-    mediumActive = false;
+  document.getElementById('medium-input').classList.remove('bg-orange');
+  document.getElementById('equal').src = "../assets/Prio media.svg"
+  mediumActive = false;
 
-    document.getElementById('low-input').classList.remove('bg-green');
-    document.getElementById('double-down').src = "../assets/double-down.svg"
-    lowActive = false;
+  document.getElementById('low-input').classList.remove('bg-green');
+  document.getElementById('double-down').src = "../assets/double-down.svg"
+  lowActive = false;
 }
 
 let selectedPriority = null;
 
 function changeUrgentColor() {
-    if (urgentActive) {
-        resetAllButton();
-    } else {
-        resetAllButton();
-        document.getElementById('urgent').classList.add("bg-red");
-        document.getElementById('urgent').classList.add("bg-red::placeholder");
-        document.getElementById('double-arrow').src = "../assets/arrows-up-white.png";
-        urgentActive = true;
-    }
+  if (urgentActive) {
+    resetAllButton();
+    document.getElementById('urgent').classList.add("bg-red");
+    document.getElementById('urgent').classList.add("bg-red::placeholder");
+    document.getElementById('double-arrow').src = "../assets/arrows-up-white.png";
+    urgentActive = true;
+  }
 };
 
 function changeMediumColor() {
-    if (mediumActive) {
-        resetAllButton();
-    } else {
-        resetAllButton();
-        document.getElementById('medium-input').classList.add("bg-orange");
-        document.getElementById('medium-input').classList.add("bg-orange::placeholder");
-        document.getElementById("equal").src = "../assets/equal-white.svg";
-        mediumActive = true;
-    }
-}
+  if (mediumActive) {
+    resetAllButton();
+    document.getElementById('medium-input').classList.add("bg-orange");
+    document.getElementById('medium-input').classList.add("bg-orange::placeholder");
+    document.getElementById("equal").src = "../assets/equal-white.svg";
+    mediumActive = true;
+  }
+};
 
 function changeLowColor() {
-    if (lowActive) {
-        resetAllButton();
-    } else {
-        resetAllButton();
-        document.getElementById('low-input').classList.add("bg-green");
-        document.getElementById('low-input').classList.add("bg-green::placeholder");
-        document.getElementById("double-down").src = "../assets/double-down-white.svg";
-        lowActive = true;
-    }
-}
+  if (lowActive) {
+    resetAllButton();
+    document.getElementById('low-input').classList.add("bg-green");
+    document.getElementById('low-input').classList.add("bg-green::placeholder");
+    document.getElementById("double-down").src = "../assets/double-down-white.svg";
+    lowActive = true;
+  }
+};
 
 function changePriorityColor(priority) {
-  if (priority === "urgent" || priority === "Urgent") return "#FF3D00" ;
-  if (priority === "medium" || priority === "Medium") return "#FFA800";
-  if (priority === "low" || priority === "Low") return "#7AE229";
+  if (priority === "urgent") changeUrgentColor();
+  if (priority === "medium") changeMediumColor();
+  if (priority === "low") changeLowColor();
 }
 
 function getPriorityImg(priority) {
@@ -286,25 +280,25 @@ function openAddTaskOverlay() {
 }
 /*Funktion für firebase, Karten sollten sich nicht verändern */
 function editTask() {
-    const editTaskData = getTaskInputs();
-    const oldTask = tasks.find(t => t.id === openedCardId);
+  const editTaskData = getTaskInputs();
+  const oldTask = tasks.find(t => t.id === openedCardId);
 
-    const filteredData = {};
+  const filteredData = {};
 
-    for (const key in editTaskData) {
-        const value = editTaskData[key];
+  for (const key in editTaskData) {
+    const value = editTaskData[key];
 
-        if (key === "main") continue;
+    if (key === "main") continue;
 
-        if (value === "" || value === undefined || value === null) continue;
+    if (value === "" || value === undefined || value === null) continue;
 
-        filteredData[key] = value;
-    }
+    filteredData[key] = value;
+  }
 
-    return firebase.database()
-        .ref("tasks/" + oldTask.id)
-        .update(filteredData)
-        .catch(err => console.error("Task update failed:", err));
+  return firebase.database()
+    .ref("tasks/" + oldTask.id)
+    .update(filteredData)
+    .catch(err => console.error("Task update failed:", err));
 }
 
 
@@ -314,11 +308,19 @@ function loadAddTaskInteractions() {
   document.body.appendChild(script);
 }
 
+let addTaskInteractionsLoaded = false;
+
 function openEditOverlay(taskId) {
   let task = tasks.find(t => t.id === taskId);
   editOverlayTemplate(task);
-  loadAddTaskInteractions();
-  changePriorityColor(task.priority);
+  if (!addTaskInteractionsLoaded) {
+    loadAddTaskInteractions();
+    addTaskInteractionsLoaded = true;
+  }
+
+  setTimeout(() => {
+    changePriorityColor(task.priority);
+  }, 20);
   let bg = document.getElementById('edit-overlay-background');
   let formContainer = document.getElementById('edit-task-form-container');
   if (!bg || !formContainer) return;
@@ -344,15 +346,14 @@ function animateDetailedCardOut(overlay) {
 async function closeEditOverlay() {
   let bg = document.getElementById('edit-overlay-background');
   if (!bg) return;
-  bg.classList.remove('is-open');
-
-  closeOverlayCardInstant();
-  detailedCardInfo(openedCardId);
-  openDetailedInfoCardInstant();
 
   await editTask();
   await loadData();
+  detailedCardInfo(openedCardId);
   await dragAndDrop()
+  bg.classList.remove('is-open');
+  // closeOverlayCardInstant();
+  openDetailedInfoCardInstant();
 }
 
 document.body.classList.remove('no-scroll');

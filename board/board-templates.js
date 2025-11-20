@@ -187,17 +187,17 @@ function editOverlayTemplate(task) {
                         <div class="em-05">Priority</div>
                         <div class="priority-input-container">
                             <div data-prio="urgent" id="urg-container" onclick="changeUrgentColor()" class="urgent-container">
-                                <input id="urgent" style="background-color: ${priorityColor}" class="input priority-input " placeholder="Urgent" readonly
+                                <input id="urgent" class="input priority-input " placeholder="Urgent" readonly
                                     data-prio="urgent">
                                 <img id="double-arrow" class="double-up-arrow" src="${priorityImage}">
                             </div>
                             <div data-prio="medium" onclick="changeMediumColor()" class="medium-container">
-                                <input id="medium-input" style="background-color: ${priorityColor}" class="input priority-input " placeholder="Medium" readonly
+                                <input id="medium-input" class="input priority-input " placeholder="Medium" readonly
                                     data-prio="medium">
                                 <img id="equal" class="equals-icon" src="${priorityImage}">
                             </div>
                             <div data-prio="low" onclick="changeLowColor()" id="low-container" class="low-container">
-                                <input id="low-input" style="background-color: ${priorityColor}" class="input priority-input  " placeholder="Low" readonly
+                                <input id="low-input" class="input priority-input  " placeholder="Low" readonly
                                     data-prio="low">
                                 <img id="double-down" class="double-down" src="${priorityImage}">
                             </div>
@@ -206,7 +206,7 @@ function editOverlayTemplate(task) {
 
                     <div class="assigned-to-container">
                         <div class="em-05 padding-top20">Assigned to</div>
-                        <input id="assign-input" type="text" class="input assign-Input cursorPointer"
+                        <input onclick="renderAssignDropdown()" id="assign-input" type="text" class="input assign-Input cursorPointer"
                             placeholder="Select contact to assign">
                         <img id="drop-down-svg-assign" class="drop-down-arrow-svg" src="../assets/arrow_drop_down.svg">
                         <div id="dropdownList" class="dropdown-list"></div>
