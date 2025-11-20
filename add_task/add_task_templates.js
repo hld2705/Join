@@ -53,6 +53,7 @@ function overlayTemplateValues() {
 
   if (test) {
     test.innerHTML = `<div>
+    Main: ${task.main}<br>
     Title: ${task.title}<br>
     Description: ${task.description}<br>
     Date: ${task.date}<br>

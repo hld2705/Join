@@ -117,12 +117,19 @@ function renderSubtask(subtasks) {
   if (!subtasks || subtasks.length === 0)
     return "<p>Currently no subtasks available</p>";
 
-  return subtasks.map(st => `
-    <div class="subtask-item">
-      <input type="checkbox" ${st.done ? "checked" : ""}>
-      <p>${st.text}</p>
-    </div>
-  `).join('');
+  let safe = Array.isArray(subtasks) 
+        ? subtasks 
+        : Object.values(subtasks);
+
+    if (safe.length === 0)
+        return "<p>Currently no subtasks available</p>";
+
+    return safe.map(st => `
+        <div class="subtask-item">
+            <input type="checkbox" ${st.done ? "checked" : ""}>
+            <p>${st.text}</p>
+        </div>
+    `).join('');
 }
 
 
@@ -200,10 +207,9 @@ function changeLowColor() {
 }
 
 function changePriorityColor(priority) {
-  selectedPriority = priority;
-  if (priority === "urgent") changeUrgentColor();
-  if (priority === "medium") changeMediumColor();
-  if (priority === "low") changeLowColor();
+  if (priority === "urgent" || priority === "Urgent") return "#FF3D00" ;
+  if (priority === "medium" || priority === "Medium") return "#FFA800";
+  if (priority === "low" || priority === "Low") return "#7AE229";
 }
 
 function getPriorityImg(priority) {
@@ -278,6 +284,29 @@ function openAddTaskOverlay() {
       animateOverlayIn(overlay);
     })
 }
+/*Funktion für firebase, Karten sollten sich nicht verändern */
+function editTask() {
+    const editTaskData = getTaskInputs();
+    const oldTask = tasks.find(t => t.id === openedCardId);
+
+    const filteredData = {};
+
+    for (const key in editTaskData) {
+        const value = editTaskData[key];
+
+        if (key === "main") continue;
+
+        if (value === "" || value === undefined || value === null) continue;
+
+        filteredData[key] = value;
+    }
+
+    return firebase.database()
+        .ref("tasks/" + oldTask.id)
+        .update(filteredData)
+        .catch(err => console.error("Task update failed:", err));
+}
+
 
 function loadAddTaskInteractions() {
   let script = document.createElement("script");
