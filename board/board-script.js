@@ -65,10 +65,12 @@ function startDragging(ev, id) {
   ev.dataTransfer.setData("text", `card-${id}`);
 
   originalParent = document.getElementById(`card-${id}`).parentElement; //
-  createDraggableCard(ev, id);
 }
 
 
+function onDragEnd() {
+  setTimeout(() => { isDragging = false; }, 50); 
+}
 
 function dragoverHandler(ev) {
   ev.preventDefault();
@@ -255,9 +257,9 @@ function editTask() {
 
 
 function loadAddTaskInteractions() {
-    let script = document.createElement("script");
-    script.src = "./add_task/add_task_interactions.js";
-    document.body.appendChild(script);
+  let script = document.createElement("script");
+  script.src = "./add_task/add_task_interactions.js";
+  document.body.appendChild(script);
 }
 
 function openEditOverlay(taskId) {
@@ -278,6 +280,11 @@ function openEditOverlay(taskId) {
   })
 }
 
+function openDetailedInfoCardInstant() {
+  const card = document.getElementById("card-content");
+  if (card) card.classList.add('is-instant-open');
+}
+
 function animateDetailedCardOut(overlay) {
   overlay.classList.remove("is-open");
 }
@@ -287,15 +294,13 @@ async function closeEditOverlay() {
   if (!bg) return;
   bg.classList.remove('is-open');
 
+  closeOverlayCardInstant();
+  detailedCardInfo(openedCardId);
+  openDetailedInfoCardInstant();
+
   await editTask();
   await loadData();
   await dragAndDrop()
-
-  if (openedCardId !== null) {
-    closeOverlayCardInstant();
-    detailedCardInfo(openedCardId);
-    animateDetailedCardIn();
-  }
 }
 
 document.body.classList.remove('no-scroll');
