@@ -139,7 +139,6 @@ function renderSubtaskEdit(subtasks) {
 function editOverlayTemplate(task) {
     const subtaskContent = renderSubtaskEdit(task.subtasks);
     let formContainer = document.getElementById('edit-task-form-container');
-    let priorityColor = changePriorityColor(task.priority);
     let priorityImage = getPriorityImg(task.priority);
     if (!formContainer) return;
     if (formContainer) {

@@ -173,8 +173,6 @@ let selectedPriority = null;
 function changeUrgentColor() {
     if (urgentActive) {
         resetAllButton();
-    } else {
-        resetAllButton();
         document.getElementById('urgent').classList.add("bg-red");
         document.getElementById('urgent').classList.add("bg-red::placeholder");
         document.getElementById('double-arrow').src = "../assets/arrows-up-white.png";
@@ -185,8 +183,6 @@ function changeUrgentColor() {
 function changeMediumColor() {
     if (mediumActive) {
         resetAllButton();
-    } else {
-        resetAllButton();
         document.getElementById('medium-input').classList.add("bg-orange");
         document.getElementById('medium-input').classList.add("bg-orange::placeholder");
         document.getElementById("equal").src = "../assets/equal-white.svg";
@@ -196,8 +192,6 @@ function changeMediumColor() {
 
 function changeLowColor() {
     if (lowActive) {
-        resetAllButton();
-    } else {
         resetAllButton();
         document.getElementById('low-input').classList.add("bg-green");
         document.getElementById('low-input').classList.add("bg-green::placeholder");
@@ -319,7 +313,7 @@ function openEditOverlay(taskId) {
 
   setTimeout(() => {
         changePriorityColor(task.priority);
-    }, 100);
+    }, 20);
     
   let bg = document.getElementById('edit-overlay-background');
   let formContainer = document.getElementById('edit-task-form-container');
@@ -347,16 +341,16 @@ function animateDetailedCardOut(overlay) {
 async function closeEditOverlay() {
   let bg = document.getElementById('edit-overlay-background');
   if (!bg) return;
-  bg.classList.remove('is-open');
-
-  closeOverlayCardInstant();
-  detailedCardInfo(openedCardId);
-  openDetailedInfoCardInstant();
-
   await editTask();
   await loadData();
-  await dragAndDrop()
+  detailedCardInfo(openedCardId);
+  await dragAndDrop();
+  bg.classList.remove('is-open');
+  //closeOverlayCardInstant();
+  openDetailedInfoCardInstant();
+  closeOverlayCardInstant();
 }
+
 
 document.body.classList.remove('no-scroll');
 if (openedCardId !== null) {
