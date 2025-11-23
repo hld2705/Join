@@ -194,7 +194,3 @@ header{
     margin: 0;
   }
 }
-
-@media (prefers-color-scheme: dark) {
-  .join-logo { background-image: url("/assets/logo-black.svg"); }
-}
