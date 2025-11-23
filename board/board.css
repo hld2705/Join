@@ -1737,7 +1737,6 @@ progress::-webkit-progress-value {
     height: 30px;
   }
 
-
   .distribution-progress {
     display: flex;
     justify-content: space-between;

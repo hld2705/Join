@@ -270,14 +270,16 @@ function openAddTaskOverlay() {
   let overlay = document.getElementById("task-overlay");
   let container = document.getElementById("task-form-container");
 
-  fetch(boardTaskFormURL)
-    .then(response => response.text())
-    .then(html => {
-      container.innerHTML = html;
-      overlayBg.style.display = "block";
-      animateOverlayIn(overlay);
-    })
+  addTaskOverlayTemplate();
+  if (!addTaskInteractionsLoaded) {
+    loadAddTaskInteractions();
+    addTaskInteractionsLoaded = true;
+  }
+
+  overlayBg.style.display = "block";
+  animateOverlayIn(overlay);
 }
+
 /*Funktion für firebase, Karten sollten sich nicht verändern */
 function editTask() {
   const editTaskData = getTaskInputs();

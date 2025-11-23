@@ -1,5 +1,6 @@
 .mainsection {
     padding: 80px;
+    height: calc(100vh - 160px);
 }
 
 h1 {
@@ -24,9 +25,10 @@ h2 {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    width: 232px;
+    min-width: 232px;
     background-color: #2A3647;
-    position: relative;
+    position: sticky;
+    z-index: 2;
 }
 
 nav {

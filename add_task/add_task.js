@@ -50,30 +50,14 @@ function loadAddTaskForm() {
         })
 }
 
-/* function loadEditTaskForm() {
-    fetch(taskFormURL)
-        .then(response => response.text())
-        .then(html => {
-            let formContainer = document.getElementById('edit-task-form-container');
-            if (!formContainer) return;
-            if (formContainer) {
-                formContainer.innerHTML = html;
-            }
-        });
-}
-        */
-
-
-
 async function showUserName() {
     let dropList = document.getElementById('dropdownList');
     let users = await getAllUser("/users");
 
     if (dropList.childElementCount > 0) return;
-
-    for (let i = 1; i < users.length; i++) {
-        appendUserItem(dropList, users[i]);
-    }
+users
+    .filter(u => u !== null) 
+  .forEach(u => appendUserItem(dropList, u));
 }
 
 
@@ -105,7 +89,7 @@ function openCalendar() {
 }
 
 function addNewTask() {
-    const taskData = getTaskInputs();
+    const taskData = getNewTaskInputs();
     const newTask = {
         id: Date.now(),
         status: "todo",
@@ -119,7 +103,7 @@ function addNewTask() {
 }
 
 function editTask() {
-    const editTaskData = getTaskInputs();
+    const editTaskData = getEditTaskInputs();
     const oldTask = tasks.find(t => t.id === openedCardId);
 
     const filteredData = {};
@@ -137,18 +121,31 @@ function editTask() {
         .catch(err => console.error("Task update failed:", err));
 }
 
-function getTaskInputs() {
-    const oldTask = tasks.find(t => t.id === openedCardId);// das auch
+function getNewTaskInputs() {
     return {
         title: document.getElementById('title-input').value,
         description: document.getElementById('description-input').value,
         date: document.getElementById('date-input').value,
-        main: oldTask ? oldTask.main : getCategory(), // Das hab ich hinzugefügt (Halid), wenn nicht würde der task.main immer überschrieben, weil task.main = "" ist, weil der nutzer nichts eingibt
+        main: getCategory(),
         subtasks: getSubtasks(),
         priority: getPriority(),
         assigned: getAssignedUsers(),
     };
 }
+
+function getEditTaskInputs() {
+    const oldTask = tasks.find(t => t.id === openedCardId);
+    return {
+        title: document.getElementById('title-input').value,
+        description: document.getElementById('description-input').value,
+        date: document.getElementById('date-input').value,
+        main: oldTask.main,
+        subtasks: getSubtasks(),
+        priority: getPriority(),
+        assigned: getAssignedUsers(),
+    };
+}
+
 
 function getAssignedUsers() {
     return Array.from(document.querySelectorAll('.Assigned-dropdown-username.bg-grey'))

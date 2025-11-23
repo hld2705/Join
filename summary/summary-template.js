@@ -154,3 +154,29 @@ getFeedbackTasks();
 function redirectToBoard() {
     location.assign("../board.html");
 }
+
+
+function updateGreeting() {
+  const greetingSpan = document.querySelector('.greeting span:first-child');
+  const userSpan = document.querySelector('.logged-user');
+  if (!greetingSpan || !userSpan) return;
+
+  const hours = new Date().getHours();
+  let greetingText;
+
+  if (hours >= 5 && hours < 12) greetingText = "Good morning";
+  else if (hours >= 12 && hours < 18) greetingText = "Good afternoon";
+  else if (hours >= 18 && hours < 22) greetingText = "Good evening";
+  else greetingText = "Good night";
+
+  if (!loggedInUser || loggedInUser.name === "Gast") {
+    greetingSpan.textContent = `${greetingText}!`;
+    userSpan.style.display = "none";
+  } else {
+    greetingSpan.textContent = `${greetingText},`;
+    userSpan.textContent = loggedInUser.name;
+    userSpan.style.display = "inline";
+  }
+}
+
+window.addEventListener("load", updateGreeting);

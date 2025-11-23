@@ -14,13 +14,13 @@ async function loadData() {
 
   if (usersData) {
     for (let key in usersData) {
-      users.push(usersData[key]);
+      users.push({ id: key, ...usersData[key] });
     }
   }
 
   if (tasksData) {
     for (let key in tasksData) {
-      tasks.push(tasksData[key]);
+      tasks.push({ id: key, ...tasksData[key] });
     }
   }
 }

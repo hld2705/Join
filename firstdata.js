@@ -1,15 +1,5 @@
 const join = {"users": [
   {
-    id: 0,
-    name: "Gast",
-    email: "",
-    phone: "",
-    password: "",
-    login: 0,
-    badge: "./assets/profilebadge/guest.svg",
-    color: "rgba(28, 26, 228, 1)",
-  },
-  {
     id: 1,
     name: "Anja Schulz",
     email: "schulz@hotmail.com",
