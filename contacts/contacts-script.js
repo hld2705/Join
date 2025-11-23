@@ -1,6 +1,5 @@
 
 let activeUserId = null;
-let nextUserId = join.users.length + 1;
 
 const firebaseConfig = {
     apiKey: "AIzaSyDaAKocqkIROo_InISQbRjsoG8z1JCK3g0",
