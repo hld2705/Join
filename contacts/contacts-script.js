@@ -1,42 +1,70 @@
-let activeUserId = null;
 
+let activeUserId = null;
 let nextUserId = join.users.length + 1;
 
-function contactsLoad() {
+const firebaseConfig = {
+    apiKey: "AIzaSyDaAKocqkIROo_InISQbRjsoG8z1JCK3g0",
+    authDomain: "join-gruppenarbeit-75ecf.firebaseapp.com",
+    databaseURL: "https://join-gruppenarbeit-75ecf-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "join-gruppenarbeit-75ecf",
+    storageBucket: "join-gruppenarbeit-75ecf.firebasestorage.app",
+    messagingSenderId: "180158531840",
+    appId: "1:180158531840:web:c894124a7d6eb515364be5",
+    measurementId: "G-5R563MH52P"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const FIREBASE_USERS = firebase.database().ref("users");
+
+async function fetchData(){
+  let response = await FIREBASE_USERS.once("value")
+  let data = response.val();
+ return data ? Object.entries(data).map(([id, user]) => ({ id: String(id), ...user })) : [];
+
+}
+
+async function contactsLoad() {
   let contacts = document.getElementById("contactsjs");
-  let users = join.users.slice().sort((a, b) => a.name.localeCompare(b.name));
   contacts.innerHTML = "";
-  let currentLetter = "";
+  
+  let users = await fetchData();
+  users = users.filter(u => u && u.name);
+  users.sort((a, b) => a.name.localeCompare(b.name));
+
   let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
   responsiveEditContactId.style.display = "none";
 
-  for (let i = 0; i < users.length; i++) {
-    let firstLetter = "#";
-    if (users[i].name && users[i].name.length > 0) {
-      firstLetter = users[i].name.charAt(0).toUpperCase();
-    }
+  let currentLetter = "";
+
+  for (let user of users) {
+    if (!user.name) continue;
+
+    let firstLetter = user.name.charAt(0).toUpperCase();
 
     if (firstLetter !== currentLetter) {
       currentLetter = firstLetter;
-      if(currentLetter !== "G")
-      {contacts.innerHTML += `<div class="letter-separationline-container">
-        <h2 class="letter-header">${currentLetter}</h2>
-        <img class="separationline" src="./assets/Vector 10.svg">
+
+      contacts.innerHTML += `
+        <div class="letter-separationline-container">
+          <h2 class="letter-header">${currentLetter}</h2>
+          <img class="separationline" src="./assets/Vector 10.svg">
         </div>
       `;
-    }}; 
-    if(users[i].id === 0) continue;
+    }
 
-    contacts.innerHTML += contactsLoadTemplate(users, i)
+    contacts.innerHTML += contactsLoadTemplate(user);
   }
 }
 
-function contactsRender(userId) {
+
+async function contactsRender(userId) {
   let contactInfo = document.getElementById("contactsinfo");
   let responsiveLeftSide = document.getElementById("responsiveleftsidecontacts");
   let responsiveContactsDetails = document.getElementById("responsivecontactsmoto");
 
-  let userInfo = join.users.find(u => u.id === userId);
+  let users = await fetchData();
+  let userInfo = users.find(u => String(u.id) === String(userId));
   if (!userInfo) return;
 
   if (activeUserId === userId) {
@@ -97,16 +125,17 @@ function closeOverlay() {
   if (overlay) overlay.remove();
 }
 
-function editUser(userId) {
-  let user = join.users.find(u => u.id === userId);
+async function editUser(userId) {
+  let users = await fetchData();
+  let user = users.find(u => String(u.id) === String(userId));
   if (!user) return;
   let popUpEditUser = document.getElementById("body");
   popUpEditUser.innerHTML += editUserTemplate(user);
   contactsLoad();
 }
 
-function deleteUser(userId) {
-  join.users = join.users.filter(u => u.id !== userId);
+async function deleteUser(userId) {
+  await FIREBASE_USERS.child(userId).remove();
   if (activeUserId === userId) {
     activeUserId = null;
     document.getElementById("contactsinfo").innerHTML = "";
@@ -114,21 +143,21 @@ function deleteUser(userId) {
   contactsLoad();
 }
 
-function saveUser(userId) {
+async function saveUser(userId) {
 
-  const nameEl = document.getElementById('edit_name');
-  const emailEl = document.getElementById('edit_email');
-  const phoneEl = document.getElementById('edit_phone');
-  const user = join.users.find(u => u.id === userId);
-  if (!user) return;
-  user.name = nameEl.value.trim();
-  user.email = emailEl.value.trim();
-  user.phone = phoneEl.value.trim();
+  const nameEl = document.getElementById('edit_name').value.trim();
+  const emailEl = document.getElementById('edit_email').value.trim();
+  const phoneEl = document.getElementById('edit_phone').value.trim();
 
+await FIREBASE_USERS.child(userId).update({
+  name: nameEl,
+  email: emailEl,
+  phone: phoneEl
+})
   closeOverlay();
   contactsLoad();
   contactsRender(userId);
-  updateDetailsPanel(user);
+  updateDetailsPanel({ name: nameEl, email: emailEl, phone: phoneEl });
 }
 
 function updateDetailsPanel(user) {
@@ -141,24 +170,25 @@ function updateDetailsPanel(user) {
   if (phoneNode) phoneNode.textContent = user.phone;
 }
 
-function createContact() {
+async function createContact() {
   let nameNew = document.getElementById("name_new_user").value.trim();
   let emailNew = document.getElementById("email_new_user").value.trim();
   let phoneNew = document.getElementById("phone_new_user").value.trim();
 
+  let entry = firebase.database().ref("users").push();
+  let firebaseId = entry.key;
   let newUser = {
-    id: nextUserId++,
+    id: firebaseId.toString(),
     name: nameNew,
     email: emailNew,
     phone: phoneNew,
     badge: "/assets/icons/person.svg"
   };
 
-  join.users.push(newUser);
-
   addedNewUser();
   contactsLoad();
 
+  await entry.set(newUser);
 }
 
 async function addedNewUser() {

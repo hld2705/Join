@@ -16,7 +16,7 @@
     background-color: #091931;
 }
 
-body, html {
+body{
     display: flex;
     height: auto;
 }

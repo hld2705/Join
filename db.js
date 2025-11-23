@@ -47,7 +47,7 @@ async function setCurrentUser(userId) {
     await saveData('users', user);
   }
 }
-
+/*
 async function findLoggedInUser() {
   loggedInUser = null;
   for (let i = 0; i < users.length; i++) {
@@ -57,9 +57,9 @@ async function findLoggedInUser() {
       break;
     }
   }
-}
+}*/
 
 document.addEventListener('DOMContentLoaded', async () => {
   await loadData();
-  await findLoggedInUser();
+ // await findLoggedInUser();
 });
