@@ -321,6 +321,7 @@ function openEditOverlay(taskId) {
   setTimeout(() => {
     changePriorityColor(task.priority);
   }, 20);
+  
   let bg = document.getElementById('edit-overlay-background');
   let formContainer = document.getElementById('edit-task-form-container');
   if (!bg || !formContainer) return;
@@ -347,15 +348,16 @@ function animateDetailedCardOut(overlay) {
 async function closeEditOverlay() {
   let bg = document.getElementById('edit-overlay-background');
   if (!bg) return;
-
   await editTask();
   await loadData();
   detailedCardInfo(openedCardId);
-  await dragAndDrop()
+  await dragAndDrop();
   bg.classList.remove('is-open');
-  // closeOverlayCardInstant();
+  //closeOverlayCardInstant();
   openDetailedInfoCardInstant();
+  closeOverlayCardInstant();
 }
+
 
 document.body.classList.remove('no-scroll');
 if (openedCardId !== null) {
