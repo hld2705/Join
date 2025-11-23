@@ -1491,7 +1491,6 @@ progress::-webkit-progress-value {
 .task-container {
   width: 260px;
   margin-top: 20px;
-  display: flex;
   gap: 20px;
 }
 
@@ -1771,6 +1770,11 @@ progress::-webkit-progress-value {
 
 
 
+.task-container {
+  margin-top: 20px;
+  display: flex;
+
+}
 
   .notasks-container {
     min-width: 90vw;
