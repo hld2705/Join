@@ -13,15 +13,16 @@ body {
   background: var(--bg);
   margin: 0px;
   padding: 0px;
-  height: 100%;
 }
-
 
 .hidden {
   display: none !important;
 }
 
-
+.layout {
+  display: flex;
+  align-items: flex-start;
+}
 
 .title-and-search {
   display: flex;

@@ -127,7 +127,7 @@ function editTask() {
     for (const key in editTaskData) {
         const value = editTaskData[key];
         if (key === "main") continue;
-        if (value === "" || value === undefined ||  value === null) continue;
+        if (value === "" || value === undefined || value === null) continue;
         filteredData[key] = value;
     }
 
