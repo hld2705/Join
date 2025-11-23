@@ -3,7 +3,7 @@ let mediumActive = false;
 let lowActive = false;
 let task = [];
 let names = [];
-let taskFormURL = "/addtask/form_task.html";
+let taskFormURL = "/add_task/form_task.html";
 let subtaskCounter = 0;
 
 function init() {
