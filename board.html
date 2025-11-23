@@ -46,16 +46,17 @@
         <img src="./assets/Board.svg" alt="Board Icon" />
         <p>Board</p>
       </a>
-        <a href="../contacts.html">
+      <a href="../contacts.html">
         <img src="./assets/contacts.svg" alt="Contacts Icon" />
         <p>Contacts</p>
       </a>
     </nav>
 
     <footer>
-     <a class="legal-notice" href="privacy_policy.html">Privacy Policy</a>
+      <a class="legal-notice" href="privacy_policy.html">Privacy Policy</a>
       </a>
-      <a class="legal-notice" href="../legal_notice.html"><p>Legal notice</p>
+      <a class="legal-notice" href="../legal_notice.html">
+        <p>Legal notice</p>
       </a>
     </footer>
   </section>
@@ -80,47 +81,65 @@
       <div class="board-top-content">
         <div class="board-title">
           <h1>Board</h1>
+          <img class="openaddtaskoverlayresponsive" src="./assets/plus add task.svg" onclick="openAddTaskOverlay()">
         </div>
         <div class="search-bar-container">
           <div class="search-bar">
-            <input placeholder="Find Task" class="board-search-input"  oninput="filterBoardCards(this.value)">
+            <input placeholder="Find Task" class="board-search-input" oninput="filterBoardCards(this.value)">
             <img class="seperation-line" src="./assets/Vector 5.png">
             <img class="search-icon" src="./assets/search.svg">
             <button onclick="openAddTaskOverlay()" class="board-add-task-button">Add Task
               <img src="./assets/add.png">
             </button>
-            <img class="openaddtaskoverlayresponsive" src="./assets/plus add task.svg" onclick="openAddTaskOverlay()" >
+
           </div>
         </div>
       </div>
 
       <div class="board-search-responsive">
-        <input placeholder="Find Task" class="board-search-input-responsive"  oninput="filterBoardCards(this.value)">
+        <input placeholder="Find Task" class="board-search-input-responsive" oninput="filterBoardCards(this.value)">
         <img class="seperation-line-responsive" src="./assets/Vector 5.png">
         <img class="search-icon-responsive" src="./assets/search.svg">
       </div>
 
       <div class="distribution">
-        <div class="distribution-progress">To do
-          <img onclick="openAddTaskOverlay()" class="distribution-icon" src="./assets/plus button.png">
+
+        <div class="distribution-progress">
+          <div class="distribution-text-icon-wrapper">To do
+            <img onclick="openAddTaskOverlay()" class="distribution-icon" src="./assets/plus button.png">
+          </div>
+          <div class="task-container" id="todo-container" ondrop="moveTo(event, 'todo')"
+            ondragover="dragoverHandler(event)"></div>
+
         </div>
 
-        <div class="distribution-progress">In progress
-          <img onclick="openAddTaskOverlay()" class="distribution-icon" src="./assets/plus button.png">
+        <div class="distribution-progress">
+          <div class="distribution-text-icon-wrapper">In progress
+            <img onclick="openAddTaskOverlay()" class="distribution-icon" src="./assets/plus button.png">
+          </div>
+          <div class="task-container" id="in-progress-container" ondrop="moveTo(event, 'inprogress')"
+            ondragover="dragoverHandler(event)"></div>
         </div>
 
-        <div class="distribution-progress">Await feedback
-          <img onclick="openAddTaskOverlay()" class="distribution-icon" src="./assets/plus button.png">
+        <div class="distribution-progress">
+          <div class="distribution-text-icon-wrapper">Await feedback
+            <img onclick="openAddTaskOverlay()" class="distribution-icon" src="./assets/plus button.png">
+          </div>
+          <div class="task-container" id="feedback-container" ondrop="moveTo(event, 'review')"
+            ondragover="dragoverHandler(event)"></div>
         </div>
 
-        <div class="distribution-progress">Done</div>
+        <div class="distribution-progress">Done
+          <div class="task-container" id="done-container" ondrop="moveTo(event, 'done')"
+            ondragover="dragoverHandler(event)"></div>
+        </div>
       </div>
 
-      <div class="template-overview" id="template-overview">
-        <div class="task-container" id="todo-container" ondrop="moveTo(event, 'todo')" ondragover="dragoverHandler(event)"></div>
-        <div class="task-container" id="in-progress-container" ondrop="moveTo(event, 'inprogress')" ondragover="dragoverHandler(event)"></div>
-        <div class="task-container" id="feedback-container" ondrop="moveTo(event, 'review')" ondragover="dragoverHandler(event)"></div>
-        <div class="task-container" id="done-container" ondrop="moveTo(event, 'done')" ondragover="dragoverHandler(event)"></div>
+
+
+
+
+
       </div>
 
 
