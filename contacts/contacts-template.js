@@ -1,11 +1,11 @@
-function contactsLoadTemplate(users, i) {
+function contactsLoadTemplate(user) {
   return `
-      <div class="contact-item" onclick="contactsRender(${users[i].id})">
+      <div class="contact-item" onclick="contactsRender('${user.id}')">
         <span class="contact-name">
-          <img class="contact-badge" alt="${users[i].name}" src="./${users[i].badge}"> 
-          <p>${users[i].name}</p>
+          <img class="contact-badge" alt="${user.name}" src="./${user.badge}"> 
+          <p>${user.name}</p>
         </span>
-        <span class="contact-email">${users[i].email}</span>
+        <span class="contact-email">${user.email}</span>
       </div>
     `;
 }
@@ -18,11 +18,11 @@ function contactsRenderTemplate(userInfo) {
           <div class="name-edit-delete-placement">
               <p class="contactinfo-name" id="detailed_name">${userInfo.name}</p>
               <div class="edit-delete-icons-placement">
-                <div class="contactinfo-icons-text-placement" onclick="editUser(${userInfo.id})">
+                <div class="contactinfo-icons-text-placement" onclick="editUser('${userInfo.id}')">
                   <img class="contactinfo-icons" src="./assets/icons/edit.svg">
                   <p>Edit</p>
                 </div>
-                <div class="contactinfo-icons-text-placement" onclick="deleteUser(${userInfo.id})">
+                <div class="contactinfo-icons-text-placement" onclick="deleteUser('${userInfo.id}')">
                   <img class="contactinfo-icons" src="./assets/icons/delete.svg">
                   <p>Delete</p>
                 </div>
@@ -141,7 +141,7 @@ function editUserTemplate(user) {
                     <div class="editcontact-button-cancel">
                       <button class="button-cancel">Delete</button>
                     </div>
-                    <div class="editcontact-button-create-contact" onclick="saveUser(${user.id})">
+                    <div class="editcontact-button-create-contact" onclick="saveUser('${user.id}')">
                       <button class="button-create">Save</button>
                       <img src="./assets/check.svg">
                     </div>
@@ -160,11 +160,11 @@ function addedNewUserTemplate() {
 
 function editUserOptionsResponsiveTemplate(userId) {
   return `<div class="contactoptions">
-   <div class="iconsresponsiveedit" onclick="editUser(${userId})">
+   <div class="iconsresponsiveedit" onclick="editUser('${userId}')">
     <img src="./assets/icons/edit.svg">
     <p>Edit</p>
     </div>
-    <div class="iconsresponsivedelete" onclick="deleteUser(${userId})">
+    <div class="iconsresponsivedelete" onclick="deleteUser('${userId}')">
     <img src="./assets/icons/delete.svg">
     <p>Delete</p>
     </div>
