@@ -116,12 +116,12 @@ function renderSubtaskEdit(subtasks) {
           </div>
 
           <div class="subtask-icons subtaskoutput-icon-container">
-            <img class="edit-icon" src="../assets/edit.png" alt="edit">
-            <img class="delete-icon" src="../assets/delete.svg" alt="delete">
+            <img class="edit-icon" src="./assets/edit.png" alt="edit">
+            <img class="delete-icon" src="./assets/delete.svg" alt="delete">
           </div>
           
           <div class="edit-subtask-icons hidden">
-            <img id="edit-delete-icon" class="delete-icon" src="../assets/delete.svg" alt="delete">
+            <img id="edit-delete-icon" class="delete-icon" src="./assets/delete.svg" alt="delete">
             <div class="divider"></div>
             <img id="edit-accept-icon" class="subtask-check-svg" src="../assets/check-grey.svg" alt="accept">
           </div>
@@ -143,7 +143,7 @@ function editOverlayTemplate(task) {
     if (!formContainer) return;
     if (formContainer) {
         formContainer.innerHTML =
-            `
+              `
 <form novalidate return false; class="task-form">
     <div id="badge-overlay">
         <a href="../legal_notice.html">Legal Notice</a>
@@ -171,7 +171,7 @@ function editOverlayTemplate(task) {
                         <label for="date-input" style="align-items: center; gap: 6px; cursor: pointer;">
                             <input value="${task.enddate}" type="date" required id="date-input" class="input" placeholder="dd/mm/yyyy">
                             <img id="calendar-icon" onclick="openCalendar()" class="date-icon"
-                                src="../add_task_assets/img/event.svg">
+                                src="./add_task_assets/img/event.svg">
                         </label>
                         <p class="required-mssg" id="required-message-date"></p>
                     </div>
@@ -229,10 +229,10 @@ function editOverlayTemplate(task) {
                     <div class="subtask-input-container">
                         <input type="text" id="subtask-input" class="input subtask-input" placeholder="Add new subtask">
                         <div id="cancel-accept-container" class="cancel-accept-container">
-                            <img id="subtask-cancel" class="subtask-close-svg" src="../assets/close.svg">
+                            <img id="subtask-cancel" class="subtask-close-svg" src="./assets/close.svg">
                             <div class="divider"></div>
                             <div class="subcheck">
-                                <img id="subtask-accept" class="subtask-check-svg" src="../assets/check-grey.svg">
+                                <img id="subtask-accept" class="subtask-check-svg" src="./assets/check-grey.svg">
                             </div>
                         </div>
 

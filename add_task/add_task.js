@@ -3,7 +3,7 @@ let mediumActive = false;
 let lowActive = false;
 let task = [];
 let names = [];
-let taskFormURL = "/add_task/form_task.html";
+let taskFormURL = "../add_task/form_task.html";
 let subtaskCounter = 0;
 
 function init() {
@@ -72,13 +72,12 @@ function appendUserItem(dropList, user) {
     div.dataset.name = user.name.toLowerCase();
     name.textContent = user.name;
 
-    if (user.newUser) {
-        img.src = "../assets/icons/person.svg";
-        div.dataset.badge = "../assets/icons/person.svg";
-    } else {
-        img.src = user.badge.replace("./", "/");
-        div.dataset.badge = user.badge.replace("./", "/");
-    }
+    let badgePath = user.badge.startsWith("./")
+        ? user.badge.replace("./", "./")
+        : user.badge;
+
+    img.src = badgePath;
+    div.dataset.badge = badgePath;
 
     img.classList.add("userBadge");
     div.append(img, name, renderCheckButton());

@@ -1,3 +1,4 @@
+
 @media(max-width:1100px){
 
     #greetings{
@@ -22,7 +23,7 @@ header{
   display: block;             
     width: 100px;               
     height: 32px;
-    background-image: url("/assets/logo-black.svg");
+    background-image: url("../assets/logo-black.svg");
 }
 
 .left-side {
@@ -31,10 +32,10 @@ header{
         width: 100%;
         left: 0;
         right: 0;
-        bottom: 0;
         background-color: #2A3647;
         align-items: center;
-        z-index: 100;                   
+        z-index: 100;
+        top: 0;                  
   }
 
   .join-logo { display: none; }      

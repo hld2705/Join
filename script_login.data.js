@@ -34,7 +34,7 @@ window.logIn = async function logIn() {
     phone: "",
     password: password,
     login: 1,
-    badge: "../assets/icons/person.svg",
+    badge: "./assets/icons/person.svg",
     newUser: true,
   };
 
@@ -65,7 +65,7 @@ async function loginUserPushedInfo() {
   const newLoggeddUser = {
     email: email,
     password: password,
-    badge: "../assets/icons/person.svg",
+    badge: "./assets/icons/person.svg",
   };
   await entry.set(newLoggeddUser);
 
