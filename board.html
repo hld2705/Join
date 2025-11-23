@@ -62,10 +62,10 @@
 
   <section class="right-side">
     <header>
-      <img class="responsive-logo" src="../assets/logo.svg" alt="Logo">
+      <img class="responsive-logo-board" src="../assets/logo.svg" alt="Logo">
       <h3>Kanban Project Management Tool</h3>
       <div class="user-info">
-        <a href="./help.html"><img class="Hilfe" src="./assets/help.svg" alt="help"></a>
+        <a class="user-info-help" href="./help.html"><img class="Hilfe" src="./assets/help.svg" alt="help"></a>
         <img class="profil" src="./assets/sofia.svg" alt="badges-header">
         <div id="navbar" class="navbar">
           <a href="legal_notice.html">Legal Notice</a>
@@ -89,8 +89,15 @@
             <button onclick="openAddTaskOverlay()" class="board-add-task-button">Add Task
               <img src="./assets/add.png">
             </button>
+            <img class="openaddtaskoverlayresponsive" src="./assets/plus add task.svg" onclick="openAddTaskOverlay()" >
           </div>
         </div>
+      </div>
+
+      <div class="board-search-responsive">
+        <input placeholder="Find Task" class="board-search-input-responsive"  oninput="filterBoardCards(this.value)">
+        <img class="seperation-line-responsive" src="./assets/Vector 5.png">
+        <img class="search-icon-responsive" src="./assets/search.svg">
       </div>
 
       <div class="distribution">
