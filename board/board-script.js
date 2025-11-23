@@ -321,7 +321,7 @@ function openEditOverlay(taskId) {
   setTimeout(() => {
     changePriorityColor(task.priority);
   }, 20);
-  
+
   let bg = document.getElementById('edit-overlay-background');
   let formContainer = document.getElementById('edit-task-form-container');
   if (!bg || !formContainer) return;
@@ -389,3 +389,4 @@ function filterBoardCards(value) {
     }
   }
 }
+
