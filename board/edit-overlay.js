@@ -99,7 +99,7 @@ function afterFrameReady(doc) {
   const clearBtn = doc.getElementById('clear-button');
   if (addBtn) addBtn.style.display = 'none';
   if (clearBtn) clearBtn.style.display = 'none';
-  // Prevent any accidental activation of add-task inside edit iframe
+
   try {
     doc.addEventListener('click', (ev) => {
       const t = ev.target;
@@ -111,7 +111,7 @@ function afterFrameReady(doc) {
     }, true);
   } catch {}
 
-  // Prefill form fields with the task being edited (logic-only, no UI changes)
+
   try {
     const w = doc.defaultView || doc.parentWindow;
     const task = w?.__EDIT_TASK__ || window.__editTaskPending || null;
@@ -125,7 +125,7 @@ function afterFrameReady(doc) {
       const cat = (String(task.main||'').toLowerCase()==='techtask') ? 'Technical Task' : 'User Story';
       const catInput = byId('category-input'); if (catInput) catInput.placeholder = cat;
       const prio = String(task.priority||'').toLowerCase();
-      // Best-effort set priority CSS like the form expects
+
       const urgent = byId('urgent');
       const med = byId('medium-input');
       const low = byId('low-input');
@@ -160,7 +160,7 @@ function openEditOverlay() {
     if (!doc) return;
     try { await injectCss(doc); } catch {}
     try { await injectJs(doc); } catch {}
-    // Pass edit context into iframe (for scripts that can use it)
+
     try {
       const w = frame.contentWindow;
       w.__EDIT_MODE__ = true;
@@ -206,7 +206,6 @@ function openEditOverlay() {
         priority: getPrio()
       };
       document.dispatchEvent(new CustomEvent('task:update', { detail: { task: updated } }));
-      // Direct save fallback in case listeners are not active
       try {
         const BASE = 'https://join-gruppenarbeit-75ecf-default-rtdb.europe-west1.firebasedatabase.app';
         await fetch(`${BASE}/tasks/${updated.id}.json`, {

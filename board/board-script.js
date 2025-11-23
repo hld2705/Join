@@ -2,7 +2,7 @@
 const boardTaskFormURL = './add_task/form_task.html';
 let originalParent;
 let isDragging = false;
-//---------------------Drag&Drop------------------------
+
 function dragAndDrop() {
   let container = document.getElementById("template-overview");
   const containers = {
@@ -280,7 +280,6 @@ function openAddTaskOverlay() {
   animateOverlayIn(overlay);
 }
 
-/*Funktion für firebase, Karten sollten sich nicht verändern */
 function editTask() {
   const editTaskData = getTaskInputs();
   const oldTask = tasks.find(t => t.id === openedCardId);
@@ -355,7 +354,6 @@ async function closeEditOverlay() {
   detailedCardInfo(openedCardId);
   await dragAndDrop();
   bg.classList.remove('is-open');
-  //closeOverlayCardInstant();
   openDetailedInfoCardInstant();
   closeOverlayCardInstant();
 }

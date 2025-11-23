@@ -3,7 +3,7 @@ let mediumActive = false;
 let lowActive = false;
 let task = [];
 let names = [];
-let taskFormURL = "/add_task/form_task.html";
+let taskFormURL = "/addtask/form_task.html";
 let subtaskCounter = 0;
 
 function init() {
@@ -55,9 +55,9 @@ async function showUserName() {
     let users = await getAllUser("/users");
 
     if (dropList.childElementCount > 0) return;
-users
-    .filter(u => u !== null) 
-  .forEach(u => appendUserItem(dropList, u));
+    users
+        .filter(u => u !== null)
+        .forEach(u => appendUserItem(dropList, u));
 }
 
 
@@ -66,12 +66,20 @@ function appendUserItem(dropList, user) {
     let div = document.createElement("div");
     let name = document.createElement("span");
     let img = document.createElement("img");
+
     div.classList.add("Assigned-dropdown-username");
     div.dataset.userId = user.id;
     div.dataset.name = user.name.toLowerCase();
     name.textContent = user.name;
-    img.src = user.badge.replace("./", "/");
-    div.dataset.badge = user.badge.replace("./", "/");
+
+    if (user.newUser) {
+        img.src = "../assets/icons/person.svg";
+        div.dataset.badge = "../assets/icons/person.svg";
+    } else {
+        img.src = user.badge.replace("./", "/");
+        div.dataset.badge = user.badge.replace("./", "/");
+    }
+
     img.classList.add("userBadge");
     div.append(img, name, renderCheckButton());
     dropList.appendChild(div);

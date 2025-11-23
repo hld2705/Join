@@ -35,6 +35,7 @@ window.logIn = async function logIn() {
     password: password,
     login: 1,
     badge: "../assets/icons/person.svg",
+    newUser: true,
   };
 
   await entry.set(newSignedUser);

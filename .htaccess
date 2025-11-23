@@ -1,0 +1,5 @@
+Options -Indexes
+RewriteEngine On
+
+AllowEncodedSlashes On
+RewriteRule ^(.*)$ $1 [L]
