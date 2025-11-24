@@ -1,20 +1,7 @@
 
-@media(max-width:1100px){
+@media(max-width:1400px){
 
-    #greetings{
-        display: none;
-    }
-    body.mobile-gateway #mobile-gateway { display: flex; flex-direction: column; min-height: 100dvh; }
-    body.mobile-gateway #summary-root   { display: none; }
-
-  h1.mg-greeting{
-    margin-top: 250px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-  }
-
+    
 header{
     height: 80px;
 }
@@ -26,17 +13,19 @@ header{
     background-image: url("../assets/logo-black.svg");
 }
 
-.left-side {
-          position: fixed;
-        height: 100px;
-        width: 100%;
-        left: 0;
-        right: 0;
-        background-color: #2A3647;
+ .left-side {
+        flex-direction: row;
+        justify-content: space-around;
         align-items: center;
-        z-index: 100;
-        top: 0;                  
-  }
+        width: 100vw;
+        height: 70px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        top: auto;
+        transform: none;
+        z-index: 1000;
+    }
 
   .join-logo { display: none; }      
 
@@ -48,16 +37,17 @@ header{
     justify-content: space-around;
   }
 
-  .left-side a {
-    height: 76px;
-    width: 80px;
-    padding: 0;
-    gap: 6px;
-    flex-direction: column;          
-    align-items: center;
-    justify-content: center;
-    color: #CDCDCD;
-  }
+  
+    .left-side a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 8px;
+        text-decoration: none;
+        color: #CDCDCD;
+        height: 0px !important;
+    }
 
   nav a { padding-left: 0; }
   
@@ -65,9 +55,7 @@ header{
     display: none;
   }
 
-  #greetings{
-    display: none;
-  }
+ 
 
   h3{
     display: none;
@@ -83,8 +71,36 @@ header{
   }
 
 }
+@media(max-width: 1200px){
+  .greeting{
+        display: none;
+    }
+    body.mobile-gateway #mobile-gateway { display: flex; flex-direction: column; min-height: 100dvh; }
+    body.mobile-gateway #summary-root   { display: none; }
+
+  .mg-greeting{
+    margin-top: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+   .greetings{
+    display: none;
+  }
+}
 
 @media(max-width: 900px){
+
+.task-count{
+  font-size: 47px;
+}
+  #summary-todo{
+
+width: 186px;
+height: 110px;
+  }
 
  .summary-header{
     display: flex;
@@ -97,11 +113,12 @@ header{
   .summary-header span { order: 2; font-size: 20px;}
   .summary-header p    { order: 3; align-items: center;transform: rotate(90deg);height: 90px; }
 
-  .summary-todo{
-    width: 186px;
-    height: 110px;
-  }
+  
 
+  .deadline-container img{
+    width: 40px;
+    height: 40px;
+  }
   .summary-task-status{
     width: 396px;
     height: 110px;
@@ -119,13 +136,26 @@ header{
   width: 40px;
   height: 40px;
 }
+#deadline-container img{
 
- .icon-summary{
+  width: 40px;
+  height: 40px;
+}
+
+.icon-summary{
+
+  width: 40px;
+  height: 40px;
+}
+ .icon-to-do{
     width: 40px;
     height: 40px;
     margin-top: 0;
   }
-
+.icon-todo{
+  height: 40px;
+  width: 40px;
+}
   .number{
     font-size: 47px;
   }
@@ -168,10 +198,23 @@ header{
 
     font-size: 11px;
   }
+ .split{
+    padding-left: 10px;
+  }
+  
+.urgent-date-text{
+    font-size: 16px;
+  }
+
+  .left-content{
+
+    flex: 0 0 0 ;
+  }
 }
 
 @media(max-width: 450px){
 
+ 
   .todo{
     display: flex;
     flex-direction: column;
