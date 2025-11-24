@@ -9,27 +9,27 @@
 }
 
 .mainsection {
-    display: flex;
+    height: 100vh;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: left;
-    padding: 16px;
+    padding: 64px 0px 0px 64px;
     max-width: 100%;
     flex: 1 1 auto;
     overflow-y: auto;
-    flex: 1;    
+    flex: 1;
 }
 
 .display-position1 {
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  margin: 0 auto;
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    margin: 0 auto;
 }
 
 .left-side {
-    flex-shrink: 0; 
+    flex-shrink: 0;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -38,32 +38,39 @@
     position: relative;
 }
 
+.legal-notice-title {
+    font-size: 61px;
+    margin-top: 30px;
+}
 
 @media screen and (max-width: 780px) {
-    .display-position1{
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: left;
-    max-width: 100%;
-    padding: 0px;
+    .display-position1 {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: left;
+        max-width: 100%;
+        padding: 0px;
     }
-    .mainsection{
-    /*display: flex;*/
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: left;
-    max-width: 100%;
-    padding: 0px;
+
+    .mainsection {
+        /*display: flex;*/
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: left;
+        max-width: 100%;
+        padding: 0px;
     }
+
     .title1 {
-    text-align: left;
-    word-wrap: break-word;
-    width: 90%;
-    overflow-y: auto;
-    flex: 1 1 auto;
-}
+        text-align: left;
+        word-wrap: break-word;
+        width: 90%;
+        overflow-y: auto;
+        flex: 1 1 auto;
+    }
+
     .arrowleftresponsive {
         display: flex;
     }
@@ -82,7 +89,7 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-         margin: 0;
+        margin: 0;
         padding: 80px 20px 100px 20px;
     }
 

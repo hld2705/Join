@@ -73,7 +73,7 @@ function appendUserItem(dropList, user) {
     name.textContent = user.name;
 
     let badgePath = user.badge.startsWith("./")
-        ? user.badge.replace("./", "./")
+        ? user.badge.replace("./", "/")
         : user.badge;
 
     img.src = badgePath;
