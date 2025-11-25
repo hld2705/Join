@@ -15,44 +15,37 @@ function resetAllButton() {
     lowActive = false;
 }
 
-
-
 function changeUrgentColor() {
-    if (urgentActive) {
-        resetAllButton();
-    } else {
-        resetAllButton();
-        document.getElementById('urgent').classList.add("bg-red");
-        document.getElementById('urgent').classList.add("bg-red::placeholder");
-        document.getElementById('double-arrow').src = "../assets/arrows-up-white.png";
-        urgentActive = true;
-    }
-};
-
-function changeMediumColor() {
-    if (mediumActive) {
-        resetAllButton();
-    } else {
-        resetAllButton();
-        document.getElementById('medium-input').classList.add("bg-orange");
-        document.getElementById('medium-input').classList.add("bg-orange::placeholder");
-        document.getElementById("equal").src = "../assets/equal-white.svg";
-        mediumActive = true;
-    }
+  if (urgentActive) {
+    resetAllButton();
+  } else {
+    resetAllButton();
+    document.getElementById('urgent').classList.add("bg-red");
+    document.getElementById('double-arrow').src = "../assets/arrows-up-white.png";
+    urgentActive = true;
+  }
 }
 
-
+function changeMediumColor() {
+  if (mediumActive) {
+    resetAllButton();
+  } else {
+    resetAllButton();
+    document.getElementById('medium-input').classList.add("bg-orange");
+    document.getElementById("equal").src = "../assets/equal-white.svg";
+    mediumActive = true;
+  }
+}
 
 function changeLowColor() {
-    if (lowActive) {
-        resetAllButton();
-    } else {
-        resetAllButton();
-        document.getElementById('low-input').classList.add("bg-green");
-        document.getElementById('low-input').classList.add("bg-green::placeholder");
-        document.getElementById("double-down").src = "../assets/double-down-white.svg";
-        lowActive = true;
-    }
+  if (lowActive) {
+    resetAllButton();
+  } else {
+    resetAllButton();
+    document.getElementById('low-input').classList.add("bg-green");
+    document.getElementById("double-down").src = "../assets/double-down-white.svg";
+    lowActive = true;
+  }
 }
 
 function inputBorderColorSwitch(e) {
@@ -74,27 +67,30 @@ document.addEventListener("click", inputBorderColorSwitch)
 async function renderAssignDropdown() {
     let dropdownList = document.getElementById('dropdownList');
     let assignedInput = document.getElementById('assign-input');
-    let isOpen = dropdownList.classList.contains('open');
-    if (isOpen) {
+    if (dropdownList.classList.contains('open')) {
         dropdownList.classList.remove('open');
-        assignedInput.classList.remove('borderColorBlue');
         assignedInput.placeholder = "Select contact to assign";
         assignedInput.readOnly = true;
         switchAssignedArrow();
-    } else {
-        openAssignDropdown();
+        setTimeout(() => assignedInput.classList.remove('borderColorBlue'), 0);
+        return;
     }
-};
+    openAssignDropdown();
+}
+
 
 function openAssignDropdown() {
     let dropdownList = document.getElementById('dropdownList');
     let assignedInput = document.getElementById('assign-input');
     showUserName();
     dropdownList.classList.add('open');
-    assignedInput.classList.add('borderColorBlue');
     assignedInput.placeholder = "";
     assignedInput.readOnly = false;
     switchAssignedArrow();
+
+    setTimeout(() => {
+        assignedInput.classList.add('borderColorBlue');
+    }, 0);
 }
 
 
