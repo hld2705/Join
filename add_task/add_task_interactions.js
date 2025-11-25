@@ -1,11 +1,5 @@
 
 
-if (window.location.pathname.includes("add_task")) {
-    ASSETS = "../assets/";
-} else {
-    ASSETS = "./assets/";
-}
-
 
 function resetAllButton() {
     document.getElementById('urgent').classList.remove('bg-red');
@@ -46,6 +40,8 @@ function changeMediumColor() {
         mediumActive = true;
     }
 }
+
+
 
 function changeLowColor() {
     if (lowActive) {

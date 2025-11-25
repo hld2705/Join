@@ -60,6 +60,7 @@ async function contactsRender(userId) {
   let contactInfo = document.getElementById("contactsinfo");
   let responsiveLeftSide = document.getElementById("responsiveleftsidecontacts");
   let responsiveContactsDetails = document.getElementById("responsivecontactsmoto");
+
   let lastHighlight = document.getElementById(`contactfield${activeUserId}`);
   let currentHighlight = document.getElementById(`contactfield${userId}`);
 
@@ -85,19 +86,27 @@ async function contactsRender(userId) {
   activeUserId = userId;
 
   if (window.innerWidth <= 780) {
-    if (responsiveLeftSide) {
-      responsiveLeftSide.style.display = "none";
-    }
-    if (responsiveContactsDetails) {
-      responsiveContactsDetails.style.display = "block";
-    }
+    if (responsiveLeftSide) responsiveLeftSide.style.display = "none";
+    if (responsiveContactsDetails) responsiveContactsDetails.style.display = "block";
   }
 
   let users = await fetchData();
   let userInfo = users.find(u => String(u.id) === String(userId));
   if (!userInfo) return;
+
+    setTimeout(() => {
+          contactInfo.classList.add("is-open");
+    }, 50);
+  
+  if (window.innerWidth <= 780) {
+    if (responsiveLeftSide) responsiveLeftSide.style.display = "none";
+    if (responsiveContactsDetails) responsiveContactsDetails.style.display = "block";
+  }
+
+  contactInfo.classList.remove("is-open");
   contactInfo.innerHTML = "";
   contactInfo.innerHTML = contactsRenderTemplate(userInfo);
+
   updateResponsiveButtons();
 }
 
