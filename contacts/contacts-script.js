@@ -173,7 +173,7 @@ async function createContact() {
   let nameNew = document.getElementById("name_new_user").value.trim();
   let emailNew = document.getElementById("email_new_user").value.trim();
   let phoneNew = document.getElementById("phone_new_user").value.trim();
-
+  
   let entry = firebase.database().ref("users").push();
   let firebaseId = entry.key;
   let newUser = {
@@ -186,8 +186,13 @@ async function createContact() {
 
   addedNewUser();
   contactsLoad();
-
+  if (newUser.name === ""){
+    alert("Name field is mandatory!")
+    onclick=addNewContact();
+  }
+  
   await entry.set(newUser);
+
 }
 
 async function addedNewUser() {
