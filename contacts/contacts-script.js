@@ -141,11 +141,23 @@ function editUserOptionsResponsive() {
 function addNewContact() {
   let popUp = document.getElementById("body");
   popUp.innerHTML += addNewContactTemplate();
+
+  let contactContainer = document.getElementById('contact-container')
+  if (contactContainer) {
+    setTimeout(() => {
+      contactContainer.classList.add('is-open')
+    }, 20);
+  }
 }
 
 function closeOverlay() {
+  let contactContainer = document.getElementById('contact-container');
   const overlay = document.getElementById("closeoverlay");
+  contactContainer.classList.remove('is-open');
+ setTimeout(() => {
   if (overlay) overlay.remove();
+}, 250);
+
 }
 
 async function editUser(userId) {

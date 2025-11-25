@@ -266,6 +266,14 @@ h1 {
 .inputfield::placeholder{
     color: #D1D1D1
 }
+
+.index-content {
+    position:relative;
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+}
+
 @media screen and (max-width: 780px) {
     .logo {
         top: 80px;

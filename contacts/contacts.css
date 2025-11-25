@@ -501,10 +501,19 @@ body {
     display: none;
 }
 
-.createnewcontactmaincontainer {
+#contact-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
     border-radius: 30px;
     background: white;
     overflow: hidden;
+    transform: translate(calc(-50% + 120vw), -50%);
+    transition: transform .25s;
+}
+
+#contact-container.is-open {
+    transform: translate(-50%, -50%);
 }
 
 .addednewuserdiv {
@@ -531,7 +540,7 @@ body {
     display: none;
 }
 
-.left-side{
+.left-side {
     display: flex;
     justify-content: center;
     flex-direction: column;

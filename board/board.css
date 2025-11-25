@@ -1298,7 +1298,6 @@ progress::-webkit-progress-value {
   cursor: default;
   transition: transform .25s;
   will-change: transform;
-
   position: fixed;
   top: 50%;
   left: 50%;
