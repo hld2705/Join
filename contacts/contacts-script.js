@@ -2,31 +2,31 @@
 let activeUserId = null;
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDaAKocqkIROo_InISQbRjsoG8z1JCK3g0",
-    authDomain: "join-gruppenarbeit-75ecf.firebaseapp.com",
-    databaseURL: "https://join-gruppenarbeit-75ecf-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "join-gruppenarbeit-75ecf",
-    storageBucket: "join-gruppenarbeit-75ecf.firebasestorage.app",
-    messagingSenderId: "180158531840",
-    appId: "1:180158531840:web:c894124a7d6eb515364be5",
-    measurementId: "G-5R563MH52P"
+  apiKey: "AIzaSyDaAKocqkIROo_InISQbRjsoG8z1JCK3g0",
+  authDomain: "join-gruppenarbeit-75ecf.firebaseapp.com",
+  databaseURL: "https://join-gruppenarbeit-75ecf-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "join-gruppenarbeit-75ecf",
+  storageBucket: "join-gruppenarbeit-75ecf.firebasestorage.app",
+  messagingSenderId: "180158531840",
+  appId: "1:180158531840:web:c894124a7d6eb515364be5",
+  measurementId: "G-5R563MH52P"
 };
 
 firebase.initializeApp(firebaseConfig);
 
 const FIREBASE_USERS = firebase.database().ref("users");
 
-async function fetchData(){
+async function fetchData() {
   let response = await FIREBASE_USERS.once("value")
   let data = response.val();
- return data ? Object.entries(data).map(([id, user]) => ({ id: String(id), ...user })) : [];
+  return data ? Object.entries(data).map(([id, user]) => ({ id: String(id), ...user })) : [];
 
 }
 
 async function contactsLoad() {
   let contacts = document.getElementById("contactsjs");
   contacts.innerHTML = "";
-  
+
   let users = await fetchData();
   users = users.filter(u => u && u.name);
   users.sort((a, b) => a.name.localeCompare(b.name));
@@ -61,6 +61,29 @@ async function contactsRender(userId) {
   let contactInfo = document.getElementById("contactsinfo");
   let responsiveLeftSide = document.getElementById("responsiveleftsidecontacts");
   let responsiveContactsDetails = document.getElementById("responsivecontactsmoto");
+  let lastHighlight = document.getElementById(`contactfield${activeUserId}`);
+  let currentHighlight = document.getElementById(`contactfield${userId}`);
+
+  if (activeUserId === userId) {
+    if (currentHighlight) {
+      currentHighlight.style.backgroundColor = "#fff";
+      currentHighlight.style.color = "#fff";
+    }
+    currentHighlight.style.color = "black";
+    activeUserId = null;
+    return;
+  }
+
+  if (lastHighlight) {
+    lastHighlight.style.backgroundColor = "#fff";
+  }
+
+  if (currentHighlight) {
+    currentHighlight.style.backgroundColor = "#2A3647";
+    currentHighlight.style.color = "#fff";
+  }
+
+
 
   let users = await fetchData();
   let userInfo = users.find(u => String(u.id) === String(userId));
@@ -80,10 +103,11 @@ async function contactsRender(userId) {
       responsiveContactsDetails.style.display = "block";
     }
   }
-  
+
   activeUserId = userId;
   contactInfo.innerHTML = "";
   contactInfo.innerHTML = contactsRenderTemplate(userInfo);
+
   updateResponsiveButtons();
 }
 
@@ -94,7 +118,7 @@ function updateResponsiveButtons() {
   if (window.innerWidth <= 780) {
     if (activeUserId) {
       if (responsiveAddContactId) responsiveAddContactId.style.display = "none";
-      if (responsiveEditContactId) responsiveEditContactId.style.display = "block";      
+      if (responsiveEditContactId) responsiveEditContactId.style.display = "block";
     } else {
       if (responsiveAddContactId) responsiveAddContactId.style.display = "flex";
       if (responsiveEditContactId) responsiveEditContactId.style.display = "none";
@@ -105,12 +129,12 @@ function updateResponsiveButtons() {
   }
 }
 
-function editUserOptionsResponsive(){
+function editUserOptionsResponsive() {
   let userId = activeUserId;
   let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
   if (window.innerWidth >= 780) {
     responsiveEditContactId.style.display = "none";
-  }else{responsiveEditContactId.style.display = "block";}
+  } else { responsiveEditContactId.style.display = "block"; }
   responsiveEditContactId.innerHTML = editUserOptionsResponsiveTemplate(userId);
 
 }
@@ -139,7 +163,9 @@ async function deleteUser(userId) {
     activeUserId = null;
     document.getElementById("contactsinfo").innerHTML = "";
   }
+  closeOverlay();
   contactsLoad();
+
 }
 
 async function saveUser(userId) {
@@ -148,11 +174,11 @@ async function saveUser(userId) {
   const emailEl = document.getElementById('edit_email').value.trim();
   const phoneEl = document.getElementById('edit_phone').value.trim();
 
-await FIREBASE_USERS.child(userId).update({
-  name: nameEl,
-  email: emailEl,
-  phone: phoneEl
-})
+  await FIREBASE_USERS.child(userId).update({
+    name: nameEl,
+    email: emailEl,
+    phone: phoneEl
+  })
   closeOverlay();
   contactsLoad();
   contactsRender(userId);
@@ -173,7 +199,7 @@ async function createContact() {
   let nameNew = document.getElementById("name_new_user").value.trim();
   let emailNew = document.getElementById("email_new_user").value.trim();
   let phoneNew = document.getElementById("phone_new_user").value.trim();
-  
+
   let entry = firebase.database().ref("users").push();
   let firebaseId = entry.key;
   let newUser = {
@@ -186,11 +212,11 @@ async function createContact() {
 
   addedNewUser();
   contactsLoad();
-  if (newUser.name === ""){
+  if (newUser.name === "") {
     alert("Name field is mandatory!")
-    onclick=addNewContact();
+    onclick = addNewContact();
   }
-  
+
   await entry.set(newUser);
 
 }
