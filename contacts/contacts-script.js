@@ -61,6 +61,29 @@ async function contactsRender(userId) {
   let contactInfo = document.getElementById("contactsinfo");
   let responsiveLeftSide = document.getElementById("responsiveleftsidecontacts");
   let responsiveContactsDetails = document.getElementById("responsivecontactsmoto");
+  let lastHighlight = document.getElementById(`contactfield${activeUserId}`);
+  let currentHighlight = document.getElementById(`contactfield${userId}`);
+
+  if (activeUserId === userId) {
+    if (currentHighlight) {
+      currentHighlight.style.backgroundColor = "#fff";
+      currentHighlight.style.color = "#fff";
+    }
+    currentHighlight.style.color = "black";
+    activeUserId = null;
+    return;
+  }
+
+  if (lastHighlight) {
+    lastHighlight.style.backgroundColor = "#fff";
+  }
+
+  if (currentHighlight) {
+    currentHighlight.style.backgroundColor = "#2A3647";
+    currentHighlight.style.color = "#fff";
+  }
+
+
 
   let users = await fetchData();
   let userInfo = users.find(u => String(u.id) === String(userId));
@@ -84,11 +107,14 @@ async function contactsRender(userId) {
   contactInfo.innerHTML = "";
   contactInfo.innerHTML = contactsRenderTemplate(userInfo);
 
+<<<<<<< HEAD
   setTimeout(() => {
     contactInfo.classList.add("is-open");
   }, 130);
 
   activeUserId = userId;
+=======
+>>>>>>> 9ecfdcaa6e4fbe9da55b0f3dfff307f447ad15d1
   updateResponsiveButtons();
 }
 
@@ -156,7 +182,9 @@ async function deleteUser(userId) {
     activeUserId = null;
     document.getElementById("contactsinfo").innerHTML = "";
   }
+  closeOverlay();
   contactsLoad();
+
 }
 
 async function saveUser(userId) {
