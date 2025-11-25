@@ -103,7 +103,6 @@ async function contactsRender(userId) {
   updateResponsiveButtons();
 }
 
-
 function updateResponsiveButtons() {
   let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
   let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
@@ -146,11 +145,10 @@ function addNewContact() {
 function closeOverlay() {
   let contactContainer = document.getElementById('contact-container');
   const overlay = document.getElementById("closeoverlay");
-   setTimeout(() => {
-  if (overlay) overlay.remove();
-}, 250);
-
   contactContainer.classList.remove('is-open');
+  setTimeout(() => {
+    if (overlay) overlay.remove();
+  }, 250);
 
 }
 
@@ -251,7 +249,6 @@ function reRenderContacts() {
   contactInfo.innerHTML = "";
   activeUserId = null;
   contactsLoad();
-
   let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
   if (responsiveAddContactId) {
     responsiveAddContactId.style.display = "flex";
@@ -275,3 +272,6 @@ window.contactsLoad = contactsLoad;
 window.contactsRender = contactsRender;
 window.addNewContact = addNewContact;
 window.closeOverlay = closeOverlay;
+
+
+

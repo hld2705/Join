@@ -23,6 +23,7 @@ body {
     width: 42px;
     height: 42px;
     border-radius: 45px;
+    padding-left: 30px;
 }
 
 .addnewcontact {
@@ -113,13 +114,8 @@ body {
 }
 
 .contact-name {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
     font-size: 20px;
     font-weight: 400;
-    width: 100%;
-    padding-right: 100px;
 }
 
 .contact-email {
@@ -130,12 +126,12 @@ body {
 }
 
 .contact-item {
-    display: flex;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: 50px auto;
     align-items: center;
-    flex-direction: column;
     width: 100%;
-    margin-top: 20px;
+    padding: 14px 24px;
+    gap: 64px;
     cursor: pointer;
 }
 
@@ -162,15 +158,6 @@ body {
     color: white;
 }
 
-.contactinfo {
-    padding-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    width: 100%;
-    flex-direction: column;
-}
-
 .contactinfo-badge {
     width: 120px;
     height: 120px;
@@ -178,6 +165,7 @@ body {
     opacity: 1;
     gap: 10px;
     border-width: 3px;
+    
 }
 
 .picture-name-contactinfo {
@@ -501,6 +489,12 @@ body {
     display: none;
 }
 
+.contact-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
 #contact-container {
     position: fixed;
     top: 50%;
@@ -514,6 +508,21 @@ body {
 
 #contact-container.is-open {
     transform: translate(-50%, -50%);
+}
+
+#contactsinfo {
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    flex-direction: column;
+    transform: translateX(200%);
+    transition: transform .20s;
+}
+
+#contactsinfo.is-open {
+    transform: translateX(0);
 }
 
 .addednewuserdiv {
