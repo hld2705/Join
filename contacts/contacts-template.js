@@ -44,7 +44,7 @@ function contactsRenderTemplate(userInfo) {
 
 function addNewContactTemplate() {
   return `<div class="createnewcontact-overlay" id="closeoverlay" onclick="closeOverlay()">
-            <div class="createnewcontactmaincontainer">
+            <div id="contact-container" class="createnewcontactmaincontainer">
               <div class="createnewcontact-table" onclick="event.stopPropagation()">
                 <div class="left-blue-side">
                   <div class="createnewcontact-logo">

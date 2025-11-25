@@ -2,31 +2,31 @@
 let activeUserId = null;
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDaAKocqkIROo_InISQbRjsoG8z1JCK3g0",
-    authDomain: "join-gruppenarbeit-75ecf.firebaseapp.com",
-    databaseURL: "https://join-gruppenarbeit-75ecf-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "join-gruppenarbeit-75ecf",
-    storageBucket: "join-gruppenarbeit-75ecf.firebasestorage.app",
-    messagingSenderId: "180158531840",
-    appId: "1:180158531840:web:c894124a7d6eb515364be5",
-    measurementId: "G-5R563MH52P"
+  apiKey: "AIzaSyDaAKocqkIROo_InISQbRjsoG8z1JCK3g0",
+  authDomain: "join-gruppenarbeit-75ecf.firebaseapp.com",
+  databaseURL: "https://join-gruppenarbeit-75ecf-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "join-gruppenarbeit-75ecf",
+  storageBucket: "join-gruppenarbeit-75ecf.firebasestorage.app",
+  messagingSenderId: "180158531840",
+  appId: "1:180158531840:web:c894124a7d6eb515364be5",
+  measurementId: "G-5R563MH52P"
 };
 
 firebase.initializeApp(firebaseConfig);
 
 const FIREBASE_USERS = firebase.database().ref("users");
 
-async function fetchData(){
+async function fetchData() {
   let response = await FIREBASE_USERS.once("value")
   let data = response.val();
- return data ? Object.entries(data).map(([id, user]) => ({ id: String(id), ...user })) : [];
+  return data ? Object.entries(data).map(([id, user]) => ({ id: String(id), ...user })) : [];
 
 }
 
 async function contactsLoad() {
   let contacts = document.getElementById("contactsjs");
   contacts.innerHTML = "";
-  
+
   let users = await fetchData();
   users = users.filter(u => u && u.name);
   users.sort((a, b) => a.name.localeCompare(b.name));
@@ -80,7 +80,7 @@ async function contactsRender(userId) {
       responsiveContactsDetails.style.display = "block";
     }
   }
-  
+
   activeUserId = userId;
   contactInfo.innerHTML = "";
   contactInfo.innerHTML = contactsRenderTemplate(userInfo);
@@ -94,7 +94,7 @@ function updateResponsiveButtons() {
   if (window.innerWidth <= 780) {
     if (activeUserId) {
       if (responsiveAddContactId) responsiveAddContactId.style.display = "none";
-      if (responsiveEditContactId) responsiveEditContactId.style.display = "block";      
+      if (responsiveEditContactId) responsiveEditContactId.style.display = "block";
     } else {
       if (responsiveAddContactId) responsiveAddContactId.style.display = "flex";
       if (responsiveEditContactId) responsiveEditContactId.style.display = "none";
@@ -105,23 +105,35 @@ function updateResponsiveButtons() {
   }
 }
 
-function editUserOptionsResponsive(){
+function editUserOptionsResponsive() {
   let userId = activeUserId;
   let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
   if (window.innerWidth >= 780) {
     responsiveEditContactId.style.display = "none";
-  }else{responsiveEditContactId.style.display = "block";}
+  } else { responsiveEditContactId.style.display = "block"; }
   responsiveEditContactId.innerHTML = editUserOptionsResponsiveTemplate(userId);
 
 }
 function addNewContact() {
   let popUp = document.getElementById("body");
   popUp.innerHTML += addNewContactTemplate();
+
+  let contactContainer = document.getElementById('contact-container')
+  if (contactContainer) {
+    setTimeout(() => {
+      contactContainer.classList.add('is-open')
+    }, 20);
+  }
 }
 
 function closeOverlay() {
+  let contactContainer = document.getElementById('contact-container');
   const overlay = document.getElementById("closeoverlay");
+  contactContainer.classList.remove('is-open');
+ setTimeout(() => {
   if (overlay) overlay.remove();
+}, 250);
+
 }
 
 async function editUser(userId) {
@@ -148,11 +160,11 @@ async function saveUser(userId) {
   const emailEl = document.getElementById('edit_email').value.trim();
   const phoneEl = document.getElementById('edit_phone').value.trim();
 
-await FIREBASE_USERS.child(userId).update({
-  name: nameEl,
-  email: emailEl,
-  phone: phoneEl
-})
+  await FIREBASE_USERS.child(userId).update({
+    name: nameEl,
+    email: emailEl,
+    phone: phoneEl
+  })
   closeOverlay();
   contactsLoad();
   contactsRender(userId);

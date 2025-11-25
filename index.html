@@ -24,6 +24,7 @@
 </head>
 
 <body>
+       <div class="index-content">
     <div class="responsivnessheaderwritting">
 
         <div class="mainlogin">
@@ -46,57 +47,64 @@
                             in</button></a>
                 </div>
             </div>
-            <div class="responsivnessheaderwrittingdnonetoggle">
-                <div class="headerwritingresponsive">
-                    <p>Not a Join user?</p><button class="buttonsignup" onclick="signUp()">Sign up</button>
-                </div>
-            </div>
-        </div>
-        <div class="headerwriting" id="headerwritingdiv">
-            <p>Not a Join user?</p><button class="buttonsignup" onclick="signUp()">Sign up</button>
-        </div>
-    </div>
-    <div class="signupcenter">
-        <div id="signupPage" class="signup d_none">
-            <div class="signuppage signuptitleandarrow">
-                <div>
-                    <img style="cursor: pointer; position: absolute; left: 20px;" class="back-arrow"
-                        src="./assets/icons/arrow-left-line.svg" onclick="goBack()">
-                </div>
-                <div style="display:flex; justify-content: center; align-items:center; flex-direction: column;">
-                    <h1 style=" font-size: 61px; font-size: 61px;">Signup</h1>
-                    <img src="./assets/icons/Vector 5.svg">
-                </div>
-            </div>
-            <div>
-                <div class="userinput">
-                    <div class="userinputcustom"><input class="signupinputfield" id="name_sign_up" type="email"
-                            placeholder="Name" required> <img src="./assets/icons/person.svg"></div>
-                    <div class="userinputcustom"><input class="signupinputfield" id="email_sign_up" type="email"
-                            placeholder="Email" required> <img src="./assets/icons/mail.svg"></div>
-                    <div class="userinputcustom"><input class="signupinputfield" id="password_sign_up" type="password"
-                            placeholder="Password" required> <img src="./assets/icons/lock.svg"></div>
-                    <div class="userinputcustom"><input class="signupinputfield" id="confirmation_password_sign_up"
-                            type="password" placeholder="Confirm Password" required> <img src="./assets/icons/lock.svg">
+
+         
+                <div class="responsivnessheaderwrittingdnonetoggle">
+                    <div class="headerwritingresponsive">
+                        <p>Not a Join user?</p><button class="buttonsignup" onclick="signUp()">Sign up</button>
                     </div>
                 </div>
             </div>
-            <div class="checkboxandbutton">
-                <div class="checkboxandbuttonplacement">
-                    <input class="checkboxinput" type="checkbox" id="requiredcheckbox" onclick="toggleButton()" required>I accept the <a
-                        style="text-decoration:none; color:rgba(41, 171, 226, 1);" href="#">Privacy policy</a>
-                </div>
-              
-                <button class="buttonlogin" id="signUpButton" onclick="logIn()" disabled>Sign Up</button>
+            <div class="headerwriting" id="headerwritingdiv">
+                <p>Not a Join user?</p><button class="buttonsignup" onclick="signUp()">Sign up</button>
             </div>
         </div>
-    </div>
-    <div class="linksdiv" id="nonloginview" onclick="nonLoginEntry()">
-        <a class="links" href="./privacy_policy.html?nonlogin=true">Privacy Policy</a>
-        <a class="links" href="./legal_notice.html?nonlogin=true">Legal Notice</a>
-    </div>
-    <div class="loadingscreen" id="loadingscreen"></div>
+        <div class="signupcenter">
+            <div id="signupPage" class="signup d_none">
+                <div class="signuppage signuptitleandarrow">
+                    <div>
+                        <img style="cursor: pointer; position: absolute; left: 20px;" class="back-arrow"
+                            src="./assets/icons/arrow-left-line.svg" onclick="goBack()">
+                    </div>
+                    <div style="display:flex; justify-content: center; align-items:center; flex-direction: column;">
+                        <h1 style=" font-size: 61px; font-size: 61px;">Signup</h1>
+                        <img src="./assets/icons/Vector 5.svg">
+                    </div>
+                </div>
+                <div>
+                    <div class="userinput">
+                        <div class="userinputcustom"><input class="signupinputfield" id="name_sign_up" type="email"
+                                placeholder="Name" required> <img src="./assets/icons/person.svg"></div>
+                        <div class="userinputcustom"><input class="signupinputfield" id="email_sign_up" type="email"
+                                placeholder="Email" required> <img src="./assets/icons/mail.svg"></div>
+                        <div class="userinputcustom"><input class="signupinputfield" id="password_sign_up"
+                                type="password" placeholder="Password" required> <img src="./assets/icons/lock.svg">
+                        </div>
+                        <div class="userinputcustom"><input class="signupinputfield" id="confirmation_password_sign_up"
+                                type="password" placeholder="Confirm Password" required> <img
+                                src="./assets/icons/lock.svg">
+                        </div>
+                    </div>
+                </div>
+                <div class="checkboxandbutton">
+                    <div class="checkboxandbuttonplacement">
+                        <input class="checkboxinput" type="checkbox" id="requiredcheckbox" onclick="toggleButton()"
+                            required>I accept the <a style="text-decoration:none; color:rgba(41, 171, 226, 1);"
+                            href="#">Privacy policy</a>
+                    </div>
+
+                    <button class="buttonlogin" id="signUpButton" onclick="logIn()" disabled>Sign Up</button>
+                </div>
+            </div>
+        </div>
+        <div class="linksdiv" id="nonloginview" onclick="nonLoginEntry()">
+            <a class="links" href="./privacy_policy.html?nonlogin=true">Privacy Policy</a>
+            <a class="links" href="./legal_notice.html?nonlogin=true">Legal Notice</a>
+        </div>
+        <div class="loadingscreen" id="loadingscreen"></div>
 </body>
 <div class="logocontainer" id="mainlogoposition"><a href="index.html"><img id="logo" class="main-logo"
             src="assets/icons/Capa 2.svg"></a></div>
+</div>
+
 </html>
