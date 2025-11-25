@@ -61,29 +61,39 @@ async function contactsRender(userId) {
   let contactInfo = document.getElementById("contactsinfo");
   let responsiveLeftSide = document.getElementById("responsiveleftsidecontacts");
   let responsiveContactsDetails = document.getElementById("responsivecontactsmoto");
+
   let lastHighlight = document.getElementById(`contactfield${activeUserId}`);
   let currentHighlight = document.getElementById(`contactfield${userId}`);
 
   if (activeUserId === userId) {
     if (currentHighlight) {
       currentHighlight.style.backgroundColor = "#fff";
-      currentHighlight.style.color = "#fff";
+      currentHighlight.style.color = "black";
     }
-    currentHighlight.style.color = "black";
     activeUserId = null;
     return;
   }
 
   if (lastHighlight) {
     lastHighlight.style.backgroundColor = "#fff";
+    lastHighlight.style.color = "black";
   }
 
   if (currentHighlight) {
     currentHighlight.style.backgroundColor = "#2A3647";
-    currentHighlight.style.color = "#fff";
+    currentHighlight.style.color = "white";
   }
 
+  activeUserId = userId;
 
+  if (window.innerWidth <= 780) {
+    if (responsiveLeftSide) {
+      responsiveLeftSide.style.display = "none";
+    }
+    if (responsiveContactsDetails) {
+      responsiveContactsDetails.style.display = "block";
+    }
+  }
 
   let users = await fetchData();
   let userInfo = users.find(u => String(u.id) === String(userId));
