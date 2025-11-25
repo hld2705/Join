@@ -56,12 +56,10 @@ async function contactsLoad() {
   }
 }
 
-
 async function contactsRender(userId) {
   let contactInfo = document.getElementById("contactsinfo");
   let responsiveLeftSide = document.getElementById("responsiveleftsidecontacts");
   let responsiveContactsDetails = document.getElementById("responsivecontactsmoto");
-
   let lastHighlight = document.getElementById(`contactfield${activeUserId}`);
   let currentHighlight = document.getElementById(`contactfield${userId}`);
 
@@ -145,11 +143,10 @@ function addNewContact() {
 function closeOverlay() {
   let contactContainer = document.getElementById('contact-container');
   const overlay = document.getElementById("closeoverlay");
-  contactContainer.classList.remove('is-open');
-  setTimeout(() => {
+   setTimeout(() => {
     if (overlay) overlay.remove();
   }, 250);
-
+  contactContainer.classList.remove('is-open');
 }
 
 async function editUser(userId) {
