@@ -89,15 +89,11 @@ async function contactsRender(userId) {
   let userInfo = users.find(u => String(u.id) === String(userId));
   if (!userInfo) return;
 
-  if (activeUserId === userId) {
-    contactInfo.classList.remove("is-open");
     setTimeout(() => {
-      contactInfo.innerHTML = "";
+          contactInfo.classList.add("is-open");
     }, 50);
     activeUserId = null;
-    return;
-  }
-
+  
   if (window.innerWidth <= 780) {
     if (responsiveLeftSide) responsiveLeftSide.style.display = "none";
     if (responsiveContactsDetails) responsiveContactsDetails.style.display = "block";
@@ -107,14 +103,6 @@ async function contactsRender(userId) {
   contactInfo.innerHTML = "";
   contactInfo.innerHTML = contactsRenderTemplate(userInfo);
 
-<<<<<<< HEAD
-  setTimeout(() => {
-    contactInfo.classList.add("is-open");
-  }, 130);
-
-  activeUserId = userId;
-=======
->>>>>>> 9ecfdcaa6e4fbe9da55b0f3dfff307f447ad15d1
   updateResponsiveButtons();
 }
 

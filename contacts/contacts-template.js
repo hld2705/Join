@@ -1,8 +1,7 @@
 function contactsLoadTemplate(user) {
   return `
-         <div class="contact-item" onclick="contactsRender('${user.id}')">
+       <div id="contactfield${user.id}" class="contact-item" onclick="contactsRender('${user.id}')">
       <img class="contact-badge" alt="${user.name}" src="./${user.badge}">
-      
       <div class="contact-content">
         <p class="contact-name">${user.name}</p>
         <p class="contact-email">${user.email}</p>
