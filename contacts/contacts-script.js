@@ -67,23 +67,28 @@ async function contactsRender(userId) {
   if (!userInfo) return;
 
   if (activeUserId === userId) {
-    contactInfo.innerHTML = "";
+    contactInfo.classList.remove("is-open");
+    setTimeout(() => {
+      contactInfo.innerHTML = "";
+    }, 50);
     activeUserId = null;
     return;
   }
 
   if (window.innerWidth <= 780) {
-    if (responsiveLeftSide) {
-      responsiveLeftSide.style.display = "none";
-    }
-    if (responsiveContactsDetails) {
-      responsiveContactsDetails.style.display = "block";
-    }
+    if (responsiveLeftSide) responsiveLeftSide.style.display = "none";
+    if (responsiveContactsDetails) responsiveContactsDetails.style.display = "block";
   }
 
-  activeUserId = userId;
+  contactInfo.classList.remove("is-open");
   contactInfo.innerHTML = "";
   contactInfo.innerHTML = contactsRenderTemplate(userInfo);
+
+  setTimeout(() => {
+    contactInfo.classList.add("is-open");
+  }, 130);
+
+  activeUserId = userId;
   updateResponsiveButtons();
 }
 
@@ -130,9 +135,9 @@ function closeOverlay() {
   let contactContainer = document.getElementById('contact-container');
   const overlay = document.getElementById("closeoverlay");
   contactContainer.classList.remove('is-open');
- setTimeout(() => {
-  if (overlay) overlay.remove();
-}, 250);
+  setTimeout(() => {
+    if (overlay) overlay.remove();
+  }, 250);
 
 }
 
@@ -185,7 +190,7 @@ async function createContact() {
   let nameNew = document.getElementById("name_new_user").value.trim();
   let emailNew = document.getElementById("email_new_user").value.trim();
   let phoneNew = document.getElementById("phone_new_user").value.trim();
-  
+
   let entry = firebase.database().ref("users").push();
   let firebaseId = entry.key;
   let newUser = {
@@ -198,11 +203,11 @@ async function createContact() {
 
   addedNewUser();
   contactsLoad();
-  if (newUser.name === ""){
+  if (newUser.name === "") {
     alert("Name field is mandatory!")
-    onclick=addNewContact();
+    onclick = addNewContact();
   }
-  
+
   await entry.set(newUser);
 
 }
@@ -231,7 +236,6 @@ function reRenderContacts() {
   contactInfo.innerHTML = "";
   activeUserId = null;
   contactsLoad();
-
   let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
   if (responsiveAddContactId) {
     responsiveAddContactId.style.display = "flex";
@@ -255,3 +259,6 @@ window.contactsLoad = contactsLoad;
 window.contactsRender = contactsRender;
 window.addNewContact = addNewContact;
 window.closeOverlay = closeOverlay;
+
+
+
