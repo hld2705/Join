@@ -19,6 +19,7 @@ const FIREBASE_USERS = firebase.database().ref("users");
 async function fetchData() {
   let response = await FIREBASE_USERS.once("value")
   let data = response.val();
+  console.log("Firebase users:", data); 
   return data ? Object.entries(data).map(([id, user]) => ({ id: String(id), ...user })) : [];
 
 }
@@ -210,6 +211,11 @@ async function createContact() {
   let emailNew = document.getElementById("email_new_user").value.trim();
   let phoneNew = document.getElementById("phone_new_user").value.trim();
 
+  if (nameNew === "" && !nameNew) {
+    alert("Name field is mandatory!")
+    return;
+  }
+
   let entry = firebase.database().ref("users").push();
   let firebaseId = entry.key;
   let newUser = {
@@ -220,15 +226,10 @@ async function createContact() {
     badge: "/assets/icons/person.svg"
   };
 
-  addedNewUser();
-  contactsLoad();
-  if (newUser.name === "") {
-    alert("Name field is mandatory!")
-    onclick = addNewContact();
-  }
 
   await entry.set(newUser);
-
+  await addedNewUser();
+  await contactsLoad();
 }
 
 async function addedNewUser() {

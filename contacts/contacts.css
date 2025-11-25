@@ -209,6 +209,9 @@ body {
     color: #29ABE2;
 }
 
+.contactinfo-icons-text-placement img:hover{
+    color: #29ABE2;
+}
 .contact-information p {
     font-size: 20px;
     font-weight: 400;

@@ -63,15 +63,19 @@
 
   <section class="right-side">
     <header>
-      <img class="responsive-logo-board" src="./assets/logo.svg" alt="Logo">
-      <h3>Kanban Project Management Tool</h3>
-      <div class="user-info">
-        <a class="user-info-help" href="./help.html"><img class="Hilfe" src="./assets/help.svg" alt="help"></a>
-        <img class="profil" src="./assets/sofia.svg" alt="badges-header">
-        <div id="navbar" class="navbar">
-          <a href="legal_notice.html">Legal Notice</a>
-          <a href="privacy_policy.html">Privacy Policy</a>
-          <a href="#" id="logout-link">Log out</a>
+      <div class="header-content">
+        <div>
+          <img class="responsive-logo-board" src="./assets/logo.svg" alt="Logo">
+          <h3>Kanban Project Management Tool</h3>
+        </div>
+        <div class="user-info">
+          <a class="user-info-help" href="./help.html"><img class="Hilfe" src="./assets/help.svg" alt="help"></a>
+          <img class="profil" src="./assets/sofia.svg" alt="badges-header">
+          <div id="navbar" class="navbar">
+            <a href="legal_notice.html">Legal Notice</a>
+            <a href="privacy_policy.html">Privacy Policy</a>
+            <a href="#" id="logout-link">Log out</a>
+          </div>
         </div>
       </div>
     </header>
@@ -106,7 +110,7 @@
 
         <div class="distribution-progress">
           <div class="distribution-text-icon-wrapper">To do
-            <img onclick="openAddTaskOverlay()" class="distribution-icon" src="./assets/plus button.png">
+            <img onclick="openAddTaskOverlay('todo')" class="distribution-icon" src="./assets/plus button.png">
           </div>
           <div class="task-container" id="todo-container" ondrop="moveTo(event, 'todo')"
             ondragover="dragoverHandler(event)"></div>
@@ -115,7 +119,7 @@
 
         <div class="distribution-progress">
           <div class="distribution-text-icon-wrapper">In progress
-            <img onclick="openAddTaskOverlay()" class="distribution-icon" src="./assets/plus button.png">
+            <img onclick="openAddTaskOverlay('inprogress')" class="distribution-icon" src="./assets/plus button.png">
           </div>
           <div class="task-container" id="in-progress-container" ondrop="moveTo(event, 'inprogress')"
             ondragover="dragoverHandler(event)"></div>
@@ -123,7 +127,7 @@
 
         <div class="distribution-progress">
           <div class="distribution-text-icon-wrapper">Await feedback
-            <img onclick="openAddTaskOverlay()" class="distribution-icon" src="./assets/plus button.png">
+            <img onclick="openAddTaskOverlay('review')" class="distribution-icon" src="./assets/plus button.png">
           </div>
           <div class="task-container" id="feedback-container" ondrop="moveTo(event, 'review')"
             ondragover="dragoverHandler(event)"></div>
