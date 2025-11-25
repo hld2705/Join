@@ -3,6 +3,14 @@ const boardTaskFormURL = './add_task/form_task.html';
 let originalParent;
 let isDragging = false;
 
+
+
+if (window.location.pathname.includes("add_task")) {
+    ASSETS = "../assets/";
+} else {
+    ASSETS = "./assets/";
+}
+
 function dragAndDrop() {
   let container = document.getElementById("template-overview");
   const containers = {

@@ -3,8 +3,11 @@ let mediumActive = false;
 let lowActive = false;
 let task = [];
 let names = [];
-let taskFormURL = "../add_task/form_task.html";
+let taskFormURL = "./add_task/form_task.html";
 let subtaskCounter = 0;
+
+
+
 
 function init() {
     removeRequiredTitle();
@@ -73,7 +76,7 @@ function appendUserItem(dropList, user) {
     name.textContent = user.name;
 
     let badgePath = user.badge.startsWith("./")
-        ? user.badge.replace("./", "/")
+        ? user.badge.replace("./", "/", "/Join")
         : user.badge;
 
     img.src = badgePath;
