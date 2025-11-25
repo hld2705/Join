@@ -8,9 +8,9 @@
 }
 
 .priority-input {
-  box-sizing: border-box;
-  width: 100%;
-  padding: 14px 12px; 
+    box-sizing: border-box;
+    width: 100%;
+    padding: 14px 12px;
 }
 
 
@@ -130,4 +130,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .bg-orange::placeholder {
     color: white;
+}
+
+.newUserIcon {
+    background-color: blanchedalmond;
+    border-radius: 20px;
+    width: 36px;
+    height: 36px;
+    margin-left: 2px;
 }

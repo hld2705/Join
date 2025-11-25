@@ -12,8 +12,13 @@ let subtaskCounter = 0;
 function init() {
     removeRequiredTitle();
     loadAddTaskForm();
+
+    setTimeout(() => {
+        changeMediumColor();
+    }, 50);
+
     removeRequiredDate();
-    getAllUser("/users")
+    getAllUser("/users");
 }
 
 const firebaseConfig = {
@@ -83,6 +88,11 @@ function appendUserItem(dropList, user) {
     div.dataset.badge = badgePath;
 
     img.classList.add("userBadge");
+
+    if (badgePath.includes("person.svg")) {
+        img.classList.add("newUserIcon"); 
+    }
+    
     div.append(img, name, renderCheckButton());
     dropList.appendChild(div);
 }
