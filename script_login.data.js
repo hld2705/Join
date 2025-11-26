@@ -23,7 +23,6 @@ window.logIn = async function logIn() {
     return;
   }
 
-
   const entry = FIREBASE_USERS.push();
   const firebaseId = entry.key;
 

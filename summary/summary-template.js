@@ -149,7 +149,6 @@ async function getTasksInProgress() {
   const inProgress = tasks.filter(progress => progress.status === "inprogress");
   let ProgressCard = document.getElementById('progress-board-tasks');
 
-
   ProgressCard.innerHTML = `
   <div class="overview-box-wrapper" >
   <h1 class="task-count">${inProgress.length}</h1>
