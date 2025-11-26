@@ -133,6 +133,7 @@ header {
     width: 100%;
     background-color: #f5f6f7;
     background: linear-gradient(0deg, rgba(245, 246, 247, 1) 99%, rgb(223, 224, 225) 100%);
+    max-width: 1440px;
 }
 
 #startpage-logo-container {

@@ -11,7 +11,17 @@ body {
 .responsivnessheaderwrittingdnonetoggle {
     display: none;
 }
-
+.errormessagetemplate{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background-color: white;
+    border-radius: 30px;
+    box-shadow: 0px 4px 10px rgba(0,0,0, 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 @media screen and (min-width: 320px) and (max-width: 780px) {
     input {
         width: 428px;

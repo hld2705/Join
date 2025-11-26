@@ -47,19 +47,9 @@ async function setCurrentUser(userId) {
     await saveData('users', user);
   }
 }
-/*
-async function findLoggedInUser() {
-  loggedInUser = null;
-  for (let i = 0; i < users.length; i++) {
-    let user = users[i];
-    if (user.login === 1) {
-      loggedInUser = user;
-      break;
-    }
-  }
-}*/
+
 
 document.addEventListener('DOMContentLoaded', async () => {
   await loadData();
- // await findLoggedInUser();
+
 });

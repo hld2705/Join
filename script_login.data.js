@@ -40,33 +40,61 @@ window.logIn = async function logIn() {
 
   await entry.set(newSignedUser);
 
-  forwardingNextPage();
+  forwardingNextPage(firebaseId);
 }
 
 
-async function forwardingNextPage() {
+async function forwardingNextPage(firebaseId) {
   confirmationSignTemplate(); 
   await new Promise(r => setTimeout(r, 1000));
   const overlay = document.getElementById("signedup");
   if (overlay) overlay.remove();
-  window.location = "/summary.html";
+  window.location = `/summary.html?uid=${firebaseId}`;
 }
 
+
+window.goBackLogin = function(){
+  let errorWindow = document.getElementById("errorWindow");
+  if(errorWindow) errorWindow.remove();
+}
+document.getElementById("loginButton").addEventListener("click", loginUserPushedInfo);
+
 async function loginUserPushedInfo() {
-  const email = document.getElementById("email_sign_up").value.trim();
-  const password = document.getElementById("password_sign_up").value.trim();
-  
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+
   if (!email || !password) {
-    alert("Email and password are required.");
+    document.getElementById("errorMessage").innerHTML = errorMessageTemplate();
     return;
   }
 
-  const entry = FIREBASE_USERS.push();
-  const newLoggeddUser = {
-    email: email,
-    password: password,
-    badge: "./assets/icons/person.svg",
-  };
-  await entry.set(newLoggeddUser);
+  try {
+    const snapshot = await FIREBASE_USERS.get();
+    const users = snapshot.val();
 
+    let userFound = null;
+    for (const userId in users) {
+      if (users[userId].email === email) {
+        userFound = users[userId];
+        break;
+      }
+    }
+
+    if (!userFound) {
+
+      alert("User not found. Please consider registering first.");
+      return;
+    }
+
+    if (userFound.password !== password) {
+      alert("Incorrect password. Please try again.");
+      return;
+    }
+    console.log("Login successful for", userFound.email);
+    window.location = `/summary.html?uid=${userFound.id}`;
+
+  } catch (error) {
+    console.error("Error checking users:", error);
+    alert("An error occurred. Please try again later.");
+  }
 }
