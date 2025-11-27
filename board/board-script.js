@@ -273,7 +273,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   dragAndDrop();
 });
 
-function openAddTaskOverlay() {
+function openAddTaskOverlay(column) {
+  //console.log(column)
+  window.currentTaskColumn = column;
   let overlayBg = document.getElementById("task-overlay-background");
   let overlay = document.getElementById("task-overlay");
   let container = document.getElementById("task-form-container");
