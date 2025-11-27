@@ -64,17 +64,13 @@ async function forwardingNextPage(firebaseId) {
 window.goBackLogin = function(){
   let errorWindow = document.getElementById("errorWindow");
   if(errorWindow) errorWindow.remove();
+
 }
 document.getElementById("loginButton").addEventListener("click", loginUserPushedInfo);
 
 async function loginUserPushedInfo() {
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
-
-  if (!email || !password) {
-    document.getElementById("errorMessage").innerHTML = errorMessageTemplate();
-    return;
-  }
 
   try {
     const snapshot = await FIREBASE_USERS.get();
@@ -88,11 +84,7 @@ async function loginUserPushedInfo() {
       }
     }
 
-    if (!userFound) {
 
-      alert("User not found. Please consider registering first.");
-      return;
-    }
 
     if (userFound.password !== password) {
       alert("Incorrect password. Please try again.");
@@ -103,6 +95,5 @@ async function loginUserPushedInfo() {
 
   } catch (error) {
     console.error("Error checking users:", error);
-    alert("An error occurred. Please try again later.");
   }
 }
