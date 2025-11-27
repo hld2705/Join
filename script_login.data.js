@@ -17,9 +17,18 @@ window.logIn = async function logIn() {
   const name = document.getElementById("name_sign_up").value.trim();
   const email = document.getElementById("email_sign_up").value.trim();
   const password = document.getElementById("password_sign_up").value.trim();
+  const passwordConfirm = document.getElementById("confirmation_password_sign_up").value.trim();
 
-  if (!email || !password) {
+  if(!email || !password) {
     alert("Email and password are required.");
+    return;
+  }
+  if(passwordConfirm !== password){
+    alert("Password not matching");
+    return;
+  }
+  if(!name){
+    alert("Please put in your name");
     return;
   }
 
