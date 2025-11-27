@@ -10,15 +10,5 @@ function loadingScreenDesktopTemplate(){
     </div>`
 }
 
-function errorMessageTemplate(){
-    return`<div class="errormessagetemplate" id="errorWindow">
-            <div>
-            <p>Name and/or password are required</p>   
-            </div>
-            <div>
-            <button id="buttonErrorMessage" class="buttonlogin" onclick="goBackLogin()">Ok</button>
-            </div>    
-    </div>
-    `
-}
+
 

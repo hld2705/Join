@@ -29,7 +29,7 @@
 
         <div class="mainlogin">
 
-            <div class="login" id="login">
+            <div class="login" id="login"><p id="required-message">Name and/or password are required</p>   
                 <div class="loginwriting">
                     <h1 style="font-weight: 700; font-size: 61px;">Log in</h1> <img src="assets/icons/Vector 5.svg">
                 </div>
@@ -41,7 +41,7 @@
                             placeholder="Password" required> <img src="assets/icons/lock.svg"></div>
                 </div>
                 <div class="buttons">
-                    <button class="buttonlogin" id="loginButton">Log in</button>
+                    <button onclick="requiredLogin()" class="buttonlogin" id="loginButton">Log in</button>
                     <a href="./summary.html"><button class="buttonguestlogin" href="summary.html">Guest Log
                             in</button></a>
                 </div>
@@ -105,5 +105,5 @@
 <div class="logocontainer" id="mainlogoposition"><a href="index.html"><img id="logo" class="main-logo"
             src="assets/icons/Capa 2.svg"></a></div>
 </div>
-<div id="errorMessage"></div>
+
 </html>
