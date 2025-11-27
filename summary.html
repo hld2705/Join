@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="./style.css">
-  <link rel="stylesheet" href="./summary/summary-styles.css" >
+  <link rel="stylesheet" href="./summary/summary-styles.css">
   <link rel="stylesheet" href="./summary/summary-responsive.css">
   <link rel="icon" type="image/x-icon" href="./assets/favicon.svg" />
   <link
@@ -40,9 +40,10 @@
     </nav>
 
     <footer>
-     <a class="legal-notice" href="./privacy_policy.html">Privacy Policy</a>
+      <a class="legal-notice" href="./privacy_policy.html">Privacy Policy</a>
       </a>
-    <a class="legal-notice" href="./legal_notice.html"><p>Legal notice</p>
+      <a class="legal-notice" href="./legal_notice.html">
+        <p>Legal notice</p>
       </a>
     </footer>
   </section>
@@ -53,11 +54,18 @@
       <h3>Kanban Project Management Tool</h3>
       <div class="user-info">
         <a href="./help.html"><img class="Hilfe" src="./assets/help.svg" alt="help"></a>
-        <img class="profil" src="./assets/sofia.svg" alt="badges-header">
+        <img onclick="badgeOverlay()" id="header-badge" class="profil" src="../assets/sofia.svg" alt="Profilbild">
       </div>
     </header>
 
     <div class="content">
+
+  <div id="badge-overlay">
+        <a href="../legal_notice.html">Legal Notice</a>
+        <a href="../privacy_policy.html">Privacy Policy</a>
+        <a href="../index.html" id="logout-link">Log out</a>
+    </div>
+
       <div class="summary-header">
         <h1>Join 360</h1>
         <p></p>
@@ -89,21 +97,22 @@
             </div>
 
           </div>
-         
+
           <h1 class="greeting">
             <span>Good morning,</span>
             <span class="logged-user" id="logged-user"></span>
           </h1>
         </div>
-        </div>
-      </section>
     </div>
+  </section>
+  </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    <script src="./db.js"></script>
-    <script src="./firstdata.js"></script>
-    <script src="./summary/summary-template.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="./db.js"></script>
+  <script src="./firstdata.js"></script>
+  <script src="./summary/summary-template.js"></script>
+  <script src="./global.js"></script>
 </body>
 
 </html>
