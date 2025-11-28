@@ -115,7 +115,7 @@ function addNewContactTemplate() {
 
 function editUserTemplate(user) {
   return `<div class="createnewcontact-overlay" id="closeoverlay" onclick="closeOverlay()">
-            <div class="createnewcontactmaincontainer">
+            <div id="edit-main-container" class="createnewcontactmaincontainer">
               <div class="createnewcontact-table" onclick="event.stopPropagation()">
                 <div class="left-blue-side">
                   <div class="createnewcontact-logo">

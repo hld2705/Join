@@ -276,6 +276,9 @@ function openAddTaskOverlay(column) {
   addTaskOverlayTemplate();
   if (!addTaskInteractionsLoaded) {
     loadAddTaskInteractions();
+      setTimeout(() => {
+        changeMediumColor();
+    }, 50);
     addTaskInteractionsLoaded = true;
   }
 

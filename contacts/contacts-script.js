@@ -93,10 +93,10 @@ async function contactsRender(userId) {
   let userInfo = users.find(u => String(u.id) === String(userId));
   if (!userInfo) return;
 
-    setTimeout(() => {
-          contactInfo.classList.add("is-open");
-    }, 50);
-  
+  setTimeout(() => {
+    contactInfo.classList.add("is-open");
+  }, 50);
+
   if (window.innerWidth <= 780) {
     if (responsiveLeftSide) responsiveLeftSide.style.display = "none";
     if (responsiveContactsDetails) responsiveContactsDetails.style.display = "block";
@@ -151,9 +151,13 @@ function addNewContact() {
 function closeOverlay() {
   const contactContainer = document.getElementById('contact-container');
   const overlay = document.getElementById("closeoverlay");
+  const editContainer = document.getElementById('edit-main-container')
 
   if (contactContainer) {
     contactContainer.classList.remove('is-open');
+  }
+   if (editContainer) {
+    editContainer.classList.remove('is-open');
   }
 
   setTimeout(() => {
@@ -167,7 +171,13 @@ async function editUser(userId) {
   if (!user) return;
   let popUpEditUser = document.getElementById("body");
   popUpEditUser.innerHTML += editUserTemplate(user);
-  //contactsLoad();
+
+  let contactContainer = document.getElementById('edit-main-container')
+  if (contactContainer) {
+    setTimeout(() => {
+      contactContainer.classList.add('is-open')
+    }, 20);
+  }
 }
 
 async function deleteUser(userId) {
