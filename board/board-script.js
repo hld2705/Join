@@ -4,13 +4,6 @@ let originalParent;
 let isDragging = false;
 
 
-
-if (window.location.pathname.includes("add_task")) {
-    ASSETS = "../assets/";
-} else {
-    ASSETS = "./assets/";
-}
-
 function dragAndDrop() {
   let container = document.getElementById("template-overview");
   const containers = {
@@ -368,12 +361,19 @@ async function closeEditOverlay() {
   closeOverlayCardInstant();
 }
 
+function cancelEditOverlay() {
+  let bg = document.getElementById('edit-overlay-background');
+  if (!bg) return;
+  detailedCardInfo(openedCardId);
+  bg.classList.remove('is-open');
+  openDetailedInfoCardInstant();
+  closeOverlayCardInstant();
+}
 
 document.body.classList.remove('no-scroll');
 if (openedCardId !== null) {
   detailedCardInfo(openedCardId);
   animateDetailedCardIn();
-
 }
 
 function animateDetailedCardIn() {
@@ -387,16 +387,29 @@ function animateDetailedCardIn() {
 function filterBoardCards(value) {
   let search = value.toLowerCase();
   let cards = document.getElementsByClassName("board-card");
+  let count = 0;
 
   for (let i = 0; i < cards.length; i++) {
     let card = cards[i];
     let title = card.dataset.title;
+    let description = card.dataset.description;
 
-    if (title.includes(search)) {
+    if (title.includes(search) || description.includes(search)) {
       card.style.display = "";
+      count++;
     } else {
       card.style.display = "none";
     }
   }
+  noResult(count);
 }
 
+function noResult(count) {
+  let noResults = document.getElementById("no-results");
+
+  if (count === 0) {
+    noResults.style.display = "block";
+  } else {
+    noResults.style.display = "none";
+  }
+}

@@ -15,8 +15,9 @@ body {
   padding: 0px;
 }
 
-html, body {
-    overflow-x: hidden;
+html,
+body {
+  overflow-x: hidden;
 }
 
 
@@ -928,6 +929,7 @@ textarea {
   background-color: #f5f6f7;
   background: linear-gradient(0deg, rgba(245, 246, 247, 1) 99%, rgb(223, 224, 225) 100%);
   padding-left: 250px;
+  max-width: 1920px;
 }
 
 header {
@@ -942,13 +944,14 @@ header {
   flex-wrap: wrap;
 }
 
-.header-content{
+.header-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: calc(100vw - 264px);
-  margin-left: 232px; 
+  margin-left: 232px;
 }
+
 .openaddtaskoverlayresponsive {
   display: none;
 }
@@ -1532,7 +1535,18 @@ progress::-webkit-progress-value {
   margin-right: 10px;
 }
 
+#no-results {
+  position: fixed;
+  top: 50%;
+  left: 45%;
+  font-size: 40px;
+}
 
+.search-icon:hover {
+  background-color: rgba(0, 0, 0, .06);
+  border-radius: 20px;
+  cursor: pointer;
+}
 
 @media (max-width: 1500px) {
 
@@ -1775,11 +1789,11 @@ progress::-webkit-progress-value {
 
 
 
-.task-container {
-  margin-top: 20px;
-  display: flex;
+  .task-container {
+    margin-top: 20px;
+    display: flex;
 
-}
+  }
 
   .notasks-container {
     min-width: 90vw;

@@ -22,7 +22,7 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
     const badges = renderBadges(assigned);
 
     return `
-           <div id="card-${taskId}" draggable="true" ondragstart="startDragging(event, ${taskId})" ondragend="onDragEnd()" data-title="${title.toLowerCase()}" class="board-card" onclick='detailedCardInfo(${taskId}); animateDetailedCardIn()'>
+           <div id="card-${taskId}" draggable="true" ondragstart="startDragging(event, ${taskId})" ondragend="onDragEnd()" data-title="${title.toLowerCase()}" data-description ="${description.toLowerCase()}" class="board-card" onclick='detailedCardInfo(${taskId}); animateDetailedCardIn()'>
                 <div class="task-main-container" style="background-color: ${bgColor}">${main}
                 </div> 
                     <div class="card-container-title-content">
@@ -58,7 +58,7 @@ function detailedCardInfoTemplate(task) {
         <div id="card-content" class="card-content" onclick="event.stopPropagation()">
             <div class="cards-content-header">
                 <div class="card-overlay-main-container" style="background-color: ${bgColor}">${task.main}</div>
-                    <img class="card-overlay-main-container-img" src="./assets/close.svg" onclick="closeOverlayCard()">    
+                    <img onclick="cancelEditOverlay()" class="card-overlay-main-container-img" src="./assets/close.svg" onclick="closeOverlayCard()">    
                 </div>
                 <div class="card-overlay-title-container">
                     <p>${task.title}</p>
