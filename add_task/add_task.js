@@ -150,7 +150,7 @@ function getNewTaskInputs() {
     return {
         title: document.getElementById('title-input').value,
         description: document.getElementById('description-input').value,
-        date: document.getElementById('date-input').value,
+        enddate: document.getElementById('date-input').value,
         main: getCategory(),
         subtasks: getSubtasks(),
         priority: getPriority(),
@@ -163,7 +163,7 @@ function getEditTaskInputs() {
     return {
         title: document.getElementById('title-input').value,
         description: document.getElementById('description-input').value,
-        date: document.getElementById('date-input').value,
+        enddate: document.getElementById('date-input').value,
         main: oldTask.main,
         subtasks: getSubtasks(),
         priority: getPriority(),
