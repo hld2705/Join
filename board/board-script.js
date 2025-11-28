@@ -267,20 +267,22 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function openAddTaskOverlay(column) {
-  //console.log(column)
   window.currentTaskColumn = column;
   let overlayBg = document.getElementById("task-overlay-background");
   let overlay = document.getElementById("task-overlay");
-  let container = document.getElementById("task-form-container");
 
   addTaskOverlayTemplate();
+
   if (!addTaskInteractionsLoaded) {
     loadAddTaskInteractions();
-      setTimeout(() => {
-        changeMediumColor();
-    }, 50);
     addTaskInteractionsLoaded = true;
   }
+
+    setTimeout(() => {
+      mediumActive = false;
+      resetAllButton();
+      changeMediumColor();
+    }, 50);
 
   overlayBg.style.display = "block";
   animateOverlayIn(overlay);
