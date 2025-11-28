@@ -63,15 +63,22 @@ function detailedCardInfoTemplate(task) {
                 <div class="card-overlay-title-container">
                     <p>${task.title}</p>
                 </div>
-            <div class="card-overlay-description-details-container">
-                <p>${task.description}</p>
-                <p>Due date: ${task.enddate}</p>
+             <p class="card-overlay-description-container">${task.description}</p>
+              <div class="card-overlay-description-details-container">
+              <p>
+              <span class="label">Due date:</span>
+               <span>${task.enddate}</span>
+             </p>
                 <div class="card-overlay-priority-details-container">
-                    <p>Priority: ${task.priority}</p> <img src="${imgSrc}">
+                    <p>
+                    <span class="label">Priority:</span>
+                   <span>${capitalize(task.priority)}</span>
+                    </p> 
+                    <img src="${imgSrc}">
                 </div>
             </div>
             <div class="card-overlay-assigned_to-details-container">
-                <p>Assigned To:</p>
+                <p class="label">Assigned To:</p>
                     <div>
                         ${badges.map(b => `
                             <div class="card-overlay-badge-name-details-container">
@@ -81,7 +88,7 @@ function detailedCardInfoTemplate(task) {
                     </div>   
             </div>
             <div class="card-overlay-subtasks-details-container">
-                <p>Subtasks</p>
+                <p class="label">Subtasks</p>
                 <div>
                 ${subtask}
                 </div>               
@@ -151,7 +158,7 @@ function editOverlayTemplate(task) {
     if (!formContainer) return;
     if (formContainer) {
         formContainer.innerHTML =
-              `
+            `
 <form novalidate return false; class="task-form">
     <div id="badge-overlay">
         <a href="../legal_notice.html">Legal Notice</a>
@@ -285,7 +292,7 @@ function editOverlayTemplate(task) {
 }
 
 function addTaskOverlayTemplate() {
-     let formContainer = document.getElementById('task-form-container');
+    let formContainer = document.getElementById('task-form-container');
     if (!formContainer) return;
     if (formContainer) {
         formContainer.innerHTML =

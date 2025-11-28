@@ -1333,12 +1333,12 @@ progress::-webkit-progress-value {
 }
 
 .card-overlay-main-container {
-  height: 27px;
-  width: 113px;
+  height: 36px;
+  width: 164px;
   border-radius: 8px;
   color: white;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1346,6 +1346,21 @@ progress::-webkit-progress-value {
 
 .card-overlay-main-container-img {
   cursor: pointer;
+  object-fit: contain;
+  transition: padding .15s ease, background-color .15s ease;
+  width: 24px;
+  height: 24px;
+  border-radius: 20px;
+}
+
+.card-overlay-main-container-img:hover {
+  background-color: rgba(0, 0, 0, .06);
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.label {
+  color: #2A3647;
 }
 
 .card-overlay-title-container {
@@ -1365,7 +1380,21 @@ progress::-webkit-progress-value {
 }
 
 .card-overlay-description-details-container p {
-  padding-bottom: 20px;
+  display: grid;
+  grid-template-columns: 110px auto;
+  align-items: center;
+  column-gap: 12px;
+  margin-bottom: 24px;
+}
+
+.card-overlay-description-details-container img {
+  padding-bottom: 19px;
+}
+
+.card-overlay-description-container {
+  font-weight: 400;
+  font-size: 20px;
+  padding-bottom: 10px;
 }
 
 .card-overlay-priority-details-container {
