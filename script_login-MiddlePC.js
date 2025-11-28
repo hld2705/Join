@@ -46,9 +46,9 @@ async function loadingScreen() {
 }
 
 window.addEventListener("load", () => {
-    setTimeout(() => {
-        document.getElementById("logo").classList.add("main-logo-small");
-    }, 200);
+  setTimeout(() => {
+    document.getElementById("logo").classList.add("main-logo-small");
+  }, 200);
 });
 
 function signUp() {
@@ -65,3 +65,24 @@ function signUp() {
     headerwriting.classList.add('d_none');
   }
 }
+
+function requiredLogin() {
+  let [email, password] = document.querySelectorAll('.userinputcustom');
+  let reqText = document.getElementById('required-message');
+
+  if (!email.value || !password.value) reqText.style.display = "block";
+  if (!email.value) email.classList.add('required-text');
+  else email.classList.remove('required-text');
+
+  if (!password.value) password.classList.add('required-text');
+  else password.classList.remove('required-text');
+
+  email.addEventListener('input', () => {
+    email.classList.remove('required-text');
+    if (reqText) reqText.style.display = "none";
+  });
+  password.addEventListener('input', () => {
+    password.classList.remove('required-text');
+    if (reqText) reqText.style.display = "none"
+  })
+};

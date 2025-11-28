@@ -70,7 +70,7 @@
         </div>
         <div class="user-info">
           <a class="user-info-help" href="./help.html"><img class="Hilfe" src="./assets/help.svg" alt="help"></a>
-          <img class="profil" src="./assets/sofia.svg" alt="badges-header">
+          <img onclick="badgeOverlay()" id="header-badge" class="profil" src="../assets/sofia.svg" alt="Profilbild">
           <div id="navbar" class="navbar">
             <a href="legal_notice.html">Legal Notice</a>
             <a href="privacy_policy.html">Privacy Policy</a>
@@ -81,7 +81,11 @@
     </header>
 
     <section class="content">
-
+      <div id="badge-overlay">
+        <a href="../legal_notice.html">Legal Notice</a>
+        <a href="../privacy_policy.html">Privacy Policy</a>
+        <a href="../index.html" id="logout-link">Log out</a>
+      </div>
       <div class="board-top-content">
         <div class="board-title">
           <h1>Board</h1>
@@ -139,13 +143,7 @@
         </div>
       </div>
 
-
-
-
-
-
       </div>
-
 
       <div id="task-overlay-background" class="overlay-bg">
         <div id="task-overlay" class="overlay-card">
@@ -178,6 +176,7 @@
     <script src="./board/board-templates.js" defer></script>
     <script src="./add_task/add_task.js" defer></script>
     <script src="./add_task/add_task_templates.js" defer></script>
+    <script src="./global.js"></script>
 </body>
 
 

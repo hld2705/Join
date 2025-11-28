@@ -151,6 +151,11 @@ function deleteCard(taskId) {
     card.remove();
     updateContainerTemplate(parent);
   }
+  
+   firebase.database().ref('tasks/' + taskId).remove()
+        .then(() => console.log(`Task ${taskId} deleted`))
+        .catch(err => console.error("Delete failed:", err));
+
   closeOverlayCard();
   dragAndDrop();
 }
@@ -230,6 +235,15 @@ function closeOverlayCard() {
   }, 250);
 }
 
+function closeOverlayEditCard(){
+  let close = document.getElementById("edit-x");
+  let overlay = document.getElementById("edit-overlay-background");
+   overlay.classList.remove("is-open");
+  setTimeout(() => {
+    close.remove();
+  }, 250);
+}
+
 function closeOverlayCardInstant() {
   const close = document.getElementById("overlayclose");
   if (close) close.remove();
@@ -273,7 +287,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   dragAndDrop();
 });
 
-function openAddTaskOverlay() {
+function openAddTaskOverlay(column) {
+  //console.log(column)
+  window.currentTaskColumn = column;
   let overlayBg = document.getElementById("task-overlay-background");
   let overlay = document.getElementById("task-overlay");
   let container = document.getElementById("task-form-container");

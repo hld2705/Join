@@ -108,26 +108,31 @@ function openCalendar() {
     }
 }
 
-function addNewTask() {
+function addNewTask(column) {
     const taskData = getNewTaskInputs();
     const newTask = {
         id: Date.now(),
-        status: "todo",
+        status: column || "todo",
         ...taskData,
     };
 
     return firebase.database().ref('tasks/' + newTask.id).set(newTask)
+        .then(() => {
+            closeEditOverlay();
+        })
         .catch((error) => {
             console.error('Task wurde nicht weitergeleitet:', error);
         });
+       
 }
 
 function editTask() {
+    if (!openedCardId) return; 
     const editTaskData = getEditTaskInputs();
     const oldTask = tasks.find(t => t.id === openedCardId);
+    if (!oldTask) return;
 
     const filteredData = {};
-
     for (const key in editTaskData) {
         const value = editTaskData[key];
         if (key === "main") continue;
@@ -335,7 +340,7 @@ function TaskTransitionRequirement(e) {
         e.preventDefault();
         return;
     }
-    addNewTask();
+    addNewTask(window.currentTaskColumn);
     switchToBoard(e);
 };
 
@@ -350,6 +355,7 @@ function switchToBoard(e) {
 document.addEventListener("click", (e) => {
     if (e.target.id === 'add-task-button') {
         TaskTransitionRequirement(e);
+        console.log(window.currentTaskColumn);
     }
 });
 

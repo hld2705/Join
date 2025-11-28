@@ -152,8 +152,8 @@ function editUserTemplate(user) {
                       </div>
                     </div>
                   </div>
-                  <div class="createnewcontact-buttons-placement" onclick="deleteUser('${user.id}')">
-                    <div class="editcontact-button-cancel">
+                  <div class="createnewcontact-buttons-placement">
+                    <div class="editcontact-button-cancel" onclick="deleteUser('${user.id}')">
                       <p>Delete</p>
                     </div>
                     <div class="editcontact-button-create-contact" onclick="saveUser('${user.id}')">

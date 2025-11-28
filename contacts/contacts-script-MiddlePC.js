@@ -19,9 +19,7 @@ const FIREBASE_USERS = firebase.database().ref("users");
 async function fetchData() {
   let response = await FIREBASE_USERS.once("value")
   let data = response.val();
-  console.log("Firebase users:", data); 
   return data ? Object.entries(data).map(([id, user]) => ({ id: String(id), ...user })) : [];
-
 }
 
 async function contactsLoad() {
@@ -151,12 +149,16 @@ function addNewContact() {
 }
 
 function closeOverlay() {
-  let contactContainer = document.getElementById('contact-container');
+  const contactContainer = document.getElementById('contact-container');
   const overlay = document.getElementById("closeoverlay");
-   setTimeout(() => {
+
+  if (contactContainer) {
+    contactContainer.classList.remove('is-open');
+  }
+
+  setTimeout(() => {
     if (overlay) overlay.remove();
   }, 250);
-  contactContainer.classList.remove('is-open');
 }
 
 async function editUser(userId) {
@@ -165,7 +167,7 @@ async function editUser(userId) {
   if (!user) return;
   let popUpEditUser = document.getElementById("body");
   popUpEditUser.innerHTML += editUserTemplate(user);
-  contactsLoad();
+  //contactsLoad();
 }
 
 async function deleteUser(userId) {
@@ -191,8 +193,9 @@ async function saveUser(userId) {
     phone: phoneEl
   })
   closeOverlay();
-  contactsLoad();
-  contactsRender(userId);
+
+  await contactsLoad();
+  await contactsRender(userId);
   updateDetailsPanel({ name: nameEl, email: emailEl, phone: phoneEl });
 }
 
