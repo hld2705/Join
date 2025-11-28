@@ -90,9 +90,9 @@ function appendUserItem(dropList, user) {
     img.classList.add("userBadge");
 
     if (badgePath.includes("person.svg")) {
-        img.classList.add("newUserIcon"); 
+        img.classList.add("newUserIcon");
     }
-    
+
     div.append(img, name, renderCheckButton());
     dropList.appendChild(div);
 }
@@ -115,7 +115,6 @@ function addNewTask(column) {
         status: column || "todo",
         ...taskData,
     };
-    closeAddTaskOverlay()
     return firebase.database().ref('tasks/' + newTask.id).set(newTask)
         .then(() => {
             closeEditOverlay();
@@ -123,11 +122,11 @@ function addNewTask(column) {
         .catch((error) => {
             console.error('Task wurde nicht weitergeleitet:', error);
         });
-       
+
 }
 
 function editTask() {
-    if (!openedCardId) return; 
+    if (!openedCardId) return;
     const editTaskData = getEditTaskInputs();
     const oldTask = tasks.find(t => t.id === openedCardId);
     if (!oldTask) return;
@@ -355,16 +354,23 @@ function switchToBoard(e) {
 document.addEventListener("click", (e) => {
     if (e.target.id === 'add-task-button') {
         TaskTransitionRequirement(e);
-        console.log(window.currentTaskColumn);
     }
 });
 
 function closeTaskOverlay() {
-    const bg = document.getElementById('task-overlay-background');
-    const mount = document.getElementById('task-form-container');
-    bg?.classList.remove('is-open');
-    mount.innerHTML = '';
-    document.body.classList.remove('no-scroll');
+    let overlayBg = document.getElementById("task-overlay-background");
+    let container = document.getElementById("task-form-container");
+    let taskAddedInfo = document.getElementById('task-added-info');
+    taskAddedInfo.style.display = "flex"
+    setTimeout(() => {
+        overlayBg.style.display = "none";
+        container.innerHTML = "";
+
+        setTimeout(() => {
+            taskAddedInfo.style.display = "none";
+        }, 0);
+    }, 900);
+
 }
 
 function redirectToBoard() {
@@ -377,7 +383,6 @@ function redirectToBoard() {
         return;
     }
     if (window.location.href.includes("board.html")) {
-        document.getElementById('task-added-info').style.display = "none";
         closeTaskOverlay();
     } else {
         location.assign("../board.html");

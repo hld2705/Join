@@ -885,7 +885,7 @@ textarea {
   border-radius: 38px;
   width: 80vw;
   border: 1px solid rgba(116, 116, 116, 0.5);
-  z-index: 9999;
+  z-index: 9998;
   transition: transform .25s;
   will-change: transform;
 }

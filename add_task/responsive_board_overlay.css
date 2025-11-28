@@ -16,7 +16,7 @@ body.no-scroll {
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, .5);
-  z-index: 999999;
+  z-index: 9999;
 }
 
 .overlay-card {
@@ -202,8 +202,8 @@ body.no-scroll {
 }
 
 .edit-overlay #edit-delete-icon {
- cursor: pointer;
-    width: 16px;
+  cursor: pointer;
+  width: 16px;
 }
 
 .edit-overlay .left-task {
