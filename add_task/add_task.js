@@ -108,30 +108,37 @@ function openCalendar() {
     }
 }
 
-function addNewTask(column) {
+function addNewTask() {
     const taskData = getNewTaskInputs();
     const newTask = {
         id: Date.now(),
-        status: column || "todo",
+        status: "todo",
         ...taskData,
     };
+<<<<<<< HEAD
+=======
+
+>>>>>>> f050d8dc45af68d47c8ea5f1ba388c50da5a2154
     return firebase.database().ref('tasks/' + newTask.id).set(newTask)
-        .then(() => {
-            closeEditOverlay();
-        })
         .catch((error) => {
             console.error('Task wurde nicht weitergeleitet:', error);
         });
+<<<<<<< HEAD
 
 }
 
 function editTask() {
     if (!openedCardId) return;
+=======
+}
+
+function editTask() {
+>>>>>>> f050d8dc45af68d47c8ea5f1ba388c50da5a2154
     const editTaskData = getEditTaskInputs();
     const oldTask = tasks.find(t => t.id === openedCardId);
-    if (!oldTask) return;
 
     const filteredData = {};
+
     for (const key in editTaskData) {
         const value = editTaskData[key];
         if (key === "main") continue;
@@ -339,7 +346,7 @@ function TaskTransitionRequirement(e) {
         e.preventDefault();
         return;
     }
-    addNewTask(window.currentTaskColumn);
+    addNewTask();
     switchToBoard(e);
 };
 
