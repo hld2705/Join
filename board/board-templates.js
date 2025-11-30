@@ -50,7 +50,7 @@ function detailedCardInfoTemplate(task) {
         <div id="card-content" class="card-content" onclick="event.stopPropagation()">
             <div class="cards-content-header">
                 <div class="card-overlay-main-container" style="background-color: ${bgColor}">${task.main}</div>
-                    <img onclick="cancelEditOverlay()" class="card-overlay-main-container-img" src="./assets/close.svg" onclick="closeOverlayCard()">    
+                    <img onclick="closeOverlayCard()" class="card-overlay-main-container-img" src="./assets/close.svg" onclick="closeOverlayCard()">    
                 </div>
                 <div class="card-overlay-title-container">
                     <p>${task.title}</p>
@@ -80,7 +80,7 @@ function detailedCardInfoTemplate(task) {
                     </div>   
             </div>
             <div class="card-overlay-subtasks-details-container">
-                <p class="label">Subtasks</p>
+                <p class="label edit-subtasks">Subtasks</p>
                 <div>
                 ${subtask}
                 </div>               

@@ -408,22 +408,27 @@ function animateDetailedCardOut(overlay) {
   overlay.classList.remove("is-open");
 }
 
+function removeExistingDetailOverlay() {
+  const oldOverlay = document.getElementById("overlayclose");
+  if (oldOverlay) oldOverlay.remove();
+}
+
 async function closeEditOverlay() {
-  let bg = document.getElementById('edit-overlay-background');
+  const bg = document.getElementById('edit-overlay-background');
   if (!bg) return;
   await editTask();
   await loadData();
+  removeExistingDetailOverlay();
   detailedCardInfo(openedCardId);
   await dragAndDrop();
   bg.classList.remove('is-open');
   openDetailedInfoCardInstant();
-  closeOverlayCardInstant();
 }
 
 function cancelEditOverlay() {
   let bg = document.getElementById('edit-overlay-background');
   if (!bg) return;
-  detailedCardInfo(openedCardId);
+
   bg.classList.remove('is-open');
   openDetailedInfoCardInstant();
   closeOverlayCardInstant();
