@@ -108,31 +108,26 @@ function openCalendar() {
     }
 }
 
-function addNewTask(column) {
+function addNewTask() {
     const taskData = getNewTaskInputs();
     const newTask = {
         id: Date.now(),
-        status: column || "todo",
+        status: "todo",
         ...taskData,
     };
-    closeAddTaskOverlay()
+
     return firebase.database().ref('tasks/' + newTask.id).set(newTask)
-        .then(() => {
-            closeEditOverlay();
-        })
         .catch((error) => {
             console.error('Task wurde nicht weitergeleitet:', error);
         });
-       
 }
 
 function editTask() {
-    if (!openedCardId) return; 
     const editTaskData = getEditTaskInputs();
     const oldTask = tasks.find(t => t.id === openedCardId);
-    if (!oldTask) return;
 
     const filteredData = {};
+
     for (const key in editTaskData) {
         const value = editTaskData[key];
         if (key === "main") continue;
@@ -150,7 +145,7 @@ function getNewTaskInputs() {
     return {
         title: document.getElementById('title-input').value,
         description: document.getElementById('description-input').value,
-        date: document.getElementById('date-input').value,
+        enddate: document.getElementById('date-input').value,
         main: getCategory(),
         subtasks: getSubtasks(),
         priority: getPriority(),
@@ -163,7 +158,7 @@ function getEditTaskInputs() {
     return {
         title: document.getElementById('title-input').value,
         description: document.getElementById('description-input').value,
-        date: document.getElementById('date-input').value,
+        enddate: document.getElementById('date-input').value,
         main: oldTask.main,
         subtasks: getSubtasks(),
         priority: getPriority(),
@@ -340,7 +335,7 @@ function TaskTransitionRequirement(e) {
         e.preventDefault();
         return;
     }
-    addNewTask(window.currentTaskColumn);
+    addNewTask();
     switchToBoard(e);
 };
 
@@ -355,7 +350,6 @@ function switchToBoard(e) {
 document.addEventListener("click", (e) => {
     if (e.target.id === 'add-task-button') {
         TaskTransitionRequirement(e);
-        console.log(window.currentTaskColumn);
     }
 });
 

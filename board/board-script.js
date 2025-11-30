@@ -1,15 +1,6 @@
-
 const boardTaskFormURL = './add_task/form_task.html';
 let originalParent;
 let isDragging = false;
-
-
-
-if (window.location.pathname.includes("add_task")) {
-    ASSETS = "../assets/";
-} else {
-    ASSETS = "./assets/";
-}
 
 function dragAndDrop() {
   let container = document.getElementById("template-overview");
@@ -48,7 +39,10 @@ function dragAndDrop() {
       container.innerHTML = noCardsTemplate();
     }
   }
+  updateAllContainers();
 }
+
+
 
 function renderBadges(assigned) {
   if (!assigned || assigned.length === 0) {
@@ -70,46 +64,111 @@ function renderBadges(assigned) {
 }
 
 function startDragging(ev, id) {
-  ev.dataTransfer.setData("text", `card-${id}`);
-
-  originalParent = document.getElementById(`card-${id}`).parentElement; //
+    ev.dataTransfer.setData("text", `card-${id}`);
+    originalParent = document.getElementById(`card-${id}`).parentElement; 
+    const card = document.getElementById(`card-${id}`);
+    card.classList.add("dragging");
+    isDragging = true;
+    document.querySelectorAll(".landing-field").forEach(lf => lf.remove());
 }
 
-
-function onDragEnd() {
-  setTimeout(() => { isDragging = false; }, 50);
-}
 
 function dragoverHandler(ev) {
-  ev.preventDefault();
+    ev.preventDefault();
+
+    const container = ev.currentTarget;
+    const draggingCard = document.querySelector(".board-card.dragging");
+    if (!draggingCard) return;
+    container.querySelectorAll(".landing-field").forEach(lf => lf.style.display = "none");
+    const children = Array.from(container.querySelectorAll(".board-card"));
+    let inserted = false;
+
+    for (let child of children) {
+        const rect = child.getBoundingClientRect();
+        const midpoint = rect.top + rect.height / 2;
+
+        if (ev.clientY < midpoint) {
+            let lf = child.nextElementSibling;
+            if (!lf || !lf.classList.contains("landing-field")) {
+                lf = document.createElement("div");
+                lf.classList.add("landing-field");
+                child.after(lf);
+            }
+            lf.style.display = "block";
+            inserted = true;
+            break;
+        }
+    }
+    if (!inserted) {
+        let lf = container.querySelector(".landing-field:last-child");
+        if (!lf) {
+            lf = document.createElement("div");
+            lf.classList.add("landing-field");
+            container.appendChild(lf);
+        }
+        lf.style.display = "block";
+    }
+}
+
+function onDragEnd() {
+    setTimeout(() => {
+        isDragging = false;
+        document.querySelectorAll(".board-card.dragging").forEach(c => c.classList.remove("dragging"));
+        document.querySelectorAll(".landing-field").forEach(lf => lf.style.display = "none");
+        updateAllContainers();
+    }, 50);
+}
+
+function dragenterHandler(ev) {
+    ev.preventDefault();
+    ev.currentTarget.classList.add("drag-over");
 }
 
 function moveTo(ev, newStatus) {
-  ev.preventDefault();
-  const data = ev.dataTransfer.getData("text");
-  const card = document.getElementById(data);
-  const target = ev.currentTarget;
-  if (!card || !target) return;
-  const oldContainer = card.parentElement;
-  target.appendChild(card);
-  card.classList.remove("drag-origin");
-  updateContainerTemplate(oldContainer);
-  updateContainerTemplate(target);
+    ev.preventDefault();
+    const data = ev.dataTransfer.getData("text");
+    const card = document.getElementById(data);
+    const container = ev.currentTarget;
+    if (!card || !container) return;
+
+    const lf = container.querySelector(".landing-field[style*='display: block']");
+    if (lf) {
+        container.insertBefore(card, lf);
+        lf.remove();
+    } else {
+        container.appendChild(card);
+    }
+    document.querySelectorAll(".landing-field").forEach(lf => lf.style.display = "none");
+    updateContainerTemplate(container);
 }
 
-//---------------------Drag&Drop------------------------
 let openedCardId = null;
 
 function updateContainerTemplate(container) {
   if (!container) return;
-
   const emptyTemplate = container.querySelector(".notasks-container");
-
+  const existingPlaceholder = container.querySelector(".notasks-container");
+  if (existingPlaceholder) existingPlaceholder.remove();
+ const hasCards = container.querySelectorAll(".board-card").length > 0;
+  if (!hasCards) {
+    container.insertAdjacentHTML('beforeend', noCardsTemplate());
+  }
   if (container.children.length === 0) {
     container.innerHTML = noCardsTemplate();
   } else if (emptyTemplate) {
     emptyTemplate.remove();
   }
+}
+
+function updateAllContainers() {
+  const containers = [
+    document.getElementById("todo-container"),
+    document.getElementById("in-progress-container"),
+    document.getElementById("feedback-container"),
+    document.getElementById("done-container")
+  ];
+
+  containers.forEach(container => updateContainerTemplate(container));
 }
 
 function detailedCardInfo(taskId) {
@@ -118,8 +177,6 @@ function detailedCardInfo(taskId) {
   if (!task) return;
   document.body.insertAdjacentHTML("beforeend", detailedCardInfoTemplate(task));
 }
-
-
 
 function renderSubtask(subtasks) {
   if (!subtasks || subtasks.length === 0)
@@ -140,8 +197,6 @@ function renderSubtask(subtasks) {
     `).join('');
 }
 
-
-
 function deleteCard(taskId) {
   const index = tasks.findIndex(t => t.id === taskId);
   if (index !== -1) tasks.splice(index, 1);
@@ -155,7 +210,6 @@ function deleteCard(taskId) {
   dragAndDrop();
 }
 
-
 function getBgColor(main) {
   if (main === "User Story" || main === "userstory") return "#0038FF";
   if (main === "Technical Task" || main === "techtask") return "#1FD7C1";
@@ -166,11 +220,9 @@ function resetAllButton() {
   document.getElementById('urgent').classList.remove('bg-red');
   document.getElementById('double-arrow').src = "../assets/Prio alta.svg"
   urgentActive = false;
-
   document.getElementById('medium-input').classList.remove('bg-orange');
   document.getElementById('equal').src = "../assets/Prio media.svg"
   mediumActive = false;
-
   document.getElementById('low-input').classList.remove('bg-green');
   document.getElementById('double-down').src = "../assets/double-down.svg"
   lowActive = false;
@@ -247,9 +299,7 @@ function closeAddTaskOverlay() {
   let overlayBg = document.getElementById("task-overlay-background");
   let overlay = document.getElementById("task-overlay");
   let container = document.getElementById("task-form-container");
-
   animateOverlayOut(overlay);
-
   setTimeout(() => {
     overlayBg.style.display = "none";
     container.innerHTML = "";
@@ -262,7 +312,6 @@ function animateOverlayOut(overlay) {
 
 document.getElementById("task-overlay-background").addEventListener("click", (e) => {
   let overlay = document.getElementById("task-overlay");
-
   if (!overlay.contains(e.target)) {
     closeAddTaskOverlay();
   }
@@ -274,17 +323,22 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function openAddTaskOverlay(column) {
-  //console.log(column)
   window.currentTaskColumn = column;
   let overlayBg = document.getElementById("task-overlay-background");
   let overlay = document.getElementById("task-overlay");
-  let container = document.getElementById("task-form-container");
 
   addTaskOverlayTemplate();
+
   if (!addTaskInteractionsLoaded) {
     loadAddTaskInteractions();
     addTaskInteractionsLoaded = true;
   }
+
+    setTimeout(() => {
+      mediumActive = false;
+      resetAllButton();
+      changeMediumColor();
+    }, 50);
 
   overlayBg.style.display = "block";
   animateOverlayIn(overlay);
@@ -293,25 +347,18 @@ function openAddTaskOverlay(column) {
 function editTask() {
   const editTaskData = getTaskInputs();
   const oldTask = tasks.find(t => t.id === openedCardId);
-
   const filteredData = {};
-
   for (const key in editTaskData) {
     const value = editTaskData[key];
-
     if (key === "main") continue;
-
     if (value === "" || value === undefined || value === null) continue;
-
     filteredData[key] = value;
   }
-
   return firebase.database()
     .ref("tasks/" + oldTask.id)
     .update(filteredData)
     .catch(err => console.error("Task update failed:", err));
 }
-
 
 function loadAddTaskInteractions() {
   let script = document.createElement("script");
@@ -328,16 +375,12 @@ function openEditOverlay(taskId) {
     loadAddTaskInteractions();
     addTaskInteractionsLoaded = true;
   }
-
   setTimeout(() => {
     changePriorityColor(task.priority);
   }, 20);
-
   let bg = document.getElementById('edit-overlay-background');
   let formContainer = document.getElementById('edit-task-form-container');
   if (!bg || !formContainer) return;
-
-
   closeOverlayCardInstant();
   bg.classList.add('is-open');
   bg.addEventListener('click', function (e) {
@@ -368,12 +411,19 @@ async function closeEditOverlay() {
   closeOverlayCardInstant();
 }
 
+function cancelEditOverlay() {
+  let bg = document.getElementById('edit-overlay-background');
+  if (!bg) return;
+  detailedCardInfo(openedCardId);
+  bg.classList.remove('is-open');
+  openDetailedInfoCardInstant();
+  closeOverlayCardInstant();
+}
 
 document.body.classList.remove('no-scroll');
 if (openedCardId !== null) {
   detailedCardInfo(openedCardId);
   animateDetailedCardIn();
-
 }
 
 function animateDetailedCardIn() {
@@ -387,16 +437,30 @@ function animateDetailedCardIn() {
 function filterBoardCards(value) {
   let search = value.toLowerCase();
   let cards = document.getElementsByClassName("board-card");
-
+  let count = 0;
   for (let i = 0; i < cards.length; i++) {
     let card = cards[i];
     let title = card.dataset.title;
-
-    if (title.includes(search)) {
+    let description = card.dataset.description;
+    if (title.includes(search) || description.includes(search)) {
       card.style.display = "";
+      count++;
     } else {
       card.style.display = "none";
     }
   }
+  noResult(count);
 }
 
+function noResult(count) {
+  let noResults = document.getElementById("no-results");
+  if (count === 0) {
+    noResults.style.display = "block";
+  } else {
+    noResults.style.display = "none";
+  }
+}
+
+function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

@@ -177,10 +177,6 @@ body.no-scroll {
   top: 72px;
 }
 
-.edit-overlay .addTask-close-Icon {
-  display: none;
-}
-
 .priority-input-container {
   display: flex;
   flex-direction: row;

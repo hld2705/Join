@@ -19,7 +19,9 @@ const FIREBASE_USERS = firebase.database().ref("users");
 async function fetchData() {
   let response = await FIREBASE_USERS.once("value")
   let data = response.val();
+  console.log("Firebase users:", data); 
   return data ? Object.entries(data).map(([id, user]) => ({ id: String(id), ...user })) : [];
+
 }
 
 async function contactsLoad() {
@@ -93,10 +95,10 @@ async function contactsRender(userId) {
   let userInfo = users.find(u => String(u.id) === String(userId));
   if (!userInfo) return;
 
-    setTimeout(() => {
-          contactInfo.classList.add("is-open");
-    }, 50);
-  
+  setTimeout(() => {
+    contactInfo.classList.add("is-open");
+  }, 50);
+
   if (window.innerWidth <= 780) {
     if (responsiveLeftSide) responsiveLeftSide.style.display = "none";
     if (responsiveContactsDetails) responsiveContactsDetails.style.display = "block";
@@ -149,16 +151,25 @@ function addNewContact() {
 }
 
 function closeOverlay() {
-  const contactContainer = document.getElementById('contact-container');
+  let contactContainer = document.getElementById('contact-container');
   const overlay = document.getElementById("closeoverlay");
+<<<<<<< HEAD
+   setTimeout(() => {
+=======
+  const editContainer = document.getElementById('edit-main-container')
 
   if (contactContainer) {
     contactContainer.classList.remove('is-open');
   }
+   if (editContainer) {
+    editContainer.classList.remove('is-open');
+  }
 
   setTimeout(() => {
+>>>>>>> f3cb4e0a2886cadb26a2137f3cf8a76e08973dfc
     if (overlay) overlay.remove();
   }, 250);
+  contactContainer.classList.remove('is-open');
 }
 
 async function editUser(userId) {
@@ -167,7 +178,17 @@ async function editUser(userId) {
   if (!user) return;
   let popUpEditUser = document.getElementById("body");
   popUpEditUser.innerHTML += editUserTemplate(user);
-  //contactsLoad();
+<<<<<<< HEAD
+  contactsLoad();
+=======
+
+  let contactContainer = document.getElementById('edit-main-container')
+  if (contactContainer) {
+    setTimeout(() => {
+      contactContainer.classList.add('is-open')
+    }, 20);
+  }
+>>>>>>> f3cb4e0a2886cadb26a2137f3cf8a76e08973dfc
 }
 
 async function deleteUser(userId) {
@@ -193,9 +214,8 @@ async function saveUser(userId) {
     phone: phoneEl
   })
   closeOverlay();
-
-  await contactsLoad();
-  await contactsRender(userId);
+  contactsLoad();
+  contactsRender(userId);
   updateDetailsPanel({ name: nameEl, email: emailEl, phone: phoneEl });
 }
 

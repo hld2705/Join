@@ -1,84 +1,96 @@
+@media(max-width:1400px) {
 
-@media(max-width:1400px){
 
-    
-header{
+  header {
     height: 80px;
-}
+  }
 
-.responsive-logo{
-  display: block;             
-    width: 100px;               
+  .responsive-logo {
+    display: block;
+    width: 100px;
     height: 32px;
     background-image: url("../assets/logo-black.svg");
-}
+  }
 
- .left-side {
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-        width: 100vw;
-        height: 70px;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        top: auto;
-        transform: none;
-        z-index: 1000;
-    }
+  .left-side {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 70px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    top: auto;
+    transform: none;
+    z-index: 1000;
+  }
 
-  .join-logo { display: none; }      
+  .join-logo {
+    display: none;
+  }
 
   nav {
     display: flex;
-    flex-direction: row;          
+    flex-direction: row;
     gap: 0;
     width: 100%;
     justify-content: space-around;
   }
 
-  
-    .left-side a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        gap: 8px;
-        text-decoration: none;
-        color: #CDCDCD;
-        height: 0px !important;
-    }
 
-  nav a { padding-left: 0; }
-  
+  .left-side a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    text-decoration: none;
+    color: #CDCDCD;
+    height: 0px !important;
+  }
+
+  nav a {
+    padding-left: 0;
+  }
+
   footer {
     display: none;
   }
 
- 
 
-  h3{
+
+  h3 {
     display: none;
   }
 
-  .user-info{
+  .user-info {
     display: flex;
     justify-content: flex-end;
   }
 
-  #task-container{
+  #task-container {
     display: none;
   }
 
 }
-@media(max-width: 1200px){
-  .greeting{
-        display: none;
-    }
-    body.mobile-gateway #mobile-gateway { display: flex; flex-direction: column; min-height: 100dvh; }
-    body.mobile-gateway #summary-root   { display: none; }
 
-  .mg-greeting{
+@media(max-width: 1200px) {
+  .greeting {
+    display: none;
+  }
+
+  body.mobile-gateway #mobile-gateway {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+  }
+
+  body.mobile-gateway #summary-root {
+    display: none;
+  }
+
+  .mg-greeting {
     margin-top: 250px;
     display: flex;
     justify-content: center;
@@ -86,157 +98,182 @@ header{
 
   }
 
-   .greetings{
+  .greetings {
     display: none;
   }
 }
 
-@media(max-width: 900px){
+@media(max-width: 900px) {
 
-.task-count{
-  font-size: 47px;
-}
-  #summary-todo{
-
-width: 186px;
-height: 110px;
+  .task-count {
+    font-size: 47px;
   }
 
- .summary-header{
+  #summary-todo {
+
+    width: 186px;
+    height: 110px;
+  }
+
+  .summary-header {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     margin-left: 55px;
     margin-top: 48px;
     padding-bottom: 0px;
- }
- .summary-header h1   { order: 1;display: flex; justify-content: flex-start; font-size: 47px;}
-  .summary-header span { order: 2; font-size: 20px;}
-  .summary-header p    { order: 3; align-items: center;transform: rotate(90deg);height: 90px; }
+  }
 
-  
+  .summary-header h1 {
+    order: 1;
+    display: flex;
+    justify-content: flex-start;
+    font-size: 47px;
+  }
 
-  .deadline-container img{
+  .summary-header span {
+    order: 2;
+    font-size: 20px;
+  }
+
+  .summary-header p {
+    order: 3;
+    align-items: center;
+    transform: rotate(90deg);
+    height: 90px;
+  }
+
+
+
+  .deadline-container img {
     width: 40px;
     height: 40px;
   }
-  .summary-task-status{
+
+  .summary-task-status {
     width: 396px;
     height: 110px;
   }
 
-  .count{
+  .count {
 
     width: 116px;
     height: 116px;
   }
 
-  .urgent-icon img{
-  margin-left: 0px;
-  margin-top: 10px;
-  width: 40px;
-  height: 40px;
-}
-#deadline-container img{
+  .urgent-icon img {
+    margin-left: 0px;
+    margin-top: 10px;
+    width: 40px;
+    height: 40px;
+  }
 
-  width: 40px;
-  height: 40px;
-}
+  #deadline-container img {
 
-.icon-summary{
+    width: 40px;
+    height: 40px;
+  }
 
-  width: 40px;
-  height: 40px;
-}
- .icon-to-do{
+  .icon-summary {
+
+    width: 40px;
+    height: 40px;
+  }
+
+  .icon-to-do {
     width: 40px;
     height: 40px;
     margin-top: 0;
   }
-.icon-todo{
-  height: 40px;
-  width: 40px;
-}
-  .number{
+
+  .icon-todo {
+    height: 40px;
+    width: 40px;
+  }
+
+  .number {
     font-size: 47px;
   }
 
-  .number span{
+  .number span {
     font-size: 11px;
   }
 
-  .summary-content{
+  .summary-content {
     align-items: center;
     margin-left: 0px;
   }
 
-  .number-container{
+  .number-container {
     gap: 0;
   }
 
-  .summary-count{
+  .summary-count {
     justify-content: flex-start;
     margin: 0;
     align-items: center;
   }
 
-  .number-urgent-container{
+  .number-urgent-container {
     gap: 0;
     margin: 0;
-  } 
+  }
 
-  .vector{
+  .vector {
     height: 68px;
   }
 
-  .profil{
+  .profil {
 
     width: 40px;
     height: 40px;
   }
 
-  .number span, .number-container span, .number-urgent-container span{
+  .number span,
+  .number-container span,
+  .number-urgent-container span {
 
     font-size: 11px;
   }
- .split{
+
+  .split {
     padding-left: 10px;
     align-items: center;
     justify-content: center;
   }
-  
-.urgent-date-text{
+
+  .urgent-date-text {
     font-size: 16px;
   }
 
-  .left-content{
+  .left-content {
 
-    flex: 0 0 0 ;
+    flex: 0 0 0;
   }
 }
 
-@media(max-width: 450px){
+@media(max-width: 450px) {
 
- 
-  .todo{
+
+  .todo {
     display: flex;
     flex-direction: column;
   }
 
-  .summary-count{
+  .summary-count {
     display: flex;
     flex-direction: column;
   }
 
-  .summary-task-status{
+  .summary-task-status {
     width: 300px;
   }
 
-  .summary-task-status .info{
+  .summary-task-status .info {
     display: none;
   }
 
-  .vector{
+  .vector {
 
     margin: 0;
   }
