@@ -479,17 +479,3 @@ function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-/*navbar*/
-const profileImg = document.querySelector('.profil');
-const navbar = document.getElementById('navbar');
-
-profileImg.addEventListener('click', function () {
-  navbar.classList.toggle('open');
-});
-
-
-document.addEventListener('click', function (event) {
-  if (!event.target.closest('.user-info')) {
-    navbar.classList.remove('open');
-  }
-});

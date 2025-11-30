@@ -80,7 +80,7 @@ function detailedCardInfoTemplate(task) {
                     </div>   
             </div>
             <div class="card-overlay-subtasks-details-container">
-                <p class="label edit-subtasks">Subtasks</p>
+                <p class="label">Subtasks</p>
                 <div>
                 ${subtask}
                 </div>               
