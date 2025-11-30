@@ -112,28 +112,17 @@ function addNewTask() {
     const taskData = getNewTaskInputs();
     const newTask = {
         id: Date.now(),
-        status: "todo",
+        status: window.currentTaskColumn || "todo",
         ...taskData,
     };
-<<<<<<< HEAD
-=======
-
->>>>>>> f050d8dc45af68d47c8ea5f1ba388c50da5a2154
     return firebase.database().ref('tasks/' + newTask.id).set(newTask)
         .catch((error) => {
             console.error('Task wurde nicht weitergeleitet:', error);
         });
-<<<<<<< HEAD
-
 }
 
-function editTask() {
-    if (!openedCardId) return;
-=======
-}
 
 function editTask() {
->>>>>>> f050d8dc45af68d47c8ea5f1ba388c50da5a2154
     const editTaskData = getEditTaskInputs();
     const oldTask = tasks.find(t => t.id === openedCardId);
 
@@ -391,6 +380,11 @@ function redirectToBoard() {
     }
     if (window.location.href.includes("board.html")) {
         closeTaskOverlay();
+
+        setTimeout(async () => {
+            await loadData();
+            dragAndDrop();
+        }, 300);
     } else {
         location.assign("../board.html");
     }

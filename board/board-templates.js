@@ -1,11 +1,3 @@
-
-
-if (window.location.pathname.includes("add_task")) {
-    ASSETS = "../assets/";
-} else {
-    ASSETS = "./assets/";
-}
-
 function dragAndDropTemplate(taskId, title, main, description, subtasks, assigned, priority) {
     const bgColor = getBgColor(main);
     const imgSrc = getPriorityImg(priority);
