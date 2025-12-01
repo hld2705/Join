@@ -18,7 +18,13 @@
     background-image: url("/assets/logo-black.svg");
 }
 
+@media (max-width: 1230px){
 
+    .distribution-icon{
+
+        margin-right: 20px;
+    }
+}
 
    }
 

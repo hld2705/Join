@@ -1822,13 +1822,8 @@ progress::-webkit-progress-value {
     top: 770px;
   }
 
-
-
-
-
-
-
   .distribution-icon {
+    margin-right: 20px;
     width: 30px;
     height: 30px;
   }
@@ -1929,8 +1924,26 @@ progress::-webkit-progress-value {
     height: 180px;
     max-width: 95vw;
   }
+
+  .subtask-template{
+
+    font-size: 16px;
+  }
 }
 
+@media (max-width: 600px){
+  .task-container{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .openaddtaskoverlayresponsive{
+
+    margin-right: 10px;
+  }
+
+ 
+}
 
 @media (max-width: 320px) {
 
