@@ -42,7 +42,15 @@ function dragAndDrop() {
   updateAllContainers();
 }
 
-
+function applyPriorityHighlight(priority) {
+  if (priority === "urgent") {
+    changeUrgentColor();
+  } else if (priority === "medium") {
+    changeMediumColor();
+  } else if (priority === "low") {
+    changeLowColor();
+  }
+}
 
 function renderBadges(assigned) {
   if (!assigned || assigned.length === 0) {
@@ -75,7 +83,6 @@ function startDragging(ev, id) {
 
   document.querySelectorAll(".landing-field").forEach(lf => lf.remove());
 }
-
 
 function dragoverHandler(ev) {
   ev.preventDefault();
@@ -152,6 +159,17 @@ function moveTo(ev, newStatus) {
   } else {
     container.appendChild(card);
   }
+
+  const taskId = Number(card.id.replace("card-", ""));
+  const task = tasks.find(t => t.id === taskId);
+  if (task) {
+    task.status = newStatus;
+
+    firebase.database().ref("tasks/" + taskId).update({
+      status: newStatus
+    });
+  }
+
   document.querySelectorAll(".landing-field").forEach(lf => lf.style.display = "none");
   updateContainerTemplate(container);
 }
@@ -166,7 +184,6 @@ function updateContainerTemplate(container) {
     container.insertAdjacentHTML("beforeend", noCardsTemplate());
   }
 }
-
 
 function updateAllContainers() {
   const containers = [
@@ -186,7 +203,7 @@ function detailedCardInfo(taskId) {
   document.body.insertAdjacentHTML("beforeend", detailedCardInfoTemplate(task));
 }
 
-function renderSubtask(subtasks) {
+function renderSubtask(subtasks, taskId) {
   if (!subtasks || subtasks.length === 0)
     return "<p>Currently no subtasks available</p>";
 
@@ -197,12 +214,47 @@ function renderSubtask(subtasks) {
   if (safe.length === 0)
     return "<p>Currently no subtasks available</p>";
 
-  return safe.map(st => `
+  return safe.map((st, i) => `
         <div class="subtask-item">
-            <input type="checkbox" ${st.done ? "checked" : ""}>
-            <p>${st.text}</p>
-        </div>
+          <img
+              id="subtask-${taskId}-${i}" 
+              src="${getSubtasksImg(st.done)}"
+              class="subtask-icon"
+              onclick="toggleSubtask(${taskId}, ${i})"
+          >
+          <p>${st.text}</p>
+      </div>
     `).join('');
+}
+
+function toggleSubtask(taskId, index) {
+  let task = tasks.find(t => t.id === taskId);
+  if (!task) return;
+  task.subtasks[index].done = !task.subtasks[index].done;
+  saveData("tasks", task);
+  updateBoardSubtaskProgress(taskId, task.subtasks);
+  const img = document.querySelector(`#subtask-${taskId}-${index}`);
+  if (img) img.src = getSubtasksImg(task.subtasks[index].done);
+  dragAndDrop();
+}
+
+function updateBoardSubtaskProgress(taskId, subtasks) {
+  const done = subtasks.filter(s => s.done).length;
+  const total = subtasks.length;
+
+  const card = document.getElementById(`card-${taskId}`);
+  if (!card) return;
+
+  const text = card.querySelector('.subtask-template');
+  if (text) {
+    text.textContent = `${done}/${total} Subtasks`;
+  }
+
+  const progressBar = card.querySelector('.subtask-progress');
+  if (progressBar) {
+    const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+    progressBar.value = percent;
+  }
 }
 
 function deleteCard(taskId) {
@@ -241,31 +293,37 @@ let selectedPriority = null;
 
 function changeUrgentColor() {
   if (urgentActive) {
-    resetAllButton();
+    //resetAllButton();
     document.getElementById('urgent').classList.add("bg-red");
     document.getElementById('urgent').classList.add("bg-red::placeholder");
     document.getElementById('double-arrow').src = "../assets/arrows-up-white.png";
     urgentActive = true;
+    mediumActive = false;
+    lowActive = false;
   }
 };
 
 function changeMediumColor() {
   if (mediumActive) {
-    resetAllButton();
+    //resetAllButton();
     document.getElementById('medium-input').classList.add("bg-orange");
     document.getElementById('medium-input').classList.add("bg-orange::placeholder");
     document.getElementById("equal").src = "../assets/equal-white.svg";
     mediumActive = true;
+    urgentActive = false;
+    lowActive = false;
   }
 };
 
 function changeLowColor() {
   if (lowActive) {
-    resetAllButton();
+    //resetAllButton();
     document.getElementById('low-input').classList.add("bg-green");
     document.getElementById('low-input').classList.add("bg-green::placeholder");
     document.getElementById("double-down").src = "../assets/double-down-white.svg";
     lowActive = true;
+    urgentActive = false;
+    mediumActive = false;
   }
 };
 
@@ -280,6 +338,11 @@ function getPriorityImg(priority) {
   if (priority === "medium") return "./assets/medium-priority-board.svg";
   if (priority === "low") return "./assets/low-priority-board.svg";
   return "";
+}
+
+function getSubtasksImg(isDone){
+  if (isDone === true) return "./assets/subtask_checked.svg";
+  return "./assets/subtask_empty.svg";
 }
 
 function closeOverlayCard() {
@@ -345,7 +408,7 @@ function openAddTaskOverlay(column) {
 
   setTimeout(() => {
     mediumActive = false;
-    resetAllButton();
+    //resetAllButton();
     changeMediumColor();
   }, 50);
 
@@ -368,6 +431,11 @@ function editTask() {
     .update(filteredData)
     .catch(err => console.error("Task update failed:", err));
 }
+
+document.addEventListener("click", function (e) {
+  let card = e.target.closest(".board-card");
+  if (card) card.classList.add("card-active");
+});
 
 function loadAddTaskInteractions() {
   let script = document.createElement("script");
@@ -397,6 +465,8 @@ function openEditOverlay(taskId) {
       cancelEditOverlay();
     }
   })
+  editOverlayTemplate(task);
+  applyPriorityHighlight(task.priority);
 }
 
 function openDetailedInfoCardInstant() {

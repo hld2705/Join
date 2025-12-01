@@ -10,7 +10,8 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
     } else if (total >= 2) {
         progress = 100;
     }
-
+    const done = subtasks.filter(s => s.done).length;
+    const percent = total === 0 ? 0 : Math.round((done / total) * 100);
     const badges = renderBadges(assigned);
 
     return `
@@ -22,8 +23,8 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
                         <p>${description}</p>
                     </div>
                         <div class="progress-bar-container">
-                            <progress value="${progress}" max="${100}"></progress>
-                            <p class="subtask-render-p" id="subtask-template">${total} Subtasks</p>
+                         <progress class="subtask-progress" value="${percent}" max="100"></progress>
+                          <p class="subtask-render-p" class="subtask-template">${done}/${total} Subtasks</p>
                         </div>
                     <div class="contacts-badge-container">
                         <div class="only-badges-container">
@@ -44,7 +45,7 @@ function detailedCardInfoTemplate(task) {
     const bgColor = getBgColor(task.main);
     const imgSrc = getPriorityImg(task.priority);
     const badges = renderBadges(task.assigned);
-    const subtask = renderSubtask(task.subtasks)
+    const subtask = renderSubtask(task.subtasks, task.id)
     return `
     <div class="overlay-cards" id="overlayclose" onclick="closeOverlayCard()">
         <div id="card-content" class="card-content" onclick="event.stopPropagation()">
@@ -81,9 +82,9 @@ function detailedCardInfoTemplate(task) {
             </div>
             <div class="card-overlay-subtasks-details-container">
                 <p class="label">Subtasks</p>
-                <div>
+                <div class="subtask-render-icons-text">
                 ${subtask}
-                </div>               
+                </div>             
             </div>
             <div class="card-overlay-icons-details-container">
                 <div class="card-overlay-delete-icon-details-container" onclick="deleteCard(${task.id})" id="deleticon">
