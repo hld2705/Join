@@ -268,10 +268,14 @@ h1 {
 }
 
 .index-content {
-    position:relative;
     width: 100%;
     max-width: 1920px;
     margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column-reverse;
+    height: 100vh;
 }
 
 @media screen and (max-width: 780px) {

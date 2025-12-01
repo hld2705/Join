@@ -55,6 +55,8 @@ body {
         gap: 20px;
         font-size: 18px;
         width: 100%;
+        z-index: 9999;
+        margin-bottom: 120px;
     }
 
     .responsivnessheaderwrittingdnonetoggle {
@@ -69,13 +71,12 @@ body {
 
     .responsivnessheaderwritting {
         display: flex;
-        flex-direction: column;
+        flex-direction: column-reverse;
         align-items: center;
-        justify-content: center;
+        /*justify-content: center;*/
         min-height: 100vh;
         padding: 20px;
         box-sizing: border-box;
-        /*position: relative;*/
     }
 
 

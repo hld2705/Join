@@ -1709,6 +1709,13 @@ progress::-webkit-progress-value {
 }
 
 @media (max-width: 1230px) {
+  .subtask-render-p{
+    font-size: 18px;
+  }
+   .header-content{
+    width: 100%;
+    margin: 0px;
+  }
   .responsive-logo-board {
     display: block;
     width: 31.999902725219727px;
@@ -1920,9 +1927,15 @@ progress::-webkit-progress-value {
 
 
 @media (max-width: 320px) {
+
   header {
     justify-content: flex-start;
     gap: 192px;
+  }
+
+ .header-content{
+    width: 100%;
+    margin: 0px;
   }
 
   .board-search-responsive {
