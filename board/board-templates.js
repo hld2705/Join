@@ -1,11 +1,3 @@
-
-
-if (window.location.pathname.includes("add_task")) {
-    ASSETS = "../assets/";
-} else {
-    ASSETS = "./assets/";
-}
-
 function dragAndDropTemplate(taskId, title, main, description, subtasks, assigned, priority) {
     const bgColor = getBgColor(main);
     const imgSrc = getPriorityImg(priority);
@@ -58,7 +50,7 @@ function detailedCardInfoTemplate(task) {
         <div id="card-content" class="card-content" onclick="event.stopPropagation()">
             <div class="cards-content-header">
                 <div class="card-overlay-main-container" style="background-color: ${bgColor}">${task.main}</div>
-                    <img onclick="cancelEditOverlay()" class="card-overlay-main-container-img" src="./assets/close.svg" onclick="closeOverlayCard()">    
+                    <img onclick="closeOverlayCard()" class="card-overlay-main-container-img" src="./assets/close.svg" onclick="closeOverlayCard()">    
                 </div>
                 <div class="card-overlay-title-container">
                     <p>${task.title}</p>

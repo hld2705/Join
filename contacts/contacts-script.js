@@ -153,9 +153,6 @@ function addNewContact() {
 function closeOverlay() {
   let contactContainer = document.getElementById('contact-container');
   const overlay = document.getElementById("closeoverlay");
-<<<<<<< HEAD
-   setTimeout(() => {
-=======
   const editContainer = document.getElementById('edit-main-container')
 
   if (contactContainer) {
@@ -166,7 +163,6 @@ function closeOverlay() {
   }
 
   setTimeout(() => {
->>>>>>> f3cb4e0a2886cadb26a2137f3cf8a76e08973dfc
     if (overlay) overlay.remove();
   }, 250);
   contactContainer.classList.remove('is-open');
@@ -178,9 +174,6 @@ async function editUser(userId) {
   if (!user) return;
   let popUpEditUser = document.getElementById("body");
   popUpEditUser.innerHTML += editUserTemplate(user);
-<<<<<<< HEAD
-  contactsLoad();
-=======
 
   let contactContainer = document.getElementById('edit-main-container')
   if (contactContainer) {
@@ -188,7 +181,6 @@ async function editUser(userId) {
       contactContainer.classList.add('is-open')
     }, 20);
   }
->>>>>>> f3cb4e0a2886cadb26a2137f3cf8a76e08973dfc
 }
 
 async function deleteUser(userId) {

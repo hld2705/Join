@@ -189,6 +189,7 @@ body {
 }
 
 .board-card {
+  pointer-events: auto;
   background: var(--card);
   border: 1px solid #EEF0F2;
   border-radius: 24px;
@@ -221,6 +222,7 @@ body {
   transform: scale(1.05) rotate(1deg);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
 }
+
 
 .card-badge {
   display: inline-block;
@@ -720,13 +722,6 @@ textarea {
   overflow: visible;
 }
 
-.profil {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
 .navbar {
   position: absolute;
   top: 60px;
@@ -887,7 +882,7 @@ textarea {
   border-radius: 38px;
   width: 80vw;
   border: 1px solid rgba(116, 116, 116, 0.5);
-  z-index: 9999;
+  z-index: 9998;
   transition: transform .25s;
   will-change: transform;
 }
@@ -921,7 +916,7 @@ textarea {
   min-width: 232px;
   background-color: #2A3647;
   position: fixed;
-  z-index: 2;
+  z-index: 9998;
   height: 100vh;
 }
 
@@ -929,7 +924,6 @@ textarea {
   flex: 1;
   width: 100%;
   background-color: #f5f6f7;
-  background: linear-gradient(0deg, rgba(245, 246, 247, 1) 99%, rgb(223, 224, 225) 100%);
   padding-left: 250px;
   max-width: 1920px;
 }
@@ -1408,7 +1402,7 @@ progress::-webkit-progress-value {
 
 .card-overlay-assigned_to-details-container {
   width: 445px;
-  height: 208px;
+  height: 180px;
   gap: 8px;
   font-weight: 400;
   font-style: normal;
@@ -1476,6 +1470,7 @@ progress::-webkit-progress-value {
 }
 
 .notasks-container {
+  pointer-events: none;
   width: 246px;
   height: 48px;
   border: dotted;
@@ -1532,6 +1527,7 @@ progress::-webkit-progress-value {
   width: 260px;
   margin-top: 20px;
   gap: 20px;
+  pointer-events: none;
 }
 
 .distribution-icon {
@@ -1566,6 +1562,13 @@ progress::-webkit-progress-value {
   margin-right: 10px;
 }
 
+.subtask-item:hover {
+  background-color: rgba(148, 148, 148, 0.1);
+  border-radius: 8px;
+  padding: 5px 8px;
+  margin: 0 -8px;
+}
+
 #no-results {
   position: fixed;
   top: 50%;
@@ -1578,23 +1581,25 @@ progress::-webkit-progress-value {
   border-radius: 20px;
   cursor: pointer;
 }
+
 /*------------------------------------*/
 
 .landing-field {
-    display: none;
-    height: 80px;
-    margin: 8px 0;
-    border: 2px dashed #aaa;
-    border-radius: 8px;
-    background-color: #e0e0e0;
-    transition: all 0.2s;
+  display: none;
+  height: 190px;
+  margin: 8px 0;
+  border: 2px dashed #b8b8b8;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.04);
+  transition: all 0.2s;
 }
 
 .task-container.drag-over {
-    background-color: #f0f0f0;
-    border: 2px dashed #888;
-    border-radius: 8px;
+  background-color: #f0f0f0;
+  border: 2px dashed #888;
+  border-radius: 8px;
 }
+
 /*------------------------------------*/
 @media (max-width: 1500px) {
 
@@ -1937,7 +1942,7 @@ progress::-webkit-progress-value {
 
 .navbar {
   display: none;
-  position: absolute;     
+  position: absolute;
   right: 0;
   top: 100%;
   background: white;

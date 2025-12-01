@@ -90,9 +90,9 @@ function appendUserItem(dropList, user) {
     img.classList.add("userBadge");
 
     if (badgePath.includes("person.svg")) {
-        img.classList.add("newUserIcon"); 
+        img.classList.add("newUserIcon");
     }
-    
+
     div.append(img, name, renderCheckButton());
     dropList.appendChild(div);
 }
@@ -112,15 +112,15 @@ function addNewTask() {
     const taskData = getNewTaskInputs();
     const newTask = {
         id: Date.now(),
-        status: "todo",
+        status: window.currentTaskColumn || "todo",
         ...taskData,
     };
-
     return firebase.database().ref('tasks/' + newTask.id).set(newTask)
         .catch((error) => {
             console.error('Task wurde nicht weitergeleitet:', error);
         });
 }
+
 
 function editTask() {
     const editTaskData = getEditTaskInputs();
@@ -130,8 +130,14 @@ function editTask() {
 
     for (const key in editTaskData) {
         const value = editTaskData[key];
+
         if (key === "main") continue;
         if (value === "" || value === undefined || value === null) continue;
+        if (key === "assigned") {
+            if (Array.isArray(value) && value.length === 0) {
+                continue;
+            }
+        }
         filteredData[key] = value;
     }
 
@@ -354,11 +360,19 @@ document.addEventListener("click", (e) => {
 });
 
 function closeTaskOverlay() {
-    const bg = document.getElementById('task-overlay-background');
-    const mount = document.getElementById('task-form-container');
-    bg?.classList.remove('is-open');
-    mount.innerHTML = '';
-    document.body.classList.remove('no-scroll');
+    let overlayBg = document.getElementById("task-overlay-background");
+    let container = document.getElementById("task-form-container");
+    let taskAddedInfo = document.getElementById('task-added-info');
+    taskAddedInfo.style.display = "flex"
+    setTimeout(() => {
+        overlayBg.style.display = "none";
+        container.innerHTML = "";
+
+        setTimeout(() => {
+            taskAddedInfo.style.display = "none";
+        }, 0);
+    }, 900);
+
 }
 
 function redirectToBoard() {
@@ -371,8 +385,12 @@ function redirectToBoard() {
         return;
     }
     if (window.location.href.includes("board.html")) {
-        document.getElementById('task-added-info').style.display = "none";
         closeTaskOverlay();
+
+        setTimeout(async () => {
+            await loadData();
+            dragAndDrop();
+        }, 300);
     } else {
         location.assign("../board.html");
     }

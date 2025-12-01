@@ -70,7 +70,7 @@
         </div>
         <div class="user-info">
           <a class="user-info-help" href="./help.html"><img class="Hilfe" src="./assets/help.svg" alt="help"></a>
-          <img class="profil" src="./assets/sofia.svg" alt="badges-header">
+          <img onclick="badgeOverlay()" id="header-badge" class="profil" src="../assets/sofia.svg" alt="Profilbild">
           <div id="navbar" class="navbar">
             <a href="legal_notice.html">Legal Notice</a>
             <a href="privacy_policy.html">Privacy Policy</a>
@@ -82,7 +82,11 @@
     </header>
 
     <section class="content">
-
+  <div id="badge-overlay">
+        <a href="../legal_notice.html">Legal Notice</a>
+        <a href="../privacy_policy.html">Privacy Policy</a>
+        <a href="../index.html" id="logout-link">Log out</a>
+    </div>
       <div class="board-top-content">
         <div class="board-title">
           <h1>Board</h1>
@@ -109,36 +113,37 @@
 
       <div class="distribution">
 
-        <div class="distribution-progress">
-          <div class="distribution-text-icon-wrapper">To do
+        <div class="distribution-progress" ondrop="moveTo(event, 'todo')" ondragover="dragoverHandler(event)">
+          <div class="distribution-text-icon-wrapper">
+            To do
             <img onclick="openAddTaskOverlay('todo')" class="distribution-icon" src="./assets/plus button.png">
           </div>
-          <div class="task-container" id="todo-container" ondrop="moveTo(event, 'todo')"
-            ondragover="dragoverHandler(event)"></div>
-
+          <div class="task-container" id="todo-container"></div>
         </div>
 
-        <div class="distribution-progress">
-          <div class="distribution-text-icon-wrapper">In progress
+        <div class="distribution-progress" ondrop="moveTo(event, 'inprogress')" ondragover="dragoverHandler(event)">
+          <div class="distribution-text-icon-wrapper">
+            In progress
             <img onclick="openAddTaskOverlay('inprogress')" class="distribution-icon" src="./assets/plus button.png">
           </div>
-          <div class="task-container" id="in-progress-container" ondrop="moveTo(event, 'inprogress')"
-            ondragover="dragoverHandler(event)"></div>
+          <div class="task-container" id="in-progress-container"></div>
         </div>
 
-        <div class="distribution-progress">
-          <div class="distribution-text-icon-wrapper">Await feedback
+        <div class="distribution-progress" ondrop="moveTo(event, 'review')" ondragover="dragoverHandler(event)">
+          <div class="distribution-text-icon-wrapper">
+            Await feedback
             <img onclick="openAddTaskOverlay('review')" class="distribution-icon" src="./assets/plus button.png">
           </div>
-          <div class="task-container" id="feedback-container" ondrop="moveTo(event, 'review')"
-            ondragover="dragoverHandler(event)"></div>
+          <div class="task-container" id="feedback-container"></div>
         </div>
 
-        <div class="distribution-progress">Done
-          <div class="task-container" id="done-container" ondrop="moveTo(event, 'done')"
-            ondragover="dragoverHandler(event)"></div>
+        <div class="distribution-progress" ondrop="moveTo(event, 'done')" ondragover="dragoverHandler(event)">
+          Done
+          <div class="task-container" id="done-container"></div>
         </div>
+
       </div>
+
 
       </div>
       <div id="no-results" style="display:none;">Keine Tasks gefunden</div>
@@ -155,10 +160,15 @@
         <div class="modal">…Add Task…</div>
       </div>
 
+      <div id="task-added-info" class="task-added-board">Task added to board
+        <img src="../assets/Board.svg">
+      </div>
+
       <div id="edit-overlay-background">
         <div class="edit-overlay" id="edit-overlay">
           <div class="task-overlay-inner">
-            <img src="./assets/Close.png" id="addTask-edit-close-Img" class="addTask-close-Icon"></img>
+            <img onclick="cancelEditOverlay()" src="./assets/Close.png" id="addTask-edit-close-Img"
+              class="addTask-close-Icon"></img>
             <div id="edit-task-form-container">
             </div>
           </div>
@@ -173,6 +183,7 @@
     <script src="./board/board-templates.js" defer></script>
     <script src="./add_task/add_task.js" defer></script>
     <script src="./add_task/add_task_templates.js" defer></script>
+        <script src="global.js"></script>
 </body>
 
 

@@ -1,14 +1,14 @@
 /*--------------------------------------------------------------- */
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDaAKocqkIROo_InISQbRjsoG8z1JCK3g0",
-    authDomain: "join-gruppenarbeit-75ecf.firebaseapp.com",
-    databaseURL: "https://join-gruppenarbeit-75ecf-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "join-gruppenarbeit-75ecf",
-    storageBucket: "join-gruppenarbeit-75ecf.appspot.com",
-    messagingSenderId: "180158531840",
-    appId: "1:180158531840c894124a7d6eb515364be5",
-    measurementId: "G-5R563MH52P"
+  apiKey: "AIzaSyDaAKocqkIROo_InISQbRjsoG8z1JCK3g0",
+  authDomain: "join-gruppenarbeit-75ecf.firebaseapp.com",
+  databaseURL: "https://join-gruppenarbeit-75ecf-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "join-gruppenarbeit-75ecf",
+  storageBucket: "join-gruppenarbeit-75ecf.appspot.com",
+  messagingSenderId: "180158531840",
+  appId: "1:180158531840c894124a7d6eb515364be5",
+  measurementId: "G-5R563MH52P"
 };
 
 
@@ -98,34 +98,51 @@ async function getUrgent() {
 
 getUrgent()
 
-async function getendDate() {
+async function getEndDate() {
+  await loadData();
 
-  const snapshot = await FIREBASE_TASK.get();
-  const tasksData = snapshot.val();
-  
-  if (!tasksData) return;
-  const tasksArray = Object.values(tasksData);
-  const foundTask = tasksArray.find(task => task.enddate);
+  const next = getNextUpcomingDeadline(tasks);
+  if (!next) return;
 
-  const SummaryCard = document.getElementById("enddate");
-  if (!SummaryCard) return;
-  if (foundTask) {
-    const taskDate = new Date(foundTask.enddate);
-
-    const formattedDate = taskDate.toLocaleDateString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric"
-    });
-
-    SummaryCard.innerHTML = `
-      <h1 class="urgent-date-text">${formattedDate}</h1>
-      <span>Upcoming deadline</span>
-    `;
-  }
+  renderNextDeadline(next.enddate);
 }
 
-getendDate();
+function getNextUpcomingDeadline(tasks) {
+  if (!Array.isArray(tasks)) return null;
+  const now = Date.now();
+  let nextTask = null;
+  for (let i = 0; i < tasks.length; i++) {
+    const task = tasks[i];
+    if (!task.enddate) continue;
+    const timestamp = Date.parse(task.enddate);
+    if (isNaN(timestamp)) continue;
+    if (timestamp < now) continue;
+    if (!nextTask || timestamp < Date.parse(nextTask.enddate)) {
+      nextTask = task;
+    }
+  }
+
+  return nextTask;
+}
+
+
+function renderNextDeadline(dateString) {
+  const el = document.getElementById("enddate");
+  if (!el) return;
+
+  const formatted = new Date(dateString).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  el.innerHTML = `
+    <h1 class="urgent-date-text">${formatted}</h1>
+    <span>Upcoming deadline</span>
+  `;
+}
+
+getEndDate();
 
 async function getTasksInBoard() {
   await loadData();
@@ -174,7 +191,7 @@ getFeedbackTasks();
 
 
 function redirectToBoard() {
-    location.assign("../board.html");
+  location.assign("../board.html");
 }
 
 
@@ -210,15 +227,15 @@ async function updateGreeting() {
   else if (hours >= 12 && hours < 18) greetingText = "Good afternoon";
   else if (hours >= 18 && hours < 22) greetingText = "Good evening";
   else greetingText = "Good night";
-/* Test
-  if (!loggedInUser || loggedInUser.name === "Gast") {
-    greetingSpan.textContent = `${greetingText}!`;
-    userSpan.style.display = "none";
-  } else {
-    greetingSpan.textContent = `${greetingText},`;
-    userSpan.textContent = loggedInUser.name;
-    userSpan.style.display = "inline";
-  }*/
+  /* Test
+    if (!loggedInUser || loggedInUser.name === "Gast") {
+      greetingSpan.textContent = `${greetingText}!`;
+      userSpan.style.display = "none";
+    } else {
+      greetingSpan.textContent = `${greetingText},`;
+      userSpan.textContent = loggedInUser.name;
+      userSpan.style.display = "inline";
+    }*/
   greetingSpan.textContent = `${greetingText},`;
   userSpan.textContent = userData.name;
   userSpan.style.display = "inline";

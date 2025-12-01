@@ -63,102 +63,110 @@ function renderBadges(assigned) {
   return badges;
 }
 
+let originalContainer = null;
+
 function startDragging(ev, id) {
-    ev.dataTransfer.setData("text", `card-${id}`);
-    originalParent = document.getElementById(`card-${id}`).parentElement; 
-    const card = document.getElementById(`card-${id}`);
-    card.classList.add("dragging");
-    isDragging = true;
-    document.querySelectorAll(".landing-field").forEach(lf => lf.remove());
+  const card = document.getElementById(`card-${id}`);
+  originalContainer = card.parentElement;
+
+  ev.dataTransfer.setData("text", `card-${id}`);
+  card.classList.add("dragging");
+  isDragging = true;
+
+  document.querySelectorAll(".landing-field").forEach(lf => lf.remove());
 }
 
 
 function dragoverHandler(ev) {
-    ev.preventDefault();
+  ev.preventDefault();
 
-    const container = ev.currentTarget;
-    const draggingCard = document.querySelector(".board-card.dragging");
-    if (!draggingCard) return;
-    container.querySelectorAll(".landing-field").forEach(lf => lf.style.display = "none");
-    const children = Array.from(container.querySelectorAll(".board-card"));
-    let inserted = false;
+  document.querySelectorAll(".landing-field").forEach(lf => lf.remove()); // entfernt den letzten gestrichelten container wenn drüber gehovert wird.
+  const container = ev.currentTarget;
+  const draggingCard = document.querySelector(".board-card.dragging");
+  if (!draggingCard) return;
 
-    for (let child of children) {
-        const rect = child.getBoundingClientRect();
-        const midpoint = rect.top + rect.height / 2;
+  const inner = container.querySelector(".task-container");
 
-        if (ev.clientY < midpoint) {
-            let lf = child.nextElementSibling;
-            if (!lf || !lf.classList.contains("landing-field")) {
-                lf = document.createElement("div");
-                lf.classList.add("landing-field");
-                child.after(lf);
-            }
-            lf.style.display = "block";
-            inserted = true;
-            break;
-        }
+  if (inner === originalContainer) {
+    return;
+  }
+
+  document.querySelectorAll(".landing-field").forEach(lf => lf.remove());
+  const children = Array.from(container.querySelectorAll(".board-card"));
+  let inserted = false;
+
+  for (let child of children) {
+    const rect = child.getBoundingClientRect();
+    const midpoint = rect.top + rect.height / 2;
+
+    if (ev.clientY < midpoint) {
+      let lf = child.nextElementSibling;
+      if (!lf || !lf.classList.contains("landing-field")) {
+        lf = document.createElement("div");
+        lf.classList.add("landing-field");
+        lf.style.height = draggingCard.offsetHeight + "px";
+        child.parentElement.insertBefore(lf, child.nextSibling);
+      }
+      lf.style.display = "block";
+      inserted = true;
+      break;
     }
-    if (!inserted) {
-        let lf = container.querySelector(".landing-field:last-child");
-        if (!lf) {
-            lf = document.createElement("div");
-            lf.classList.add("landing-field");
-            container.appendChild(lf);
-        }
-        lf.style.display = "block";
+  }
+  if (!inserted) {
+    let lf = container.querySelector(".landing-field:last-child");
+    if (!lf) {
+      lf = document.createElement("div");
+      lf.classList.add("landing-field");
+      lf.style.height = draggingCard.offsetHeight + "px";
+      container.querySelector(".task-container").appendChild(lf);
     }
+    lf.style.display = "block";
+  }
 }
 
 function onDragEnd() {
-    setTimeout(() => {
-        isDragging = false;
-        document.querySelectorAll(".board-card.dragging").forEach(c => c.classList.remove("dragging"));
-        document.querySelectorAll(".landing-field").forEach(lf => lf.style.display = "none");
-        updateAllContainers();
-    }, 50);
+  setTimeout(() => {
+    isDragging = false;
+    document.querySelectorAll(".board-card.dragging").forEach(c => c.classList.remove("dragging"));
+    document.querySelectorAll(".landing-field").forEach(lf => lf.style.display = "none");
+    updateAllContainers();
+  }, 50);
 }
 
 function dragenterHandler(ev) {
-    ev.preventDefault();
-    ev.currentTarget.classList.add("drag-over");
+  ev.preventDefault();
+  ev.currentTarget.classList.add("drag-over");
 }
 
 function moveTo(ev, newStatus) {
-    ev.preventDefault();
-    const data = ev.dataTransfer.getData("text");
-    const card = document.getElementById(data);
-    const container = ev.currentTarget;
-    if (!card || !container) return;
+  ev.preventDefault();
+  const data = ev.dataTransfer.getData("text");
+  const card = document.getElementById(data);
+  const container = ev.currentTarget.querySelector(".task-container");
+  if (!card || !container) return;
 
-    const lf = container.querySelector(".landing-field[style*='display: block']");
-    if (lf) {
-        container.insertBefore(card, lf);
-        lf.remove();
-    } else {
-        container.appendChild(card);
-    }
-    document.querySelectorAll(".landing-field").forEach(lf => lf.style.display = "none");
-    updateContainerTemplate(container);
+  const lf = container.querySelector(".landing-field[style*='display: block']");
+  if (lf) {
+    container.insertBefore(card, lf);
+    lf.remove();
+  } else {
+    container.appendChild(card);
+  }
+  document.querySelectorAll(".landing-field").forEach(lf => lf.style.display = "none");
+  updateContainerTemplate(container);
 }
 
 let openedCardId = null;
 
 function updateContainerTemplate(container) {
   if (!container) return;
-  const emptyTemplate = container.querySelector(".notasks-container");
-  const existingPlaceholder = container.querySelector(".notasks-container");
-  if (existingPlaceholder) existingPlaceholder.remove();
- const hasCards = container.querySelectorAll(".board-card").length > 0;
+  container.querySelectorAll(".notasks-container").forEach(el => el.remove());
+  const hasCards = container.querySelectorAll(".board-card").length > 0;
   if (!hasCards) {
-    container.insertAdjacentHTML('beforeend', noCardsTemplate());
-  }
-  if (container.children.length === 0) {
-    container.innerHTML = noCardsTemplate();
-  } else if (emptyTemplate) {
-    emptyTemplate.remove();
+    container.insertAdjacentHTML("beforeend", noCardsTemplate());
   }
 }
+
 
 function updateAllContainers() {
   const containers = [
@@ -198,6 +206,7 @@ function renderSubtask(subtasks) {
 }
 
 function deleteCard(taskId) {
+  firebase.database().ref("tasks/" + taskId).remove();
   const index = tasks.findIndex(t => t.id === taskId);
   if (index !== -1) tasks.splice(index, 1);
   const card = document.getElementById(`card-${taskId}`);
@@ -334,11 +343,11 @@ function openAddTaskOverlay(column) {
     addTaskInteractionsLoaded = true;
   }
 
-    setTimeout(() => {
-      mediumActive = false;
-      resetAllButton();
-      changeMediumColor();
-    }, 50);
+  setTimeout(() => {
+    mediumActive = false;
+    resetAllButton();
+    changeMediumColor();
+  }, 50);
 
   overlayBg.style.display = "block";
   animateOverlayIn(overlay);
@@ -399,22 +408,27 @@ function animateDetailedCardOut(overlay) {
   overlay.classList.remove("is-open");
 }
 
+function removeExistingDetailOverlay() {
+  const oldOverlay = document.getElementById("overlayclose");
+  if (oldOverlay) oldOverlay.remove();
+}
+
 async function closeEditOverlay() {
-  let bg = document.getElementById('edit-overlay-background');
+  const bg = document.getElementById('edit-overlay-background');
   if (!bg) return;
   await editTask();
   await loadData();
+  removeExistingDetailOverlay();
   detailedCardInfo(openedCardId);
   await dragAndDrop();
   bg.classList.remove('is-open');
   openDetailedInfoCardInstant();
-  closeOverlayCardInstant();
 }
 
 function cancelEditOverlay() {
   let bg = document.getElementById('edit-overlay-background');
   if (!bg) return;
-  detailedCardInfo(openedCardId);
+
   bg.classList.remove('is-open');
   openDetailedInfoCardInstant();
   closeOverlayCardInstant();
@@ -464,17 +478,4 @@ function noResult(count) {
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
-/*navbar*/
-  const profileImg = document.querySelector('.profil');
-  const navbar = document.getElementById('navbar');
 
-  profileImg.addEventListener('click', function () {
-    navbar.classList.toggle('open');
-  });
-
-
-  document.addEventListener('click', function (event) {
-    if (!event.target.closest('.user-info')) {
-      navbar.classList.remove('open');
-    }
-  });

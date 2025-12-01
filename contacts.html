@@ -7,13 +7,14 @@
     <title>Join</title>
 
     <link rel="icon" type="image/x-icon" href="./assets/favicon.svg" />
-    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="./board/board.css" />
     <link rel="stylesheet" href="./contacts/contacts.css">
     <script src="./db.js" type="module"></script>
     <script src="./firstdata.js" type="module"></script>
     <script src="./contacts/contacts-template.js" defer></script>
     <script src="./contacts/contacts-script.js" type="module"></script>
+    <script src="global.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -49,31 +50,42 @@
 
         <footer>
             <div>
-               <a class="legal-notice" href="./privacy_policy.html">Privacy Policy</a>
-               </div>
-               <div>
-        <a class="legal-notice" href="./legal_notice.html"><p>Legal notice</p>
-            </a>
+                <a class="legal-notice" href="./privacy_policy.html">Privacy Policy</a>
+            </div>
+            <div>
+                <a class="legal-notice" href="./legal_notice.html">
+                    <p>Legal notice</p>
+                </a>
         </footer>
     </section>
 
     <section class="right-side" id="rightside">
         <header>
-            <h3>Kanban Project Management Tool</h3>
-            <a href="./index.html">
-            <img class="responsiveheaderimage" src="./assets/logo-black.svg" alt="Join">
-        </a>
-            <div class="user-info">
-                <a href="./help.html"><img class="Hilfe" src="./assets/help.svg" alt="help"></a>
-                <img class="profil" src="./assets/sofia.svg" alt="badges-header">
-                <div id="navbar" class="navbar">
-                        <a class="legal-notice" href="../legal_notice.html"><p>Legal notice</p>
-                    <a class="legal-notice" href="privacy_policy.html">Privacy Policy</a>
-                    <a href="index.html" id="logout-link">Log out</a>
-                </div>
-            </div>
-        </header>
+      <div class="header-content">
+        <div>
+          <img class="responsive-logo-board" src="./assets/logo.svg" alt="Logo">
+          <h3>Kanban Project Management Tool</h3>
+        </div>
+        <div class="user-info">
+          <a class="user-info-help" href="./help.html"><img class="Hilfe" src="./assets/help.svg" alt="help"></a>
+          <img onclick="badgeOverlay()" id="header-badge" class="profil" src="../assets/sofia.svg" alt="Profilbild">
+          <div id="navbar" class="navbar">
+            <a href="legal_notice.html">Legal Notice</a>
+            <a href="privacy_policy.html">Privacy Policy</a>
+            <a href="index.html" id="logout-link">Log out</a>
+          </div>
+        </div>
+      </div>
+
+    </header>
         <div class="contatsandmotopositioning">
+
+            <div id="badge-overlay">
+                <a href="../legal_notice.html">Legal Notice</a>
+                <a href="../privacy_policy.html">Privacy Policy</a>
+                <a href="../index.html" id="logout-link">Log out</a>
+            </div>
+
             <section class="contanctssection" id="responsiveleftsidecontacts">
                 <div class="addnewcontactbuttonplacement" id="mainbodycontainerid">
                     <button class="addnewcontact" onclick="addNewContact()">Add new contact <img class="personaddimg"
@@ -87,24 +99,24 @@
                 <div class="contactswholetext">
                     <h1 class="contactstext">Contacts</h1>
                     <div class="contactsmotoresponsivediv">
-                    <div class="line-wrapper">
-                    <img src="./assets/Vector 5.svg">
-                    </div>
-                    <p>Better with a team</p>
+                        <div class="line-wrapper">
+                            <img src="./assets/Vector 5.svg">
+                        </div>
+                        <p>Better with a team</p>
                     </div>
                     <div class="contactsmoto-back-arrow-responsive">
-                     <img src="./assets/arrow-left-line.svg" onclick="reRenderContacts()">   
+                        <img src="./assets/arrow-left-line.svg" onclick="reRenderContacts()">
                     </div>
                 </div>
-            <div class="contactinfo"id="contactsinfo"></div>
+                <div class="contactinfo" id="contactsinfo"></div>
             </section>
         </div>
     </section>
     <div class="responsiveaddcontact" onclick="addNewContact()" id="responsiveaddcontactid">
-        <img src="./assets/Secondary_mobile_contact_V1.svg"> 
+        <img src="./assets/Secondary_mobile_contact_V1.svg">
     </div>
     <div class="threedotsmenu" onclick="editUserOptionsResponsive()" id="responsiveeditcontactid">
-    <img src="./assets/Menu Contact options.svg">
+        <img src="./assets/Menu Contact options.svg">
     </div>
 </body>
 
