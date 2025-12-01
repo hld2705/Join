@@ -1911,6 +1911,11 @@ progress::-webkit-progress-value {
     height: 180px;
     max-width: 95vw;
   }
+
+  .subtask-template{
+
+    font-size: 16px;
+  }
 }
 
 @media (max-width: 600px){
