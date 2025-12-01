@@ -80,7 +80,7 @@ function startDragging(ev, id) {
 function dragoverHandler(ev) {
   ev.preventDefault();
 
-  document.querySelectorAll(".landing-field").forEach(lf => lf.remove()); // entfernt den letzten gestrichelten container wenn drüber gehovert wird.
+  document.querySelectorAll(".landing-field").forEach(lf => lf.remove());
   const container = ev.currentTarget;
   const draggingCard = document.querySelector(".board-card.dragging");
   if (!draggingCard) return;
@@ -394,7 +394,7 @@ function openEditOverlay(taskId) {
   bg.classList.add('is-open');
   bg.addEventListener('click', function (e) {
     if (e.target === bg) {
-      closeEditOverlay();
+      cancelEditOverlay();
     }
   })
 }
@@ -427,12 +427,21 @@ async function closeEditOverlay() {
 
 function cancelEditOverlay() {
   let bg = document.getElementById('edit-overlay-background');
-  if (!bg) return;
+  let overlay = document.getElementById('edit-overlay');
+  if (!bg || !overlay) return;
+  overlay.classList.add('edit-overlay-exit');
 
-  bg.classList.remove('is-open');
-  openDetailedInfoCardInstant();
-  closeOverlayCardInstant();
+  setTimeout(() => {
+    overlay.classList.remove('edit-overlay-exit');
+    bg.classList.remove('is-open');
+    openDetailedInfoCardInstant();
+    closeOverlayCardInstant();
+  }, 350);
 }
+
+document.getElementById("edit-overlay").addEventListener("click", (e) => {
+  e.stopPropagation();
+});
 
 document.body.classList.remove('no-scroll');
 if (openedCardId !== null) {

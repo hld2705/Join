@@ -1520,6 +1520,7 @@ progress::-webkit-progress-value {
   max-width: 1400px;
   padding-left: 60px;
   gap: 20px;
+  max-width: 1920px;
 }
 
 
@@ -1599,6 +1600,15 @@ progress::-webkit-progress-value {
   border: 2px dashed #888;
   border-radius: 8px;
 }
+
+.edit-overlay-exit {
+    transition: transform 0.25s ease;
+    transform: translate(220%, -50%) !important;
+}
+
+
+
+
 
 /*------------------------------------*/
 @media (max-width: 1500px) {
