@@ -130,6 +130,10 @@
    
   }
 
+  .summary-header p{
+
+    margin-left:50px;
+  }
   .summary-header {
     display: flex;
     flex-direction: column;
