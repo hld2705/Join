@@ -105,14 +105,29 @@
 
 @media(max-width: 900px) {
 
+  #enddate span{
+    font-size: 12px;
+  }
+
+  #enddate{
+
+    margin:0;
+  }
+
+  .overview-box-wrapper{
+    font-size: 14px;
+  }
   .task-count {
     font-size: 47px;
   }
 
-  #summary-todo {
+.status-box-container{
+  flex-direction: column;
+}
+ .status-box {
 
-    width: 186px;
-    height: 110px;
+    width: 100% ;
+   
   }
 
   .summary-header {
@@ -145,7 +160,8 @@
 
 
 
-  .deadline-container img {
+  #deadline-container img {
+    margin-left: 20px;
     width: 40px;
     height: 40px;
   }
@@ -220,6 +236,7 @@
   }
 
   .vector {
+    margin-left: 20px;
     height: 68px;
   }
 
@@ -243,18 +260,20 @@
   }
 
   .urgent-date-text {
-    font-size: 16px;
+    font-size: 12px;
   }
 
+  .urgent-date-text span{
+    font-size: 12px;
+  }
   .left-content {
-
     flex: 0 0 0;
   }
 }
 
 @media(max-width: 450px) {
 
-
+ 
   .todo {
     display: flex;
     flex-direction: column;
@@ -274,7 +293,7 @@
   }
 
   .vector {
-
-    margin: 0;
+   margin-left: 20px;
+    
   }
 }
