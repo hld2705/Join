@@ -152,6 +152,17 @@ function moveTo(ev, newStatus) {
   } else {
     container.appendChild(card);
   }
+
+  const taskId = Number(card.id.replace("card-", ""));
+  const task = tasks.find(t => t.id === taskId);
+  if (task) {
+    task.status = newStatus;
+
+    firebase.database().ref("tasks/" + taskId).update({
+      status: newStatus
+    });
+  }
+
   document.querySelectorAll(".landing-field").forEach(lf => lf.style.display = "none");
   updateContainerTemplate(container);
 }
@@ -186,7 +197,7 @@ function detailedCardInfo(taskId) {
   document.body.insertAdjacentHTML("beforeend", detailedCardInfoTemplate(task));
 }
 
-function renderSubtask(subtasks) {
+function renderSubtask(subtasks, taskId) {
   if (!subtasks || subtasks.length === 0)
     return "<p>Currently no subtasks available</p>";
 
@@ -197,13 +208,46 @@ function renderSubtask(subtasks) {
   if (safe.length === 0)
     return "<p>Currently no subtasks available</p>";
 
-  return safe.map(st => `
+  return safe.map((st, i) => `
         <div class="subtask-item">
-            <input type="checkbox" ${st.done ? "checked" : ""}>
+            <input 
+                type="checkbox" 
+                ${st.done ? "checked" : ""} 
+                onchange="toggleSubtask(${taskId}, ${i})"
+            >
             <p>${st.text}</p>
         </div>
     `).join('');
 }
+
+function toggleSubtask(taskId, index) {
+    let task = tasks.find(t => t.id === taskId);
+    if (!task) return;
+    task.subtasks[index].done = !task.subtasks[index].done;
+    saveData("tasks", task);
+    updateBoardSubtaskProgress(taskId, task.subtasks);
+}
+
+function updateBoardSubtaskProgress(taskId, subtasks) {
+  const done = subtasks.filter(s => s.done).length;
+  const total = subtasks.length;
+
+  const card = document.getElementById(`card-${taskId}`);
+  if (!card) return;
+
+  const text = card.querySelector('.subtask-template');
+  if (text) {
+    text.textContent = `${done}/${total} Subtasks`;
+  }
+
+  const progressBar = card.querySelector('.subtask-progress');
+  if (progressBar) {
+    const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+    progressBar.value = percent;
+  }
+}
+
+
 
 function deleteCard(taskId) {
   firebase.database().ref("tasks/" + taskId).remove();
