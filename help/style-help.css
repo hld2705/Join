@@ -40,13 +40,10 @@ p{
 .edit-right{
     margin-left: 96px;
     margin-top: 110px;
-      overflow-y: scroll;  /* nur vertikales Scrollen erlauben */
+      overflow-y: scroll;
 }
 
-/*responsive*/
-
 @media screen and (max-width: 800px) {
-    
     .display-position1{
     flex-direction: column;
     align-items: center;
@@ -55,8 +52,8 @@ p{
     max-width: 100%;
     padding: 0px;
     }
+
     .mainsection{
-    /*display: flex;*/
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -64,6 +61,7 @@ p{
     max-width: 100%;
     padding: 0px;
     }
+    
     .title1 {
     text-align: left;
     word-wrap: break-word;

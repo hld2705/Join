@@ -2,11 +2,9 @@ function resetAllButton() {
     document.getElementById('urgent').classList.remove('bg-red');
     document.getElementById('double-arrow').src = "../assets/Prio alta.svg"
     urgentActive = false;
-
     document.getElementById('medium-input').classList.remove('bg-orange');
     document.getElementById('equal').src = "../assets/Prio media.svg"
     mediumActive = false;
-
     document.getElementById('low-input').classList.remove('bg-green');
     document.getElementById('double-down').src = "../assets/double-down.svg"
     lowActive = false;
@@ -84,7 +82,6 @@ function openAssignDropdown() {
     assignedInput.placeholder = "";
     assignedInput.readOnly = false;
     switchAssignedArrow();
-
     setTimeout(() => {
         assignedInput.classList.add('borderColorBlue');
     }, 0);
@@ -158,7 +155,6 @@ document.addEventListener("click", toggleAssignedinputContent);
 function switchArrowIcon() {
     let arrowIcon = document.getElementById('drop-down-svg-category');
     let currentSrc = arrowIcon.src;
-
     if (currentSrc.includes("arrow_drop_down.svg")) {
         arrowIcon.src = "./assets/arrow_drop_down2.svg";
     } else {
@@ -192,7 +188,6 @@ function switchCategoryPlaceholder(e) {
     let dropDownCategory = document.getElementById('category-input')
     let dropdownListCategory = document.getElementById('dropdownListCategory')
     let option = e.target.closest('#technical-task-option, #user-story-option');
-
     if (option) {
         dropDownCategory.placeholder = option.id === "technical-task-option"
             ? "Technical Task"
@@ -311,13 +306,10 @@ function clearSubtaskOutput() {
 
 function handleSubtaskDelete(e) {
     let deleteIcon = e.target.closest('.delete-icon');
-
     if (!deleteIcon) return;
     let container = deleteIcon.closest('#subtask-content');
-
     if (!container) return;
     let li = deleteIcon.closest('li.single-subtask');
-
     if (li) {
         document.getElementById('subtask-input').disabled = false;
         li.remove();

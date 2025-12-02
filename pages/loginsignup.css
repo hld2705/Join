@@ -326,10 +326,7 @@ font-size: 61px;
         height: 490px;
         position: absolute;
         bottom: 19%;
-        padding: 20px 30px 20px 30px;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
+        padding: 20px 40px 20px 40px;
     }
     .checkboxandbuttonplacement {
         display: flex;

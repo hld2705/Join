@@ -42,8 +42,6 @@ function dragAndDrop() {
   updateAllContainers();
 }
 
-
-
 function renderBadges(assigned) {
   if (!assigned || assigned.length === 0) {
     return [];
@@ -68,36 +66,28 @@ let originalContainer = null;
 function startDragging(ev, id) {
   const card = document.getElementById(`card-${id}`);
   originalContainer = card.parentElement;
-
   ev.dataTransfer.setData("text", `card-${id}`);
   card.classList.add("dragging");
   isDragging = true;
-
   document.querySelectorAll(".landing-field").forEach(lf => lf.remove());
 }
 
 function dragoverHandler(ev) {
   ev.preventDefault();
-
   document.querySelectorAll(".landing-field").forEach(lf => lf.remove());
   const container = ev.currentTarget;
   const draggingCard = document.querySelector(".board-card.dragging");
   if (!draggingCard) return;
-
   const inner = container.querySelector(".task-container");
-
   if (inner === originalContainer) {
     return;
   }
-
   document.querySelectorAll(".landing-field").forEach(lf => lf.remove());
   const children = Array.from(container.querySelectorAll(".board-card"));
   let inserted = false;
-
   for (let child of children) {
     const rect = child.getBoundingClientRect();
     const midpoint = rect.top + rect.height / 2;
-
     if (ev.clientY < midpoint) {
       let lf = child.nextElementSibling;
       if (!lf || !lf.classList.contains("landing-field")) {
@@ -143,7 +133,6 @@ function moveTo(ev, newStatus) {
   const card = document.getElementById(data);
   const container = ev.currentTarget.querySelector(".task-container");
   if (!card || !container) return;
-
   const lf = container.querySelector(".landing-field[style*='display: block']");
   if (lf) {
     container.insertBefore(card, lf);
@@ -156,7 +145,6 @@ function moveTo(ev, newStatus) {
   const task = tasks.find(t => t.id === taskId);
   if (task) {
     task.status = newStatus;
-
     firebase.database().ref("tasks/" + taskId).update({
       status: newStatus
     });
@@ -184,7 +172,6 @@ function updateAllContainers() {
     document.getElementById("feedback-container"),
     document.getElementById("done-container")
   ];
-
   containers.forEach(container => updateContainerTemplate(container));
 }
 
@@ -198,14 +185,11 @@ function detailedCardInfo(taskId) {
 function renderSubtask(subtasks, taskId) {
   if (!subtasks || subtasks.length === 0)
     return "<p>Currently no subtasks available</p>";
-
   let safe = Array.isArray(subtasks)
     ? subtasks
     : Object.values(subtasks);
-
   if (safe.length === 0)
     return "<p>Currently no subtasks available</p>";
-
   return safe.map((st, i) => `
         <div class="subtask-item">
           <img
@@ -233,15 +217,12 @@ function toggleSubtask(taskId, index) {
 function updateBoardSubtaskProgress(taskId, subtasks) {
   const done = subtasks.filter(s => s.done).length;
   const total = subtasks.length;
-
   const card = document.getElementById(`card-${taskId}`);
   if (!card) return;
-
   const text = card.querySelector('.subtask-template');
   if (text) {
     text.textContent = `${done}/${total} Subtasks`;
   }
-
   const progressBar = card.querySelector('.subtask-progress');
   if (progressBar) {
     const percent = total === 0 ? 0 : Math.round((done / total) * 100);
@@ -378,19 +359,15 @@ function openAddTaskOverlay(column) {
   window.currentTaskColumn = column;
   let overlayBg = document.getElementById("task-overlay-background");
   let overlay = document.getElementById("task-overlay");
-
   addTaskOverlayTemplate();
-
   if (!addTaskInteractionsLoaded) {
     loadAddTaskInteractions();
     addTaskInteractionsLoaded = true;
   }
-
   setTimeout(() => {
     mediumActive = false;
     changeMediumColor();
   }, 50);
-
   overlayBg.style.display = "block";
   animateOverlayIn(overlay);
 }

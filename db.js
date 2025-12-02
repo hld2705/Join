@@ -11,13 +11,11 @@ async function loadData() {
   const tasksData = await tasksRes.json();
   users = [];
   tasks = [];
-
   if (usersData) {
     for (let key in usersData) {
       users.push({ id: key, ...usersData[key] });
     }
   }
-
   if (tasksData) {
     for (let key in tasksData) {
       tasks.push({ id: key, ...tasksData[key] });
@@ -36,14 +34,12 @@ async function saveData(type, item) {
 async function setCurrentUser(userId) {
   for (let i = 0; i < users.length; i++) {
     let user = users[i];
-
     if (user.id === userId) {
       user.login = 1;
       loggedInUser = user;
     } else {
       user.login = 0;
     }
-    
     await saveData('users', user);
   }
 }
@@ -51,5 +47,4 @@ async function setCurrentUser(userId) {
 
 document.addEventListener('DOMContentLoaded', async () => {
   await loadData();
-
 });

@@ -1,4 +1,3 @@
-
 let activeUserId = null;
 
 const firebaseConfig = {
@@ -27,24 +26,17 @@ async function fetchData() {
 async function contactsLoad() {
   let contacts = document.getElementById("contactsjs");
   contacts.innerHTML = "";
-
   let users = await fetchData();
   users = users.filter(u => u && u.name);
   users.sort((a, b) => a.name.localeCompare(b.name));
-
   let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
   responsiveEditContactId.style.display = "none";
-
   let currentLetter = "";
-
   for (let user of users) {
     if (!user.name) continue;
-
     let firstLetter = user.name.charAt(0).toUpperCase();
-
     if (firstLetter !== currentLetter) {
       currentLetter = firstLetter;
-
       contacts.innerHTML += `
         <div class="letter-separationline-container">
           <h2 class="letter-header">${currentLetter}</h2>
@@ -52,7 +44,6 @@ async function contactsLoad() {
         </div>
       `;
     }
-
     contacts.innerHTML += contactsLoadTemplate(user);
   }
 }
@@ -61,10 +52,8 @@ async function contactsRender(userId) {
   let contactInfo = document.getElementById("contactsinfo");
   let responsiveLeftSide = document.getElementById("responsiveleftsidecontacts");
   let responsiveContactsDetails = document.getElementById("responsivecontactsmoto");
-
   let lastHighlight = document.getElementById(`contactfield${activeUserId}`);
   let currentHighlight = document.getElementById(`contactfield${userId}`);
-
   if (activeUserId === userId) {
     if (currentHighlight) {
       currentHighlight.style.backgroundColor = "#fff";
@@ -73,48 +62,38 @@ async function contactsRender(userId) {
     activeUserId = null;
     return;
   }
-
   if (lastHighlight) {
     lastHighlight.style.backgroundColor = "#fff";
     lastHighlight.style.color = "black";
   }
-
   if (currentHighlight) {
     currentHighlight.style.backgroundColor = "#2A3647";
     currentHighlight.style.color = "white";
   }
-
   activeUserId = userId;
-
   if (window.innerWidth <= 780) {
     if (responsiveLeftSide) responsiveLeftSide.style.display = "none";
     if (responsiveContactsDetails) responsiveContactsDetails.style.display = "block";
   }
-
   let users = await fetchData();
   let userInfo = users.find(u => String(u.id) === String(userId));
   if (!userInfo) return;
-
   setTimeout(() => {
     contactInfo.classList.add("is-open");
   }, 50);
-
   if (window.innerWidth <= 780) {
     if (responsiveLeftSide) responsiveLeftSide.style.display = "none";
     if (responsiveContactsDetails) responsiveContactsDetails.style.display = "block";
   }
-
   contactInfo.classList.remove("is-open");
   contactInfo.innerHTML = "";
   contactInfo.innerHTML = contactsRenderTemplate(userInfo);
-
   updateResponsiveButtons();
 }
 
 function updateResponsiveButtons() {
   let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
   let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
-
   if (window.innerWidth <= 780) {
     if (activeUserId) {
       if (responsiveAddContactId) responsiveAddContactId.style.display = "none";
@@ -136,12 +115,10 @@ function editUserOptionsResponsive() {
     responsiveEditContactId.style.display = "none";
   } else { responsiveEditContactId.style.display = "block"; }
   responsiveEditContactId.innerHTML = editUserOptionsResponsiveTemplate(userId);
-
 }
 function addNewContact() {
   let popUp = document.getElementById("body");
   popUp.innerHTML += addNewContactTemplate();
-
   let contactContainer = document.getElementById('contact-container')
   if (contactContainer) {
     setTimeout(() => {
@@ -154,14 +131,12 @@ function closeOverlay() {
   let contactContainer = document.getElementById('contact-container');
   const overlay = document.getElementById("closeoverlay");
   const editContainer = document.getElementById('edit-main-container')
-
   if (contactContainer) {
     contactContainer.classList.remove('is-open');
   }
    if (editContainer) {
     editContainer.classList.remove('is-open');
   }
-
   setTimeout(() => {
     if (overlay) overlay.remove();
   }, 250);
@@ -174,7 +149,6 @@ async function editUser(userId) {
   if (!user) return;
   let popUpEditUser = document.getElementById("body");
   popUpEditUser.innerHTML += editUserTemplate(user);
-
   let contactContainer = document.getElementById('edit-main-container')
   if (contactContainer) {
     setTimeout(() => {
@@ -191,15 +165,12 @@ async function deleteUser(userId) {
   }
   closeOverlay();
   contactsLoad();
-
 }
 
 async function saveUser(userId) {
-
   const nameEl = document.getElementById('edit_name').value.trim();
   const emailEl = document.getElementById('edit_email').value.trim();
   const phoneEl = document.getElementById('edit_phone').value.trim();
-
   await FIREBASE_USERS.child(userId).update({
     name: nameEl,
     email: emailEl,
@@ -215,7 +186,6 @@ function updateDetailsPanel(user) {
   const nameNode = document.getElementById('detailed_name');
   const emailNode = document.getElementById('detailed_email');
   const phoneNode = document.getElementById('detailed_phone');
-
   if (nameNode) nameNode.textContent = user.name;
   if (emailNode) emailNode.textContent = user.email;
   if (phoneNode) phoneNode.textContent = user.phone;
@@ -225,12 +195,10 @@ async function createContact() {
   let nameNew = document.getElementById("name_new_user").value.trim();
   let emailNew = document.getElementById("email_new_user").value.trim();
   let phoneNew = document.getElementById("phone_new_user").value.trim();
-
   if (nameNew === "" && !nameNew) {
     alert("Name field is mandatory!")
     return;
   }
-
   let entry = firebase.database().ref("users").push();
   let firebaseId = entry.key;
   let newUser = {
@@ -241,12 +209,10 @@ async function createContact() {
     badge: "/assets/icons/person.svg"
   };
 
-
   await entry.set(newUser);
   await addedNewUser();
   await contactsLoad();
 }
-
 async function addedNewUser() {
   let body = document.getElementById("mainbodycontainerid");
   body.innerHTML += `<div id="successMessage">${addedNewUserTemplate()}</div>`;
@@ -258,7 +224,6 @@ function reRenderContacts() {
   let contactInfo = document.getElementById("contactsinfo");
   let responsiveLeftSide = document.getElementById("responsiveleftsidecontacts");
   let responsiveContactsDetails = document.getElementById("responsivecontactsmoto");
-
   if (window.innerWidth <= 780) {
     contactInfo.innerHTML = "";
     if (responsiveLeftSide) {

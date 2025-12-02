@@ -6,9 +6,6 @@ let names = [];
 let taskFormURL = "./add_task/form_task.html";
 let subtaskCounter = 0;
 
-
-
-
 function init() {
     removeRequiredTitle();
     loadAddTaskForm();
@@ -61,20 +58,16 @@ function loadAddTaskForm() {
 async function showUserName() {
     let dropList = document.getElementById('dropdownList');
     let users = await getAllUser("/users");
-
     if (dropList.childElementCount > 0) return;
     users
         .filter(u => u !== null)
         .forEach(u => appendUserItem(dropList, u));
 }
 
-
-
 function appendUserItem(dropList, user) {
     let div = document.createElement("div");
     let name = document.createElement("span");
     let img = document.createElement("img");
-
     div.classList.add("Assigned-dropdown-username");
     div.dataset.userId = user.id;
     div.dataset.name = user.name.toLowerCase();
@@ -86,9 +79,7 @@ function appendUserItem(dropList, user) {
 
     img.src = badgePath;
     div.dataset.badge = badgePath;
-
     img.classList.add("userBadge");
-
     if (badgePath.includes("person.svg")) {
         img.classList.add("newUserIcon");
     }
@@ -125,9 +116,7 @@ function addNewTask() {
 function editTask() {
     const editTaskData = getEditTaskInputs();
     const oldTask = tasks.find(t => t.id === openedCardId);
-
     const filteredData = {};
-
     for (const key in editTaskData) {
         const value = editTaskData[key];
 
@@ -386,7 +375,6 @@ function redirectToBoard() {
     }
     if (window.location.href.includes("board.html")) {
         closeTaskOverlay();
-
         setTimeout(async () => {
             await loadData();
             dragAndDrop();

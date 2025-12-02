@@ -31,8 +31,6 @@ body {
     border-color: #FF8190;
 }
 
-
-
 @media screen and (min-width: 320px) and (max-width: 780px) {
     input {
         width: 428px;
@@ -72,12 +70,10 @@ body {
         display: flex;
         flex-direction: column-reverse;
         align-items: center;
-        /*justify-content: center;*/
         min-height: 100vh;
         padding: 20px;
         box-sizing: border-box;
     }
-
 
     .mainlogin {
         display: flex;
@@ -95,11 +91,10 @@ body {
         border-radius: 30px;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
         padding: 30px;
-        width: 396px;
+        width: 278px;
         height: 300px;
         margin-top: 30px;
     }
-
 
     .headerwriting {
         display: none;
@@ -115,7 +110,6 @@ body {
         height: auto;
     }
 
-
     .buttons {
         gap: 15px;
     }
@@ -127,11 +121,9 @@ body {
 }
 
 @media screen and (min-width: 320px) and (max-width: 500px) {
-
     .inputfield {
         width: 190px;
     }
-
     .buttons {
         flex-direction: column;
     }

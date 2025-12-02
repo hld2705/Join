@@ -6,7 +6,6 @@ function badgeOverlay() {
 document.addEventListener('click', function (event) {
   const overlay = document.getElementById('badge-overlay');
   if (!overlay) return;
-
   if (
     !event.target.closest('#badge-overlay') &&
     !event.target.closest('.user-info')

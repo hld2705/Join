@@ -13,8 +13,6 @@
     padding: 14px 12px;
 }
 
-
-
 .assign-Input::placeholder {
     color: black;
 }
@@ -138,4 +136,30 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 36px;
     height: 36px;
     margin-left: 2px;
+}
+
+@media (max-width:500px){
+    .urgent-container input {
+    cursor: pointer;
+    font-size: 17px;
+}
+.priority-input {
+    box-sizing: border-box;
+    width: 129%;
+    padding: 14px 2px;
+}
+.equals-icon {
+    width: 14px;
+    position: absolute;
+    top: 23px;
+    right: 1px;
+    cursor: pointer;
+}
+.double-down {
+    width: 20px;
+    position: absolute;
+    top: 20px;
+    right: 18px;
+    cursor: pointer;
+}
 }

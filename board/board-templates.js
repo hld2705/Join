@@ -4,7 +4,6 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
     subtasks = Array.isArray(subtasks) ? subtasks : Object.values(subtasks || []);
     let total = subtasks.length;
     let progress = 0;
-
     if (total === 1) {
         progress = 50;
     } else if (total >= 2) {
@@ -13,7 +12,6 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
     const done = subtasks.filter(s => s.done).length;
     const percent = total === 0 ? 0 : Math.round((done / total) * 100);
     const badges = renderBadges(assigned);
-
     return `
            <div id="card-${taskId}" draggable="true" ondragstart="startDragging(event, ${taskId})" ondragend="onDragEnd()" data-title="${title.toLowerCase()}" data-description ="${description.toLowerCase()}" class="board-card" onclick='detailedCardInfo(${taskId}); animateDetailedCardIn()'>
                 <div class="task-main-container" style="background-color: ${bgColor}">${main}
@@ -142,7 +140,6 @@ function renderSubtaskEdit(subtasks) {
     html += "</ul>";
     return html;
 }
-
 
 function editOverlayTemplate(task) {
     const subtaskContent = renderSubtaskEdit(task.subtasks);
@@ -322,10 +319,8 @@ function addTaskOverlayTemplate() {
                         <p class="required-mssg" id="required-message-date"></p>
                     </div>
                 </div>
-
                 <span class="required-text"><span class="asterisk">*</span>This field ist required</span>
             </div>
-
             <div class="vertical-line"></div>
             <div class="right-task">
                 <div class="right-side-inner">
@@ -349,7 +344,6 @@ function addTaskOverlayTemplate() {
                             </div>
                         </div>
                     </div>
-
                     <div class="assigned-to-container">
                         <div class="em-05 padding-top20">Assigned to</div>
                         <input onclick="renderAssignDropdown()" id="assign-input" type="text" class="input assign-Input cursorPointer"
@@ -371,7 +365,6 @@ function addTaskOverlayTemplate() {
                             <div id="user-story-option" class="category-option">User Story</div>
                         </div>
                     </div>
-
                     <div class="em-05 padding-top20">Subtasks</div>
                     <div class="subtask-input-container">
                         <input type="text" id="subtask-input" class="input subtask-input" placeholder="Add new subtask">
@@ -382,7 +375,6 @@ function addTaskOverlayTemplate() {
                                 <img id="subtask-accept" class="subtask-check-svg" src="../assets/check-grey.svg">
                             </div>
                         </div>
-
                         <div id="subtask-content"></div>
                         <span class="mobile-required-text"><span class="asterisk">*</span>This field ist required</span>
                         <div class="tbc-wrapper">
@@ -411,18 +403,12 @@ function addTaskOverlayTemplate() {
                                                 fill="white" />
                                         </svg>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
-
-
 </form>`
-    }
-}
+}}

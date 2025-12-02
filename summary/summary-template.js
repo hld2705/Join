@@ -1,4 +1,3 @@
-/*--------------------------------------------------------------- */
 
 const firebaseConfig = {
   apiKey: "AIzaSyDaAKocqkIROo_InISQbRjsoG8z1JCK3g0",
@@ -11,19 +10,15 @@ const firebaseConfig = {
   measurementId: "G-5R563MH52P"
 };
 
-
 firebase.initializeApp(firebaseConfig);
-
 
 const FIREBASE_USERS = firebase.database().ref("users");
 const FIREBASE_TASK = firebase.database().ref("tasks");
-/*--------------------------------------------------------------- */
+
 async function getToDo() {
   await loadData();
-
   const todoTasks = tasks.filter(todo => todo.status === "todo");
   const ToDoCard = document.getElementById("summary-To-do");
-
   ToDoCard.innerHTML = `
     <div class="summary-todo">
       <div class="icon-to-do">
@@ -57,10 +52,8 @@ getToDo()
 
 async function getDoneTasks() {
   await loadData();
-
   const DoneTasks = tasks.filter(done => done.status === "done");
   const DoneCard = document.getElementById("summary-done");
-
   DoneCard.innerHTML = `
              <div class="summary-todo">
                   <div class="icon-summary">
@@ -77,16 +70,11 @@ async function getDoneTasks() {
                 </div>
                 `
 }
-
 getDoneTasks();
-
-
 async function getUrgent() {
   await loadData();
-
   const Urgent = tasks.filter(urgent => urgent.priority === "urgent");
   let SummaryCard = document.getElementById("deadline-container");
-
   SummaryCard.innerHTML = `
            <img src="./assets/urgent-icon.png">
                 <div class="done-text-container">
@@ -95,15 +83,11 @@ async function getUrgent() {
                 </div>
                  <div class="vector"></div>`
 }
-
 getUrgent()
-
 async function getEndDate() {
   await loadData();
-
   const next = getNextUpcomingDeadline(tasks);
   if (!next) return;
-
   renderNextDeadline(next.enddate);
 }
 
@@ -121,63 +105,47 @@ function getNextUpcomingDeadline(tasks) {
       nextTask = task;
     }
   }
-
   return nextTask;
 }
-
 
 function renderNextDeadline(dateString) {
   const el = document.getElementById("enddate");
   if (!el) return;
-
   const formatted = new Date(dateString).toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
     year: "numeric",
   });
-
   el.innerHTML = `
     <h1 class="urgent-date-text">${formatted}</h1>
     <span>Upcoming deadline</span>
   `;
 }
-
 getEndDate();
-
 async function getTasksInBoard() {
   await loadData();
-
   const total = Array.isArray(tasks) ? tasks.length : 0;
   let boardCard = document.getElementById('current-board-tasks');
-
-
   boardCard.innerHTML = `
   <div class="overview-box-wrapper" >
   <h1 class="task-count">${total}</h1>
   <span>Tasks in <br>Board</span>
   </div>`
 }
-
 getTasksInBoard()
-
 async function getTasksInProgress() {
   await loadData();
-
   const inProgress = tasks.filter(progress => progress.status === "inprogress");
   let ProgressCard = document.getElementById('progress-board-tasks');
-
   ProgressCard.innerHTML = `
   <div class="overview-box-wrapper" >
   <h1 class="task-count">${inProgress.length}</h1>
   <span>Tasks in <br>Progress</span>
   </div>`
 }
-
 getTasksInProgress()
-
 async function getFeedbackTasks() {
   await loadData();
-
   const feedback = tasks.filter(f => f.status === "review");
   let feedbackCard = document.getElementById('feedback-board-tasks');
   feedbackCard.innerHTML = `
@@ -186,60 +154,36 @@ async function getFeedbackTasks() {
   <span>Awaiting<br>Feedback</span>
   </div>`
 }
-
 getFeedbackTasks();
-
-
 function redirectToBoard() {
   location.assign("../board.html");
 }
-
-
 async function updateGreeting() {
   const greetingSpan = document.querySelector('.greeting span:first-child');
   const userSpan = document.querySelector('.logged-user');
   if (!greetingSpan || !userSpan) return;
-
-  /*-----------------------------------------------------------------*/
   const params = new URLSearchParams(window.location.search);
   const uid = params.get("uid");
-
   if (!uid) {
     greetingSpan.textContent = "Not logged in";
     userSpan.style.display = "none";
     return;
   }
-
   const snapshot = await FIREBASE_USERS.child(uid).once("value");
   const userData = snapshot.val();
-
   if (!userData || !userData.name) {
     greetingSpan.textContent = "Unknown user";
     userSpan.style.display = "none";
     return;
   }
-  /*----------------------------------------------------------------- */
-
   const hours = new Date().getHours();
   let greetingText;
-
   if (hours >= 5 && hours < 12) greetingText = "Good morning";
   else if (hours >= 12 && hours < 18) greetingText = "Good afternoon";
   else if (hours >= 18 && hours < 22) greetingText = "Good evening";
   else greetingText = "Good night";
-  /* Test
-    if (!loggedInUser || loggedInUser.name === "Gast") {
-      greetingSpan.textContent = `${greetingText}!`;
-      userSpan.style.display = "none";
-    } else {
-      greetingSpan.textContent = `${greetingText},`;
-      userSpan.textContent = loggedInUser.name;
-      userSpan.style.display = "inline";
-    }*/
   greetingSpan.textContent = `${greetingText},`;
   userSpan.textContent = userData.name;
   userSpan.style.display = "inline";
 }
-
-
 window.addEventListener("load", updateGreeting);
