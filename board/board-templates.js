@@ -147,7 +147,8 @@ function renderSubtaskEdit(subtasks) {
 function editOverlayTemplate(task) {
     const subtaskContent = renderSubtaskEdit(task.subtasks);
     let formContainer = document.getElementById('edit-task-form-container');
-    let priorityImage = getPriorityImg(task.priority);
+    let urgentImg = task.priority === "urgent"
+    const icons = getEditPriorityIcons(task.priority);
     if (!formContainer) return;
     if (formContainer) {
         formContainer.innerHTML =
@@ -196,17 +197,17 @@ function editOverlayTemplate(task) {
                             <div data-prio="urgent" id="urg-container" onclick="changeUrgentColor()" class="urgent-container">
                                 <input id="urgent" class="input priority-input " placeholder="Urgent" readonly
                                     data-prio="urgent">
-                                <img id="double-arrow" class="double-up-arrow" src="${priorityImage}">
+                                <img id="double-arrow" class="double-up-arrow" src="${icons.urgent}">
                             </div>
                             <div data-prio="medium" onclick="changeMediumColor()" class="medium-container">
                                 <input id="medium-input" class="input priority-input " placeholder="Medium" readonly
                                     data-prio="medium">
-                                <img id="equal" class="equals-icon" src="${priorityImage}">
+                                <img id="equal" class="equals-icon" src="${icons.medium}">
                             </div>
                             <div data-prio="low" onclick="changeLowColor()" id="low-container" class="low-container">
                                 <input id="low-input" class="input priority-input  " placeholder="Low" readonly
                                     data-prio="low">
-                                <img id="double-down" class="double-down" src="${priorityImage}">
+                                <img id="double-down" class="double-down" src="${icons.low}">
                             </div>
                         </div>
                     </div>

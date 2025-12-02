@@ -42,15 +42,7 @@ function dragAndDrop() {
   updateAllContainers();
 }
 
-function applyPriorityHighlight(priority) {
-  if (priority === "urgent") {
-    changeUrgentColor();
-  } else if (priority === "medium") {
-    changeMediumColor();
-  } else if (priority === "low") {
-    changeLowColor();
-  }
-}
+
 
 function renderBadges(assigned) {
   if (!assigned || assigned.length === 0) {
@@ -277,61 +269,49 @@ function getBgColor(main) {
   return "#fff";
 }
 
-function resetAllButton() {
-  document.getElementById('urgent').classList.remove('bg-red');
-  document.getElementById('double-arrow').src = "../assets/Prio alta.svg"
-  urgentActive = false;
-  document.getElementById('medium-input').classList.remove('bg-orange');
-  document.getElementById('equal').src = "../assets/Prio media.svg"
-  mediumActive = false;
-  document.getElementById('low-input').classList.remove('bg-green');
-  document.getElementById('double-down').src = "../assets/double-down.svg"
-  lowActive = false;
-}
-
 let selectedPriority = null;
 
-function changeUrgentColor() {
-  if (urgentActive) {
-    //resetAllButton();
-    document.getElementById('urgent').classList.add("bg-red");
-    document.getElementById('urgent').classList.add("bg-red::placeholder");
-    document.getElementById('double-arrow').src = "../assets/arrows-up-white.png";
-    urgentActive = true;
-    mediumActive = false;
-    lowActive = false;
-  }
-};
+function changesUrgentColor() {
+  selectedPriority = "urgent";
+  document.getElementById('urgent').classList.add("bg-red");
+  document.getElementById('double-arrow').src = "../assets/arrows-up-white.png";
+}
 
-function changeMediumColor() {
-  if (mediumActive) {
-    //resetAllButton();
-    document.getElementById('medium-input').classList.add("bg-orange");
-    document.getElementById('medium-input').classList.add("bg-orange::placeholder");
-    document.getElementById("equal").src = "../assets/equal-white.svg";
-    mediumActive = true;
-    urgentActive = false;
-    lowActive = false;
-  }
-};
+function changesMediumColor() {
+  selectedPriority = "medium";
+  document.getElementById('medium-input').classList.add("bg-orange");
+  document.getElementById("equal").src = "../assets/equal-white.svg";
+}
 
-function changeLowColor() {
-  if (lowActive) {
-    //resetAllButton();
-    document.getElementById('low-input').classList.add("bg-green");
-    document.getElementById('low-input').classList.add("bg-green::placeholder");
-    document.getElementById("double-down").src = "../assets/double-down-white.svg";
-    lowActive = true;
-    urgentActive = false;
-    mediumActive = false;
-  }
-};
+function changesLowColor() {
+  selectedPriority = "low";
+  document.getElementById('low-input').classList.add("bg-green");
+  document.getElementById("double-down").src = "../assets/double-down-white.svg";
+}
 
 function changePriorityColor(priority) {
-  if (priority === "urgent") changeUrgentColor();
-  if (priority === "medium") changeMediumColor();
-  if (priority === "low") changeLowColor();
+  if (priority === "urgent") changesUrgentColor();
+  if (priority === "medium") changesMediumColor();
+  if (priority === "low") changesLowColor();
 }
+
+function getEditPriorityIcons(priority) {
+  return {
+    urgent: priority === "urgent" 
+      ? "../assets/arrows-up-white.png" 
+      : "./assets/urgent-priority-board.svg",
+
+    medium: priority === "medium"
+      ? "../assets/equal-white.svg"
+      : "./assets/medium-priority-board.svg",
+
+    low: priority === "low"
+      ? "../assets/double-down-white.svg"
+      : "./assets/low-priority-board.svg",
+  };
+}
+
+
 
 function getPriorityImg(priority) {
   if (priority === "urgent") return "./assets/urgent-priority-board.svg";
@@ -340,7 +320,7 @@ function getPriorityImg(priority) {
   return "";
 }
 
-function getSubtasksImg(isDone){
+function getSubtasksImg(isDone) {
   if (isDone === true) return "./assets/subtask_checked.svg";
   return "./assets/subtask_empty.svg";
 }
@@ -408,7 +388,6 @@ function openAddTaskOverlay(column) {
 
   setTimeout(() => {
     mediumActive = false;
-    //resetAllButton();
     changeMediumColor();
   }, 50);
 
@@ -465,8 +444,6 @@ function openEditOverlay(taskId) {
       cancelEditOverlay();
     }
   })
-  editOverlayTemplate(task);
-  applyPriorityHighlight(task.priority);
 }
 
 function openDetailedInfoCardInstant() {
