@@ -1942,6 +1942,21 @@ progress::-webkit-progress-value {
     margin-right: 10px;
   }
 
+  .card-overlay-title-container {
+
+    font-size: 26px;
+  }
+#card-content{
+
+  width: 396px;
+  height: 724px;
+}
+
+.card-overlay-main-container{
+  width: 113px;
+  height: 27px;
+  font-size: 16px;
+}
  
 }
 
