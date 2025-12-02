@@ -297,8 +297,8 @@ function changePriorityColor(priority) {
 
 function getEditPriorityIcons(priority) {
   return {
-    urgent: priority === "urgent" 
-      ? "../assets/arrows-up-white.png" 
+    urgent: priority === "urgent"
+      ? "../assets/arrows-up-white.png"
       : "./assets/urgent-priority-board.svg",
 
     medium: priority === "medium"
@@ -433,6 +433,9 @@ function openEditOverlay(taskId) {
   }
   setTimeout(() => {
     changePriorityColor(task.priority);
+    urgentActive = task.priority === "urgent";
+    mediumActive = task.priority === "medium";
+    lowActive = task.priority === "low";
   }, 20);
   let bg = document.getElementById('edit-overlay-background');
   let formContainer = document.getElementById('edit-task-form-container');
@@ -485,10 +488,6 @@ function cancelEditOverlay() {
     closeOverlayCardInstant();
   }, 350);
 }
-
-document.getElementById("edit-overlay").addEventListener("click", (e) => {
-  e.stopPropagation();
-});
 
 document.body.classList.remove('no-scroll');
 if (openedCardId !== null) {

@@ -365,7 +365,7 @@ function closeTaskOverlay() {
     let taskAddedInfo = document.getElementById('task-added-info');
     taskAddedInfo.style.display = "flex"
     setTimeout(() => {
-        overlayBg.style.display = "none";
+        overlayBg.remove();
         container.innerHTML = "";
 
         setTimeout(() => {

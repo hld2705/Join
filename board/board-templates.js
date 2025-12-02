@@ -147,13 +147,13 @@ function renderSubtaskEdit(subtasks) {
 function editOverlayTemplate(task) {
     const subtaskContent = renderSubtaskEdit(task.subtasks);
     let formContainer = document.getElementById('edit-task-form-container');
-    let urgentImg = task.priority === "urgent"
+    task.priority === "urgent";
     const icons = getEditPriorityIcons(task.priority);
     if (!formContainer) return;
     if (formContainer) {
         formContainer.innerHTML =
             `
-<form novalidate return false; class="task-form">
+<form novalidate class="task-form">
     <div id="badge-overlay">
         <a href="../legal_notice.html">Legal Notice</a>
         <a href="../privacy_policy.html">Privacy Policy</a>

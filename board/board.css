@@ -1496,13 +1496,15 @@ progress::-webkit-progress-value {
   transition: filter 0.2s ease;
   cursor: pointer;
 }
-.subtask-render-icons-text{
+
+.subtask-render-icons-text {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   flex-direction: column;
   font-size: 18px;
 }
+
 .distribution-icon:hover {
   filter: brightness(0) saturate(100%) invert(61%) sepia(75%) saturate(640%) hue-rotate(156deg) brightness(95%) contrast(89%);
 }
@@ -1608,13 +1610,9 @@ progress::-webkit-progress-value {
 }
 
 .edit-overlay-exit {
-    transition: transform 0.25s ease;
-    transform: translate(220%, -50%) !important;
+  transition: transform 0.25s ease;
+  transform: translate(220%, -50%) !important;
 }
-
-
-
-
 
 /*------------------------------------*/
 @media (max-width: 1500px) {
@@ -1715,13 +1713,15 @@ progress::-webkit-progress-value {
 }
 
 @media (max-width: 1230px) {
-  .subtask-render-p{
+  .subtask-render-p {
     font-size: 18px;
   }
-   .header-content{
+
+  .header-content {
     width: 100%;
     margin: 0px;
   }
+
   .responsive-logo-board {
     display: block;
     width: 31.999902725219727px;
@@ -1925,24 +1925,24 @@ progress::-webkit-progress-value {
     max-width: 95vw;
   }
 
-  .subtask-template{
+  .subtask-template {
 
     font-size: 16px;
   }
 }
 
-@media (max-width: 600px){
-  .task-container{
+@media (max-width: 600px) {
+  .task-container {
     display: flex;
     flex-direction: column;
   }
 
-  .openaddtaskoverlayresponsive{
+  .openaddtaskoverlayresponsive {
 
     margin-right: 10px;
   }
 
- 
+
 }
 
 @media (max-width: 320px) {
@@ -1952,7 +1952,7 @@ progress::-webkit-progress-value {
     gap: 192px;
   }
 
- .header-content{
+  .header-content {
     width: 100%;
     margin: 0px;
   }

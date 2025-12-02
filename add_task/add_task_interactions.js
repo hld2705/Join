@@ -1,6 +1,3 @@
-
-
-
 function resetAllButton() {
     document.getElementById('urgent').classList.remove('bg-red');
     document.getElementById('double-arrow').src = "../assets/Prio alta.svg"
