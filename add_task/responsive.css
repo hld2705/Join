@@ -192,6 +192,7 @@
         height: 100px;
         top: auto;
         width: 100%;
+        z-index: 9999;
     }
 
     .left-side a {
@@ -258,6 +259,10 @@
         border: 1px solid #ddd;
         border-radius: 10px;
         text-align: left;
+    }
+
+    #date-input {
+        z-index: 0;
     }
 
     .priority-input-container {
