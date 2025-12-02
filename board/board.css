@@ -1942,7 +1942,26 @@ progress::-webkit-progress-value {
     margin-right: 10px;
   }
 
+<<<<<<< HEAD
 
+=======
+  .card-overlay-title-container {
+
+    font-size: 26px;
+  }
+#card-content{
+
+  width: 396px;
+  height: 724px;
+}
+
+.card-overlay-main-container{
+  width: 113px;
+  height: 27px;
+  font-size: 16px;
+}
+ 
+>>>>>>> eb0ae2fca4397c52a5558571324f93d9d55eea01
 }
 
 @media (max-width: 320px) {
