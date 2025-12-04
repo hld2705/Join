@@ -11,7 +11,7 @@ body {
     justify-content: space-between;
     max-width: 1920px;
     width: 100%;
-    margin-left:0;
+    margin-left: 0;
 }
 
 .contanctssection {
@@ -343,6 +343,7 @@ body {
     align-items: center;
     justify-content: space-evenly;
     gap: 50px;
+    width: 100%;
 }
 
 .createnewcontact-inputfield {
@@ -371,6 +372,8 @@ body {
     border-radius: 10px;
     padding: 0 10px;
     gap: 8px;
+    width: 100%;
+    padding-right: 20px;
 }
 
 .createnewcontact-inputfield-icon img {
@@ -645,6 +648,10 @@ body {
         z-index: 1000;
     }
 
+    .left-blue-side {
+        border-bottom-left-radius: 0px;
+    }
+
     nav {
         flex-direction: row;
         justify-content: center;
@@ -733,7 +740,7 @@ body {
     }
 
     .createnewcontact-inputfield input {
-        width: 364px;
+        width: auto;
         height: 41px;
     }
 
@@ -770,6 +777,9 @@ body {
         width: 364px;
         height: 153px;
         gap: 15px;
+        width: 100%;
+        padding-right: 40px;
+        padding-left: 40px;
     }
 
     .createnewcontact-person-radius {
