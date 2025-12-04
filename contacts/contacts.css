@@ -604,6 +604,16 @@ body {
     z-index: 2;
 }
 
+.submit {
+    border-color: #FF8190;
+}
+
+.required-mssg {
+    color: #FF8190;
+    font-size: 12px;
+    width: 100%;
+}
+
 @media screen and (min-width: 320px) and (max-width: 500px) {
     .createnewcontact-inputfield input {
         width: 140px;
