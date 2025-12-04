@@ -18,9 +18,7 @@ const FIREBASE_USERS = firebase.database().ref("users");
 async function fetchData() {
   let response = await FIREBASE_USERS.once("value")
   let data = response.val();
-  console.log("Firebase users:", data); 
   return data ? Object.entries(data).map(([id, user]) => ({ id: String(id), ...user })) : [];
-
 }
 
 async function contactsLoad() {
@@ -224,7 +222,7 @@ function reRenderContacts() {
   let contactInfo = document.getElementById("contactsinfo");
   let responsiveLeftSide = document.getElementById("responsiveleftsidecontacts");
   let responsiveContactsDetails = document.getElementById("responsivecontactsmoto");
-  if (window.innerWidth <= 780) {
+  if (window.innerWidth <= 700) {
     contactInfo.innerHTML = "";
     if (responsiveLeftSide) {
       responsiveLeftSide.style.display = "block";
@@ -232,8 +230,11 @@ function reRenderContacts() {
     if (responsiveContactsDetails) {
       responsiveContactsDetails.style.display = "none";
     }
+  }else{
+    if(responsiveContactsDetails){
+      responsiveContactsDetails.style.display = "block";
+    }
   }
-  contactInfo.innerHTML = "";
   activeUserId = null;
   contactsLoad();
   let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
@@ -246,6 +247,7 @@ function reRenderContacts() {
   }
 }
 
+window.addEventListener("resize", reRenderContacts);
 window.addEventListener("resize", updateResponsiveButtons);
 window.updateResponsiveButtons = updateResponsiveButtons;
 window.editUserOptionsResponsive = editUserOptionsResponsive

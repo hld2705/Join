@@ -1483,10 +1483,6 @@ progress::-webkit-progress-value {
     flex-wrap: wrap;
   }
 
-  .user-info-help {
-    display: none;
-  }
-
   #task-overlay .equals-icon {
     width: 16px;
     right: 10px;
@@ -1774,7 +1770,8 @@ progress::-webkit-progress-value {
 }
 
 @media (max-width: 600px) {
-  .card-overlay-subtasks-details-container {
+  
+.card-overlay-subtasks-details-container {
     font-weight: 400;
     font-style: normal;
     font-size: 17px;
@@ -1785,7 +1782,7 @@ progress::-webkit-progress-value {
     margin-bottom: 50px;
     margin-top: 63px;
 }
-  .card-overlay-title-container {
+.card-overlay-title-container {
     width: 445px;
     font-weight: 700;
     font-style: bold;
@@ -1793,18 +1790,18 @@ progress::-webkit-progress-value {
     margin-top: 14px;
     margin-bottom: 10px;
 }
-  .card-overlay-description-container {
+.card-overlay-description-container {
     font-weight: 400;
     font-size: 17px;
     padding-bottom: 10px;
 }
-  .card-overlay-description-details-container {
+.card-overlay-description-details-container {
     font-weight: 400;
     font-style: normal;
     padding-top: 10px;
     font-size: 17px;
 }
-  .card-overlay-assigned_to-details-container {
+.card-overlay-assigned_to-details-container {
     width: 445px;
     height: 148px;
     gap: 8px;
@@ -1812,25 +1809,26 @@ progress::-webkit-progress-value {
     font-style: normal;
     font-size: 16px;
 }
-  }
-  .task-container {
+  
+.task-container {
     display: flex;
     flex-direction: column;
   }
 
-  .openaddtaskoverlayresponsive {
+.openaddtaskoverlayresponsive {
 
     margin-right: 10px;
   }
 
-  .card-overlay-title-container {
+.card-overlay-title-container {
     width: 364px;
     font-size: 26px;
     padding: 0px;
   }
-  .card-overlay-description-container{
+.card-overlay-description-container{
     padding: 0px;
   }
+
 #card-content{
   padding-top: 18px;
   padding-right: 23px;
@@ -1845,7 +1843,6 @@ progress::-webkit-progress-value {
   height: 27px;
   font-size: 16px;
 }
- 
 }
 
 @media (max-width: 320px) {
