@@ -300,7 +300,15 @@ function reRenderContacts() {
   }
 }
 
-window.addEventListener("resize", reRenderContacts);
+let resizeTimer;
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimer);
+
+  resizeTimer = setTimeout(() => {
+    reRenderContacts();
+  }, 100);
+});
+
 window.addEventListener("resize", updateResponsiveButtons);
 window.updateResponsiveButtons = updateResponsiveButtons;
 window.editUserOptionsResponsive = editUserOptionsResponsive
