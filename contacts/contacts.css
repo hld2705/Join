@@ -54,6 +54,7 @@ body {
 
 }
 
+
 .personaddimg {
     height: 32px;
     width: 32px;
@@ -333,10 +334,9 @@ body {
     align-items: center;
     cursor: pointer;
     border-radius: 50%;
-    position: relative;
-    top: -10%;
-    left: 45%;
-    right: 0%;
+    position: absolute;
+    top: 40px;
+    right: 40px;
 }
 
 .createnewcontact-inputfield-person-placement {
@@ -349,11 +349,11 @@ body {
 
 .createnewcontact-inputfield {
     display: flex;
-    align-items: center;
     justify-content: center;
     flex-direction: column;
-    height: 215px;
-    gap: 8px;
+    margin-top: 120px;
+    gap: 32px;
+    width: 60%;
 }
 
 .createnewcontact-inputfield input {
@@ -385,8 +385,9 @@ body {
 .createnewcontact-buttons-placement {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
     gap: 24px;
+    font-size: 21px;
+    margin-right: 30px;
 }
 
 .createnewcontact-button-cancel {
@@ -470,8 +471,8 @@ body {
 
 .editcontact-button-create-contact {
     color: white;
-    height: 56px;
-    width: 214px;
+    height: 57px;
+    width: 111px;
     border-radius: 10px;
     background-color: rgba(42, 54, 71, 1);
     display: flex;
@@ -540,6 +541,8 @@ body {
     overflow: hidden;
     transform: translate(calc(-50% + 120vw), -50%);
     transition: transform .25s;
+    width: 90vw;
+    max-width: 1200px;
 }
 
 #edit-main-container.is-open {
@@ -607,6 +610,7 @@ body {
     z-index: 2;
 }
 
+<<<<<<< HEAD
 .submit {
     border-color: #FF8190;
 }
@@ -622,24 +626,28 @@ body {
         width: 140px;
         height: 41px;
         gap: 8px;
+=======
+@media (max-width: 780px) {
+
+    .edit-person-radius img {
+        height: 100px;
+        width: 120px;
+>>>>>>> main
     }
 
-    .createnewcontact-text h2 {
-        font-size: 38px;
-        white-space: nowrap;
-        font-weight: 700;
+    .createnewcontact-buttons-placement {
+        justify-content: center;
+        margin-right: 0px;
     }
 
-    .createnewcontact-text p {
-        font-weight: 400;
-        font-size: 17px;
+    #edit-main-container {
+        height: 90vh;
     }
-}
 
-@media screen and (min-width: 320px) and (max-width: 780px) {
     .addnewcontactbuttonplacement {
-    padding-bottom: 90px;
-}
+        padding-bottom: 90px;
+    }
+
     .contactsmoto {
         display: none;
         padding: 11px;
@@ -753,7 +761,7 @@ body {
     }
 
     .left-blue-side {
-        height: 352px;
+        height: 38vh;
         width: 100%;
         background-color: rgba(42, 54, 71, 1);
         display: flex;
@@ -771,6 +779,7 @@ body {
         justify-content: center;
         flex: 1;
         gap: 20px;
+        position: relative;
     }
 
     .createnewcontact-logo {
@@ -788,6 +797,7 @@ body {
         width: 100%;
         padding-right: 40px;
         padding-left: 40px;
+        margin-top: 70px;
     }
 
     .createnewcontact-person-radius {
@@ -974,7 +984,7 @@ body {
 
     .edit-person-radius {
         position: absolute;
-        bottom: 46%;
+        top: -50px;
         height: 120px;
         width: 120px;
         border-color: rgba(255, 255, 255, 1);
@@ -994,4 +1004,79 @@ body {
         border-width: 1px;
     }
 
+    .createnewcontact-close {
+        top: -68%;
+        left: 90%;
+    }
+
+    .createnewcontact-inputfield-person-placement {
+        margin-left: 0px;
+    }
+}
+
+@media (max-width: 500px) {
+    .createnewcontact-inputfield input {
+        width: 140px;
+        height: 41px;
+        gap: 8px;
+    }
+
+    .createnewcontact-inputfield {
+        padding-right: 26px;
+        padding-left: 0px;
+        width: 70%;
+    }
+
+    .createnewcontact-text h2 {
+        font-size: 38px;
+        padding-left: 10px;
+        font-size: 34px;
+    }
+
+    .createnewcontact-text p {
+        font-weight: 400;
+        font-size: 17px;
+    }
+
+    .createnewcontact-close {
+        top: -68%;
+        left: 90%;
+    }
+
+    .createnewcontact-inputfield-icon {
+        gap: 0px;
+    }
+
+    .editcontact-button-cancel {
+        width: 64px;
+        height: 40px;
+        border-radius: 10px;
+        border-width: 1px;
+        font-size: 16px;
+    }
+
+    .editcontact-button-create-contact {
+        width: 80px;
+        height: 40px;
+        border-radius: 10px;
+    }
+
+    .createnewcontact-buttons-placement {
+        gap: 10px;
+        justify-content: center;
+        margin-right: -18px;
+    }
+
+    .check-icon {
+        width: 15px;
+    }
+
+    .createnewcontact-text {
+        width: 100%;
+    }
+
+    .blue-string {
+        padding-left: 10px;
+        width: 64px;
+    }
 }

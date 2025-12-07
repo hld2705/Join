@@ -73,7 +73,7 @@ function addNewContactTemplate() {
                 </div>
                 <div class="white-right-side">
                   <div class="createnewcontact-close" onclick="closeOverlay()">
-                    <img src="assets/close.svg">
+                    <img class="new-contact-close-icon" src="assets/close.svg">
                   </div>
                   <div class="createnewcontact-inputfield-person-placement">
                     <div class="createnewcontact-person-radius">
@@ -125,7 +125,7 @@ function editUserTemplate(user) {
                   </div>
                   <div class="createnewcontact-text">
                     <h2>Edit contact</h2>
-                    <img src="./assets/Vector 5_rotated.svg">
+                    <img class="blue-string" src="./assets/Vector 5_rotated.svg">
                   </div>
                 </div>
                 <div class="white-right-side">
@@ -136,6 +136,7 @@ function editUserTemplate(user) {
                     <div class="edit-person-radius">
                       <img class="" alt="${user.name}" src="${user.badge}"> 
                     </div>
+                   
                     <div class="createnewcontact-inputfield">
                       <div class="createnewcontact-inputfield-icon" id="input_field_edit_name"> 
                         <input id="edit_name" type="text" value="${user.name}" maxlength="20" 
@@ -154,15 +155,17 @@ function editUserTemplate(user) {
                             placeholder="Phone">
                         <img src="./assets/icons/call.svg">
                       </div>
-                    </div>
-                  </div>
-                  <div class="createnewcontact-buttons-placement">
-                    <div class="editcontact-button-cancel" onclick="deleteUser('${user.id}')">
+                             <div class="createnewcontact-buttons-placement" onclick="deleteUser('${user.id}')">
+                    <div class="editcontact-button-cancel">
                       <p>Delete</p>
                     </div>
                     <div class="editcontact-button-create-contact" onclick="saveUser('${user.id}')">
                       <p>Save</p>
-                      <img src="./assets/check.svg">
+                      <img class="check-icon" src="./assets/check.svg">
+                    </div>
+                  </div>
+
+                       <div class="input-button-edit-wrapper">
                     </div>
                   </div>
                 </div>
