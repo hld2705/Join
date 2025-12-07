@@ -1770,7 +1770,15 @@ progress::-webkit-progress-value {
 }
 
 @media (max-width: 600px) {
-  
+.card-overlay-badge-name-details-container{
+  margin-top: 3px;
+}
+.card-overlay-badge-name-details-container img{
+  height: 40px;
+}
+.card-overlay-description-details-container p{
+  margin-bottom: 16px;
+}
 .card-overlay-subtasks-details-container {
     font-weight: 400;
     font-style: normal;
@@ -1780,7 +1788,7 @@ progress::-webkit-progress-value {
     justify-content: center;
     flex-direction: column;
     margin-bottom: 50px;
-    margin-top: 63px;
+    margin-top: 20px;
 }
 .card-overlay-title-container {
     width: 445px;
@@ -1789,6 +1797,7 @@ progress::-webkit-progress-value {
     font-size: 60px;
     margin-top: 14px;
     margin-bottom: 10px;
+    inline-size: 200px;
 }
 .card-overlay-description-container {
     font-weight: 400;
@@ -1822,8 +1831,9 @@ progress::-webkit-progress-value {
 
 .card-overlay-title-container {
     width: 364px;
-    font-size: 26px;
+    font-size: 20px;
     padding: 0px;
+    inline-size: 200px;
   }
 .card-overlay-description-container{
     padding: 0px;
@@ -1834,7 +1844,7 @@ progress::-webkit-progress-value {
   padding-right: 23px;
   padding-left: 30px;
   padding-bottom: 0px;
-  width: 342px;
+  width: 300px;
   height: 610px;
 }
 

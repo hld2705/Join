@@ -23,7 +23,7 @@ header {
     display: flex;
     flex: 1;
     height: 94vh;
-    width: 100%;
+    width: 50%;
     font-weight: 400;
     min-width: 0;
     overflow-y: hidden;
