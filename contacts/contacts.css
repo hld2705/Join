@@ -629,7 +629,6 @@ body {
     z-index: 2;
 }
 
-<<<<<<< HEAD
 .submit {
     border-color: #FF8190;
 }
@@ -645,122 +644,6 @@ body {
         width: 140px;
         height: 41px;
         gap: 8px;
-=======
-
-@media (max-width: 1500px) {
-    .contactsmoto h1 {
-        font-size: 60px;
-    }
-
-    .contactsmoto {
-        padding: 100px 0px 0px 40px;
-    }
-
-    .contactswholetext p {
-        font-size: 20px;
-        margin-right: 20px;
-    }
-
-    .picture-name-contactinfo {
-        gap: 30px;
-    }
-}
-
-
-
-@media (max-width: 1250px) {
-
-    .contactsmoto {
-        padding: 100px 0px 0px 0px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .contactswholetext {
-        gap: 10px;
-    }
-
-    .contactsmotoresponsivediv {
-        margin-right: 10px;
-    }
-
-    .contanctssection {
-        width: 368px;
-    }
-
-    .contactswholetext p {
-        font-size: 16px;
-        margin-right: 20px;
-    }
-
-    .contactsmoto h1 {
-        font-size: 46px;
-    }
-
-
-    .createnewcontact-text h2 {
-        font-size: 42px;
-    }
-
-    .createnewcontact-text p {
-        font-weight: 400;
-        font-size: 27px;
-        margin-bottom: 10px;
-        padding-left: 20px;
-        margin-right: 10px;
-        font-size: 22px;
-    }
-
-    .contactinfo-name {
-        font-size: 24px;
-    }
-
-    .contactinfo-badge {
-        width: 100px;
-        height: 100px;
-    }
-
-    .picture-name-contactinfo {
-        gap: 12px;
-    }
-}
-
-
-
-@media (max-width: 1050px) {
-
-    .createnewcontact-button-cancel {
-        font-size: 16px;
-    }
-
-    .createnewcontact-button-create-contact p {
-        font-weight: 700;
-        font-size: 16px;
-        max-width: 180px;
-    }
-
-    .createnewcontact-button-create-contact {
-        max-width: 180px;
-    }
-}
-
-@media (max-width: 900px) {
-    .contact-name {
-        font-size: 16px;
-    }
-
-    .contact-item {
-        gap: 40px;
-    }
-
-    .createnewcontact-text h2 {
-        font-size: 60px;
-    }
-
-    .edit-person-radius img {
-        height: 100px;
-        width: 120px;
->>>>>>> main
     }
 
     .createnewcontact-buttons-placement {

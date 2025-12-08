@@ -16,6 +16,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <script src="script_login.js" defer></script>
     <script src="script_login.data.js" type="module" defer></script>
+    <script src="summary/summary-template.js" type="module" defer></script>
     <link href="./pages/loginsignup.css" rel="stylesheet">
     <link href="style_login.css" rel="stylesheet">
     <script src="script_login_template.js" defer></script>
@@ -28,7 +29,7 @@
     <div class="responsivnessheaderwritting">
         <div class="mainlogin">
 
-            <div class="login" id="login"><p id="required-message">Name and/or password are required</p>   
+            <div class="login" id="login">  
                 <div class="loginwriting">
                     <h1 class="login-title">Log in</h1> <img src="assets/icons/Vector 5.svg">
                 </div>
@@ -45,9 +46,7 @@
                 </div>
                 <div class="buttons">
                     <button onclick="loginUserPushedInfo()" class="buttonlogin" id="loginButton">Log in</button>
-                    <a href="./summary.html">
-                    <button class="buttonguestlogin" href="summary.html" >Guest Log in</button>
-                    </a>
+                    <button class="buttonguestlogin" href="summary.html" onclick="guestLogIn()">Guest Log in</button>
                 </div>
             </div>
    

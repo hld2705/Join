@@ -98,10 +98,14 @@ window.goBackLogin = function () {
 window.loginUserPushedInfo = async function () {
     const identifier = document.getElementById("login_identifier").value.trim().toLowerCase();
     const password = document.getElementById("password").value.trim();
+    let isMobile = window.innerWidth < 780;
     resetLoginUI();
     const user = await validateAndFindUser(identifier, password);
     if (!user) return;
-    window.location = `/summary.html?uid=${user.id}`
+    if(isMobile){
+        sessionStorage.setItem("userWelcome","true");
+    }
+   setTimeout(() => { window.location = `/summary.html?uid=${user.id}`}, 100)
 };
 
 async function validateAndFindUser(identifier, password) {
@@ -154,4 +158,13 @@ function resetLoginUI() {
         .forEach(id => document.getElementById(id).classList.remove("submit"));
     ["required-login-name", "required-login-password"]
         .forEach(id => document.getElementById(id).innerHTML = "");
+}
+
+
+window.guestLogIn = function(){
+    let isMobile = window.innerWidth < 780;
+    if(isMobile){
+        sessionStorage.setItem("guestWelcome","true");
+    }
+    setTimeout(() => {window.location.href = "./summary.html";}, 100)
 }

@@ -1,5 +1,4 @@
-@media(max-width:1400px) {
-
+@media(max-width:1230px) {
 
   header {
     height: 80px;
@@ -57,8 +56,6 @@
   footer {
     display: none;
   }
-
-
 
   h3 {
     display: none;
