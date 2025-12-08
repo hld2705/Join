@@ -97,7 +97,7 @@
         background: linear-gradient(0deg, rgba(245, 246, 247, 1) 99%, rgb(223, 224, 225) 100%);
         flex-direction: column;
         overflow-y: auto;
-        min-height: 98dvh;
+        min-height: 93dvh;
         height: auto;
     }
 
@@ -108,6 +108,10 @@
     .right-task {
         width: 100%;
         padding-left: 20px;
+    }
+
+    #task-overlay .right-task {
+        padding-left: 0px;
     }
 
     .left-task {
@@ -171,8 +175,8 @@
 
     .drop-down-arrow-svg,
     .drop-down-arrow-svg-category {
-        top: 70px !important;
-        right: 12px !important;
+        top: 70px;
+        right: 12px ;
     }
 
     .asterisk {

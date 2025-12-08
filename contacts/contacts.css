@@ -313,10 +313,10 @@ body {
 .white-right-side {
     display: flex;
     align-items: center;
-    justify-content: center;
     width: 100%;
     max-width: 730px;
     flex-direction: column;
+    margin-top: 20px;
 }
 
 .createnewcontact-person-radius {
@@ -328,7 +328,7 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    margin-right: 40px;
+    margin-right: 0px;
     margin-left: 40px;
     flex-shrink: 0;
 }
@@ -353,7 +353,7 @@ body {
 .createnewcontact-inputfield-person-placement {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-around;
     width: 100%;
 }
 
@@ -362,10 +362,9 @@ body {
     justify-content: center;
     flex-direction: column;
     margin-top: 120px;
-    gap: 32px;
+    gap: 16px;
     width: 100%;
     max-width: 400px;
-    margin-right: 40px;
 }
 
 .createnewcontact-inputfield input {
@@ -400,6 +399,7 @@ body {
     align-items: center;
     gap: 24px;
     font-size: 21px;
+    margin-top: 36px;
 }
 
 .createnewcontact-button-cancel {
@@ -433,6 +433,8 @@ body {
 
 .createnewcontact-close:hover {
     background-color: #EEEEEE;
+    width: 24px;
+    right: 46px;
 }
 
 .editcontact-button-cancel {
@@ -629,23 +631,6 @@ body {
     z-index: 2;
 }
 
-<<<<<<< HEAD
-.submit {
-    border-color: #FF8190;
-}
-
-.required-mssg {
-    color: #FF8190;
-    font-size: 12px;
-    width: 100%;
-}
-
-@media screen and (min-width: 320px) and (max-width: 500px) {
-    .createnewcontact-inputfield input {
-        width: 140px;
-        height: 41px;
-        gap: 8px;
-=======
 
 @media (max-width: 1500px) {
     .contactsmoto h1 {
@@ -665,8 +650,6 @@ body {
         gap: 30px;
     }
 }
-
-
 
 @media (max-width: 1250px) {
 
@@ -729,6 +712,15 @@ body {
 
 @media (max-width: 1050px) {
 
+
+    .createnewcontact-inputfield {
+        margin-right: 20px;
+    }
+
+    .createnewcontact-inputfield-person-placement {
+    gap: 40px;
+}
+
     .createnewcontact-button-cancel {
         font-size: 16px;
     }
@@ -760,7 +752,6 @@ body {
     .edit-person-radius img {
         height: 100px;
         width: 120px;
->>>>>>> main
     }
 
     .createnewcontact-buttons-placement {
@@ -777,7 +768,7 @@ body {
     }
 
     .contactsmoto {
-        display: none;
+        display: none !important;
         padding: 11px;
         padding-top: 60px;
     }

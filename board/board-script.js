@@ -356,6 +356,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function openAddTaskOverlay(column) {
+   if (window.innerWidth < 1230) {
+    window.location.href = "add_task.html";
+    return; 
+  }
   window.currentTaskColumn = column;
   let overlayBg = document.getElementById("task-overlay-background");
   let overlay = document.getElementById("task-overlay");

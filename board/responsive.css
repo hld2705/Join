@@ -88,7 +88,7 @@
 @media (max-width:500px) {
 
     .edit-overlay .contents {
-        padding: 0 0px 20px 0px;
+                padding: 30px 0px 20px 0px;
     }
 
     .urgent-container input {
@@ -128,7 +128,7 @@
     }
 
     .edit-overlay #edit-overlay-accept {
-        top: 68px;
+        top: 50px;
         left: -50px;
         padding: 14px 30px 12px 12px;
     }
