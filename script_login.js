@@ -21,10 +21,12 @@ function goBack() {
   const signup = document.getElementById('signupPage');
   const login = document.getElementById('login');
   const headerwriting = document.getElementById('headerwritingdiv');
+  const headerResp = document.querySelector('.headerwritingresponsive');
   if (!signup || !login || !headerwriting) return;
   headerwriting.classList.remove('d_none');
   signup.classList.add('d_none');
   login.classList.remove('d_none');
+  if (headerResp) headerResp.style.display = "flex";
 }
 
 async function loadingScreen() {
@@ -48,6 +50,7 @@ function signUp() {
   const signup = document.getElementById('signupPage');
   const login = document.getElementById('login');
   const headerwriting = document.getElementById('headerwritingdiv');
+  const headerResp = document.querySelector('.headerwritingresponsive');
   if (!signup || !login || !headerwriting) return;
   if (signup.classList.contains('d_none')) {
     login.classList.add('d_none');
@@ -56,4 +59,5 @@ function signUp() {
   if (!headerwriting.classList.contains('d_none')) {
     headerwriting.classList.add('d_none');
   }
+   if (headerResp) headerResp.style.display = "none";
 }

@@ -247,7 +247,7 @@ function reRenderContacts() {
   }
 }
 
-window.addEventListener("resize", reRenderContacts);
+// window.addEventListener("resize", reRenderContacts);
 window.addEventListener("resize", updateResponsiveButtons);
 window.updateResponsiveButtons = updateResponsiveButtons;
 window.editUserOptionsResponsive = editUserOptionsResponsive

@@ -1647,13 +1647,17 @@ progress::-webkit-progress-value {
     padding: 16px 0 0;
     margin-top: 24px;
     height: 100px;
-    background: linear-gradient(0deg, rgba(245, 246, 247, 1) 100%, rgb(223, 224, 225) 100%);
   }
 
   .edit-overlay #edit-overlay-accept {
     display: inline-block !important;
-    top: 750px;
+           top: 50px;
+    left: -69px;
   }
+
+      #edit-overlay .task-content-container {
+        background: white;
+    }
 
   .edit-overlay .check-icon {
     left: 160px;

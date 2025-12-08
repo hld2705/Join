@@ -30,7 +30,7 @@
 
             <div class="login" id="login"><p id="required-message">Name and/or password are required</p>   
                 <div class="loginwriting">
-                    <h1 style="font-weight: 700; font-size: 61px;">Log in</h1> <img src="assets/icons/Vector 5.svg">
+                    <h1 class="login-title">Log in</h1> <img src="assets/icons/Vector 5.svg">
                 </div>
 
                 <div class="userinput">
@@ -63,21 +63,21 @@
                         <img style="cursor: pointer; position: absolute; left: 20px;" class="back-arrow"
                             src="./assets/icons/arrow-left-line.svg" onclick="goBack()">
                     </div>
-                    <div style="display:flex; justify-content: center; align-items:center; flex-direction: column;">
+                    <div class="blue-line">
                         <h1 class="signup-h1">Signup</h1>
                         <img src="./assets/icons/Vector 5.svg">
                     </div>
                 </div>
                 <div>
                     <div class="userinput">
-                        <div class="userinputcustom"><input class="signupinputfield" id="name_sign_up" type="email"
+                        <div class="userinputcustom signup-inputs"><input class="signupinputfield" id="name_sign_up" type="email"
                                 placeholder="Name" required> <img src="./assets/icons/person.svg"></div>
-                        <div class="userinputcustom"><input class="signupinputfield" id="email_sign_up" type="email"
+                        <div class="userinputcustom signup-inputs"><input class="signupinputfield" id="email_sign_up" type="email"
                                 placeholder="Email" required> <img src="./assets/icons/mail.svg"></div>
-                        <div class="userinputcustom"><input class="signupinputfield" id="password_sign_up"
+                        <div class="userinputcustom signup-inputs"><input class="signupinputfield" id="password_sign_up"
                                 type="password" placeholder="Password" required> <img src="./assets/icons/lock.svg">
                         </div>
-                        <div class="userinputcustom"><input class="signupinputfield" id="confirmation_password_sign_up"
+                        <div class="userinputcustom signup-inputs"><input class="signupinputfield" id="confirmation_password_sign_up"
                                 type="password" placeholder="Confirm Password" required> <img
                                 src="./assets/icons/lock.svg">
                         </div>
@@ -86,8 +86,8 @@
                 <div class="checkboxandbutton">
                     <div class="checkboxandbuttonplacement">
                         <input class="checkboxinput" type="checkbox" id="requiredcheckbox" onclick="toggleButton()"
-                            required>I accept the <a style="text-decoration:none; color:rgba(41, 171, 226, 1);"
-                            href="#">Privacy policy</a>
+                            required><span class="accept-text">I accept the <a style="text-decoration:none; color:rgba(41, 171, 226, 1);"
+                            href="#"></span> Privacy policy</a>
                     </div>
 
                     <button class="buttonlogin" id="signUpButton" onclick="logIn()" disabled>Sign Up</button>

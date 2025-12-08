@@ -132,15 +132,9 @@ body.no-scroll {
   flex: 1;
   min-height: 0;
   height: 100%;
+  width: 100%;
 }
 
-
-.edit-overlay .priority-input-container {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  ;
-}
 
 .edit-overlay .tbc-wrapper {
   position: sticky;
@@ -166,10 +160,7 @@ body.no-scroll {
   padding-top: 42px;
 }
 
-.edit-overlay .task-button-container {
-  top: 26px;
-  left: 196px;
-}
+
 
 
 .edit-overlay .drop-down-arrow-svg,
@@ -177,9 +168,10 @@ body.no-scroll {
   top: 72px;
 }
 
-.priority-input-container {
-  display: flex;
-  flex-direction: row;
+
+.edit-overlay .priority-input-container {
+    display: flex;
+    gap: 5px;
 }
 
 .subtask-close-svg,

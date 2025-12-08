@@ -68,7 +68,7 @@ function addNewContactTemplate() {
                   <div class="createnewcontact-text">
                     <h2>Add contact</h2>
                     <p>Tasks are better with a team!</p>
-                    <img src="./assets/Vector 5_rotated.svg">
+                    <img class="blue-string" src="./assets/Vector 5_rotated.svg">
                   </div>
                 </div>
                 <div class="white-right-side">
@@ -95,9 +95,7 @@ function addNewContactTemplate() {
                             placeholder="Phone">
                         <img src="assets/icons/call.svg">
                       </div>
-                    </div>
-                  </div>
-                  <div class="createnewcontact-buttons-placement" onclick="closeOverlay()">
+                                        <div class="createnewcontact-buttons-placement" onclick="closeOverlay()">
                     <div class="createnewcontact-button-cancel">
                       <p>Cancel</p>
                       <img class="cancel-icon-x" src="assets/Vector.svg">
@@ -106,6 +104,8 @@ function addNewContactTemplate() {
                       <p>Create contact<p>
                       <img src="assets/check.svg">
                     </div>
+                    </div>
+                  </div>
                   </div>
                 </div>
               </div>

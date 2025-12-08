@@ -162,7 +162,7 @@
     .mobile-required-text {
         display: block;
         margin-top: 10px;
-        margin-bottom: 250px;
+               margin-bottom: 50px;
     }
 
     #task-overlay .mobile-required-text {
@@ -171,7 +171,7 @@
 
     .drop-down-arrow-svg,
     .drop-down-arrow-svg-category {
-        top: 80px !important;
+        top: 70px !important;
         right: 12px !important;
     }
 
