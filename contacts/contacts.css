@@ -629,6 +629,23 @@ body {
     z-index: 2;
 }
 
+<<<<<<< HEAD
+.submit {
+    border-color: #FF8190;
+}
+
+.required-mssg {
+    color: #FF8190;
+    font-size: 12px;
+    width: 100%;
+}
+
+@media screen and (min-width: 320px) and (max-width: 500px) {
+    .createnewcontact-inputfield input {
+        width: 140px;
+        height: 41px;
+        gap: 8px;
+=======
 
 @media (max-width: 1500px) {
     .contactsmoto h1 {
@@ -743,6 +760,7 @@ body {
     .edit-person-radius img {
         height: 100px;
         width: 120px;
+>>>>>>> main
     }
 
     .createnewcontact-buttons-placement {

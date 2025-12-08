@@ -80,18 +80,20 @@ function addNewContactTemplate() {
                       <img src="./assets/icons/person_white.svg">
                     </div>
                     <div class="createnewcontact-inputfield">
-                      <div class="createnewcontact-inputfield-icon"> 
-                        <input id="name_new_user" type="text"
+                      <div class="createnewcontact-inputfield-icon" id="input_name_border"> 
+                        <input id="name_new_user" type="text" maxlength="20"
                             placeholder="Name">
                         <img src="./assets/icons/person.svg">
                       </div>
-                      <div class="createnewcontact-inputfield-icon">
-                        <input id="email_new_user" type="email"
+                      <p class="required-mssg" id="required_name_new_user"></p>
+                      <div class="createnewcontact-inputfield-icon" id="input_email_border">
+                        <input id="email_new_user" type="email" maxlength="20"
                             placeholder="Email">
                         <img src="assets/icons/mail.svg">
                       </div>
+                      <p class="required-mssg" id="required_email_new_user"></p>
                       <div class="createnewcontact-inputfield-icon">
-                        <input id="phone_new_user" type="phone"
+                        <input id="phone_new_user" type="phone" maxlength="20"
                             placeholder="Phone">
                         <img src="assets/icons/call.svg">
                       </div>
@@ -100,7 +102,7 @@ function addNewContactTemplate() {
                       <p>Cancel</p>
                       <img class="cancel-icon-x" src="assets/Vector.svg">
                     </div>
-                    <div class="createnewcontact-button-create-contact" onclick="createContact()">
+                    <div class="createnewcontact-button-create-contact" onclick="event.stopPropagation(); createContact()">
                       <p>Create contact<p>
                       <img src="assets/check.svg">
                     </div>
@@ -136,18 +138,20 @@ function editUserTemplate(user) {
                     </div>
                    
                     <div class="createnewcontact-inputfield">
-                      <div class="createnewcontact-inputfield-icon"> 
-                        <input id="edit_name" type="text" value="${user.name}"
+                      <div class="createnewcontact-inputfield-icon" id="input_field_edit_name"> 
+                        <input id="edit_name" type="text" value="${user.name}" maxlength="20" 
                             placeholder="Name">
                         <img src="./assets/icons/person.svg">
                       </div>
-                      <div class="createnewcontact-inputfield-icon">
-                        <input id="edit_email" type="email" value="${user.email}"
+                      <p class="required-mssg" id="required_name_edit_user"></p>
+                      <div class="createnewcontact-inputfield-icon" id="input_field_edit_email">
+                        <input id="edit_email" type="email" value="${user.email}" maxlength="20" 
                             placeholder="Email">
                         <img src="./assets/icons/mail.svg">
                       </div>
+                      <p class="required-mssg" id="required_email_edit_user"></p>
                       <div class="createnewcontact-inputfield-icon">
-                        <input id="edit_phone" type="tel" value="${user.phone}"
+                        <input id="edit_phone" type="tel" value="${user.phone}" maxlength="20"
                             placeholder="Phone">
                         <img src="./assets/icons/call.svg">
                       </div>
