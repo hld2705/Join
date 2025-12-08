@@ -135,19 +135,6 @@ body.no-scroll {
   width: 100%;
 }
 
-
-.edit-overlay .tbc-wrapper {
-  position: sticky;
-  bottom: 0px;
-  display: none;
-  display: flex;
-  justify-content: flex-end;
-  padding: 16px 0 0;
-  margin-top: 24px;
-  height: 100px;
-  background: white;
-}
-
 .edit-overlay .clear-button {
   display: none;
 }
@@ -155,12 +142,6 @@ body.no-scroll {
 .edit-overlay .cancel-icon {
   display: none;
 }
-
-.edit-overlay .title-container {
-  padding-top: 42px;
-}
-
-
 
 
 .edit-overlay .drop-down-arrow-svg,
@@ -203,6 +184,7 @@ body.no-scroll {
 .edit-overlay .right-task {
   width: 100%;
   padding-top: 30px;
+  padding-bottom: 92px;
 }
 
 .edit-overlay .subtask-check-svg {

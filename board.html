@@ -65,7 +65,7 @@
     <header>
       <div class="header-content">
         <div>
-        <a href="./index.html"><img class="responsive-logo-board" src="./assets/logo.svg" alt="Logo"></a>
+          <a href="./index.html"><img class="responsive-logo-board" src="./assets/logo.svg" alt="Logo"></a>
           <h3>Kanban Project Management Tool</h3>
         </div>
         <div class="user-info">
@@ -82,11 +82,11 @@
     </header>
 
     <section class="content">
-  <div id="badge-overlay">
+      <div id="badge-overlay">
         <a href="../legal_notice.html">Legal Notice</a>
         <a href="../privacy_policy.html">Privacy Policy</a>
         <a href="../index.html" id="logout-link">Log out</a>
-    </div>
+      </div>
       <div class="board-top-content">
         <div class="board-title">
           <h1>Board</h1>
@@ -167,8 +167,10 @@
       <div id="edit-overlay-background">
         <div class="edit-overlay" id="edit-overlay">
           <div class="task-overlay-inner">
-            <img onclick="cancelEditOverlay()" src="./assets/Close.png" id="addTask-edit-close-Img"
-              class="addTask-close-Icon"></img>
+            <div class="edit-header">
+              <img onclick="cancelEditOverlay()" src="./assets/Close.png" id="addTask-edit-close-Img"
+                class="addTask-close-Icon"></img>
+            </div>
             <div id="edit-task-form-container">
             </div>
           </div>
@@ -183,6 +185,7 @@
     <script src="./board/board-templates.js" defer></script>
     <script src="./add_task/add_task.js" defer></script>
     <script src="./add_task/add_task_templates.js" defer></script>
-        <script src="global.js"></script>
+    <script src="global.js"></script>
 </body>
+
 </html>
