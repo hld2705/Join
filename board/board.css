@@ -1554,6 +1554,7 @@ progress::-webkit-progress-value {
 
 }
 
+
 @media (max-width: 1230px) {
   .subtask-render-p {
     font-size: 18px;
@@ -1812,7 +1813,7 @@ progress::-webkit-progress-value {
     font-style: normal;
     font-size: 16px;
 }
-  }
+  
   .task-container {
     display: flex;
     flex-direction: column;
