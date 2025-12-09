@@ -220,23 +220,39 @@ async function getLoggedInUser() {
     return snapshot.val();
 }
 
-window.addEventListener("load", async () => {
-  await updateGreeting();
-  const user = await getLoggedInUser();
+window.addEventListener("DOMContentLoaded", async () => {
+  const content = document.getElementById("summary_content");
+  const greetingSpan = document.querySelector('.greeting span:first-child');
+  const userSpan = document.querySelector('.logged-user');
+
+  greetingSpan.textContent = `${getGreetingByTime()},`;
+  userSpan.textContent = ""; 
+  document.body.style.opacity = "1";
+
   let showWelcomeGuest = sessionStorage.getItem("guestWelcome");
   let showWelcomeUser = sessionStorage.getItem("userWelcome");
-  let content = document.getElementById("summary_content");
-  if (!showWelcomeGuest && !showWelcomeUser) return;
-  if (window.innerWidth >= 700) return;
-  const greetingText = getGreetingByTime();
-  content.innerHTML = `<div style="height: 100vh; width=100%; display:flex; align-items:center; justify-content:center; flex-direction:column;">
-                          <h1>${greetingText}</h1>
-                          <h1 style="color: #29ABE2;">${user ? user.name : ""}</h1>
-                      </div>`
-  setTimeout(() => {
-    sessionStorage.removeItem("guestWelcome");
-    sessionStorage.removeItem("userWelcome");
-    location.reload();
-  }, 1500)
-});
 
+  if (window.innerWidth >= 900) {
+    const user = await getLoggedInUser();
+    if (user && user.name) userSpan.textContent = user.name;
+    return;
+  }
+  const user = await getLoggedInUser();
+  if (user && user.name) userSpan.textContent = user.name;
+
+  if (showWelcomeGuest || showWelcomeUser) {
+    const greetingText = getGreetingByTime();
+    content.innerHTML = `
+      <div style="height: 100vh; width:100%; display:flex; align-items:center; justify-content:center; flex-direction:column;">
+        <h1>${greetingText}</h1>
+        <h1 style="color: #29ABE2;">${user ? user.name : ""}</h1>
+      </div>
+    `;
+
+    setTimeout(() => {
+      sessionStorage.removeItem("guestWelcome");
+      sessionStorage.removeItem("userWelcome");
+      location.reload();
+    }, 1500);
+  }
+});

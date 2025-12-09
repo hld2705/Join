@@ -38,7 +38,7 @@
     cursor: pointer;
 }
 
-.back-arrow:hover{
+.back-arrow:hover {
     background-color: rgba(0, 0, 0, 0.04);
     border-radius: 50%;
 }
@@ -84,7 +84,7 @@ h1 {
     background-color: transparent;
     flex: 1;
     width: 422px;
-    height: 36px;
+    height: 24px;
 }
 
 .buttonlogin {
@@ -319,7 +319,7 @@ h1 {
 }
 
 .signup-inputs {
-    width: 70%;
+    width: 80% !important;
     padding: 12px 12px 12px 10px;
 }
 
@@ -419,10 +419,34 @@ h1 {
     font-size: 61px;
 }
 
+
+
 @media (max-width: 500px) {
     .signup-h1 {
-        font-size: 47px;
+        font-size: 38px;
     }
+
+    .blue-vector {
+        width: 76px;
+        height: 3px;
+        object-fit: cover;
+        margin-top: -8px;
+    }
+
+    .buttons {
+        gap: 15px;
+        margin-top: -40px;
+    }
+
+    .signup-inputs {
+        width: 80% !important;
+        padding: 6px;
+    }
+
+    .login-title {
+        font-size: 38px;
+    }
+
 
     .main-logo-small {
         left: 40px;
@@ -432,13 +456,17 @@ h1 {
 
     .buttonlogin {
         width: auto !important;
-        padding: 12px 60px;
+        padding: 12px 40px;
         font-size: 16px;
     }
 
     .buttonguestlogin {
-        padding: 12px 38px;
+        padding: 12px 18px;
         font-size: 16px;
+    }
+
+    .headerwritingresponsive {
+        margin-bottom: 0px !important;
     }
 
 
@@ -447,9 +475,14 @@ h1 {
         align-items: center;
         justify-content: center;
         flex-direction: row;
-        gap: 6px;
         text-wrap: nowrap;
+        font-size: 12px;
     }
+
+    .signupinputfield {
+        font-size: 14px;
+    }
+
 
     .links {
         text-wrap: nowrap;

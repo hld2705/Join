@@ -1,3 +1,8 @@
+body {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
 .summary-header {
     display: flex;
     align-items: center;
@@ -13,6 +18,7 @@
 .summary-header span {
     font-size: 27px;
 }
+
 
 .summary-header p {
     width: 3px;
