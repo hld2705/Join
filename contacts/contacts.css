@@ -646,6 +646,8 @@ body {
         width: 140px;
         height: 41px;
         gap: 8px;
+    }
+}
 
 @media (max-width: 1500px) {
     .contactsmoto h1 {
@@ -1210,3 +1212,4 @@ body {
         width: 64px;
     }
 }
+    
