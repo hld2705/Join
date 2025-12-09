@@ -23,7 +23,6 @@ header {
     display: flex;
     flex: 1;
     height: 94vh;
-    width: 100%;
     font-weight: 400;
     min-width: 0;
     overflow-y: hidden;
@@ -64,6 +63,7 @@ header {
     padding-right: 30px;
     min-width: 0;
     width: clamp(320px, 30vw, 1120px);
+    padding-bottom: 92px;
 }
 
 .task-title {
@@ -357,10 +357,6 @@ ul {
     display: inline-block;
 }
 
-#subtask-content {
-    height: 100px;
-    overflow-y: auto;
-}
 
 .mobile-required-text {
     display: none;
@@ -369,7 +365,9 @@ ul {
 #edit-overlay-accept {
     display: none;
     position: absolute;
-    left: 112px;
+    left: -50px;
+    top: -25px;
+    padding: 18px 36px 18px 12px;
 }
 
 #badge-overlay {

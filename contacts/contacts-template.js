@@ -68,44 +68,46 @@ function addNewContactTemplate() {
                   <div class="createnewcontact-text">
                     <h2>Add contact</h2>
                     <p>Tasks are better with a team!</p>
-                    <img src="./assets/Vector 5_rotated.svg">
+                    <img class="blue-string" src="./assets/Vector 5_rotated.svg">
                   </div>
                 </div>
                 <div class="white-right-side">
                   <div class="createnewcontact-close" onclick="closeOverlay()">
-                    <img src="assets/close.svg">
+                    <img class="new-contact-close-icon" src="assets/close.svg">
                   </div>
                   <div class="createnewcontact-inputfield-person-placement">
                     <div class="createnewcontact-person-radius">
                       <img src="./assets/icons/person_white.svg">
                     </div>
                     <div class="createnewcontact-inputfield">
-                      <div class="createnewcontact-inputfield-icon"> 
-                        <input id="name_new_user" type="text"
+                      <div class="createnewcontact-inputfield-icon" id="input_name_border"> 
+                        <input id="name_new_user" type="text" maxlength="20"
                             placeholder="Name">
                         <img src="./assets/icons/person.svg">
                       </div>
-                      <div class="createnewcontact-inputfield-icon">
-                        <input id="email_new_user" type="email"
+                      <p class="required-mssg" id="required_name_new_user"></p>
+                      <div class="createnewcontact-inputfield-icon" id="input_email_border">
+                        <input id="email_new_user" type="email" maxlength="20"
                             placeholder="Email">
                         <img src="assets/icons/mail.svg">
                       </div>
+                      <p class="required-mssg" id="required_email_new_user"></p>
                       <div class="createnewcontact-inputfield-icon">
-                        <input id="phone_new_user" type="phone"
+                        <input id="phone_new_user" type="phone" maxlength="20"
                             placeholder="Phone">
                         <img src="assets/icons/call.svg">
                       </div>
-                    </div>
-                  </div>
-                  <div class="createnewcontact-buttons-placement" onclick="closeOverlay()">
+                                        <div class="createnewcontact-buttons-placement" onclick="closeOverlay()">
                     <div class="createnewcontact-button-cancel">
                       <p>Cancel</p>
                       <img class="cancel-icon-x" src="assets/Vector.svg">
                     </div>
-                    <div class="createnewcontact-button-create-contact" onclick="createContact()">
+                    <div class="createnewcontact-button-create-contact" onclick="event.stopPropagation(); createContact()">
                       <p>Create contact<p>
                       <img src="assets/check.svg">
                     </div>
+                    </div>
+                  </div>
                   </div>
                 </div>
               </div>
@@ -123,7 +125,7 @@ function editUserTemplate(user) {
                   </div>
                   <div class="createnewcontact-text">
                     <h2>Edit contact</h2>
-                    <img src="./assets/Vector 5_rotated.svg">
+                    <img class="blue-string" src="./assets/Vector 5_rotated.svg">
                   </div>
                 </div>
                 <div class="white-right-side">
@@ -134,31 +136,36 @@ function editUserTemplate(user) {
                     <div class="edit-person-radius">
                       <img class="" alt="${user.name}" src="${user.badge}"> 
                     </div>
+                   
                     <div class="createnewcontact-inputfield">
-                      <div class="createnewcontact-inputfield-icon"> 
-                        <input id="edit_name" type="text" value="${user.name}"
+                      <div class="createnewcontact-inputfield-icon" id="input_field_edit_name"> 
+                        <input id="edit_name" type="text" value="${user.name}" maxlength="20" 
                             placeholder="Name">
                         <img src="./assets/icons/person.svg">
                       </div>
-                      <div class="createnewcontact-inputfield-icon">
-                        <input id="edit_email" type="email" value="${user.email}"
+                      <p class="required-mssg" id="required_name_edit_user"></p>
+                      <div class="createnewcontact-inputfield-icon" id="input_field_edit_email">
+                        <input id="edit_email" type="email" value="${user.email}" maxlength="20" 
                             placeholder="Email">
                         <img src="./assets/icons/mail.svg">
                       </div>
+                      <p class="required-mssg" id="required_email_edit_user"></p>
                       <div class="createnewcontact-inputfield-icon">
-                        <input id="edit_phone" type="tel" value="${user.phone}"
+                        <input id="edit_phone" type="tel" value="${user.phone}" maxlength="20"
                             placeholder="Phone">
                         <img src="./assets/icons/call.svg">
                       </div>
-                    </div>
-                  </div>
-                  <div class="createnewcontact-buttons-placement" onclick="deleteUser('${user.id}')">
+                             <div class="createnewcontact-buttons-placement" onclick="deleteUser('${user.id}')">
                     <div class="editcontact-button-cancel">
                       <p>Delete</p>
                     </div>
                     <div class="editcontact-button-create-contact" onclick="saveUser('${user.id}')">
                       <p>Save</p>
-                      <img src="./assets/check.svg">
+                      <img class="check-icon" src="./assets/check.svg">
+                    </div>
+                  </div>
+
+                       <div class="input-button-edit-wrapper">
                     </div>
                   </div>
                 </div>

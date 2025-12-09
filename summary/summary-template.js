@@ -107,6 +107,25 @@ function getNextUpcomingDeadline(tasks) {
   }
   return nextTask;
 }
+function guestLogIn() {
+  const fullNav = document.getElementById("togglednone");
+  const loginNav = document.getElementById("loginnav");
+  const isNonLogin = window.location.search.includes("nonlogin=true");
+
+  if (isNonLogin) {
+    if (fullNav) fullNav.style.display = "none";
+    if (loginNav) {
+      loginNav.style.display = "flex";
+      loginNav.style.cursor = "default";
+    }
+  } else {
+    if (loginNav) {
+      loginNav.style.display = "none";
+      loginNav.style.cursor = "default";
+    }
+    if (fullNav) fullNav.style.display = "flex";
+  }
+}
 
 function renderNextDeadline(dateString) {
   const el = document.getElementById("enddate");
@@ -154,16 +173,28 @@ async function getFeedbackTasks() {
   <span>Awaiting<br>Feedback</span>
   </div>`
 }
+
 getFeedbackTasks();
+
 function redirectToBoard() {
   location.assign("../board.html");
 }
+
+function getGreetingByTime() {
+  const hours = new Date().getHours();
+  if (hours >= 5 && hours < 12) return "Good morning";
+  if (hours >= 12 && hours < 18) return "Good afternoon";
+  if (hours >= 18 && hours < 22) return "Good evening";
+  return "Good night";
+}
+
 async function updateGreeting() {
   const greetingSpan = document.querySelector('.greeting span:first-child');
   const userSpan = document.querySelector('.logged-user');
   if (!greetingSpan || !userSpan) return;
   const params = new URLSearchParams(window.location.search);
   const uid = params.get("uid");
+  const greetingText = getGreetingByTime();
   if (!uid) {
     greetingSpan.textContent = "Not logged in";
     userSpan.style.display = "none";
@@ -176,14 +207,36 @@ async function updateGreeting() {
     userSpan.style.display = "none";
     return;
   }
-  const hours = new Date().getHours();
-  let greetingText;
-  if (hours >= 5 && hours < 12) greetingText = "Good morning";
-  else if (hours >= 12 && hours < 18) greetingText = "Good afternoon";
-  else if (hours >= 18 && hours < 22) greetingText = "Good evening";
-  else greetingText = "Good night";
   greetingSpan.textContent = `${greetingText},`;
   userSpan.textContent = userData.name;
   userSpan.style.display = "inline";
 }
-window.addEventListener("load", updateGreeting);
+
+async function getLoggedInUser() {
+    const params = new URLSearchParams(window.location.search);
+    const uid = params.get("uid");
+    if (!uid) return null;
+    const snapshot = await FIREBASE_USERS.child(uid).once("value");
+    return snapshot.val();
+}
+
+window.addEventListener("load", async () => {
+  await updateGreeting();
+  const user = await getLoggedInUser();
+  let showWelcomeGuest = sessionStorage.getItem("guestWelcome");
+  let showWelcomeUser = sessionStorage.getItem("userWelcome");
+  let content = document.getElementById("summary_content");
+  if (!showWelcomeGuest && !showWelcomeUser) return;
+  if (window.innerWidth >= 700) return;
+  const greetingText = getGreetingByTime();
+  content.innerHTML = `<div style="height: 100vh; width=100%; display:flex; align-items:center; justify-content:center; flex-direction:column;">
+                          <h1>${greetingText}</h1>
+                          <h1 style="color: #29ABE2;">${user ? user.name : ""}</h1>
+                      </div>`
+  setTimeout(() => {
+    sessionStorage.removeItem("guestWelcome");
+    sessionStorage.removeItem("userWelcome");
+    location.reload();
+  }, 1500)
+});
+

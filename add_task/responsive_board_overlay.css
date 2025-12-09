@@ -132,26 +132,7 @@ body.no-scroll {
   flex: 1;
   min-height: 0;
   height: 100%;
-}
-
-
-.edit-overlay .priority-input-container {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  ;
-}
-
-.edit-overlay .tbc-wrapper {
-  position: sticky;
-  bottom: 0px;
-  display: none;
-  display: flex;
-  justify-content: flex-end;
-  padding: 16px 0 0;
-  margin-top: 24px;
-  height: 100px;
-  background: white;
+  width: 100%;
 }
 
 .edit-overlay .clear-button {
@@ -162,24 +143,16 @@ body.no-scroll {
   display: none;
 }
 
-.edit-overlay .title-container {
-  padding-top: 42px;
-}
-
-.edit-overlay .task-button-container {
-  top: 26px;
-  left: 196px;
-}
-
 
 .edit-overlay .drop-down-arrow-svg,
 .drop-down-arrow-svg-category {
   top: 72px;
 }
 
-.priority-input-container {
-  display: flex;
-  flex-direction: row;
+
+.edit-overlay .priority-input-container {
+    display: flex;
+    gap: 5px;
 }
 
 .subtask-close-svg,
@@ -211,6 +184,7 @@ body.no-scroll {
 .edit-overlay .right-task {
   width: 100%;
   padding-top: 30px;
+  padding-bottom: 92px;
 }
 
 .edit-overlay .subtask-check-svg {

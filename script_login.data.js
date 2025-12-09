@@ -17,18 +17,7 @@ window.logIn = async function logIn() {
     const email = document.getElementById("email_sign_up").value.trim();
     const password = document.getElementById("password_sign_up").value.trim();
     const passwordConfirm = document.getElementById("confirmation_password_sign_up").value.trim();
-    if (!name || !password) {
-        alert("Email and password are required.");
-        return;
-    }
-    if (password !== passwordConfirm) {
-        alert("Password not matching");
-        return;
-    }
-    if (!name) {
-        alert("Please put in your name");
-        return;
-    }
+    if (!signUpValidation(name, email, password, passwordConfirm)) return;
     const newEntry = FIREBASE_USERS.push();
     const firebaseId = newEntry.key;
     const newUserObj = {
@@ -45,6 +34,53 @@ window.logIn = async function logIn() {
     forwardingNextPage(firebaseId);
 };
 
+function signUpValidation(name, email, password, passwordConfirm) {
+    let signUpNameBorder = document.getElementById("input_border_sign_up_name");
+    let signUpEmailBorder = document.getElementById("input_border_sign_up_email");
+    let signUpPasswordBorder = document.getElementById("input_border_sign_up_password");
+    let signUpPasswordConfirmationBorder = document.getElementById("input_border_sign_up_password2");
+    let signUpNameP = document.getElementById("required-sign_up-name");
+    let signUpEmailP = document.getElementById("required-sign_up-email");
+    let signUpPasswordP = document.getElementById("required-sign_up-password");
+    let signUpPasswordConfirmationP = document.getElementById("required-sign_up-password2");
+    resetSignUpUI();
+    if (!name) {
+        signUpNameBorder.classList.add("submit");
+        signUpNameP.innerHTML = "*This field is required!"
+        return;
+    }
+    if (!email) {
+        signUpEmailBorder.classList.add("submit");
+        signUpEmailP.innerHTML = "*This field is required!";
+        return;
+    }
+    if (!email.includes("@")) {
+        signUpEmailBorder.classList.add("submit");
+        signUpEmailP.innerHTML = "*@ is mandatory!";
+        return;
+    }
+    if (!password) {
+        signUpPasswordBorder.classList.add("submit");
+        signUpPasswordP.innerHTML = "*This field is required!";
+        return;
+    }
+    if (password !== passwordConfirm) {
+        signUpPasswordBorder.classList.add("submit");
+        signUpPasswordConfirmationBorder.classList.add("submit");
+        signUpPasswordP.innerHTML = "*Password doesnt match!";
+        signUpPasswordConfirmationP.innerHTML = "*Password doesnt match!";
+        return;
+    }
+    return true;
+}
+
+function resetSignUpUI() {
+    ["input_border_sign_up_name", "input_border_sign_up_email", "input_border_sign_up_password", "input_border_sign_up_password2"]
+        .forEach(id => document.getElementById(id).classList.remove("submit"));
+    ["required-sign_up-name", "required-sign_up-email", "required-sign_up-password", "required-sign_up-password2"]
+        .forEach(id => document.getElementById(id).innerHTML = "");
+}
+
 async function forwardingNextPage(firebaseId) {
     confirmationSignTemplate();
     await new Promise(r => setTimeout(r, 1000));
@@ -53,44 +89,82 @@ async function forwardingNextPage(firebaseId) {
     window.location = "/summary.html?uid=" + firebaseId;
 }
 
+
 window.goBackLogin = function () {
     const errorWindow = document.getElementById("errorWindow");
     if (errorWindow) errorWindow.remove();
 };
 
-window.loginUserPushedInfo = async function loginUserPushedInfo() {
-    const identifier = document.getElementById("email").value.trim(); 
+window.loginUserPushedInfo = async function () {
+    const identifier = document.getElementById("login_identifier").value.trim().toLowerCase();
     const password = document.getElementById("password").value.trim();
-    if (!identifier || !password) {
-        alert("Please fill in all fields.");
-        return;
+    let isMobile = window.innerWidth < 780;
+    resetLoginUI();
+    const user = await validateAndFindUser(identifier, password);
+    if (!user) return;
+    if(isMobile){
+        sessionStorage.setItem("userWelcome","true");
     }
-    try {
-        const snapshot = await FIREBASE_USERS.get();
-        const users = snapshot.val();
-        let matchedUsers = [];
-        for (const uid in users) {
-            const u = users[uid];
-            if (u.email === identifier || u.name === identifier) {
-                matchedUsers.push(u);
-            }
-        }
-        if (matchedUsers.length === 0) {
-            alert("No user found with that name or email.");
-            return;
-        }
-        if (matchedUsers.length > 1) {
-            alert("Multiple accounts found with this name. Use your email instead.");
-            return;
-        }
-        const user = matchedUsers[0];
-        if (user.password !== password) {
-            alert("Incorrect password.");
-            return;
-        }
-        window.location = `/summary.html?uid=${user.id}`;
-    } catch (error) {
-        console.error("Login error:", error);
-    }
+   setTimeout(() => { window.location = `/summary.html?uid=${user.id}`}, 100)
 };
 
+async function validateAndFindUser(identifier, password) {
+    let nameB = document.getElementById("input_border_login_name");
+    let passB = document.getElementById("input_border_login_password");
+    let nameP = document.getElementById("required-login-name");
+    let passP = document.getElementById("required-login-password");
+    if (!identifier) {
+        nameB.classList.add("submit");
+        nameP.innerHTML = "*Email or name is required!";
+        return false;
+    }
+    if (!password) {
+        passB.classList.add("submit");
+        passP.innerHTML = "*Password is required!";
+        return false;
+    }
+    const snapshot = await FIREBASE_USERS.get();
+    const users = snapshot.val();
+    if (!users) {
+        nameB.classList.add("submit");
+        nameP.innerHTML = "*No users exist. Please register!";
+        return false;
+    }
+    let matchedUsers = [];
+    for (const uid in users) {
+        const u = users[uid];
+        const dbEmail = u.email?.trim().toLowerCase();
+        const dbName = u.name?.trim().toLowerCase();
+        if (dbEmail === identifier || dbName === identifier) {
+            matchedUsers.push(u);
+        }
+    }
+    if (matchedUsers.length === 0) {
+        nameB.classList.add("submit");
+        nameP.innerHTML = "*No matched users found. Please register first!";
+        return false;
+    }
+    const user = matchedUsers[0];
+    if (user.password !== password) {
+        passB.classList.add("submit");
+        passP.innerHTML = "*Incorrect password!";
+        return false;
+    }
+    return user;
+}
+
+function resetLoginUI() {
+    ["input_border_login_name", "input_border_login_password"]
+        .forEach(id => document.getElementById(id).classList.remove("submit"));
+    ["required-login-name", "required-login-password"]
+        .forEach(id => document.getElementById(id).innerHTML = "");
+}
+
+
+window.guestLogIn = function(){
+    let isMobile = window.innerWidth < 780;
+    if(isMobile){
+        sessionStorage.setItem("guestWelcome","true");
+    }
+    setTimeout(() => {window.location.href = "./summary.html";}, 100)
+}

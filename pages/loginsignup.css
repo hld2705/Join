@@ -25,15 +25,22 @@
     background-color: white;
     border-radius: 30px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
-    padding: 70px 152px 70px 152px;
+    padding: 70px 152px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 650px;
+    box-sizing: border-box;
 }
 
 .back-arrow {
     cursor: pointer;
+}
+
+.back-arrow:hover{
+    background-color: rgba(0, 0, 0, 0.04);
+    border-radius: 50%;
 }
 
 .userinput {
@@ -41,8 +48,8 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    gap: 32px;
     padding-bottom: 15px;
+
 }
 
 .userinputcustom {
@@ -54,6 +61,14 @@
     padding: 6px;
     padding-left: 11px;
     padding-right: 11px;
+    width: 90%;
+}
+
+.userinputcustom input {
+    flex: 1;
+    border: none;
+    outline: none;
+    min-width: 0;
 }
 
 h1 {
@@ -76,7 +91,7 @@ h1 {
     background-color: rgba(42, 54, 71, 1);
     color: white;
     border-radius: 8px;
-   padding: 6px 20px;
+    padding: 6px 20px;
     font-size: 21px;
     cursor: pointer;
 }
@@ -184,11 +199,7 @@ h1 {
     justify-content: center;
 }
 
-.mainlogin {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+
 
 .loginwriting {
     padding-bottom: 30px;
@@ -204,24 +215,23 @@ h1 {
     align-items: center;
 }
 
-.d_none {
-    display: none;
-}
-
 .signup {
     background-color: white;
     border-radius: 30px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
-    padding: 20px 180px 20px 180px;
     width: fit-content;
     position: relative;
+    height: 630px;
+    width: 598px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .signuptitleandarrow {
-    margin-bottom: 30px;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    margin-bottom: 20px;
 }
 
 .loadingscreen {
@@ -234,11 +244,24 @@ h1 {
     align-items: center;
 }
 
+.submit {
+    border-color: #FF8190;
+}
+
+.required-mssg {
+    color: #FF8190;
+    font-size: 12px;
+    text-align: left;
+}
+
+
 .signupcenter {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
     height: 100vh;
+    box-sizing: border-box;
 }
 
 .checkboxandbutton {
@@ -246,10 +269,14 @@ h1 {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    gap: 20px;
+    margin-bottom: 30px;
 }
 
 .checkboxandbuttonplacement {
     margin-bottom: 15px;
+    display: flex;
+    align-items: center;
 }
 
 .signupinputfield {
@@ -258,21 +285,78 @@ h1 {
     font-size: 16px;
 }
 
-.signupinputfield::placeholder{
+.signupinputfield::placeholder {
     color: #D1D1D1
 }
 
-.inputfield::placeholder{
+.inputfield::placeholder {
     color: #D1D1D1
 }
 
 .index-content {
+    display: block;
     flex-direction: column;
     gap: 40px;
     padding: 40px 20px;
 }
 
-@media screen and (max-width: 780px) {
+.login-title {
+    font-weight: 700;
+    font-size: 61px;
+}
+
+.blue-line {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.d_none {
+    display: none;
+}
+
+.signup-inputs {
+    width: 70%;
+    padding: 12px 12px 12px 10px;
+}
+
+.accept-text {
+    padding-right: 4px;
+}
+
+.checkboxinput {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    margin-right: 16px;
+}
+
+
+
+@media (max-width: 1200px) {
+    .main-logo-small {
+        transform: none;
+        top: 30px;
+        left: 70px;
+        width: 70px;
+        cursor: pointer;
+        z-index: 9999;
+    }
+}
+
+@media (max-width: 780px) {
+
+    .headerwritingresponsive {
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+    }
+
     .logo {
         top: 80px;
         left: 70px;
@@ -280,54 +364,84 @@ h1 {
         width: 50px;
     }
 
-    .checkboxinput {
-        width: 24px;
-        height: 24px;
-        border-radius: 3px;
+    .linksdiv {
+        position: static;
+        transform: none;
+        bottom: 30px;
+        left: 50%;
+        display: flex;
+        gap: 30px;
+        width: 100%;
+        justify-content: center;
     }
 
-    .checkboxandbutton {
-        width: 231px;
-        height: 24px;
-        position: relative;
-        bottom: -7%;
-        right: 0%;
+    .userinput {
+        width: 100%;
     }
 
-    .signupinputfield {
-        width: 300px;
-        height: 35px;
-        border: none;
-    }
+
 
     .signup {
-        height: 500px;
-        border-radius: 30px;
-        padding-top: 32px;
-        padding-bottom: 32px;
-        position: absolute;
-        bottom: 10%;
+        height: 80vh;
     }
+
 
     .userinputcustom {
-        width: 219px;
-        height: 35px;
+        width: 90%;
+        height: auto;
     }
+
+    .loginwriting {
+        margin-bottom: -40px;
+        gap: 18px;
+    }
+
+    .login-title {
+        font-size: 46px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+    .buttonguestlogin {
+        padding: 10px 84px;
+        font-size: 21px;
+    }
+
+    .headerwritingresponsive {
+        margin-bottom: 50px;
+    }
+
 }
-.signup-h1{
-font-size: 61px; 
+
+.signup-h1 {
+    font-size: 61px;
 }
-@media screen and (min-width: 320px) and (max-width: 500px) {
-    .signup-h1{
-     font-size: 47px;    
+
+@media (max-width: 500px) {
+    .signup-h1 {
+        font-size: 47px;
     }
-    .signup {
-        width: 200px;
-        height: 490px;
-        position: absolute;
-        bottom: 19%;
-        padding: 20px 40px 20px 40px;
+
+    .main-logo-small {
+        left: 40px;
+        width: 60px;
+
     }
+
+    .buttonlogin {
+        width: auto !important;
+        padding: 12px 60px;
+        font-size: 16px;
+    }
+
+    .buttonguestlogin {
+        padding: 12px 38px;
+        font-size: 16px;
+    }
+
+
     .checkboxandbuttonplacement {
         display: flex;
         align-items: center;
@@ -342,15 +456,9 @@ font-size: 61px;
     }
 
     h1 {
-        width: 173px;
-        height: 72px;
+        width: auto;
+        height: auto;
     }
-
-    .userinputcustom {
-        width: 219px;
-        height: 35px;
-    }
-
 }
 
 @keyframes logoanimation {

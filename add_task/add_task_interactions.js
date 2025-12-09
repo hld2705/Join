@@ -11,36 +11,36 @@ function resetAllButton() {
 }
 
 function changeUrgentColor() {
-  if (urgentActive) {
-    resetAllButton();
-  } else {
-    resetAllButton();
-    document.getElementById('urgent').classList.add("bg-red");
-    document.getElementById('double-arrow').src = "../assets/arrows-up-white.png";
-    urgentActive = true;
-  }
+    if (urgentActive) {
+        resetAllButton();
+    } else {
+        resetAllButton();
+        document.getElementById('urgent').classList.add("bg-red");
+        document.getElementById('double-arrow').src = "../assets/arrows-up-white.png";
+        urgentActive = true;
+    }
 }
 
 function changeMediumColor() {
-  if (mediumActive) {
-    resetAllButton();
-  } else {
-    resetAllButton();
-    document.getElementById('medium-input').classList.add("bg-orange");
-    document.getElementById("equal").src = "../assets/equal-white.svg";
-    mediumActive = true;
-  }
+    if (mediumActive) {
+        resetAllButton();
+    } else {
+        resetAllButton();
+        document.getElementById('medium-input').classList.add("bg-orange");
+        document.getElementById("equal").src = "../assets/equal-white.svg";
+        mediumActive = true;
+    }
 }
 
 function changeLowColor() {
-  if (lowActive) {
-    resetAllButton();
-  } else {
-    resetAllButton();
-    document.getElementById('low-input').classList.add("bg-green");
-    document.getElementById("double-down").src = "../assets/double-down-white.svg";
-    lowActive = true;
-  }
+    if (lowActive) {
+        resetAllButton();
+    } else {
+        resetAllButton();
+        document.getElementById('low-input').classList.add("bg-green");
+        document.getElementById("double-down").src = "../assets/double-down-white.svg";
+        lowActive = true;
+    }
 }
 
 function inputBorderColorSwitch(e) {
@@ -248,7 +248,9 @@ function handleSubtaskAccept(e) {
         subTaskOutput.innerHTML = `<ul></ul>`;
     }
     let ul = subTaskOutput.querySelector('ul');
-    ul.insertAdjacentHTML('beforeend', subtaskOutputTemplate(subtaskInput, subtaskCounter));
+    if (ul.children.length >= 2) {
+        return;
+    } ul.insertAdjacentHTML('beforeend', subtaskOutputTemplate(subtaskInput, subtaskCounter));
     subtaskCounter++;
 }
 
