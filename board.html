@@ -104,7 +104,9 @@
           </div>
         </div>
       </div>
-
+      <div style="width: 100%; display: flex; justify-content: center; align-items: center; padding-top: 20px;">
+      <div id="no-results" style="display:none;">No tasks found</div>
+      </div>
       <div class="board-search-responsive">
         <input placeholder="Find Task" class="board-search-input-responsive" oninput="filterBoardCards(this.value)">
         <img class="seperation-line-responsive" src="./assets/Vector 5.png">
@@ -146,7 +148,6 @@
 
 
       </div>
-      <div id="no-results" style="display:none;">Keine Tasks gefunden</div>
       <div id="task-overlay-background" class="overlay-bg">
         <div id="task-overlay" class="overlay-card">
           <img onclick="closeAddTaskOverlay()" src="./assets/Close.png" id="addTask-close-Img"

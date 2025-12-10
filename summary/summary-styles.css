@@ -250,3 +250,30 @@
     color: #29ABE2;
     font-size: 66px;
 }
+
+.user-info {
+    position: relative;
+    overflow: visible;
+}
+
+.profil {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.navbar {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    display: none;
+    background: #1e1e2f;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+    z-index: 9999;
+    pointer-events: auto;
+    min-width: 150px;
+}
