@@ -111,9 +111,19 @@ function editUserOptionsResponsive() {
   let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
   if (window.innerWidth >= 900) {
     responsiveEditContactId.style.display = "none";
-  } else { responsiveEditContactId.style.display = "block"; }
-  responsiveEditContactId.innerHTML = editUserOptionsResponsiveTemplate(userId);
+  } else { 
+    responsiveEditContactId.style.display = "block"; }
+  document.getElementById("responsiveeditcontact-overlay-container").innerHTML +=
+    editUserOptionsResponsiveTemplate(userId);
 }
+
+document.addEventListener("click", function(e) {
+  let overlay = document.getElementById("edit_overlay");
+  if (overlay && !e.target.closest("#edit_overlay")) {
+    overlay.remove();
+  }
+  updateResponsiveButtons();
+});
 
 function addNewContact() {
   let popUp = document.getElementById("body");
@@ -293,6 +303,8 @@ function reRenderContacts() {
   let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
   if (responsiveAddContactId) {
     responsiveAddContactId.style.display = "flex";
+  } else{
+    responsiveAddContactId.style.display = "none";
   }
   let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
   if (responsiveEditContactId) {
@@ -312,6 +324,8 @@ window.addEventListener("resize", () => {
 
   updateResponsiveButtons();
 });
+
+
 
 window.addEventListener("resize", updateResponsiveButtons);
 window.updateResponsiveButtons = updateResponsiveButtons;

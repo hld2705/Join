@@ -641,11 +641,20 @@ body {
     width: 100%;
 }
 
+#responsiveeditcontact-overlay-container {
+    position: absolute;
+    top: -32px;
+    right: -14px;
+    z-index: 1000;
+}
+
 @media screen and (min-width: 320px) and (max-width: 500px) {
     .createnewcontact-inputfield input {
         width: 140px;
         height: 41px;
         gap: 8px;
+    }
+}
     }
 }
 
@@ -787,6 +796,7 @@ body {
     }
 
     .contactsmoto {
+        display: none;
         display: none;
         padding: 11px;
         padding-top: 60px;
@@ -1281,3 +1291,4 @@ body {
         width: 64px;
     }
 }
+    

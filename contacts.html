@@ -112,8 +112,9 @@
     <div class="responsiveaddcontact" onclick="addNewContact()" id="responsiveaddcontactid">
         <img src="./assets/icons/Secondary mobile contact V1.png">
     </div>
-    <div class="threedotsmenu" onclick="editUserOptionsResponsive()" id="responsiveeditcontactid">
-        <img src="./assets/icons/Menu Contact options.png">
+    <div class="threedotsmenu" onclick="event.stopPropagation(); editUserOptionsResponsive()" id="responsiveeditcontactid">
+         <img src="./assets/icons/Menu Contact options.png">
+    <div id="responsiveeditcontact-overlay-container"></div>
     </div>
 </body>
 

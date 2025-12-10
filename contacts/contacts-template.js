@@ -181,7 +181,7 @@ function addedNewUserTemplate() {
 }
 
 function editUserOptionsResponsiveTemplate(userId) {
-  return `<div class="contactoptions">
+  return `<div class="contactoptions" id="edit_overlay">
    <div class="iconsresponsiveedit" onclick="editUser('${userId}')">
     <img src="./assets/icons/edit.svg">
     <p>Edit</p>
