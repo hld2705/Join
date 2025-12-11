@@ -2,7 +2,12 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow-y: hidden;
+}
+
+.right-side {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .header-content {
@@ -12,17 +17,6 @@ body {
     max-width: 1920px;
     width: 100%;
     margin: 0px 16px 0px 16px;
-}
-
-.contanctssection {
-    background-color: rgba(255, 255, 255, 1);
-    width: 456px;
-    height: 100vh;
-    filter: drop-shadow(4px 0px 6px rgba(0, 0, 0, 0.08));
-    overflow-y: auto;
-    height: calc(100vh - 110px);
-    overflow-x: hidden;
-    padding-bottom: 20px;
 }
 
 .contact-badge {
@@ -71,7 +65,22 @@ body {
 }
 
 .contactsmoto {
-    padding: 100px;
+    box-sizing: border-box;
+    flex: 1;
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+.contanctssection {
+    background-color: rgba(255, 255, 255, 1);
+    width: 456px;
+    filter: drop-shadow(4px 0px 6px rgba(0, 0, 0, 0.08));
+    overflow-y: auto;
+    padding-bottom: 20px;
+    min-width: 0;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    align-self: stretch;
 }
 
 .contactsmoto h1 {
@@ -81,20 +90,21 @@ body {
 }
 
 .contatsandmotopositioning {
+    flex: 1;
     width: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    gap: 24px;
-
+    min-height: 0;
 }
 
 .contactswholetext {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 15px;
     width: 100%;
+    padding: 96px 64px 0px 64px;
 }
 
 .contactswholetext p {
@@ -114,7 +124,6 @@ body {
     font-size: 20px;
     font-weight: 400;
     text-align: left;
-    width: 100%;
     padding: 20px;
     margin-left: 20px;
 }
@@ -136,7 +145,7 @@ body {
     grid-template-columns: 50px auto;
     align-items: center;
     width: 100%;
-    padding: 14px 24px;
+    padding: 14px 0px;
     gap: 64px;
     cursor: pointer;
 }
@@ -580,6 +589,7 @@ body {
     flex-direction: column;
     transform: translateX(200%);
     transition: transform .20s;
+    padding-left: 60px;
 }
 
 #contactsinfo.is-open {
@@ -682,7 +692,7 @@ body {
     }
 
     .contactsmoto {
-        padding: 100px 0px 0px 40px;
+        padding: 30px 0px 0px 40px;
     }
 
     .contactswholetext p {
@@ -697,6 +707,10 @@ body {
 
 @media (max-width: 1250px) {
 
+    .contanctssection {
+        width: 370px;
+    }
+
     .contactsmoto {
         padding: 100px 0px 0px 0px;
         display: flex;
@@ -705,14 +719,11 @@ body {
 
     .contactswholetext {
         gap: 10px;
+        padding: 0px 54px;
     }
 
     .contactsmotoresponsivediv {
         margin-right: 10px;
-    }
-
-    .contanctssection {
-        width: 368px;
     }
 
     .contactswholetext p {
@@ -750,16 +761,25 @@ body {
     .picture-name-contactinfo {
         gap: 12px;
     }
+
+        #contactsinfo {
+        padding-left: 50px;
+    }
 }
 
-
-
 @media (max-width: 1050px) {
-
-
     .createnewcontact-inputfield {
         margin-right: 20px;
         padding-right: 20px;
+    }
+
+    #contactsinfo {
+        padding-left: 16px;
+    }
+
+    .contactswholetext {
+        gap: 10px;
+        padding: 0px 0px 0px 4px;
     }
 
     .createnewcontact-inputfield-person-placement {
@@ -824,8 +844,7 @@ body {
     .contactsmoto {
         display: none;
         display: none;
-        padding: 11px;
-        padding-top: 60px;
+        padding-left: 20px;
     }
 
     .left-side {
@@ -1026,6 +1045,7 @@ body {
         flex-direction: column;
         width: 213px;
         height: 104px;
+        padding: 0px;
     }
 
     .contactswholetext h1 {
