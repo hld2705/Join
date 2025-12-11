@@ -16,13 +16,13 @@
     justify-content: space-around;
     align-items: center;
     width: 100%;
-    height: 70px;
+    height: 100px;
     position: fixed;
     bottom: 0;
     left: 0;
     top: auto;
     transform: none;
-    z-index: 1000;
+    z-index: 99999;
   }
 
   .join-logo {
@@ -47,6 +47,7 @@
     text-decoration: none;
     color: #CDCDCD;
     height: 0px !important;
+    font-size: 12px;
   }
 
   nav a {
@@ -102,30 +103,32 @@
 
 @media(max-width: 900px) {
 
-  #enddate span{
+  #enddate span {
     font-size: 12px;
   }
 
-  #enddate{
+  #enddate {
 
-    margin:0;
+    margin: 0;
   }
 
-  .overview-box-wrapper{
+  .overview-box-wrapper {
     font-size: 14px;
   }
+
   .task-count {
     font-size: 47px;
   }
 
- .status-box {
-    width: 100% ;
+  .status-box {
+    width: 100%;
   }
 
-  .summary-header p{
+  .summary-header p {
 
-    margin-left:50px;
+    margin-left: 50px;
   }
+
   .summary-header {
     display: flex;
     flex-direction: column;
@@ -259,17 +262,24 @@
     font-size: 12px;
   }
 
-  .urgent-date-text span{
+  .urgent-date-text span {
     font-size: 12px;
   }
+
   .left-content {
     flex: 0 0 0;
   }
 }
 
+@media(max-width: 500px) {
+  .left-side {
+    height: 80px;
+  }
+}
+
 @media(max-width: 450px) {
 
- 
+
   .todo {
     display: flex;
     flex-direction: column;
@@ -289,7 +299,7 @@
   }
 
   .vector {
-   margin-left: 20px;
-    
+    margin-left: 20px;
+
   }
 }

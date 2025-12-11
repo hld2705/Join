@@ -1414,18 +1414,18 @@ progress::-webkit-progress-value {
 }
 
 #no-results {
-    pointer-events: none;
-    width: 150px;
-    height: 33px;
-    border: dotted;
-    border-radius: 10px;
-    gap: 10px;
-    color: #A8A8A8;
-    border-style: dashed;
-    border-width: 2px;
-    background: #E7E7E7;
-    box-shadow: 0px 0px 4px 0px #00000029;
-    text-align: center;
+  pointer-events: none;
+  width: 150px;
+  height: 33px;
+  border: dotted;
+  border-radius: 10px;
+  gap: 10px;
+  color: #A8A8A8;
+  border-style: dashed;
+  border-width: 2px;
+  background: #E7E7E7;
+  box-shadow: 0px 0px 4px 0px #00000029;
+  text-align: center;
 }
 
 .search-icon:hover {
@@ -1667,7 +1667,7 @@ progress::-webkit-progress-value {
   #task-overlay .drop-down-arrow-svg-category {
     top: 80px;
     right: 14px;
-}
+  }
 
   #task-overlay .cancel-accept-container {
     top: 26px;
@@ -1900,14 +1900,19 @@ progress::-webkit-progress-value {
     height: 27px;
     font-size: 16px;
   }
-      .priority-input {
-         box-sizing: border-box; 
-         width: 100%; 
-         padding: 14px 2px; 
-    }
+
+  .priority-input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 14px 2px;
+  }
 }
 
-
+@media (max-width: 500px) {
+  .left-side {
+    height: 80px;
+  }
+}
 
 @media (max-width: 320px) {
 
