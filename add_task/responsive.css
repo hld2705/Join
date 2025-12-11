@@ -60,6 +60,10 @@
 }
 
 @media (max-width: 1230px) {
+      #subtask-content {
+        height: 100px;
+    }
+
     body {
         font-size: 16px;
     }
@@ -359,10 +363,6 @@
 @media (max-width: 500px) {
     .task-content-container {
         display: grid !important;
-    }
-
-    #subtask-content {
-        height: 100px;
     }
 
       .left-side {

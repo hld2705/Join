@@ -50,25 +50,11 @@ async function contactsRender(userId) {
   let contactInfo = document.getElementById("contactsinfo");
   let responsiveLeftSide = document.getElementById("responsiveleftsidecontacts");
   let responsiveContactsDetails = document.getElementById("responsivecontactsmoto");
-  let lastHighlight = document.getElementById(`contactfield${activeUserId}`);
-  let currentHighlight = document.getElementById(`contactfield${userId}`);
-  if (activeUserId === userId) {
-    if (currentHighlight) {
-      currentHighlight.style.backgroundColor = "#fff";
-      currentHighlight.style.color = "black";
-    }
-    activeUserId = null;
-    return;
-  }
-  if (lastHighlight) {
-    lastHighlight.style.backgroundColor = "#fff";
-    lastHighlight.style.color = "black";
-  }
-  if (currentHighlight) {
-    currentHighlight.style.backgroundColor = "#2A3647";
-    currentHighlight.style.color = "white";
-  }
+  let previousId = activeUserId;
   activeUserId = userId;
+
+  userHighlight(previousId, userId);
+
   if (window.innerWidth <= 900) {
     if (responsiveLeftSide) responsiveLeftSide.style.display = "none";
     if (responsiveContactsDetails) responsiveContactsDetails.style.display = "block";
@@ -87,6 +73,21 @@ async function contactsRender(userId) {
   contactInfo.innerHTML = "";
   contactInfo.innerHTML = contactsRenderTemplate(userInfo);
   updateResponsiveButtons();
+}
+
+function userHighlight(previousId, newId) {
+  let prev = document.getElementById(`contactfield${previousId}`);
+  let curr = document.getElementById(`contactfield${newId}`);
+  if (prev) {
+    prev.style.backgroundColor = "#fff";
+    prev.style.color = "black";
+    prev.style.borderRadius = "10px";
+  }
+  if (curr) {
+    curr.style.backgroundColor = "#2A3647";
+    curr.style.color = "white";
+    curr.style.borderRadius = "10px";
+  }
 }
 
 function updateResponsiveButtons() {
@@ -127,7 +128,9 @@ document.addEventListener("click", function(e) {
 
 function addNewContact() {
   let popUp = document.getElementById("body");
+  if (!document.getElementById("closeoverlay")) { //?????
   popUp.innerHTML += addNewContactTemplate();
+}
   let contactContainer = document.getElementById('contact-container')
   if (contactContainer) {
     setTimeout(() => {
@@ -139,7 +142,8 @@ function addNewContact() {
 function closeOverlay() {
   let contactContainer = document.getElementById('contact-container');
   const overlay = document.getElementById("closeoverlay");
-  const editContainer = document.getElementById('edit-main-container')
+  const editOverlay = document.getElementById("closediteoverlay");
+  const editContainer = document.getElementById('edit-main-container');
   if (contactContainer) {
     contactContainer.classList.remove('is-open');
   }
@@ -148,6 +152,7 @@ function closeOverlay() {
   }
   setTimeout(() => {
     if (overlay) overlay.remove();
+    if (editOverlay) editOverlay.remove();
   }, 250);
 }
 
@@ -179,22 +184,7 @@ async function saveUser(userId) {
   const nameEl = document.getElementById('edit_name').value.trim();
   const emailEl = document.getElementById('edit_email').value.trim();
   const phoneEl = document.getElementById('edit_phone').value.trim();
-
-   if (!nameEl){
-    document.getElementById("input_field_edit_name").classList.add("submit");
-    document.getElementById("required_name_edit_user").innerHTML = "This field is required!";
-    return;
-  }else{
-    removeEditTitle()
-  }
-  if(!emailEl){
-    document.getElementById("input_field_edit_email").classList.add("submit");
-    document.getElementById("required_email_edit_user").innerHTML = "This field is required!";
-    return;
-  }else{
-    removeEditTitle()
-  }
-
+  if (!validateEditUser()) return;
   await FIREBASE_USERS.child(userId).update({
     name: nameEl,
     email: emailEl,
@@ -205,17 +195,8 @@ async function saveUser(userId) {
   contactsRender(userId);
   updateDetailsPanel({ name: nameEl, email: emailEl, phone: phoneEl });
 }
-function removeEditTitle(){
-  let editNameInputField = document.getElementById("edit_name");
-  let editEmailInputField = document.getElementById("edit_email");
-  if(editEmailInputField && editNameInputField){
-    document.getElementById("input_field_edit_name").classList.remove("submit");
-    document.getElementById("input_field_edit_email").classList.remove("submit");
-    document.getElementById("required_name_edit_user").innerHTML = "";
-    document.getElementById("required_email_edit_user").innerHTML = "";
-  }
 
-}
+
 function updateDetailsPanel(user) {
   const nameNode = document.getElementById('detailed_name');
   const emailNode = document.getElementById('detailed_email');
@@ -229,25 +210,10 @@ async function createContact() {
   let nameNew = document.getElementById("name_new_user").value.trim();
   let emailNew = document.getElementById("email_new_user").value.trim();
   let phoneNew = document.getElementById("phone_new_user").value.trim();
-  let nameValidation = document.getElementById("required_name_new_user");
-  let emailValidation = document.getElementById("required_email_new_user");
-  if (!nameNew) {
-    document.getElementById("input_name_border").classList.add("submit");
-    nameValidation.innerHTML = "This field is required!";
-    return;
-  }else{
-    removeTitle()
-  }
-  if (!emailNew) {
-    document.getElementById("input_email_border").classList.add("submit");
-    emailValidation.innerHTML = "This field is required!";
-    return;
-  }else{
-    removeTitle()
-  }
-
+  if(!validateAddNewUser()) return;
   let entry = firebase.database().ref("users").push();
   let firebaseId = entry.key;
+
   let newUser = {
     id: firebaseId.toString(),
     name: nameNew,
@@ -256,28 +222,20 @@ async function createContact() {
     badge: "/assets/icons/person.svg"
   };
   await entry.set(newUser);
-  await addedNewUser();
   await contactsLoad();
-  await addedNewUserTemplate();
-}
-
-function removeTitle(){
-  let inputNameBorder = document.getElementById("input_name_border");
-  let inputEmailBorder = document.getElementById("input_email_border");
-  let nameValidation = document.getElementById("required_name_new_user");
-  let emailValidation = document.getElementById("required_email_new_user");
-  if(inputNameBorder && inputEmailBorder){
-    inputNameBorder.classList.remove("submit");
-    inputEmailBorder.classList.remove("submit");
-    nameValidation.innerHTML = "";
-    emailValidation.innerHTML = "";
-  }
+  activeUserId = firebaseId;
+  userHighlight(firebaseId, firebaseId);
+  await contactsRender(firebaseId);
+  closeOverlay();
+  await addedNewUser();
+  
 }
 
 async function addedNewUser() {
-  let body = document.getElementById("mainbodycontainerid");
-  body.innerHTML += `<div id="successMessage">${addedNewUserTemplate()}</div>`;
-  await new Promise(r => setTimeout(r, 1500));
+  document.body.insertAdjacentHTML("beforeend",
+    `<div id="successMessage">${addedNewUserTemplate()}</div>`
+  );
+  await new Promise(r => setTimeout(r, 3500));
   document.getElementById("successMessage").remove();
 }
 
@@ -316,16 +274,12 @@ let lastIsMobile = window.innerWidth <= 900;
 
 window.addEventListener("resize", () => {
   const isMobile = window.innerWidth <= 900;
-
   if (isMobile !== lastIsMobile) {
     lastIsMobile = isMobile;
     reRenderContacts();  
   }
-
   updateResponsiveButtons();
 });
-
-
 
 window.addEventListener("resize", updateResponsiveButtons);
 window.updateResponsiveButtons = updateResponsiveButtons;

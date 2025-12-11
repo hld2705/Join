@@ -92,11 +92,12 @@ function addNewContactTemplate() {
                         <img src="assets/icons/mail.svg">
                       </div>
                       <p class="required-mssg" id="required_email_new_user"></p>
-                      <div class="createnewcontact-inputfield-icon">
+                      <div class="createnewcontact-inputfield-icon" id="input_phone_border">
                         <input id="phone_new_user" type="phone" maxlength="20"
                             placeholder="Phone">
                         <img src="assets/icons/call.svg">
                       </div>
+                      <p class="required-mssg" id="required_phone_new_user"></p>
                                         <div class="createnewcontact-buttons-placement" onclick="closeOverlay()">
                     <div class="createnewcontact-button-cancel">
                       <p>Cancel</p>
@@ -116,7 +117,7 @@ function addNewContactTemplate() {
 }
 
 function editUserTemplate(user) {
-  return `<div class="createnewcontact-overlay" id="closeoverlay" onclick="closeOverlay()">
+  return `<div class="createnewcontact-overlay" id="closediteoverlay" onclick="closeOverlay()">
             <div id="edit-main-container" class="createnewcontactmaincontainer">
               <div class="createnewcontact-table" onclick="event.stopPropagation()">
                 <div class="left-blue-side">
