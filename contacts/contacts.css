@@ -26,6 +26,33 @@ body {
     padding-left: 30px;
 }
 
+.avatar-badge {
+    width: 38px;
+    height: 38px;
+    padding-left: 0px;
+    margin-left: 30px;
+    color: white;
+    font-size: 12px;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contactinfo-badge.avatar-badge {
+    width: 120px;
+    height: 120px;
+    font-size: 32px;
+    margin-right: 24px;
+}
+
+.edit-person-radius.avatar-badge {
+    width: 120px;
+    height: 120px;
+    font-size: 32px;
+    border-radius: 60px;
+}
+
 .addnewcontact {
     background-color: rgba(42, 54, 71, 1);
     border-radius: 10px;
@@ -68,7 +95,6 @@ body {
     box-sizing: border-box;
     flex: 1;
     min-width: 0;
-    overflow-x: hidden;
 }
 
 .contanctssection {
@@ -82,6 +108,8 @@ body {
     flex-shrink: 0;
     align-self: stretch;
 }
+
+
 
 .contactsmoto h1 {
     font-weight: 700;
@@ -188,7 +216,6 @@ body {
     justify-content: center;
     align-items: center;
     white-space: nowrap;
-    overflow: hidden;
     gap: 54px;
     padding-bottom: 50px;
 }
@@ -551,7 +578,6 @@ body {
     left: 50%;
     border-radius: 30px;
     background: white;
-    overflow: hidden;
     transform: translate(calc(-50% + 120vw), -50%);
     transition: transform .25s;
     width: 90vw;
@@ -568,7 +594,6 @@ body {
     left: 50%;
     border-radius: 30px;
     background: white;
-    overflow: hidden;
     transform: translate(calc(-50% + 120vw), -50%);
     transition: transform .25s;
     width: 90vw;
@@ -762,7 +787,7 @@ body {
         gap: 12px;
     }
 
-        #contactsinfo {
+    #contactsinfo {
         padding-left: 50px;
     }
 }
@@ -837,10 +862,6 @@ body {
         height: 90vh;
     }
 
-    .addnewcontactbuttonplacement {
-        padding-bottom: 90px;
-    }
-
     .contactsmoto {
         display: none;
         display: none;
@@ -909,6 +930,7 @@ body {
     .contanctssection {
         width: 100%;
         filter: none;
+        margin-bottom: 100px;
     }
 
     .join-logo {
@@ -1228,6 +1250,10 @@ body {
         text-decoration: none;
         color: #CDCDCD;
         height: 17px !important;
+    }
+
+    .contanctssection {
+        margin-bottom: 80px;
     }
 
     .profil {
