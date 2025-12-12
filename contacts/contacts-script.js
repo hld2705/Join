@@ -221,10 +221,10 @@ function getRandomColor() {
 }
 
 async function createContact() {
+  if(!validateAddNewUser()) return;
   let nameNew = document.getElementById("name_new_user").value.trim();
   let emailNew = document.getElementById("email_new_user").value.trim();
   let phoneNew = document.getElementById("phone_new_user").value.trim();
-  if(!validateAddNewUser()) return;
   let entry = firebase.database().ref("users").push();
   let firebaseId = entry.key;
 
