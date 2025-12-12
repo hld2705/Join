@@ -128,7 +128,7 @@ document.addEventListener("click", function(e) {
 
 function addNewContact() {
   let popUp = document.getElementById("body");
-  if (!document.getElementById("closeoverlay")) { //?????
+  if (!document.getElementById("closeoverlay")) {
   popUp.innerHTML += addNewContactTemplate();
 }
   let contactContainer = document.getElementById('contact-container')
@@ -190,10 +190,10 @@ async function saveUser(userId) {
     email: emailEl,
     phone: phoneEl
   })
-  closeOverlay();
   await contactsLoad();
   contactsRender(userId);
   updateDetailsPanel({ name: nameEl, email: emailEl, phone: phoneEl });
+  closeOverlay();
 }
 
 
