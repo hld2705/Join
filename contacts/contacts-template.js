@@ -195,14 +195,16 @@ function editUserTemplate(user) {
 
                       <p class="required-mssg" id="required_email_edit_user"></p>
 
-                      <div class="createnewcontact-inputfield-icon">
+                      <div class="createnewcontact-inputfield-icon" id="input_field_edit_phone">
                         <input id="edit_phone" type="tel" value="${user.phone}" maxlength="20"
                           placeholder="Phone">
                         <img src="./assets/icons/call.svg">
                       </div>
+                      
+                      <p class="required-mssg" id="required_phone_edit_user"></p>
 
-                      <div class="createnewcontact-buttons-placement" onclick="deleteUser('${user.id}')">
-                        <div class="editcontact-button-cancel">
+                      <div class="createnewcontact-buttons-placement">
+                        <div class="editcontact-button-cancel" onclick="deleteUser('${user.id}')">
                           <p>Delete</p>
                         </div>
                         <div class="editcontact-button-create-contact" onclick="saveUser('${user.id}')">
