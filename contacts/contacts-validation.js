@@ -1,7 +1,7 @@
-function removeEditTitle(){
+function removeEditTitle() {
   let editNameInputField = document.getElementById("edit_name");
   let editEmailInputField = document.getElementById("edit_email");
-  if(editEmailInputField && editNameInputField){
+  if (editEmailInputField && editNameInputField) {
     document.getElementById("input_field_edit_name").classList.remove("submit");
     document.getElementById("input_field_edit_email").classList.remove("submit");
     document.getElementById("required_name_edit_user").innerHTML = "";
@@ -17,14 +17,14 @@ function validateEditUser() {
   let valid = true;
   if (!name) {
     document.getElementById("input_field_edit_name").classList.add("submit");
-    document.getElementById("required_name_edit_user").innerHTML = "This field is required!";
+    document.querySelector(".required-mssg").style.visibility = "visible";
     valid = false;
   } else {
     removeEditTitle();
   }
   if (!email) {
     document.getElementById("input_field_edit_email").classList.add("submit");
-    document.getElementById("required_email_edit_user").innerHTML = "This field is required!";
+    document.querySelector(".required-mssg").style.visibility = "visible";
     valid = false;
   } else {
     removeEditTitle();
@@ -32,18 +32,6 @@ function validateEditUser() {
   return valid;
 }
 
-function removeTitle(){
-  let inputNameBorder = document.getElementById("input_name_border");
-  let inputEmailBorder = document.getElementById("input_email_border");
-  let nameValidation = document.getElementById("required_name_new_user");
-  let emailValidation = document.getElementById("required_email_new_user");
-  if(inputNameBorder && inputEmailBorder){
-    inputNameBorder.classList.remove("submit");
-    inputEmailBorder.classList.remove("submit");
-    nameValidation.innerHTML = "";
-    emailValidation.innerHTML = "";
-  }
-}
 
 function validateAddNewUser() {
   let name = document.getElementById("name_new_user").value.trim();
@@ -58,58 +46,66 @@ function validateAddNewUser() {
   let emailVal = document.getElementById("required_email_new_user");
   let phoneVal = document.getElementById("required_phone_new_user");
 
-  let valid = true;
-
   if (!name) {
     nameBorder.classList.add("submit");
-    nameVal.innerHTML = "*This field is required!";
+    nameVal.style.visibility = "visible";
     valid = false;
   } else if (name.length < 3) {
     nameBorder.classList.add("submit");
+    nameVal.style.visibility = "visible";
     nameVal.innerHTML = "*Name must be at least 3 letters!";
     valid = false;
   } else if (!/^[A-Za-z\s]+$/.test(name)) {
     nameBorder.classList.add("submit");
+    nameVal.style.visibility = "visible";
     nameVal.innerHTML = "*Only letters allowed!";
     valid = false;
   } else {
-    removeTitle();
+    nameVal.style.visibility = "hidden";
+    nameBorder.classList.remove("submit");
   }
 
   if (!email) {
     emailBorder.classList.add("submit");
-    emailVal.innerHTML = "*This field is required!";
+    emailVal.style.visibility = "visible";
     valid = false;
   } else if (email.length < 5) {
     emailBorder.classList.add("submit");
+    emailVal.style.visibility = "visible";
     emailVal.innerHTML = "*Email must be at least 5 characters!";
     valid = false;
   } else if (!email.includes("@")) {
     emailBorder.classList.add("submit");
+    emailVal.style.visibility = "visible";
     emailVal.innerHTML = "*Email must contain @!";
     valid = false;
-  } else if (!email.includes(".com")) {
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     emailBorder.classList.add("submit");
-    emailVal.innerHTML = "*Email must contain the fameous .com!";
+    emailVal.style.visibility = "visible";
+    emailVal.innerHTML = "*Please enter a valid email address!";
     valid = false;
-  }else {
-    removeTitle();
+  } else {
+   emailVal.style.visibility = "hidden";
+    emailBorder.classList.remove("submit");
   }
-  
+
   if (!phone) {
     phoneBorder.classList.add("submit");
-    phoneVal.innerHTML = "*This field is required!";
+    phoneVal.style.visibility = "visible";
     valid = false;
   } else if (!/^\+?[0-9]+$/.test(phone)) {
     phoneBorder.classList.add("submit");
+    phoneVal.style.visibility = "visible";
     phoneVal.innerHTML = "*Only numbers and optional + allowed!";
     valid = false;
   } else if (phone.replace("+", "").length < 10) {
     phoneBorder.classList.add("submit");
+    phoneVal.style.visibility = "visible";
     phoneVal.innerHTML = "*Must be at least 10 digits!";
     valid = false;
   } else {
-    removeTitle();
+   phoneVal.style.visibility = "hidden";
+   phoneBorder.classList.remove("submit");
   }
 
   return valid;

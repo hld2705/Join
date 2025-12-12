@@ -112,19 +112,19 @@ function addNewContactTemplate() {
                             placeholder="Name">
                         <img src="./assets/icons/person.svg">
                       </div>
-                      <p class="required-mssg" id="required_name_new_user"></p>
+                      <p class="required-mssg" id="required_name_new_user">This field is required!</p>
                       <div class="createnewcontact-inputfield-icon" id="input_email_border">
                         <input id="email_new_user" type="email" maxlength="20"
                             placeholder="Email">
                         <img src="assets/icons/mail.svg">
                       </div>
-                      <p class="required-mssg" id="required_email_new_user"></p>
+                      <p class="required-mssg" id="required_email_new_user">This field is required!</p>
                       <div class="createnewcontact-inputfield-icon" id="input_phone_border">
                         <input id="phone_new_user" type="phone" maxlength="20"
                             placeholder="Phone">
                         <img src="assets/icons/call.svg">
                       </div>
-                      <p class="required-mssg" id="required_phone_new_user"></p>
+                      <p class="required-mssg" id="required_phone_new_user">This field is required!</p>
                                         <div class="createnewcontact-buttons-placement" onclick="closeOverlay()">
                     <div class="createnewcontact-button-cancel">
                       <p>Cancel</p>
