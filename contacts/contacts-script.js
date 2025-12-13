@@ -248,12 +248,25 @@ async function createContact() {
 }
 
 async function addedNewUser() {
-  document.body.insertAdjacentHTML("beforeend",
-    `<div id="successMessage">${addedNewUserTemplate()}</div>`
+  document.body.insertAdjacentHTML(
+    "beforeend",
+    addedNewUserTemplate()
   );
+  
+  const overlay = document.getElementById("new-user-overlay");
+
+  requestAnimationFrame(() => {
+    overlay.classList.add("is-open");
+  });
+
   await new Promise(r => setTimeout(r, 3500));
-  document.getElementById("successMessage").remove();
+
+  overlay.classList.remove("is-open");
+
+  await new Promise(r => setTimeout(r, 300));
+  overlay.remove();
 }
+
 
 function reRenderContacts() {
   let contactInfo = document.getElementById("contactsinfo");
