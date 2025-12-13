@@ -87,9 +87,11 @@ async function forwardingNextPage(firebaseId) {
 
     const overlay = document.getElementById("signedup");
     let confirmationContainer = document.getElementById("signedupconfirmationid");
-    confirmationContainer.classList.add('is-open');
-    
-    await new Promise(r => setTimeout(r, 1000));
+    requestAnimationFrame(() => {
+        confirmationContainer.classList.add("is-open");
+    });
+
+    await new Promise(r => setTimeout(r, 2000));
     if (overlay) overlay.remove();
     window.location = "/summary.html?uid=" + firebaseId;
 }
@@ -107,10 +109,10 @@ window.loginUserPushedInfo = async function () {
     resetLoginUI();
     const user = await validateAndFindUser(identifier, password);
     if (!user) return;
-    if(isMobile){
-        sessionStorage.setItem("userWelcome","true");
+    if (isMobile) {
+        sessionStorage.setItem("userWelcome", "true");
     }
-   setTimeout(() => { window.location = `/summary.html?uid=${user.id}`}, 100)
+    setTimeout(() => { window.location = `/summary.html?uid=${user.id}` }, 100)
 };
 
 async function validateAndFindUser(identifier, password) {
@@ -166,10 +168,10 @@ function resetLoginUI() {
 }
 
 
-window.guestLogIn = function(){
+window.guestLogIn = function () {
     let isMobile = window.innerWidth < 780;
-    if(isMobile){
-        sessionStorage.setItem("guestWelcome","true");
+    if (isMobile) {
+        sessionStorage.setItem("guestWelcome", "true");
     }
-    setTimeout(() => {window.location.href = "./summary.html";}, 100)
+    setTimeout(() => { window.location.href = "./summary.html"; }, 100)
 }
