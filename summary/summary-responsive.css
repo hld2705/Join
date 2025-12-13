@@ -25,6 +25,10 @@
     z-index: 99999;
   }
 
+  .join-logo-a {
+    display:none !important;
+  }
+
   .join-logo {
     display: none;
   }
@@ -39,19 +43,22 @@
 
 
   .left-side a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 8px;
-    text-decoration: none;
-    color: #CDCDCD;
-    height: 0px !important;
-    font-size: 12px;
+  display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 8px;
+        text-decoration: none;
+        color: #CDCDCD;
+        height: 38px !important;
+        border-radius: 20px;
+        width: 77px;
+        box-sizing: unset;
   }
 
   nav a {
-    padding-left: 0;
+  padding: 31px 10px;
+        font-size: 12px;
   }
 
   footer {

@@ -192,7 +192,7 @@
     }
 
     .left-side {
-        position: fixed;
+      position: fixed;
         bottom: 0;
         height: 100px;
         top: auto;
@@ -201,26 +201,30 @@
     }
 
     .left-side a {
-        display: flex;
+              display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
         gap: 8px;
         text-decoration: none;
         color: #CDCDCD;
-        height: 0px !important;
-        font-size: 12px;
+        height: 38px !important;
+        border-radius: 20px;
+        width: 77px;
+        box-sizing: unset;
     }
 
     nav {
-        display: flex;
+     display: flex;
         flex-direction: row;
         gap: 0px;
         justify-content: space-around;
     }
 
-    nav a {
-        padding-left: 10px;
+ nav a {
+        padding-left: 0;
+        padding: 31px 10px;
+        font-size: 12px;
     }
 
     footer {

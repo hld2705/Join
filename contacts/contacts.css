@@ -398,7 +398,7 @@ body {
     justify-content: center;
     flex-direction: column;
     margin-top: 120px;
-   gap: 10px;
+    gap: 10px;
     width: 100%;
     max-width: 400px;
 }
@@ -409,6 +409,7 @@ body {
     border: none;
     padding: 0 12px;
     outline: none;
+    flex: 1;
 }
 
 .createnewcontact-inputfield-icon {
@@ -626,14 +627,22 @@ body {
     justify-content: center;
     align-items: center;
     position: absolute;
-    left: 60%;
-    bottom: 20%;
+    left: 64%;
+    bottom: 10%;
+    transform: translate(150%, -50%);
+    opacity: 0;
     background-color: rgba(42, 54, 71, 1);
     color: white;
     height: 74px;
     width: 326px;
     border-radius: 20px;
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.addednewuserdiv.is-open {
+    transform: translate(-50%, -50%);
+    opacity: 1;
 }
 
 .addednewuserdiv h1 {
@@ -989,6 +998,7 @@ body {
         flex-direction: column;
         color: white;
         flex: 0 0 auto;
+        border-radius: 28px 28px 0px 0px;
     }
 
     .white-right-side {
@@ -1050,14 +1060,20 @@ body {
         justify-content: center;
         align-items: center;
         position: absolute;
-        left: 20%;
+        left: 50%;
         bottom: 20%;
+            transform: translate(-50%, 150%);
         background-color: rgba(42, 54, 71, 1);
         color: white;
         height: 74px;
-        width: 326px;
+        width: 80%;
         border-radius: 20px;
         box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.15);
+    }
+
+    .addednewuserdiv.is-open {
+        transform: translate(-50%, 0);
+        opacity: 1;
     }
 
     .contactswholetext {
