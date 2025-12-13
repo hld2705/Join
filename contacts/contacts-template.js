@@ -1,21 +1,21 @@
 function contactsLoadTemplate(user) {
-  if (user.avatar) {
-    return `
-      <div id="contactfield${user.id}" class="contact-item" onclick="contactsRender('${user.id}')">
-        <div class="contact-badge avatar-badge" style="background:${user.avatar.color}">
-          ${user.avatar.text}
-        </div>
-        <div class="contact-content">
-          <p class="contact-name">${user.name}</p>
-          <p class="contact-email">${user.email}</p>
-        </div>
+  const badgeMarkup = user.badge?.text
+    ? `
+      <div class="contact-badge avatar-badge"
+           style="background:${user.badge.color}">
+        ${user.badge.text}
       </div>
+    `
+    : `
+      <img class="contact-badge"
+           src="./${user.badge}"
+           alt="${user.name}">
     `;
-  }
 
   return `
-    <div id="contactfield${user.id}" class="contact-item" onclick="contactsRender('${user.id}')">
-      <img class="contact-badge" alt="${user.name}" src="./${user.badge}">
+    <div id="contactfield${user.id}" class="contact-item"
+         onclick="contactsRender('${user.id}')">
+      ${badgeMarkup}
       <div class="contact-content">
         <p class="contact-name">${user.name}</p>
         <p class="contact-email">${user.email}</p>
@@ -25,10 +25,10 @@ function contactsLoadTemplate(user) {
 }
 
 function contactsRenderTemplate(userInfo) {
-  const avatarMarkup = userInfo.avatar
+  const badgeMarkup = userInfo.badge
     ? `
-      <div class="contactinfo-badge avatar-badge" style="background:${userInfo.avatar.color}">
-        ${userInfo.avatar.text}
+      <div class="contactinfo-badge avatar-badge" style="background:${userInfo.badge.color}">
+        ${userInfo.badge.text}
       </div>
     `
     : `
@@ -38,7 +38,7 @@ function contactsRenderTemplate(userInfo) {
   return `
     <div class="contactinfo">
       <span class="picture-name-contactinfo">
-        ${avatarMarkup}
+        ${badgeMarkup}
         <div class="name-edit-delete-placement">
           <p class="contactinfo-name" id="detailed_name">${userInfo.name}</p>
 
@@ -144,11 +144,11 @@ function addNewContactTemplate() {
 }
 
 function editUserTemplate(user) {
-  const avatarMarkup = user.avatar
+  const badgeMarkup = user.badge
     ? `
         <div class="edit-person-radius avatar-badge"
-             style="background:${user.avatar.color}">
-          ${user.avatar.text}
+             style="background:${user.badge.color}">
+          ${user.badge.text}
         </div>
       `
     : `
@@ -176,7 +176,7 @@ function editUserTemplate(user) {
                   </div>
 
                   <div class="createnewcontact-inputfield-person-placement">
-                    ${avatarMarkup}
+                    ${badgeMarkup}
 
                     <div class="createnewcontact-inputfield">
                       <div class="createnewcontact-inputfield-icon" id="input_field_edit_name"> 

@@ -22,17 +22,34 @@ window.logIn = async function logIn() {
     const firebaseId = newEntry.key;
     const newUserObj = {
         id: firebaseId,
-        name: name,
+        name: getInitials(name),
         email: email,
         phone: "",
         password: password,
         login: 1,
-        badge: "./assets/icons/person.svg",
+        badge: {
+            text: getInitials(name),
+            color: getRandomColor()
+        },
         newUser: true
     };
     await newEntry.set(newUserObj);
     forwardingNextPage(firebaseId);
 };
+
+function getInitials(name) {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(word => word.charAt(0).toUpperCase())
+    .join("");
+}
+
+function getRandomColor() {
+  const colors = ["#2A3647", "#29ABE2", "#FF7A00", "#9327FF", "#FC71FF", "#fccc59", "#442c8c", "#fc4444"];
+  return colors[Math.floor(Math.random() * colors.length)]; 
+}
 
 function signUpValidation(name, email, password, passwordConfirm) {
     let signUpNameBorder = document.getElementById("input_border_sign_up_name");
@@ -84,11 +101,9 @@ function resetSignUpUI() {
 async function forwardingNextPage(firebaseId) {
     await new Promise(r => setTimeout(r, 300));
     confirmationSignTemplate();
-
     const overlay = document.getElementById("signedup");
     let confirmationContainer = document.getElementById("signedupconfirmationid");
     confirmationContainer.classList.add('is-open');
-    
     await new Promise(r => setTimeout(r, 1000));
     if (overlay) overlay.remove();
     window.location = "/summary.html?uid=" + firebaseId;

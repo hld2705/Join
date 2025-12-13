@@ -216,7 +216,7 @@ function getInitials(fullName) {
 }
 
 function getRandomColor() {
-  const colors = ["#2A3647", "#29ABE2", "#FF7A00", "#9327FF", "#FC71FF"];
+  const colors = ["#2A3647", "#29ABE2", "#FF7A00", "#9327FF", "#FC71FF", "#fccc59", "#442c8c", "#fc4444"];
   return colors[Math.floor(Math.random() * colors.length)]; 
 }
 
@@ -227,13 +227,12 @@ async function createContact() {
   let phoneNew = document.getElementById("phone_new_user").value.trim();
   let entry = firebase.database().ref("users").push();
   let firebaseId = entry.key;
-
   let newUser = {
     id: firebaseId.toString(),
     name: nameNew,
     email: emailNew,
     phone: phoneNew,
-    avatar: {
+    badge: {
     text: getInitials(nameNew),
     color: getRandomColor()
   }
@@ -246,23 +245,17 @@ async function createContact() {
   closeOverlay();
   await addedNewUser();
 }
-
 async function addedNewUser() {
   document.body.insertAdjacentHTML(
     "beforeend",
     addedNewUserTemplate()
   );
-  
   const overlay = document.getElementById("new-user-overlay");
-
   requestAnimationFrame(() => {
     overlay.classList.add("is-open");
   });
-
   await new Promise(r => setTimeout(r, 3500));
-
   overlay.classList.remove("is-open");
-
   await new Promise(r => setTimeout(r, 300));
   overlay.remove();
 }
