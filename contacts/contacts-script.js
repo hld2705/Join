@@ -208,16 +208,16 @@ function updateDetailsPanel(user) {
 
 function getInitials(fullName) {
   return fullName
-    .split(" ") // teilt den Text an jedem Leerzeichen
-    .filter(Boolean) // Alles, was leer ist, fliegt raus. (z.B was mit mehreren Leerzeichen)
-    .slice(0, 2) // nimmt nur die ersten 2 Wörter
-    .map(word => word.charAt(0).toUpperCase()) // Für Jedes Wort, Erster Buchstabe wird gross gemacht
-    .join(""); // setzt die Buchstaben ohne Leerzeichen zusammen
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(word => word.charAt(0).toUpperCase())
+    .join("");
 }
 
 function getRandomColor() {
   const colors = ["#2A3647", "#29ABE2", "#FF7A00", "#9327FF", "#FC71FF"];
-  return colors[Math.floor(Math.random() * colors.length)]; // floor rundet ab. Random nimmt Zahl zwischen 0-1 also z.b. 0.33. Also rechnung z.b: (0.5*5 = 2.5 = 2) Es nimmt die 2. farbe
+  return colors[Math.floor(Math.random() * colors.length)]; 
 }
 
 async function createContact() {

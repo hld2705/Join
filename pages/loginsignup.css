@@ -95,6 +95,31 @@ h1 {
     font-size: 21px;
     cursor: pointer;
 }
+.signedupconfirmationcontainerdarkoverlay{
+    background-color: rgba(0, 0, 0, 0.04);
+    position: absolute;
+    top: 50%;
+}
+.signedupconfirmationcontainer{
+    background-color: rgba(42, 54, 71, 1);
+    color: white;
+    border-radius: 8px;
+    padding: 6px 20px;
+    font-size: 21px;
+    position: absolute;
+    top: -765px;
+    left: 50%;
+    opacity: 0;
+    transform: translate(-50%, 150%);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    width: 53%;
+}
+
+.signedupconfirmationcontainer.is-open{
+    transform: translate(50%, -50%);
+    opacity: 1;
+    width: max-content;
+}
 
 .buttonlogin:disabled {
     background-color: rgba(42, 54, 71, 0.3);

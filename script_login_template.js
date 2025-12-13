@@ -1,6 +1,13 @@
 function confirmationSignTemplate(){
     let login = document.getElementById("signupPage");
-    login.innerHTML = `<div id="signedup"class="buttonlogin" style="cursor:default"><p>You Signed Up successfully!</p></div>`
+    login.innerHTML += 
+    `
+    <div id="signedup"class="signedupconfirmationcontainerdarkoverlay" style="cursor:default">
+        <div class="signedupconfirmationcontainer" id="signedupconfirmationid">
+            <p>You Signed Up successfully!</p>
+        </div>
+    </div>
+    `
 }
 
 function loadingScreenDesktopTemplate(){

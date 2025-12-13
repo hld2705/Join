@@ -82,9 +82,14 @@ function resetSignUpUI() {
 }
 
 async function forwardingNextPage(firebaseId) {
+    await new Promise(r => setTimeout(r, 300));
     confirmationSignTemplate();
-    await new Promise(r => setTimeout(r, 1000));
+
     const overlay = document.getElementById("signedup");
+    let confirmationContainer = document.getElementById("signedupconfirmationid");
+    confirmationContainer.classList.add('is-open');
+    
+    await new Promise(r => setTimeout(r, 1000));
     if (overlay) overlay.remove();
     window.location = "/summary.html?uid=" + firebaseId;
 }
