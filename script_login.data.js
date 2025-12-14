@@ -22,7 +22,7 @@ window.logIn = async function logIn() {
     const firebaseId = newEntry.key;
     const newUserObj = {
         id: firebaseId,
-        name: getInitials(name),
+        name: name,
         email: email,
         phone: "",
         password: password,
@@ -38,17 +38,17 @@ window.logIn = async function logIn() {
 };
 
 function getInitials(name) {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map(word => word.charAt(0).toUpperCase())
-    .join("");
+    return name
+        .split(" ")
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(word => word.charAt(0).toUpperCase())
+        .join("");
 }
 
 function getRandomColor() {
-  const colors = ["#2A3647", "#29ABE2", "#FF7A00", "#9327FF", "#FC71FF", "#fccc59", "#442c8c", "#fc4444"];
-  return colors[Math.floor(Math.random() * colors.length)]; 
+    const colors = ["#2A3647", "#29ABE2", "#FF7A00", "#9327FF", "#FC71FF", "#fccc59", "#442c8c", "#fc4444"];
+    return colors[Math.floor(Math.random() * colors.length)];
 }
 
 function signUpValidation(name, email, password, passwordConfirm) {

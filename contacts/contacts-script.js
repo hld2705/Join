@@ -188,14 +188,17 @@ async function saveUser(userId) {
   await FIREBASE_USERS.child(userId).update({
     name: nameEl,
     email: emailEl,
-    phone: phoneEl
+    phone: phoneEl,
+    badge: {
+    text: getInitials(nameEl),
+    color: getRandomColor()
+  }
   })
   await contactsLoad();
   contactsRender(userId);
   updateDetailsPanel({ name: nameEl, email: emailEl, phone: phoneEl });
   closeOverlay();
 }
-
 
 function updateDetailsPanel(user) {
   const nameNode = document.getElementById('detailed_name');

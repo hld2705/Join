@@ -25,7 +25,7 @@ function contactsLoadTemplate(user) {
 }
 
 function contactsRenderTemplate(userInfo) {
-  const badgeMarkup = userInfo.badge
+  const badgeMarkup = userInfo.badge?.text
     ? `
       <div class="contactinfo-badge avatar-badge" style="background:${userInfo.badge.color}">
         ${userInfo.badge.text}
@@ -144,7 +144,7 @@ function addNewContactTemplate() {
 }
 
 function editUserTemplate(user) {
-  const badgeMarkup = user.badge
+  const badgeMarkup = user.badge?.text
     ? `
         <div class="edit-person-radius avatar-badge"
              style="background:${user.badge.color}">
