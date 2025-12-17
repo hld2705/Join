@@ -170,7 +170,7 @@ async function validateAndFindUser(identifier, password) {
     const user = matchedUsers[0];
     if (user.password !== password) {
         passB.classList.add("submit");
-        passP.innerHTML = "*Incorrect password!";
+        passP.innerHTML = "*Invalid email or password.";
         return false;
     }
     return user;

@@ -91,24 +91,16 @@
                 padding: 30px 0px 20px 0px;
     }
 
-    .urgent-container input {
-        font-size: auto;
-    }
 
     .edit-overlay .priority-input-container {
         gap: 4px;
         width: 100%;
     }
 
-    .edit-overlay .priority-input-container input {
-        font-size: 14px;
-    }
-
     .edit-overlay .priority-input {
         box-sizing: border-box;
         width: 100%;
         padding: 8px 2px;
-        font-size: 14px;
     }
 
     .edit-overlay .equals-icon {

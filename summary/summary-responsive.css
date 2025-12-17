@@ -58,7 +58,7 @@
 
   nav a {
   padding: 31px 10px;
-        font-size: 12px;
+        font-size: 16px;
   }
 
   footer {
@@ -116,7 +116,7 @@
   }
 
   #enddate span {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   #enddate {
@@ -125,7 +125,7 @@
   }
 
   .overview-box-wrapper {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .task-count {
@@ -223,7 +223,7 @@
   }
 
   .number span {
-    font-size: 11px;
+    font-size: 16px;
   }
 
   .summary-content {
@@ -261,7 +261,7 @@
   .number-container span,
   .number-urgent-container span {
 
-    font-size: 11px;
+    font-size: 16px;
   }
 
   .split {
@@ -271,11 +271,11 @@
   }
 
   .urgent-date-text {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .urgent-date-text span {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .left-content {

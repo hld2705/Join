@@ -169,6 +169,10 @@ body {
     font-size: 16px;
     font-weight: 400;
     cursor: pointer;
+    max-width: 200px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .contact-item {
@@ -633,7 +637,7 @@ body {
     left: 903px;
     bottom: 10%;
     transform: translate(150%, -50%);
-    opacity: 0;
+    opacity: 1;
     background-color: rgba(42, 54, 71, 1);
     color: white;
     height: 74px;
@@ -841,6 +845,12 @@ body {
 
 @media (max-width: 900px) {
 
+    .addednewuserdiv h1 {
+        font-weight: 400;
+        font-style: default;
+        font-size: 16px;
+    }
+
     #responsiveeditcontact-overlay-container {
         position: absolute;
         top: -50px;
@@ -917,7 +927,7 @@ body {
     nav a {
         padding-left: 0;
         padding: 31px 10px;
-        font-size: 12px;
+        font-size: 16px;
     }
 
     footer {

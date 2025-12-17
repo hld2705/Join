@@ -95,5 +95,5 @@ function handleBlur(event) {
 }
 
 function isInput(el) {
-    return el.matches("input[type='text'], input[type='email'], input[type='date'], input[type='password'], textarea");
+    return el.matches("input[type='text'], input[type='email'], input[type='date'], input[type='password'], input[type='phone'], input[type='tel'], textarea");
 }
