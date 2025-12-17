@@ -72,3 +72,28 @@ document.addEventListener('click', function (event) {
     overlay.classList.remove('show');
   }
 });
+
+
+// Input Border Blue
+
+
+document.addEventListener("focus", handleFocus, true);
+document.addEventListener("blur", handleBlur, true);
+
+function handleFocus(event) {
+    const el = event.target;
+    if (!isInput(el)) return;
+
+    el.classList.add("bordercolor-blue");
+}
+
+function handleBlur(event) {
+    const el = event.target;
+    if (!isInput(el)) return;
+
+    el.classList.remove("bordercolor-blue");
+}
+
+function isInput(el) {
+    return el.matches("input[type='text'], input[type='email'], input[type='date'], input[type='password'], textarea");
+}

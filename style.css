@@ -130,12 +130,7 @@ header {
     height: 56px !important;
 }
 
-.content {
-    flex: 1;
-    width: 100%;
-    background-color: #f5f6f7;
-    max-width: 1440px;
-}
+
 
 #startpage-logo-container {
     display: flex;
@@ -197,6 +192,10 @@ header {
 #badge-overlay a:hover {
     background-color: #2c3a52;
     box-shadow: 0 0 0 12px #2c3a52;
+}
+
+.bordercolor-blue {
+    border: 1px solid #29ABE2 !important;
 }
 
 @media (max-width: 900px) {

@@ -110,6 +110,11 @@
 
 @media(max-width: 900px) {
 
+
+    .left-side a {
+        height: 17px !important;
+  }
+
   #enddate span {
     font-size: 12px;
   }

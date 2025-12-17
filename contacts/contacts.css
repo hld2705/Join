@@ -23,20 +23,21 @@ body {
     width: 42px;
     height: 42px;
     border-radius: 45px;
-    padding-left: 30px;
+    margin-left: 30px;
 }
 
 .avatar-badge {
     width: 38px;
     height: 38px;
     padding-left: 0px;
-    margin-left: 30px;
     color: white;
     font-size: 12px;
     font-weight: 300;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 2px solid;
+    border-color: white;
 }
 
 .contactinfo-badge.avatar-badge {
@@ -44,6 +45,8 @@ body {
     height: 120px;
     font-size: 32px;
     margin-right: 24px;
+    border: 4px solid;
+    border-color: white;
 }
 
 .edit-person-radius.avatar-badge {
@@ -410,17 +413,15 @@ body {
     padding: 0 12px;
     outline: none;
     flex: 1;
+    border: 1px solid rgba(209, 209, 209, 1);
 }
 
 .createnewcontact-inputfield-icon {
-    border: 1px solid rgba(209, 209, 209, 1);
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-radius: 10px;
-    padding: 0 10px;
     gap: 8px;
-    padding-right: 20px;
     width: 100%;
     max-width: 400px;
     box-sizing: border-box;
@@ -429,6 +430,8 @@ body {
 .createnewcontact-inputfield-icon img {
     height: 16px;
     width: 16px;
+    position: absolute;
+    right: 20px;
 }
 
 .createnewcontact-buttons-placement {
@@ -1062,7 +1065,7 @@ body {
         position: absolute;
         left: 50%;
         bottom: 20%;
-            transform: translate(-50%, 150%);
+        transform: translate(-50%, 150%);
         background-color: rgba(42, 54, 71, 1);
         color: white;
         height: 74px;
