@@ -108,13 +108,13 @@ function addNewContactTemplate() {
                     </div>
                     <div class="createnewcontact-inputfield">
                       <div class="createnewcontact-inputfield-icon" id="input_name_border"> 
-                        <input id="name_new_user" type="text" maxlength="20"
+                        <input id="name_new_user" type="text" maxlength="25"
                             placeholder="Name">
                         <img src="./assets/icons/person.svg">
                       </div>
                       <p class="required-mssg" id="required_name_new_user">This field is required!</p>
                       <div class="createnewcontact-inputfield-icon" id="input_email_border">
-                        <input id="email_new_user" type="email" maxlength="20"
+                        <input id="email_new_user" type="email" maxlength="22"
                             placeholder="Email">
                         <img src="assets/icons/mail.svg">
                       </div>
@@ -180,7 +180,7 @@ function editUserTemplate(user) {
 
                     <div class="createnewcontact-inputfield">
                       <div class="createnewcontact-inputfield-icon" id="input_field_edit_name"> 
-                        <input id="edit_name" type="text" value="${user.name}" maxlength="20" 
+                        <input id="edit_name" type="text" value="${user.name}" maxlength="25" 
                           placeholder="Name">
                         <img src="./assets/icons/person.svg">
                       </div>
@@ -188,7 +188,7 @@ function editUserTemplate(user) {
                       <p class="required-mssg" id="required_name_edit_user"></p>
 
                       <div class="createnewcontact-inputfield-icon" id="input_field_edit_email">
-                        <input id="edit_email" type="email" value="${user.email}" maxlength="20" 
+                        <input id="edit_email" type="email" value="${user.email}" maxlength="22" 
                           placeholder="Email">
                         <img src="./assets/icons/mail.svg">
                       </div>

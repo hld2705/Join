@@ -23,20 +23,21 @@ body {
     width: 42px;
     height: 42px;
     border-radius: 45px;
-    padding-left: 30px;
+    margin-left: 30px;
 }
 
 .avatar-badge {
     width: 38px;
     height: 38px;
     padding-left: 0px;
-    margin-left: 30px;
     color: white;
     font-size: 12px;
     font-weight: 300;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 2px solid;
+    border-color: white;
 }
 
 .contactinfo-badge.avatar-badge {
@@ -44,6 +45,8 @@ body {
     height: 120px;
     font-size: 32px;
     margin-right: 24px;
+    border: 4px solid;
+    border-color: white;
 }
 
 .edit-person-radius.avatar-badge {
@@ -785,12 +788,18 @@ body {
     }
 
     .contactinfo-name {
-        font-size: 24px;
+        font-size: 20px;
+    }
+
+    .contactinfo-badge.avatar-badge {
+        height: 85px;
+        width: 85px;
+        margin-left: 0px;
     }
 
     .contactinfo-badge {
-        width: 100px;
-        height: 100px;
+        width: 90px;
+        height: 90px;
     }
 
     .picture-name-contactinfo {
@@ -838,6 +847,14 @@ body {
 
 @media (max-width: 900px) {
 
+    #contactsinfo {
+        padding-left: 0px;
+    }
+
+    .contactinfo-badge.avatar-badge {
+        margin-right: 0px;
+    }
+
     #responsiveeditcontact-overlay-container {
         position: absolute;
         top: -50px;
@@ -875,7 +892,7 @@ body {
     .contactsmoto {
         display: none;
         display: none;
-        padding-left: 20px;
+        padding-left: 14px;
     }
 
     .left-side {
@@ -1062,7 +1079,7 @@ body {
         position: absolute;
         left: 50%;
         bottom: 20%;
-            transform: translate(-50%, 150%);
+        transform: translate(-50%, 150%);
         background-color: rgba(42, 54, 71, 1);
         color: white;
         height: 74px;
@@ -1286,7 +1303,7 @@ body {
     }
 
     .contactinfo-name {
-        font-size: 28px;
+        font-size: 22px;
     }
 
     .contactswholetext {

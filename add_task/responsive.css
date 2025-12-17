@@ -359,12 +359,18 @@
 }
 
 @media (max-width: 900px) {
+   
  #badge-overlay {
         height: 170px;
     }
 }
 
 @media (max-width: 500px) {
+
+     .left-side a {
+    height: 17px !important;
+  }
+  
     .task-content-container {
         display: grid !important;
     }
