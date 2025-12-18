@@ -352,6 +352,12 @@ ul {
     outline: none;
 }
 
+.avatar-text {
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+}
+
 .date-field {
     position: relative;
     display: inline-block;

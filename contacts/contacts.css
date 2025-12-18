@@ -724,7 +724,11 @@ header {
     z-index: 1000;
 }
 
-
+.avatar-text {
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+}
 
 @media screen and (min-width: 320px) and (max-width: 500px) {
     .createnewcontact-inputfield input {
@@ -809,12 +813,18 @@ header {
     }
 
     .contactinfo-name {
-        font-size: 24px;
+        font-size: 20px;
+    }
+
+    .contactinfo-badge.avatar-badge {
+        height: 85px;
+        width: 85px;
+        margin-left: 0px;
     }
 
     .contactinfo-badge {
-        width: 100px;
-        height: 100px;
+        width: 90px;
+        height: 90px;
     }
 
     .picture-name-contactinfo {
@@ -905,7 +915,7 @@ header {
     .contactsmoto {
         display: none;
         display: none;
-        padding-left: 20px;
+        padding-left: 14px;
     }
 
     .left-side {
@@ -1314,7 +1324,7 @@ header {
     }
 
     .contactinfo-name {
-        font-size: 28px;
+        font-size: 22px;
     }
 
     .contactswholetext {

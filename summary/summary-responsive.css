@@ -284,6 +284,10 @@
 }
 
 @media(max-width: 500px) {
+   .left-side a {
+    height: 17px !important;
+  }
+  
   .left-side {
     height: 80px;
   }

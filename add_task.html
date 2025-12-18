@@ -30,48 +30,37 @@
     <section class="left-side">
         <a href="../index.html"><img class="join-logo" src="../assets/logo_white.svg" alt="Join"></a>
         <nav>
-            <a href="../summary.html">
+            <a href="../summary.html" onclick="event.preventDefault(); navigate('./summary.html')">
                 <img src="../assets/summary.svg">
                 <p>Summary</p>
             </a>
-            <a class="active" href="./add_task.html">
+            <a class="active" href="./add_task.html" onclick="event.preventDefault(); navigate('./add_task.html')">
                 <img src="../assets/Add-task.svg">
                 <p>Add Task</p>
             </a>
-            <a href="../board.html">
+            <a href="../board.html" onclick="event.preventDefault(); navigate('./board.html')">
                 <img src="../assets/Board.svg" alt="Board Icon" />
                 <p>Board</p>
 
             </a>
-            <a href="../contacts.html">
+            <a href="../contacts.html" onclick="event.preventDefault(); navigate('./contacts.html')">
                 <img src="../assets/contacts.svg">
                 <p>Contacts</p>
             </a>
         </nav>
         <footer>
-            <a class="privacy-policy"  href="../privacy_policy.html">Privacy Policy
+            <a class="privacy-policy"  href="../privacy_policy.html" onclick="event.preventDefault(); navigate('./privacy_policy.html')">Privacy Policy
             </a>
-            <a class="legal-notice" href="../legal_notice.html">
+            <a class="legal-notice" href="../legal_notice.html" onclick="event.preventDefault(); navigate('./legal_notice.html')">
                 <p>Legal notice</p>
             </a>
         </footer>
     </section>
 
     <section class="right-side">
-        <header>
+        <header id="user-info-id">
             <img class="responsive-logo" src="../assets/logo.svg">
             <h3 class="header-title">Kanban Project Management Tool</h3>
-               <div class="user-info">
-                    <a class="user-info-help" href="./help.html"><img class="Hilfe" src="./assets/help.svg"
-                            alt="help"></a>
-                    <img onclick="badgeOverlay()" id="header-badge" class="profil" src="../assets/sofia.svg"
-                        alt="Profilbild">
-                    <div id="navbar" class="navbar">
-                        <a href="legal_notice.html">Legal Notice</a>
-                        <a href="privacy_policy.html">Privacy Policy</a>
-                        <a href="index.html" id="logout-link">Log out</a>
-                    </div>
-                </div>
         </header>
 
         <div id="task-added-info" class="task-added">Task added to board

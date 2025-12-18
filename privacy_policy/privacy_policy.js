@@ -1,3 +1,20 @@
+(function () {
+  if (!window.firebase) return;
+
+  if (!firebase.apps.length) {
+    firebase.initializeApp({
+      apiKey: "AIzaSyDaAKocqkIROo_InISQbRjsoG8z1JCK3g0",
+      authDomain: "join-gruppenarbeit-75ecf.firebaseapp.com",
+      databaseURL: "https://join-gruppenarbeit-75ecf-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "join-gruppenarbeit-75ecf",
+      storageBucket: "join-gruppenarbeit-75ecf.appspot.com",
+      messagingSenderId: "180158531840",
+      appId: "1:180158531840:web:c894124a7d6eb515364be5",
+      measurementId: "G-5R563MH52P"
+    });
+  }
+})();
+
 function handleNonLoginUI() {
   const fullNav = document.getElementById("togglednone");
   const loginNav = document.getElementById("loginnav");

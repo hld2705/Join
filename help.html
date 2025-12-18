@@ -4,8 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="./global.js"></script>
+  <script src="./privacy_policy/privacy_policy.js"></script>
   <link rel="stylesheet" href="./style.css">
-  <link rel="stylesheet" href="./styles/styleSummary.css">
   <link rel="stylesheet" href="./help/style-help.css">
   <link rel="icon" type="image/x-icon" href="assets/icons/favicon.svg">
   <title>Join</title>
@@ -15,42 +18,39 @@
   <section class="left-side">
     <a href="./index.html"><img class="join-logo" src="./assets/logo_white.svg" alt="Join"></a>
     <nav>
-      <a class="bg-color" href="./summary.html">
+      <a class="bg-color" href="./summary.html" onclick="event.preventDefault(); navigate('./summary.html')">
         <img src="./assets/summary.svg">
         <p>Summary</p>
       </a>
-      <a href="./add_task.html">
+      <a href="./add_task.html" onclick="event.preventDefault(); navigate('./add_task.html')">
         <img src="./assets/Add-task.svg">
         <p>Add Task</p>
       </a>
-      <a href="./board.html">
+      <a href="./board.html" onclick="event.preventDefault(); navigate('./board.html')">
         <img src="./assets/Board.svg">
         <p>Board</p>
       </a>
-      <a href="./contacts.html">
+      <a href="./contacts.html" onclick="event.preventDefault(); navigate('./contacts.html')">
         <img src="./assets/contacts.svg">
         <p>Contacts</p>
       </a>
     </nav>
 
     <footer>
-      <a href="./privacy.html">
+      <a href="./privacy.html" onclick="event.preventDefault(); navigate('./privacy_policy.html')">
         <p>Privacy Policy</p>
       </a>
-      <a href="./legal_notice.html">
+      <a href="./legal_notice.html" onclick="event.preventDefault(); navigate('./legal_notice.html')">
         <p>Legal notice</p>
       </a>
     </footer>
   </section>
 
   <section class="right-side">
-    <header>
-      <h3>Kanban Project Management Tool</h3>
-      <div class="user-info">
-        <img src="./assets/help.svg" alt="help">
-        <img class="profil" src="./assets/sofia.svg" alt="badges-header">
-      </div>
-    </header>
+    <header id="user-info-id">
+            <img class="responsive-logo" src="../assets/logo.svg" alt="Logo">
+            <h3>Kanban Project Management Tool</h3>
+        </header>
     <div class="edit-right">
       <div class="arrow">
         <h1>Help</h1>
@@ -173,13 +173,6 @@
       <h2>Enjoy using Join!</h2>
     </div>
   </section>
-
-  <script type="module" src="./scripts/db.js"></script>
-  <script type="module" src="./script.js" defer></script>
-  <script type="module" src="./scripts/script-summary.js"></script>
-  <script type="module" src="./scripts/template-summary.js"></script>
-
-
 </body>
 
 </html>

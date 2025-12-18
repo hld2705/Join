@@ -43,6 +43,39 @@ p{
       overflow-y: scroll;
 }
 
+.avatar-text {
+    color: white;
+    font-size: 16px;
+}
+
+.navbar {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    display: none;
+    background: #1e1e2f;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+    z-index: 9999;
+    pointer-events: auto;
+    min-width: 150px;
+}
+
+@media (max-width: 1230px) {
+    .responsive-logo {
+        display: block;
+        width: 100px;
+        height: 32px;
+        background-image: url(../assets/logo-black.svg);
+    }
+        h3 {
+        display: none;
+    }
+
+}
+
 @media screen and (max-width: 800px) {
     .display-position1{
     flex-direction: column;
