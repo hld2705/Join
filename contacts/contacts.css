@@ -8,6 +8,19 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    min-width: 0;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 96px;
+    padding: 0 20px 0 20px;
+    background-color: #FFFFFF;
+    flex: 0 0 100px;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 .header-content {
@@ -711,6 +724,8 @@ body {
     z-index: 1000;
 }
 
+
+
 @media screen and (min-width: 320px) and (max-width: 500px) {
     .createnewcontact-inputfield input {
         width: 140px;
@@ -726,6 +741,8 @@ body {
     }
 
 }
+
+
 
 
 @media (max-width: 1500px) {
@@ -950,10 +967,12 @@ body {
         display: none;
     }
 
-    .contanctssection {
-        width: 100%;
+      .contanctssection {
         filter: none;
         margin-bottom: 100px;
+        width: auto;
+        max-width: 100%;
+       flex: 1;
     }
 
     .join-logo {
@@ -1284,10 +1303,6 @@ body {
 
     .contanctssection {
         margin-bottom: 80px;
-    }
-
-    .profil {
-        margin-right: 30px;
     }
 
     .left-side {
