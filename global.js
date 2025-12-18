@@ -125,7 +125,7 @@ async function dynamicUserHeaderBadge(){
 
   let userInfo = document.getElementById("user-info-id");
   userInfo.innerHTML += `<div class="user-info">
-        <a class="user-info-help" href="./help.html" onclick="event.preventDefault(); navigate('./help.html')> <img class="Hilfe" src="./assets/help.svg" alt="help"> </a>
+        <a class="user-info-help" href="./help.html" onclick="event.preventDefault(); navigate('./help.html')"> <img class="Hilfe" src="./assets/help.svg" alt="help"> </a>
         <div id="header-badge" class="profil" style="background:${user.badge.color}" onclick="badgeOverlay()">
         <p class="avatar-text">${user.badge.text}</p>
         </div>
