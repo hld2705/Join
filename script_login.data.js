@@ -99,6 +99,7 @@ function resetSignUpUI() {
 }
 
 async function forwardingNextPage(firebaseId) {
+    localStorage.setItem("uid", firebaseId);
     await new Promise(r => setTimeout(r, 300));
     confirmationSignTemplate();
     const overlay = document.getElementById("signedup");
@@ -106,7 +107,6 @@ async function forwardingNextPage(firebaseId) {
     requestAnimationFrame(() => {
         confirmationContainer.classList.add("is-open");
     });
-
     await new Promise(r => setTimeout(r, 2000));
     if (overlay) overlay.remove();
     window.location = "/summary.html?uid=" + firebaseId;
@@ -170,7 +170,7 @@ async function validateAndFindUser(identifier, password) {
     const user = matchedUsers[0];
     if (user.password !== password) {
         passB.classList.add("submit");
-        passP.innerHTML = "*Incorrect password!";
+        passP.innerHTML = "*Invalid email or password.";
         return false;
     }
     return user;

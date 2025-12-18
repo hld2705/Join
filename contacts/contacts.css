@@ -169,6 +169,10 @@ body {
     font-size: 16px;
     font-weight: 400;
     cursor: pointer;
+    max-width: 200px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .contact-item {
@@ -413,17 +417,15 @@ body {
     padding: 0 12px;
     outline: none;
     flex: 1;
+    border: 1px solid rgba(209, 209, 209, 1);
 }
 
 .createnewcontact-inputfield-icon {
-    border: 1px solid rgba(209, 209, 209, 1);
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-radius: 10px;
-    padding: 0 10px;
     gap: 8px;
-    padding-right: 20px;
     width: 100%;
     max-width: 400px;
     box-sizing: border-box;
@@ -432,6 +434,8 @@ body {
 .createnewcontact-inputfield-icon img {
     height: 16px;
     width: 16px;
+    position: absolute;
+    right: 20px;
 }
 
 .createnewcontact-buttons-placement {
@@ -633,7 +637,7 @@ body {
     left: 903px;
     bottom: 10%;
     transform: translate(150%, -50%);
-    opacity: 0;
+    opacity: 1;
     background-color: rgba(42, 54, 71, 1);
     color: white;
     height: 74px;
@@ -705,6 +709,12 @@ body {
     top: -32px;
     right: -14px;
     z-index: 1000;
+}
+
+.avatar-text {
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
 }
 
 @media screen and (min-width: 320px) and (max-width: 500px) {
@@ -847,12 +857,10 @@ body {
 
 @media (max-width: 900px) {
 
-    #contactsinfo {
-        padding-left: 0px;
-    }
-
-    .contactinfo-badge.avatar-badge {
-        margin-right: 0px;
+    .addednewuserdiv h1 {
+        font-weight: 400;
+        font-style: default;
+        font-size: 16px;
     }
 
     #responsiveeditcontact-overlay-container {
@@ -931,7 +939,7 @@ body {
     nav a {
         padding-left: 0;
         padding: 31px 10px;
-        font-size: 12px;
+        font-size: 16px;
     }
 
     footer {

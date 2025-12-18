@@ -19,6 +19,7 @@ async function getToDo() {
   await loadData();
   const todoTasks = tasks.filter(todo => todo.status === "todo");
   const ToDoCard = document.getElementById("summary-To-do");
+  
   ToDoCard.innerHTML = `
     <div class="summary-todo">
       <div class="icon-to-do">

@@ -27,7 +27,8 @@ function contactsLoadTemplate(user) {
 function contactsRenderTemplate(userInfo) {
   const badgeMarkup = userInfo.badge?.text
     ? `
-      <div class="contactinfo-badge avatar-badge" style="background:${userInfo.badge.color}">
+      <div class="contactinfo-badge 
+      " style="background:${userInfo.badge.color}">
         ${userInfo.badge.text}
       </div>
     `
@@ -108,19 +109,27 @@ function addNewContactTemplate() {
                     </div>
                     <div class="createnewcontact-inputfield">
                       <div class="createnewcontact-inputfield-icon" id="input_name_border"> 
+<<<<<<< HEAD
                         <input id="name_new_user" type="text" maxlength="25"
+=======
+                        <input id="name_new_user" type="text" 
+>>>>>>> 9dc6faace588788bd3a87af2d2e8d69da7005733
                             placeholder="Name">
                         <img src="./assets/icons/person.svg">
                       </div>
                       <p class="required-mssg" id="required_name_new_user">This field is required!</p>
                       <div class="createnewcontact-inputfield-icon" id="input_email_border">
+<<<<<<< HEAD
                         <input id="email_new_user" type="email" maxlength="22"
+=======
+                        <input id="email_new_user" type="email" 
+>>>>>>> 9dc6faace588788bd3a87af2d2e8d69da7005733
                             placeholder="Email">
                         <img src="assets/icons/mail.svg">
                       </div>
                       <p class="required-mssg" id="required_email_new_user">This field is required!</p>
                       <div class="createnewcontact-inputfield-icon" id="input_phone_border">
-                        <input id="phone_new_user" type="phone" maxlength="20"
+                        <input id="phone_new_user" type="phone"
                             placeholder="Phone">
                         <img src="assets/icons/call.svg">
                       </div>
@@ -180,7 +189,11 @@ function editUserTemplate(user) {
 
                     <div class="createnewcontact-inputfield">
                       <div class="createnewcontact-inputfield-icon" id="input_field_edit_name"> 
+<<<<<<< HEAD
                         <input id="edit_name" type="text" value="${user.name}" maxlength="25" 
+=======
+                        <input id="edit_name" type="text" value="${user.name}"
+>>>>>>> 9dc6faace588788bd3a87af2d2e8d69da7005733
                           placeholder="Name">
                         <img src="./assets/icons/person.svg">
                       </div>
@@ -188,7 +201,11 @@ function editUserTemplate(user) {
                       <p class="required-mssg" id="required_name_edit_user"></p>
 
                       <div class="createnewcontact-inputfield-icon" id="input_field_edit_email">
+<<<<<<< HEAD
                         <input id="edit_email" type="email" value="${user.email}" maxlength="22" 
+=======
+                        <input id="edit_email" type="email" value="${user.email}" 
+>>>>>>> 9dc6faace588788bd3a87af2d2e8d69da7005733
                           placeholder="Email">
                         <img src="./assets/icons/mail.svg">
                       </div>
@@ -196,7 +213,7 @@ function editUserTemplate(user) {
                       <p class="required-mssg" id="required_email_edit_user"></p>
 
                       <div class="createnewcontact-inputfield-icon" id="input_field_edit_phone">
-                        <input id="edit_phone" type="tel" value="${user.phone}" maxlength="20"
+                        <input id="edit_phone" type="tel" value="${user.phone}" 
                           placeholder="Phone">
                         <img src="./assets/icons/call.svg">
                       </div>

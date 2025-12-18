@@ -21,6 +21,7 @@
     <link href="style_login.css" rel="stylesheet">
     <script src="script_login_template.js" defer></script>
     <script src="./privacy_policy/privacy_policy.js"></script>
+        <script src="global.js"></script>
     <title>Join</title>
 </head>
 
@@ -28,7 +29,6 @@
        <div class="index-content">
     <div class="responsivnessheaderwritting">
         <div class="mainlogin">
-
             <div class="login" id="login">  
                 <div class="loginwriting">
                     <h1 class="login-title">Log in</h1> <img class="blue-vector" src="assets/icons/Vector 5.svg">
@@ -36,11 +36,11 @@
 
                 <div class="userinput">
                     <div class="userinputcustom" id="input_border_login_name"><input class="inputfield" id="login_identifier" type="text" placeholder="Email"
-                            required> <img src="assets/icons/mail.svg"></div>
+                            required> <img class="login-input-icon" src="assets/icons/mail.svg"></div>
                         <p class="required-mssg" id="required-login-name"></p>
 
                     <div class="userinputcustom" id="input_border_login_password"><input class="inputfield" id="password" type="password"
-                            placeholder="Password" required> <img src="assets/icons/lock.svg"></div>
+                            placeholder="Password" required> <img class="login-input-icon" src="assets/icons/lock.svg"></div>
                         <p class="required-mssg" id="required-login-password"></p>
 
                 </div>
@@ -75,19 +75,19 @@
                 <div>
                     <div class="userinput">
                         <div class="userinputcustom signup-inputs" id="input_border_sign_up_name"><input class="signupinputfield" id="name_sign_up" type="text" maxlength="20"
-                                placeholder="Name" required> <img src="./assets/icons/person.svg"></div>
+                                placeholder="Name" required> <img class="login-input-icon" src="./assets/icons/person.svg"></div>
                                 <p class="required-mssg" id="required-sign_up-name"></p>
 
                         <div class="userinputcustom signup-inputs" id="input_border_sign_up_email"><input class="signupinputfield" id="email_sign_up" type="text"
-                                placeholder="Email" required maxlength="25"> <img src="./assets/icons/mail.svg"></div>
+                                placeholder="Email" required maxlength="25"> <img class="login-input-icon" src="./assets/icons/mail.svg"></div>
                                 <p class="required-mssg" id="required-sign_up-email"></p>
 
                         <div class="userinputcustom signup-inputs" id="input_border_sign_up_password"><input class="signupinputfield" id="password_sign_up"
-                                type="password" placeholder="Password" required> <img src="./assets/icons/lock.svg"></div>
+                                type="password" placeholder="Password" required> <img class="login-input-icon" src="./assets/icons/lock.svg"></div>
                                 <p class="required-mssg" id="required-sign_up-password"></p>
 
                         <div class="userinputcustom signup-inputs" id="input_border_sign_up_password2"><input class="signupinputfield" id="confirmation_password_sign_up"
-                                type="password" placeholder="Confirm Password" required> <img src="./assets/icons/lock.svg"></div>
+                                type="password" placeholder="Confirm Password" required> <img class="login-input-icon" src="./assets/icons/lock.svg"></div>
                                 <p class="required-mssg" id="required-sign_up-password2"></p>
                     </div>
                 </div>
@@ -107,9 +107,9 @@
             <a class="links" href="./legal_notice.html?nonlogin=true">Legal Notice</a>
         </div>
         <div class="loadingscreen" id="loadingscreen"></div>
-</body>
+
 <div class="logocontainer" id="mainlogoposition"><a href="index.html"><img id="logo" class="main-logo"
             src="assets/icons/Capa 2.svg"></a></div>
 </div>
-
+</body>
 </html>

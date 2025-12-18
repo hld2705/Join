@@ -63,7 +63,7 @@ body {
   border: 1px solid #E5E7EB;
   border-radius: 8px;
   background: #fff;
-  font-size: 14px;
+  font-size: 16px;
   box-shadow: var(--shadow);
   outline: none;
 }
@@ -178,7 +178,7 @@ body {
   border-radius: 12px;
   background: #F3F4F6;
   color: #6B7280;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .columns-content.highlight {
@@ -238,7 +238,7 @@ body {
 
 .card-desc {
   margin: 0 0 8px;
-  font-size: 13px;
+  font-size: 16px;
   color: #6B7280;
 }
 
@@ -377,7 +377,7 @@ body {
 
 .hint {
   color: #9aa4b2;
-  font-size: 12px;
+  font-size: 16px;
   margin: 8px 0 0;
 }
 
@@ -569,7 +569,7 @@ textarea {
   border-radius: 999px;
   color: #1F2937;
   font-weight: 700;
-  font-size: 12px;
+  font-size: 16px;
   border: 2px solid #fff;
   box-shadow: 0 1px 2px rgba(0, 0, 0, .08);
 }
@@ -577,7 +577,7 @@ textarea {
 .avatar.small {
   width: 22px;
   height: 22px;
-  font-size: 11px;
+  font-size: 16px;
 }
 
 .avatar.micro {
@@ -620,7 +620,7 @@ textarea {
 
 .status-count {
   margin-left: auto;
-  font-size: 12px;
+  font-size: 16px;
   color: #6B7280;
   white-space: nowrap;
 }
@@ -1019,7 +1019,7 @@ body.no-scroll {
   border-radius: 8px;
   color: white;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1536,18 +1536,6 @@ progress::-webkit-progress-value {
 }
 
 @media (max-width: 1400px) {
-  #urgent::placeholder {
-    font-size: 14px;
-  }
-
-  #medium-input::placeholder {
-    font-size: 14px;
-  }
-
-  #low-input::placeholder {
-    font-size: 14px;
-  }
-
   #task-overlay .priority-input-container {
     gap: 20px;
   }
@@ -1796,7 +1784,6 @@ progress::-webkit-progress-value {
   }
 
   .subtask-template {
-
     font-size: 16px;
   }
 }
