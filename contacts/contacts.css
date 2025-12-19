@@ -395,7 +395,7 @@ header {
 }
 
 .createnewcontact-close {
-    width: 3%;
+    width: 24px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -490,8 +490,6 @@ header {
 
 .createnewcontact-close:hover {
     background-color: #EEEEEE;
-    width: 24px;
-    right: 46px;
 }
 
 .editcontact-button-cancel {

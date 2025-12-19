@@ -1,6 +1,8 @@
 .mainsection {
     padding: 80px;
     height: calc(100vh - 160px);
+    position: relative;
+    max-width: 1920px;
 }
 
 h1 {
@@ -11,6 +13,15 @@ h1 {
 h2 {
     font-size: 24px;
     margin-top: 20px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1920px;
+    width: 100%;
+    margin: 0px 16px 0px 16px;
 }
 
 .subtitle1 {
@@ -114,15 +125,19 @@ header {
         height: 32px;
         background-image: url(../assets/logo-black.svg);
     }
-        h3 {
+
+    h3 {
         display: none;
     }
 
 }
 
-@media screen and (max-width: 780px) {
+@media screen and (max-width: 900px) {
     .arrowleftresponsive {
         display: flex;
+        position: absolute;
+        right: 20px;
+        top: 40px;
     }
 
     .footerresponsive {
@@ -136,7 +151,6 @@ header {
 
     .mainsection {
         display: flex;
-        justify-content: center;
         align-items: center;
         flex-direction: column;
     }
@@ -158,31 +172,38 @@ header {
     }
 
     .left-side {
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-        width: 100vw;
-        height: 70px;
         position: fixed;
         bottom: 0;
-        left: 0;
+        height: 100px;
         top: auto;
-        transform: none;
-        z-index: 1000;
+        width: 100%;
+        z-index: 9999;
+    }
+
+    .left-side a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 8px;
+        text-decoration: none;
+        color: #CDCDCD;
+        height: 38px !important;
+        border-radius: 20px;
+        width: 77px;
+        box-sizing: unset;
     }
 
     nav {
+        display: flex;
         flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
         gap: 0px;
-        margin-left: 10px;
-        margin-right: 10px;
+        justify-content: space-around;
     }
 
     nav a {
         padding-left: 0;
-        padding: 5px;
+        padding: 31px 10px;
         font-size: 16px;
     }
 
@@ -192,6 +213,16 @@ header {
 
     .mainsection {
         margin: 0;
-        padding: 80px 20px 100px 20px;
+        padding: 40px 20px 100px 20px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    h1 {
+        font-size: 42px;
+    }
+
+       .arrowleftresponsive {
+        top: 12px;
     }
 }

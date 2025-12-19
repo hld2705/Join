@@ -23,7 +23,7 @@ function handleNonLoginUI() {
   const privacyFooter = document.getElementById("privacy_policy_footer");
   const legalFooter = document.getElementById("legal_notice_footer");
   const isNonLogin = window.location.search.includes("nonlogin=true");
-  const isMobile = window.innerWidth < 780;
+  const isMobile = window.innerWidth < 900;
 
   if (isNonLogin) {
     if (fullNav) fullNav.style.display = "none";

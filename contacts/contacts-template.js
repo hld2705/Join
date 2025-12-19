@@ -27,7 +27,7 @@ function contactsLoadTemplate(user) {
 function contactsRenderTemplate(userInfo) {
   const badgeMarkup = userInfo.badge?.text
     ? `
-      <div class="contactinfo-badge 
+      <div class="contactinfo-badge avatar-badge
       " style="background:${userInfo.badge.color}">
         ${userInfo.badge.text}
       </div>
