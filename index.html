@@ -21,35 +21,42 @@
     <link href="style_login.css" rel="stylesheet">
     <script src="script_login_template.js" defer></script>
     <script src="./privacy_policy/privacy_policy.js"></script>
-        <script src="global.js"></script>
+    <script src="global.js"></script>
     <title>Join</title>
 </head>
 
 <body>
-       <div class="index-content">
-    <div class="responsivnessheaderwritting">
-        <div class="mainlogin">
-            <div class="login" id="login">  
-                <div class="loginwriting">
-                    <h1 class="login-title">Log in</h1> <img class="blue-vector" src="assets/icons/Vector 5.svg">
+    <div class="index-content">
+        <div class="responsivnessheaderwritting">
+            <div class="mainlogin">
+                <div class="login" id="login">
+                    <div class="loginwriting">
+                        <h1 class="login-title">Log in</h1> <img class="blue-vector" src="assets/icons/Vector 5.svg">
+                    </div>
+
+                    <div class="userinput">
+                        <div class="userinputcustom" id="input_border_login_name"><input class="inputfield"
+                                id="login_identifier" type="text" placeholder="Email" required> <img
+                                class="login-input-icon" src="assets/icons/mail.svg"></div>
+                        <p class="required-mssg" id="required-login-name">
+                            *Please enter a valid email address
+                        </p>
+
+                        <div class="userinputcustom" id="input_border_login_password"><input class="inputfield"
+                                id="password" type="password" placeholder="Password" required> <img
+                                class="login-input-icon" src="assets/icons/lock.svg"></div>
+                        <p class="required-mssg" id="required-login-password">
+                            *Password is required
+                        </p>
+
+                    </div>
+                    <div class="buttons">
+                        <button onclick="loginUserPushedInfo()" class="buttonlogin" id="loginButton">Log in</button>
+                        <button class="buttonguestlogin" href="summary.html" onclick="guestLogIn()">Guest Log
+                            in</button>
+                    </div>
                 </div>
 
-                <div class="userinput">
-                    <div class="userinputcustom" id="input_border_login_name"><input class="inputfield" id="login_identifier" type="text" placeholder="Email"
-                            required> <img class="login-input-icon" src="assets/icons/mail.svg"></div>
-                        <p class="required-mssg" id="required-login-name"></p>
-
-                    <div class="userinputcustom" id="input_border_login_password"><input class="inputfield" id="password" type="password"
-                            placeholder="Password" required> <img class="login-input-icon" src="assets/icons/lock.svg"></div>
-                        <p class="required-mssg" id="required-login-password"></p>
-
-                </div>
-                <div class="buttons">
-                    <button onclick="loginUserPushedInfo()" class="buttonlogin" id="loginButton">Log in</button>
-                    <button class="buttonguestlogin" href="summary.html" onclick="guestLogIn()">Guest Log in</button>
-                </div>
-            </div>
-   
                 <div class="responsivnessheaderwrittingdnonetoggle">
                     <div class="headerwritingresponsive">
                         <p>Not a Join user?</p><button class="buttonsignup" onclick="signUp()">Sign up</button>
@@ -74,31 +81,55 @@
                 </div>
                 <div>
                     <div class="userinput">
-                        <div class="userinputcustom signup-inputs" id="input_border_sign_up_name"><input class="signupinputfield" id="name_sign_up" type="text" maxlength="20"
-                                placeholder="Name" required> <img class="login-input-icon" src="./assets/icons/person.svg"></div>
-                                <p class="required-mssg" id="required-sign_up-name"></p>
 
-                        <div class="userinputcustom signup-inputs" id="input_border_sign_up_email"><input class="signupinputfield" id="email_sign_up" type="text"
-                                placeholder="Email" required maxlength="25"> <img class="login-input-icon" src="./assets/icons/mail.svg"></div>
-                                <p class="required-mssg" id="required-sign_up-email"></p>
+                        <div class="userinputcustom signup-inputs" id="input_border_sign_up_name">
+                            <input class="signupinputfield" id="name_sign_up" type="text" placeholder="Name"
+                                maxlength="20">
+                            <img class="login-input-icon" src="./assets/icons/person.svg">
+                        </div>
+                        <p class="required-mssg" id="required-sign_up-name">
+                            *This field is required
+                        </p>
 
-                        <div class="userinputcustom signup-inputs" id="input_border_sign_up_password"><input class="signupinputfield" id="password_sign_up"
-                                type="password" placeholder="Password" required> <img class="login-input-icon" src="./assets/icons/lock.svg"></div>
-                                <p class="required-mssg" id="required-sign_up-password"></p>
+                        <div class="userinputcustom signup-inputs" id="input_border_sign_up_email">
+                            <input class="signupinputfield" id="email_sign_up" type="text" placeholder="Email"
+                                maxlength="25">
+                            <img class="login-input-icon" src="./assets/icons/mail.svg">
+                        </div>
+                        <p class="required-mssg" id="required-sign_up-email">
+                            *Please enter a valid email address
+                        </p>
 
-                        <div class="userinputcustom signup-inputs" id="input_border_sign_up_password2"><input class="signupinputfield" id="confirmation_password_sign_up"
-                                type="password" placeholder="Confirm Password" required> <img class="login-input-icon" src="./assets/icons/lock.svg"></div>
-                                <p class="required-mssg" id="required-sign_up-password2"></p>
+                        <div class="userinputcustom signup-inputs" id="input_border_sign_up_password">
+                            <input class="signupinputfield" id="password_sign_up" type="password"
+                                placeholder="Password">
+                            <img class="login-input-icon" src="./assets/icons/lock.svg">
+                        </div>
+                        <p class="required-mssg" id="required-sign_up-password">
+                            *This field is required
+                        </p>
+
+                        <div class="userinputcustom signup-inputs" id="input_border_sign_up_password2">
+                            <input class="signupinputfield" id="confirmation_password_sign_up" type="password"
+                                placeholder="Confirm Password">
+                            <img class="login-input-icon" src="./assets/icons/lock.svg">
+                        </div>
+                        <p class="required-mssg" id="required-sign_up-password2">
+                            *Passwords do not match
+                        </p>
+
                     </div>
+
                 </div>
                 <div class="checkboxandbutton">
                     <div class="checkboxandbuttonplacement">
                         <input class="checkboxinput" type="checkbox" id="requiredcheckbox" onclick="toggleButton()"
-                            required><span class="accept-text">I accept the <a style="text-decoration:none; color:rgba(41, 171, 226, 1);"
-                            href="#"></span> Privacy policy</a>
+                            required><span class="accept-text">I accept the <a
+                                style="text-decoration:none; color:rgba(41, 171, 226, 1);" href="#"></span> Privacy
+                        policy</a>
                     </div>
 
-                    <button class="buttonlogin" id="signUpButton" onclick="logIn()" disabled>Sign Up</button>
+                    <button class="buttonlogin" id="signUpButton" onclick="logIn()">Sign Up</button>
                 </div>
             </div>
         </div>
@@ -108,8 +139,9 @@
         </div>
         <div class="loadingscreen" id="loadingscreen"></div>
 
-<div class="logocontainer" id="mainlogoposition"><a href="index.html"><img id="logo" class="main-logo"
-            src="assets/icons/Capa 2.svg"></a></div>
-</div>
+        <div class="logocontainer" id="mainlogoposition"><a href="index.html"><img id="logo" class="main-logo"
+                    src="assets/icons/Capa 2.svg"></a></div>
+    </div>
 </body>
+
 </html>

@@ -277,15 +277,20 @@ h1 {
 }
 
 .submit {
-    border-color: #FF8190;
+    border-color: #FF8190 !important;
 }
 
 .required-mssg {
     color: #FF8190;
+     visibility: hidden;
     font-size: 16px;
     text-align: left;
+    margin-top: 6px;
 }
 
+.required-mssg.show {
+  visibility: visible;
+}
 
 .signupcenter {
     display: flex;
@@ -380,6 +385,11 @@ h1 {
 .login-input-icon {
     position: absolute;
     right: 20px;
+}
+
+button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 @media (max-width: 1200px) {
