@@ -267,8 +267,13 @@ body {
     height: 50px;
     border-radius: 50%;
     cursor: pointer;
+    position: relative;
 }
-
+.avatar-text{
+    position: absolute;
+    color: white;
+    font-size: 16px;
+}
 .navbar {
     position: absolute;
     top: 60px;

@@ -100,29 +100,32 @@ h1 {
 
 .signedupconfirmationcontainerdarkoverlay {
     background-color: rgba(0, 0, 0, 0.04);
-    position: absolute;
+    position: fixed;
     top: 50%;
+    inset: 0;
+    z-index: 99;
+       pointer-events: none;
 }
 
 .signedupconfirmationcontainer {
     background-color: rgba(42, 54, 71, 1);
     color: white;
-    border-radius: 8px;
-    padding: 6px 20px;
-    font-size: 21px;
+    border-radius: 26px;
+    font-size: 20px;
     position: absolute;
-    top: -54px;
-    left: 290px;
+    top: 450px;
+    left: 50%;
     opacity: 0;
     transform: translate(-50%, 150%);
     transition: transform 0.3s ease, opacity 0.3s ease;
-    width: 53%;
+    width: 320px;
+    z-index: 100;
+    text-align: center;
 }
 
 .signedupconfirmationcontainer.is-open {
     transform: translate(-50%, 0);
     opacity: 1;
-    width: max-content;
 }
 
 .buttonlogin:disabled {
@@ -274,15 +277,20 @@ h1 {
 }
 
 .submit {
-    border-color: #FF8190;
+    border-color: #FF8190 !important;
 }
 
 .required-mssg {
     color: #FF8190;
-    font-size: 12px;
+     visibility: hidden;
+    font-size: 16px;
     text-align: left;
+    margin-top: 6px;
 }
 
+.required-mssg.show {
+  visibility: visible;
+}
 
 .signupcenter {
     display: flex;
@@ -329,6 +337,7 @@ h1 {
     flex-direction: column;
     gap: 40px;
     padding: 40px 20px;
+    position: relative;
 }
 
 .login-title {
@@ -376,6 +385,11 @@ h1 {
 .login-input-icon {
     position: absolute;
     right: 20px;
+}
+
+button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 @media (max-width: 1200px) {
@@ -518,11 +532,11 @@ h1 {
         justify-content: center;
         flex-direction: row;
         text-wrap: nowrap;
-        font-size: 12px;
+        font-size: 16px;
     }
 
     .signupinputfield {
-        font-size: 14px;
+        font-size: 16px;
     }
 
 

@@ -109,7 +109,7 @@ function validateAddNewUser() {
     nameVal.style.visibility = "visible";
     nameVal.innerHTML = "*Name must be at least 3 letters!";
     valid = false;
-  } else if (!/^[A-Za-z\s]+$/.test(name)) {
+  } else if (!/^[\p{L}\s\-']+$/u.test(name)) {
     nameBorder.classList.add("submit");
     nameVal.style.visibility = "visible";
     nameVal.innerHTML = "*Only letters allowed!";

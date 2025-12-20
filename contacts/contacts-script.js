@@ -110,11 +110,12 @@ function updateResponsiveButtons() {
 function editUserOptionsResponsive() {
   let userId = activeUserId;
   let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
+   document.getElementById("responsiveeditcontact-overlay-container").style.display = "block";
   if (window.innerWidth >= 900) {
     responsiveEditContactId.style.display = "none";
   } else { 
     responsiveEditContactId.style.display = "block"; }
-  document.getElementById("responsiveeditcontact-overlay-container").innerHTML +=
+  document.getElementById("responsiveeditcontact-overlay-container").innerHTML =
     editUserOptionsResponsiveTemplate(userId);
 }
 
@@ -163,6 +164,7 @@ async function editUser(userId) {
   let popUpEditUser = document.getElementById("body");
   popUpEditUser.innerHTML += editUserTemplate(user);
   let contactContainer = document.getElementById('edit-main-container')
+ document.getElementById("responsiveeditcontact-overlay-container").style.display = "none";
   if (contactContainer) {
     setTimeout(() => {
       contactContainer.classList.add('is-open')

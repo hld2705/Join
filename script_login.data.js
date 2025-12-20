@@ -13,6 +13,7 @@ firebase.initializeApp(firebaseConfig);
 const FIREBASE_USERS = firebase.database().ref("users");
 
 window.logIn = async function logIn() {
+
     const name = document.getElementById("name_sign_up").value.trim();
     const email = document.getElementById("email_sign_up").value.trim();
     const password = document.getElementById("password_sign_up").value.trim();
@@ -52,53 +53,70 @@ function getRandomColor() {
 }
 
 function signUpValidation(name, email, password, passwordConfirm) {
-    let signUpNameBorder = document.getElementById("input_border_sign_up_name");
-    let signUpEmailBorder = document.getElementById("input_border_sign_up_email");
-    let signUpPasswordBorder = document.getElementById("input_border_sign_up_password");
-    let signUpPasswordConfirmationBorder = document.getElementById("input_border_sign_up_password2");
-    let signUpNameP = document.getElementById("required-sign_up-name");
-    let signUpEmailP = document.getElementById("required-sign_up-email");
-    let signUpPasswordP = document.getElementById("required-sign_up-password");
-    let signUpPasswordConfirmationP = document.getElementById("required-sign_up-password2");
+    let hasError = false;
+
+    const nameBorder = document.getElementById("name_sign_up");
+    const emailBorder = document.getElementById("email_sign_up");
+    const passwordBorder = document.getElementById("password_sign_up");
+    const password2Border = document.getElementById("confirmation_password_sign_up");
+
+    const nameMsg = document.getElementById("required-sign_up-name");
+    const emailMsg = document.getElementById("required-sign_up-email");
+    const passwordMsg = document.getElementById("required-sign_up-password");
+    const password2Msg = document.getElementById("required-sign_up-password2");
+
     resetSignUpUI();
+
     if (!name) {
-        signUpNameBorder.classList.add("submit");
-        signUpNameP.innerHTML = "*This field is required!"
-        return;
+        nameBorder.classList.add("submit");
+        nameMsg.classList.add("show");
+        hasError = true;
     }
-    if (!email) {
-        signUpEmailBorder.classList.add("submit");
-        signUpEmailP.innerHTML = "*This field is required!";
-        return;
+
+    if (!email || !isValidEmail(email)) {
+        emailBorder.classList.add("submit");
+        emailMsg.classList.add("show");
+        hasError = true;
     }
-    if (!email.includes("@")) {
-        signUpEmailBorder.classList.add("submit");
-        signUpEmailP.innerHTML = "*@ is mandatory!";
-        return;
-    }
+
     if (!password) {
-        signUpPasswordBorder.classList.add("submit");
-        signUpPasswordP.innerHTML = "*This field is required!";
-        return;
+        passwordBorder.classList.add("submit");
+        passwordMsg.classList.add("show");
+        hasError = true;
     }
-    if (password !== passwordConfirm) {
-        signUpPasswordBorder.classList.add("submit");
-        signUpPasswordConfirmationBorder.classList.add("submit");
-        signUpPasswordP.innerHTML = "*Password doesnt match!";
-        signUpPasswordConfirmationP.innerHTML = "*Password doesnt match!";
-        return;
+
+    if (password && password !== passwordConfirm) {
+        passwordBorder.classList.add("submit");
+        password2Border.classList.add("submit");
+        password2Msg.classList.add("show");
+        hasError = true;
     }
-    return true;
+
+    return !hasError;
 }
 
 function resetSignUpUI() {
-    ["input_border_sign_up_name", "input_border_sign_up_email", "input_border_sign_up_password", "input_border_sign_up_password2"]
-        .forEach(id => document.getElementById(id).classList.remove("submit"));
-    ["required-sign_up-name", "required-sign_up-email", "required-sign_up-password", "required-sign_up-password2"]
-        .forEach(id => document.getElementById(id).innerHTML = "");
+    [
+        "input_border_sign_up_name",
+        "input_border_sign_up_email",
+        "input_border_sign_up_password",
+        "input_border_sign_up_password2"
+    ].forEach(id =>
+        document.getElementById(id).classList.remove("submit")
+    );
+
+    [
+        "required-sign_up-name",
+        "required-sign_up-email",
+        "required-sign_up-password",
+        "required-sign_up-password2"
+    ].forEach(id =>
+        document.getElementById(id).classList.remove("show")
+    );
 }
 
 async function forwardingNextPage(firebaseId) {
+    localStorage.setItem("uid", firebaseId);
     await new Promise(r => setTimeout(r, 300));
     confirmationSignTemplate();
     const overlay = document.getElementById("signedup");
@@ -106,7 +124,6 @@ async function forwardingNextPage(firebaseId) {
     requestAnimationFrame(() => {
         confirmationContainer.classList.add("is-open");
     });
-
     await new Promise(r => setTimeout(r, 2000));
     if (overlay) overlay.remove();
     window.location = "/summary.html?uid=" + firebaseId;
@@ -132,55 +149,79 @@ window.loginUserPushedInfo = async function () {
 };
 
 async function validateAndFindUser(identifier, password) {
-    let nameB = document.getElementById("input_border_login_name");
-    let passB = document.getElementById("input_border_login_password");
-    let nameP = document.getElementById("required-login-name");
-    let passP = document.getElementById("required-login-password");
-    if (!identifier) {
-        nameB.classList.add("submit");
-        nameP.innerHTML = "*Email or name is required!";
-        return false;
+    let hasError = false;
+
+    const nameInput = document.getElementById("login_identifier");
+    const passInput = document.getElementById("password");
+
+    const nameMsg = document.getElementById("required-login-name");
+    const passMsg = document.getElementById("required-login-password");
+
+    if (!identifier || !isValidEmail(identifier)) {
+        nameInput.classList.add("submit");
+        nameMsg.classList.add("show");
+        hasError = true;
     }
+
     if (!password) {
-        passB.classList.add("submit");
-        passP.innerHTML = "*Password is required!";
-        return false;
+        passInput.classList.add("submit");
+        passMsg.classList.add("show");
+        hasError = true;
     }
+
+    if (hasError) return false;
+
     const snapshot = await FIREBASE_USERS.get();
     const users = snapshot.val();
+
     if (!users) {
-        nameB.classList.add("submit");
-        nameP.innerHTML = "*No users exist. Please register!";
+        nameInput.classList.add("submit");
+        nameMsg.classList.add("show");
         return false;
     }
-    let matchedUsers = [];
+
+    let matchedUser = null;
+
     for (const uid in users) {
         const u = users[uid];
-        const dbEmail = u.email?.trim().toLowerCase();
-        const dbName = u.name?.trim().toLowerCase();
-        if (dbEmail === identifier || dbName === identifier) {
-            matchedUsers.push(u);
+        if (u.email?.trim().toLowerCase() === identifier) {
+            matchedUser = u;
+            break;
         }
     }
-    if (matchedUsers.length === 0) {
-        nameB.classList.add("submit");
-        nameP.innerHTML = "*No matched users found. Please register first!";
+
+    if (!matchedUser) {
+        nameInput.classList.add("submit");
+        nameMsg.classList.add("show");
         return false;
     }
-    const user = matchedUsers[0];
-    if (user.password !== password) {
-        passB.classList.add("submit");
-        passP.innerHTML = "*Incorrect password!";
+
+    if (matchedUser.password !== password) {
+        passInput.classList.add("submit");
+        passMsg.classList.add("show");
         return false;
     }
-    return user;
+
+    return matchedUser;
+}
+
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 function resetLoginUI() {
-    ["input_border_login_name", "input_border_login_password"]
-        .forEach(id => document.getElementById(id).classList.remove("submit"));
-    ["required-login-name", "required-login-password"]
-        .forEach(id => document.getElementById(id).innerHTML = "");
+    [
+        "input_border_login_name",
+        "input_border_login_password"
+    ].forEach(id =>
+        document.getElementById(id).classList.remove("submit")
+    );
+    [
+        "required-login-name",
+        "required-login-password"
+    ].forEach(id =>
+        document.getElementById(id).classList.remove("show")
+    );
 }
 
 

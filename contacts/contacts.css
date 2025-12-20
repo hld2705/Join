@@ -8,6 +8,19 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    min-width: 0;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 96px;
+    padding: 0 20px 0 20px;
+    background-color: #FFFFFF;
+    flex: 0 0 100px;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 .header-content {
@@ -169,6 +182,10 @@ body {
     font-size: 16px;
     font-weight: 400;
     cursor: pointer;
+    max-width: 200px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .contact-item {
@@ -378,7 +395,7 @@ body {
 }
 
 .createnewcontact-close {
-    width: 3%;
+    width: 24px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -473,8 +490,6 @@ body {
 
 .createnewcontact-close:hover {
     background-color: #EEEEEE;
-    width: 24px;
-    right: 46px;
 }
 
 .editcontact-button-cancel {
@@ -633,7 +648,7 @@ body {
     left: 903px;
     bottom: 10%;
     transform: translate(150%, -50%);
-    opacity: 0;
+    opacity: 1;
     background-color: rgba(42, 54, 71, 1);
     color: white;
     height: 74px;
@@ -707,6 +722,12 @@ body {
     z-index: 1000;
 }
 
+.avatar-text {
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+}
+
 @media screen and (min-width: 320px) and (max-width: 500px) {
     .createnewcontact-inputfield input {
         width: 140px;
@@ -722,6 +743,8 @@ body {
     }
 
 }
+
+
 
 
 @media (max-width: 1500px) {
@@ -788,12 +811,18 @@ body {
     }
 
     .contactinfo-name {
-        font-size: 24px;
+        font-size: 20px;
+    }
+
+    .contactinfo-badge.avatar-badge {
+        height: 85px;
+        width: 85px;
+        margin-left: 0px;
     }
 
     .contactinfo-badge {
-        width: 100px;
-        height: 100px;
+        width: 90px;
+        height: 90px;
     }
 
     .picture-name-contactinfo {
@@ -841,6 +870,12 @@ body {
 
 @media (max-width: 900px) {
 
+    .addednewuserdiv h1 {
+        font-weight: 400;
+        font-style: default;
+        font-size: 16px;
+    }
+
     #responsiveeditcontact-overlay-container {
         position: absolute;
         top: -50px;
@@ -878,7 +913,7 @@ body {
     .contactsmoto {
         display: none;
         display: none;
-        padding-left: 20px;
+        padding-left: 14px;
     }
 
     .left-side {
@@ -917,7 +952,7 @@ body {
     nav a {
         padding-left: 0;
         padding: 31px 10px;
-        font-size: 12px;
+        font-size: 16px;
     }
 
     footer {
@@ -940,10 +975,12 @@ body {
         display: none;
     }
 
-    .contanctssection {
-        width: 100%;
+      .contanctssection {
         filter: none;
         margin-bottom: 100px;
+        width: auto;
+        max-width: 100%;
+       flex: 1;
     }
 
     .join-logo {
@@ -1276,10 +1313,6 @@ body {
         margin-bottom: 80px;
     }
 
-    .profil {
-        margin-right: 30px;
-    }
-
     .left-side {
         height: 80px;
     }
@@ -1289,7 +1322,7 @@ body {
     }
 
     .contactinfo-name {
-        font-size: 28px;
+        font-size: 22px;
     }
 
     .contactswholetext {

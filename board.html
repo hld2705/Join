@@ -34,28 +34,28 @@
     </a>
 
     <nav>
-      <a href="./summary.html">
+      <a href="./summary.html" onclick="event.preventDefault(); navigate('./summary.html')">
         <img src="./assets/summary.svg" alt="Summary Icon" />
         <p>Summary</p>
       </a>
-      <a href="./add_task.html">
+      <a href="./add_task.html" onclick="event.preventDefault(); navigate('./add_task.html')">
         <img src="./assets/Add-task.svg" alt="Add Task Icon" />
         <p>Add Task</p>
       </a>
-      <a class="active" href="./board.html">
+      <a class="active" href="./board.html" onclick="event.preventDefault(); navigate('./board.html')">
         <img src="./assets/Board.svg" alt="Board Icon" />
         <p>Board</p>
       </a>
-      <a href="./contacts.html">
+      <a href="./contacts.html" onclick="event.preventDefault(); navigate('./contacts.html')">
         <img src="./assets/contacts.svg" alt="Contacts Icon" />
         <p>Contacts</p>
       </a>
     </nav>
 
     <footer>
-      <a class="legal-notice" href="./privacy_policy.html">Privacy Policy</a>
+      <a class="legal-notice" href="./privacy_policy.html" onclick="event.preventDefault(); navigate('./privacy_policy.html')">Privacy Policy</a>
       </a>
-      <a class="legal-notice" href="./legal_notice.html">
+      <a class="legal-notice" href="./legal_notice.html" onclick="event.preventDefault(); navigate('./legal_notice.html')">
         <p>Legal notice</p>
       </a>
     </footer>
@@ -63,28 +63,18 @@
 
   <section class="right-side">
     <header>
-      <div class="header-content">
+      <div class="header-content" id="user-info-id">
         <div>
           <a href="./index.html"><img class="responsive-logo-board" src="./assets/logo.svg" alt="Logo"></a>
           <h3>Kanban Project Management Tool</h3>
         </div>
-        <div class="user-info">
-          <a class="user-info-help" href="./help.html"><img class="Hilfe" src="./assets/help.svg" alt="help"></a>
-          <img onclick="badgeOverlay()" id="header-badge" class="profil" src="../assets/sofia.svg" alt="Profilbild">
-          <div id="navbar" class="navbar">
-            <a href="legal_notice.html">Legal Notice</a>
-            <a href="privacy_policy.html">Privacy Policy</a>
-            <a href="index.html" id="logout-link">Log out</a>
-          </div>
-        </div>
       </div>
-
     </header>
 
     <section class="content">
       <div id="badge-overlay">
-        <a href="../legal_notice.html">Legal Notice</a>
-        <a href="../privacy_policy.html">Privacy Policy</a>
+        <a href="../legal_notice.html" onclick="event.preventDefault(); navigate('./legal_notice.html')">Legal Notice</a>
+        <a href="../privacy_policy.html" onclick="event.preventDefault(); navigate('./privacy_policy.html')">Privacy Policy</a>
         <a href="../index.html" id="logout-link">Log out</a>
       </div>
       <div class="board-top-content">

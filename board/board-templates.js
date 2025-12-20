@@ -152,8 +152,8 @@ function editOverlayTemplate(task) {
             `
 <form novalidate class="task-form">
     <div id="badge-overlay">
-        <a href="../legal_notice.html">Legal Notice</a>
-        <a href="../privacy_policy.html">Privacy Policy</a>
+        <a href="../legal_notice.html" onclick="event.preventDefault(); navigate('./legal_notice.html')">Legal Notice</a>
+        <a href="../privacy_policy.html" onclick="event.preventDefault(); navigate('./privacy_policy.html')">Privacy Policy</a>
         <a href="../index.html" id="logout-link">Log out</a>
     </div>
     <div class="task-content-container">
@@ -289,8 +289,8 @@ function addTaskOverlayTemplate() {
         formContainer.innerHTML =
             `<form novalidate return false; class="task-form">
     <div id="badge-overlay">
-        <a href="../legal_notice.html">Legal Notice</a>
-        <a href="../privacy_policy.html">Privacy Policy</a>
+        <a href="../legal_notice.html" onclick="event.preventDefault(); navigate('./legal_notice.html')">Legal Notice</a>
+        <a href="../privacy_policy.html" onclick="event.preventDefault(); navigate('./privacy_policy.html')">Privacy Policy</a>
         <a href="../index.html" id="logout-link">Log out</a>
     </div>
     <div class="task-content-container">

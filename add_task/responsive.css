@@ -77,15 +77,15 @@
     }
 
     .low-container input::placeholder {
-        font-size: 12px;
+        font-size: 16px;
     }
 
     .medium-container input::placeholder {
-        font-size: 12px;
+        font-size: 16px;
     }
 
     .urgent-container input::placeholder {
-        font-size: 12px;
+        font-size: 16px;
     }
 
     .left-task-container {
@@ -224,7 +224,7 @@
  nav a {
         padding-left: 0;
         padding: 31px 10px;
-        font-size: 12px;
+        font-size: 16px;
     }
 
     footer {
@@ -359,6 +359,7 @@
 }
 
 @media (max-width: 900px) {
+   
  #badge-overlay {
         height: 170px;
     }
@@ -369,6 +370,11 @@
 }
 
 @media (max-width: 500px) {
+
+     .left-side a {
+    height: 17px !important;
+  }
+  
     .task-content-container {
         display: grid !important;
     }

@@ -1,6 +1,8 @@
 .mainsection {
     padding: 80px;
     height: calc(100vh - 160px);
+    position: relative;
+    max-width: 1920px;
 }
 
 h1 {
@@ -10,7 +12,16 @@ h1 {
 
 h2 {
     font-size: 24px;
-   margin-top: 20px;
+    margin-top: 20px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1920px;
+    width: 100%;
+    margin: 0px 16px 0px 16px;
 }
 
 .subtitle1 {
@@ -59,6 +70,20 @@ nav a:hover {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 }
 
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 96px;
+    padding: 0 20px 0 20px;
+    background-color: #FFFFFF;
+    flex: 0 0 100px;
+}
+
+.responsive-logo {
+    display: none;
+}
+
 .responsiveheaderimage {
     width: 32px;
     height: 40px;
@@ -73,9 +98,46 @@ nav a:hover {
     display: none;
 }
 
-@media screen and (max-width: 780px) {
+.avatar-text {
+    color: white;
+    font-size: 16px;
+}
+
+.navbar {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    display: none;
+    background: #1e1e2f;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+    z-index: 9999;
+    pointer-events: auto;
+    min-width: 150px;
+}
+
+@media (max-width: 1230px) {
+    .responsive-logo {
+        display: block;
+        width: 100px;
+        height: 32px;
+        background-image: url(../assets/logo-black.svg);
+    }
+
+    h3 {
+        display: none;
+    }
+
+}
+
+@media screen and (max-width: 900px) {
     .arrowleftresponsive {
         display: flex;
+        position: absolute;
+        right: 20px;
+        top: 40px;
     }
 
     .footerresponsive {
@@ -84,12 +146,11 @@ nav a:hover {
     }
 
     .footerresponsive p {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .mainsection {
         display: flex;
-        justify-content: center;
         align-items: center;
         flex-direction: column;
     }
@@ -111,32 +172,39 @@ nav a:hover {
     }
 
     .left-side {
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-        width: 100vw;
-        height: 70px;
         position: fixed;
         bottom: 0;
-        left: 0;
+        height: 100px;
         top: auto;
-        transform: none;
-        z-index: 1000;
+        width: 100%;
+        z-index: 9999;
+    }
+
+    .left-side a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 8px;
+        text-decoration: none;
+        color: #CDCDCD;
+        height: 38px !important;
+        border-radius: 20px;
+        width: 77px;
+        box-sizing: unset;
     }
 
     nav {
+        display: flex;
         flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
         gap: 0px;
-        margin-left: 10px;
-        margin-right: 10px;
+        justify-content: space-around;
     }
 
     nav a {
         padding-left: 0;
-        padding: 5px;
-        font-size: 12px;
+        padding: 31px 10px;
+        font-size: 16px;
     }
 
     footer {
@@ -145,6 +213,16 @@ nav a:hover {
 
     .mainsection {
         margin: 0;
-        padding: 80px 20px 100px 20px;
+        padding: 40px 20px 100px 20px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    h1 {
+        font-size: 42px;
+    }
+
+       .arrowleftresponsive {
+        top: 12px;
     }
 }
