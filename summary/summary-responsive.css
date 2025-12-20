@@ -213,6 +213,15 @@
     margin-top: 0;
   }
 
+  .icon-to-do svg{
+
+    width: 20px;
+  }
+
+  .check-icon{
+    width: 20px;
+  }
+
   .icon-todo {
     height: 40px;
     width: 40px;
