@@ -97,13 +97,15 @@ function signUpValidation(name, email, password, passwordConfirm) {
 
 function resetSignUpUI() {
     [
-        "input_border_sign_up_name",
-        "input_border_sign_up_email",
-        "input_border_sign_up_password",
-        "input_border_sign_up_password2"
-    ].forEach(id =>
-        document.getElementById(id).classList.remove("submit")
-    );
+        "name_sign_up",
+        "email_sign_up",
+        "password_sign_up",
+        "confirmation_password_sign_up"
+    ].forEach(id => {
+        const input = document.getElementById(id);
+        input.classList.remove("submit");
+        input.closest(".userinputcustom")?.classList.remove("submit");
+    });
 
     [
         "required-sign_up-name",
@@ -111,7 +113,7 @@ function resetSignUpUI() {
         "required-sign_up-password",
         "required-sign_up-password2"
     ].forEach(id =>
-        document.getElementById(id).classList.remove("show")
+        document.getElementById(id)?.classList.remove("show")
     );
 }
 
@@ -211,11 +213,12 @@ function isValidEmail(email) {
 
 function resetLoginUI() {
     [
-        "input_border_login_name",
-        "input_border_login_password"
+        "login_identifier",
+        "password"
     ].forEach(id =>
         document.getElementById(id).classList.remove("submit")
     );
+
     [
         "required-login-name",
         "required-login-password"
