@@ -728,6 +728,7 @@ header {
     font-weight: 500;
 }
 
+
 @media screen and (min-width: 320px) and (max-width: 500px) {
     .createnewcontact-inputfield input {
         width: 140px;
@@ -870,6 +871,10 @@ header {
 
 @media (max-width: 900px) {
 
+    .footer-task {
+        width: 71px !important;
+    }
+
     .addednewuserdiv h1 {
         font-weight: 400;
         font-style: default;
@@ -935,7 +940,7 @@ header {
         color: #CDCDCD;
         height: 38px !important;
         border-radius: 20px;
-        width: 77px;
+        width: 65px;
     }
 
     .left-blue-side {
@@ -975,12 +980,13 @@ header {
         display: none;
     }
 
-      .contanctssection {
+    .contanctssection {
         filter: none;
         margin-bottom: 100px;
         width: auto;
         max-width: 100%;
-       flex: 1;
+        flex: 1;
+        overflow-x: hidden;
     }
 
     .join-logo {

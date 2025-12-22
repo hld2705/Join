@@ -25,8 +25,12 @@
     z-index: 99999;
   }
 
+  .footer-task {
+    width: 71px !important;
+  }
+
   .join-logo-a {
-    display:none !important;
+    display: none !important;
   }
 
   .join-logo {
@@ -43,22 +47,22 @@
 
 
   .left-side a {
-  display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        gap: 8px;
-        text-decoration: none;
-        color: #CDCDCD;
-        height: 38px !important;
-        border-radius: 20px;
-        width: 77px;
-        box-sizing: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    text-decoration: none;
+    color: #CDCDCD;
+    height: 38px !important;
+    border-radius: 20px;
+    width: 65px;
+    box-sizing: unset;
   }
 
   nav a {
-  padding: 31px 10px;
-        font-size: 16px;
+    padding: 31px 10px;
+    font-size: 16px;
   }
 
   footer {
@@ -111,8 +115,8 @@
 @media(max-width: 900px) {
 
 
-    .left-side a {
-        height: 17px !important;
+  .left-side a {
+    height: 37px !important;
   }
 
   #enddate span {
@@ -137,7 +141,6 @@
   }
 
   .summary-header p {
-
     margin-left: 50px;
   }
 
@@ -213,12 +216,12 @@
     margin-top: 0;
   }
 
-  .icon-to-do svg{
+  .icon-to-do svg {
 
     width: 20px;
   }
 
-  .check-icon{
+  .check-icon {
     width: 20px;
   }
 
@@ -293,10 +296,10 @@
 }
 
 @media(max-width: 500px) {
-   .left-side a {
+  .left-side a {
     height: 17px !important;
   }
-  
+
   .left-side {
     height: 80px;
   }
