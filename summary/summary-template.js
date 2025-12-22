@@ -19,7 +19,7 @@ async function getToDo() {
   await loadData();
   const todoTasks = tasks.filter(todo => todo.status === "todo");
   const ToDoCard = document.getElementById("summary-To-do");
-  
+
   ToDoCard.innerHTML = `
     <div class="summary-todo">
       <div class="icon-to-do">
@@ -192,10 +192,17 @@ function getGreetingByTime() {
 async function updateGreeting() {
   const greetingSpan = document.querySelector('.greeting span:first-child');
   const userSpan = document.querySelector('.logged-user');
+  const isGuest = window.location.search.includes("nonlogin=true") || sessionStorage.getItem("guest") === "true";
   if (!greetingSpan || !userSpan) return;
   const params = new URLSearchParams(window.location.search);
   const uid = params.get("uid");
   const greetingText = getGreetingByTime();
+  if (isGuest) {
+    greetingSpan.textContent = `${greetingText},`;
+    userSpan.textContent = "Guest";
+    userSpan.style.display = "inline";
+    return;
+  }
   if (!uid) {
     greetingSpan.textContent = "Not logged in";
     userSpan.style.display = "none";
@@ -214,20 +221,21 @@ async function updateGreeting() {
 }
 
 async function getLoggedInUser() {
-    const params = new URLSearchParams(window.location.search);
-    const uid = params.get("uid");
-    if (!uid) return null;
-    const snapshot = await FIREBASE_USERS.child(uid).once("value");
-    return snapshot.val();
+  const params = new URLSearchParams(window.location.search);
+  const uid = params.get("uid");
+  if (!uid) return null;
+  const snapshot = await FIREBASE_USERS.child(uid).once("value");
+  return snapshot.val();
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
+  await updateGreeting();
   const content = document.getElementById("summary_content");
-  const greetingSpan = document.querySelector('.greeting span:first-child');
+  //const greetingSpan = document.querySelector('.greeting span:first-child');
   const userSpan = document.querySelector('.logged-user');
 
-  greetingSpan.textContent = `${getGreetingByTime()},`;
-  userSpan.textContent = ""; 
+  //greetingSpan.textContent = `${getGreetingByTime()},`;
+  //userSpan.textContent = "";
   document.body.style.opacity = "1";
 
   let showWelcomeGuest = sessionStorage.getItem("guestWelcome");
@@ -246,7 +254,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     content.innerHTML = `
       <div style="height: 100vh; width:100%; display:flex; align-items:center; justify-content:center; flex-direction:column;">
         <h1>${greetingText}</h1>
-        <h1 style="color: #29ABE2;">${user ? user.name : ""}</h1>
+        <h1 style="color: #29ABE2;">${user ? user.name : "Guest"}</h1>
       </div>
     `;
 

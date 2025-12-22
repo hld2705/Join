@@ -227,8 +227,9 @@ function resetLoginUI() {
 
 window.guestLogIn = function () {
     let isMobile = window.innerWidth < 780;
+    sessionStorage.setItem("guest", "true");
     if (isMobile) {
         sessionStorage.setItem("guestWelcome", "true");
     }
-    setTimeout(() => { window.location.href = "./summary.html"; }, 100)
+    setTimeout(() => { window.location.href = "./summary.html?nonlogin=true"; }, 100)
 }
