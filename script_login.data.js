@@ -52,7 +52,7 @@ function getRandomColor() {
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
-function signUpValidation(name, email, password, passwordConfirm) {
+    function signUpValidation(name, email, password, passwordConfirm) {
     let hasError = false;
 
     const nameBorder = document.getElementById("name_sign_up");
@@ -66,6 +66,7 @@ function signUpValidation(name, email, password, passwordConfirm) {
     const password2Msg = document.getElementById("required-sign_up-password2");
 
     resetSignUpUI();
+
 
     if (!name) {
         nameBorder.classList.add("submit");
