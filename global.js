@@ -111,7 +111,7 @@ async function getCurrentUser() {
 
   return snapshot.val();
 }
-
+/*
 async function dynamicUserHeaderBadge(){
   const user = await getCurrentUser();
   if (!user || !user.badge) return;
@@ -128,7 +128,7 @@ async function dynamicUserHeaderBadge(){
           <a href="index.html" id="logout-link">Log out</a>
         </div>
       </div>`
-}
+}*/
 
 function badgeOverlay() {
   const overlay = document.getElementById("badge-overlay");
@@ -223,9 +223,9 @@ function isInput(el) {
     return el.matches("input[type='text'], input[type='email'], input[type='date'], input[type='password'], input[type='phone'], input[type='tel'], textarea");
 }
 
-/*window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", () => {
 dynamicUserHeaderBadge();
-});*/
+});
 
 function getUserId() {
   const params = new URLSearchParams(window.location.search);
@@ -287,9 +287,13 @@ function renderGuestHeader() {
         <div id="badge-overlay" class="navbar">
           <a href="legal_notice.html">Legal Notice</a>
           <a href="privacy_policy.html">Privacy Policy</a>
-          <a href="index.html" id="logout-link">Log out</a>
+          <a href="index.html" id="logout-link" onclick="LogOut()">Log out</a>
         </div>
       </div>`);
+}
+
+function LogOut(){
+    sessionStorage.removeItem("guest", "true");
 }
 
 window.addEventListener("DOMContentLoaded", initHeader);

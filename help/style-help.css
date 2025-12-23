@@ -1,46 +1,49 @@
-.arrow{
+.arrow {
     display: flex;
     justify-content: space-between;
 }
 
-.join{
-    color:rgba(41, 171, 226, 1);
+.join {
+    color: rgba(41, 171, 226, 1);
 }
 
-h1{
+h1 {
 
     font-size: 61px;
     margin-bottom: 32px;
 }
 
-p{
+p {
     font-size: 16px;
 
 }
 
-h2{
+h2 {
     font-size: 24px;
     gap: 16px;
 }
 
-h3{
+h3 {
     font-size: 20px;
     font-weight: bold;
-   margin-bottom: 20px;
-}
-
-p{
     margin-bottom: 20px;
 }
-.nr{
+
+p {
+    margin-bottom: 20px;
+}
+
+.nr {
     margin-right: 35px;
     font-size: 27px;
     font-weight: bold;
 }
-.edit-right{
+
+.edit-right {
     margin-left: 96px;
     margin-top: 110px;
-      overflow-y: scroll;
+    margin-right: 96px;
+    margin-bottom: 110px;
 }
 
 .avatar-text {
@@ -63,6 +66,65 @@ p{
     min-width: 150px;
 }
 
+.guestloginprofilebadge {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #2A3647;
+    background-color: white;
+}
+
+.avatar-text-guest {
+    position: absolute;
+    color: #29ABE2;
+    font-size: 16px;
+    margin: 0px;
+}
+
+.responsive-logo {
+    display: none;
+}
+
+header {
+    height: 96px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 96px;
+}
+
+.left-side {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    min-width: 232px;
+    background-color: #2A3647;
+    position: relative;
+    z-index: 2;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.right-side-help {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 100vh;
+    background: linear-gradient(0deg, rgba(245, 246, 247, 1) 99%, rgb(223, 224, 225) 100%);
+}
+
+.left-side a p {
+    margin-bottom: 0px;
+}
+
 @media (max-width: 1230px) {
     .responsive-logo {
         display: block;
@@ -70,38 +132,80 @@ p{
         height: 32px;
         background-image: url(../assets/logo-black.svg);
     }
-        h3 {
+
+    h3 {
         display: none;
     }
-
 }
-
 @media screen and (max-width: 800px) {
-    .display-position1{
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: left;
-    max-width: 100%;
-    padding: 0px;
+
+    .left-side {
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        height: 100px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        top: auto;
+        transform: none;
+        z-index: 99999;
     }
 
-    .mainsection{
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: left;
-    max-width: 100%;
-    padding: 0px;
+        .left-side a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 8px;
+        text-decoration: none;
+        color: #CDCDCD;
+        height: 70px !important;
+        border-radius: 20px;
+        width: 77px;
+        box-sizing: unset;
     }
-    
+
+    nav {
+        display: flex;
+        flex-direction: row;
+        gap: 0;
+        width: 100%;
+        justify-content: space-around;
+    }
+
+    .edit-right {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .display-position1 {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: left;
+        max-width: 100%;
+        padding: 0px;
+    }
+
+    .mainsection {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: left;
+        max-width: 100%;
+        padding: 0px;
+    }
+
     .title1 {
-    text-align: left;
-    word-wrap: break-word;
-    width: 90%;
-    overflow-y: auto;
-    flex: 1 1 auto;
-}
+        text-align: left;
+        word-wrap: break-word;
+        width: 90%;
+        overflow-y: auto;
+        flex: 1 1 auto;
+    }
+
     .arrowleftresponsive {
         display: flex;
     }
@@ -120,7 +224,7 @@ p{
         justify-content: center;
         align-items: center;
         flex-direction: column;
-         margin: 0;
+        margin: 0;
         padding: 80px 20px 100px 20px;
     }
 
@@ -145,7 +249,7 @@ p{
         justify-content: space-around;
         align-items: center;
         width: 100vw;
-        height: 70px;
+        height: 100px;
         position: fixed;
         bottom: 0;
         left: 0;
@@ -159,8 +263,8 @@ p{
         justify-content: space-between;
         width: 100%;
         gap: 0px;
-        margin-left: 10px;
-        margin-right: 10px;
+        margin-left: 20px;
+        margin-right: 20px;
     }
 
     nav a {
@@ -171,5 +275,24 @@ p{
 
     footer {
         display: none;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .left-side a{
+        width: 60px;
+    }
+    nav{
+        margin-left: 2px;
+        margin-right: 17px;
+    }
+
+    .left-side a p{
+        font-size: 14px;
+    }
+
+    .bg-color img{
+        height:20px;
+        width: 20px;
     }
 }

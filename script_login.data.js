@@ -20,6 +20,17 @@ window.logIn = async function logIn() {
     const passwordConfirm = document.getElementById("confirmation_password_sign_up").value.trim();
     if (!signUpValidation(name, email, password, passwordConfirm)) return;
     const newEntry = FIREBASE_USERS.push();
+
+ const exists = await userExistsByEmail(email);
+    if (exists) {
+        const emailBorder = document.getElementById("email_sign_up");
+        const existsMsg = document.getElementById("required-sign_up-email");
+        emailBorder.classList.add("submit");
+        existsMsg.classList.add("show");
+        existsMsg.innerHTML = `*User already found!`
+        return;
+    }
+
     const firebaseId = newEntry.key;
     const newUserObj = {
         id: firebaseId,
@@ -45,6 +56,19 @@ function getInitials(name) {
         .slice(0, 2)
         .map(word => word.charAt(0).toUpperCase())
         .join("");
+}
+
+async function userExistsByEmail(email) {
+    const snapshot = await FIREBASE_USERS.get();
+    const users = snapshot.val();
+    if (!users) return false;
+    email = email.toLowerCase().trim();
+    for (const id in users) {
+        if (users[id].email?.toLowerCase() === email) {
+            return true;
+        }
+    }
+    return false;
 }
 
 function getRandomColor() {
@@ -98,13 +122,15 @@ function getRandomColor() {
 
 function resetSignUpUI() {
     [
-        "input_border_sign_up_name",
-        "input_border_sign_up_email",
-        "input_border_sign_up_password",
-        "input_border_sign_up_password2"
-    ].forEach(id =>
-        document.getElementById(id).classList.remove("submit")
-    );
+        "name_sign_up",
+        "email_sign_up",
+        "password_sign_up",
+        "confirmation_password_sign_up"
+    ].forEach(id => {
+        const input = document.getElementById(id);
+        input.classList.remove("submit");
+        input.closest(".userinputcustom")?.classList.remove("submit");
+    });
 
     [
         "required-sign_up-name",
@@ -112,9 +138,10 @@ function resetSignUpUI() {
         "required-sign_up-password",
         "required-sign_up-password2"
     ].forEach(id =>
-        document.getElementById(id).classList.remove("show")
+        document.getElementById(id)?.classList.remove("show")
     );
 }
+
 
 async function forwardingNextPage(firebaseId) {
     localStorage.setItem("uid", firebaseId);
@@ -212,11 +239,12 @@ function isValidEmail(email) {
 
 function resetLoginUI() {
     [
-        "input_border_login_name",
-        "input_border_login_password"
+        "login_identifier",
+        "password"
     ].forEach(id =>
         document.getElementById(id).classList.remove("submit")
     );
+
     [
         "required-login-name",
         "required-login-password"
