@@ -61,7 +61,7 @@
 
 @media (max-width: 1230px) {
       #subtask-content {
-        height: 100px;
+        height: 44px;
     }
 
     body {
@@ -150,8 +150,7 @@
         height: 100px;
         left: 0;
         right: 0;
-        bottom: 100px;
-
+        bottom: 80px;
         display: flex;
         align-items: center;
         padding: 0 16px;
@@ -210,7 +209,7 @@
         color: #CDCDCD;
         height: 38px !important;
         border-radius: 20px;
-        width: 77px;
+        width: 65px;
         box-sizing: unset;
     }
 
@@ -356,6 +355,10 @@
     .double-up-arrow {
         right: 12px;
     }
+
+     .footer-task {
+    width: 71px !important;
+  }
 }
 
 @media (max-width: 900px) {
@@ -365,7 +368,7 @@
     }
 
         .left-side a {
-        height: 17px !important;
+        height: 37px !important;
     }
 }
 
@@ -374,6 +377,11 @@
      .left-side a {
     height: 17px !important;
   }
+
+      .task-button-container {
+        margin-bottom: 0px;
+
+    }
   
     .task-content-container {
         display: grid !important;
