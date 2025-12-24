@@ -363,10 +363,6 @@
 
 @media (max-width: 900px) {
    
- #badge-overlay {
-               height: 190px;
-    }
-
         .left-side a {
         height: 37px !important;
     }

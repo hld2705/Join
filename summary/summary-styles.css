@@ -1,6 +1,6 @@
 body {
-  opacity: 0;
-  transition: opacity 0.2s ease;
+    opacity: 0;
+    transition: opacity 0.2s ease;
 }
 
 .summary-header {
@@ -208,8 +208,8 @@ body {
     text-align: left;
 }
 
-.greeting span {       
-  text-align: left; 
+.greeting span {
+    text-align: left;
 }
 
 .summary-todo {
@@ -269,22 +269,13 @@ body {
     cursor: pointer;
     position: relative;
 }
-.avatar-text{
+
+.avatar-text {
     position: absolute;
     color: white;
     font-size: 16px;
 }
-.navbar {
-    position: absolute;
-    top: 60px;
-    right: 0;
-    display: none;
-    background: #1e1e2f;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
-    z-index: 9999;
-    pointer-events: auto;
-    min-width: 150px;
+
+#badge-overlay {
+    right: -10px;
 }

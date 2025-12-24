@@ -728,6 +728,14 @@ header {
     font-weight: 500;
 }
 
+.navbar {
+    top: 74px;
+    right: 0px;
+}
+
+#badge-overlay {
+    right: -24px;
+}
 
 @media screen and (min-width: 320px) and (max-width: 500px) {
     .createnewcontact-inputfield input {
