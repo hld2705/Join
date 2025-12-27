@@ -8,6 +8,7 @@ function validateEditUser() {
   const nameVal = document.getElementById("required_name_edit_user");
   const emailVal = document.getElementById("required_email_edit_user");
   const phoneVal = document.getElementById("required_phone_edit_user");
+  const emailDomain = /^[^\s@]+@[^\s@]+\.[a-z]{2,63}$/i;
 
   let valid = true;
 
@@ -42,20 +43,10 @@ function validateEditUser() {
     emailVal.innerHTML = "*Email must be at least 5 characters!";
     emailVal.style.visibility = "visible";
     valid = false;
-  } else if (!email.includes("@")) {
+  } else if (!emailDomain.test(email)) {
     emailBorder.classList.add("submit");
-    emailVal.innerHTML = "*Email must contain @!";
-    emailVal.style.visibility = "visible";
-    valid = false;
-  } else if (!email.includes(".com")) {
-    emailBorder.classList.add("submit");
-    emailVal.innerHTML = "*Email must contain the famous .com!";
-    emailVal.style.visibility = "visible";
-    valid = false;
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    emailBorder.classList.add("submit");
-    emailVal.style.visibility = "visible";
     emailVal.innerHTML = "*Please enter a valid email address!";
+    emailVal.style.visibility = "visible";
     valid = false;
   } else {
     emailBorder.classList.remove("submit");
@@ -139,7 +130,7 @@ function validateAddNewUser() {
     emailVal.innerHTML = "*Please enter a valid email address!";
     valid = false;
   } else {
-   emailVal.style.visibility = "hidden";
+    emailVal.style.visibility = "hidden";
     emailBorder.classList.remove("submit");
   }
 
@@ -158,8 +149,8 @@ function validateAddNewUser() {
     phoneVal.innerHTML = "*Must be at least 10 digits!";
     valid = false;
   } else {
-   phoneVal.style.visibility = "hidden";
-   phoneBorder.classList.remove("submit");
+    phoneVal.style.visibility = "hidden";
+    phoneBorder.classList.remove("submit");
   }
   return valid;
 }

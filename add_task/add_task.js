@@ -90,6 +90,11 @@ function appendUserItem(dropList, user) {
 
 function openCalendar() {
     let dateInput = document.getElementById('date-input');
+
+    const today = new Date();
+    const formattedToday = today.toISOString().split("T")[0];
+    dateInput.min = formattedToday;
+    
     if (!dateInput) return;
 
     if (dateInput.showPicker) {
@@ -98,6 +103,7 @@ function openCalendar() {
         dateInput.focus();
     }
 }
+
 
 function addNewTask() {
     const taskData = getNewTaskInputs();
