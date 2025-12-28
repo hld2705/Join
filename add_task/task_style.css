@@ -251,10 +251,6 @@ header {
     background-color: #2A3647 !important;
 }
 
-#filteredBadgesContainer {
-    height: 26px;
-}
-
 .category-option {
     height: 50px;
     display: flex;

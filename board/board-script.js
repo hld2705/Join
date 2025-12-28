@@ -205,20 +205,29 @@ function renderSubtaskMore(count) {
 }
 
 function renderSubtask(subtasks, taskId) {
-    let safe = Array.isArray(subtasks)
+    if (!subtasks) {
+        return "<p>Currently no subtasks available</p>";
+    }
+
+    const safe = Array.isArray(subtasks)
         ? subtasks
         : Object.values(subtasks);
 
-    if (safe.length === 0)
+    if (safe.length === 0) {
         return "<p>Currently no subtasks available</p>";
-    let visibleSubtasks = safe.slice(0, 2);
-    let remainingCount = safe.length - visibleSubtasks.length;
+    }
+
+    const visibleSubtasks = safe.slice(0, 2);
+    const remainingCount = safe.length - visibleSubtasks.length;
+
     let html = visibleSubtasks
         .map((st, i) => renderSubtaskItem(st, taskId, i))
         .join('');
+
     if (remainingCount > 0) {
         html += renderSubtaskMore(remainingCount);
     }
+
     return html;
 }
 
