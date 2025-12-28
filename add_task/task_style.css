@@ -193,6 +193,10 @@ header {
     font-size: 12px;
 }
 
+.visibility-hidden {
+    visibility: hidden;
+}
+
 .dropdown-list {
     position: absolute;
     width: 100%;

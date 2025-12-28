@@ -94,7 +94,7 @@ function openCalendar() {
     const today = new Date();
     const formattedToday = today.toISOString().split("T")[0];
     dateInput.min = formattedToday;
-    
+
     if (!dateInput) return;
 
     if (dateInput.showPicker) {
@@ -210,10 +210,10 @@ function checkRequiredTitle() {
     let requiredMessage = document.getElementById('required-message-title');
     if (!titleInput.checkValidity()) {
         titleInput.classList.add('submit');
-        document.getElementById('required-message-title').innerHTML = "This field is required"
+        requiredMessage.style.visibility = "visible";
     } else {
         titleInput.classList.remove('submit');
-        requiredMessage.innerHTML = "";
+        requiredMessage.style.visibility = "hidden";
     }
 }
 
@@ -222,28 +222,27 @@ function checkRequiredDate() {
     let requiredMessage = document.getElementById('required-message-date');
     if (!dateInput.checkValidity()) {
         dateInput.classList.add('submit');
-        document.getElementById('required-message-date').innerHTML = "This field is required"
+        requiredMessage.style.visibility = "visible";
     } else {
         dateInput.classList.remove('submit');
-        requiredMessage.innerHTML = "";
+          requiredMessage.style.visibility = "hidden";
     }
 }
 
 function checkRequiredCategory() {
     let categoryInput = document.getElementById('category-input');
-    let requiredMessage = document.getElementById('required-message-date');
+    let requiredMessage = document.getElementById('required-message-category');
     if (categoryInput.placeholder === "Select task category") {
         categoryInput.classList.add('submit');
-        document.getElementById('required-message-category').innerHTML = "This field is required"
+        requiredMessage.style.visibility = "visible";
     } else {
         categoryInput.classList.remove('submit');
-        requiredMessage.innerHTML = "";
+          requiredMessage.style.visibility = "hidden";
     }
 }
 
 function removeRequiredTitle() {
     let titleInput = document.getElementById('title-input');
-
     if (titleInput) {
         titleInput.addEventListener('input', () => {
             titleInput.classList.remove('submit');
