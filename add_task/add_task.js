@@ -277,9 +277,15 @@ function clearAllInputs() {
     let title = document.getElementById('title-input');
     let description = document.getElementById('description-input');
     let date = document.getElementById('date-input');
+    let requiredMessageTitle = document.getElementById('required-message-title');//Halid
+    let requiredMessageDate = document.getElementById('required-message-date');//Halid
+    let requiredMessageCategory = document.getElementById('required-message-category');//Halid
     title.value = "";
     description.value = "";
     date.value = "";
+    requiredMessageTitle.innerHTML = "";//Halid
+    requiredMessageDate.innerHTML = "";//Halid
+    requiredMessageCategory.innerHTML = "";//Halid
 }
 
 function clearAll(e) {
