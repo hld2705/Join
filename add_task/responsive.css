@@ -168,8 +168,8 @@
 
     .mobile-required-text {
         display: block;
-        margin-top: 10px;
-        margin-bottom: 50px;
+             margin-top: 40px;
+        margin-bottom: 200px;
     }
 
     #task-overlay .mobile-required-text {
@@ -178,8 +178,8 @@
 
     .drop-down-arrow-svg,
     .drop-down-arrow-svg-category {
-        top: 70px;
-        right: 12px;
+       top: 80px;
+        right: 18px;
     }
 
     .asterisk {

@@ -14,28 +14,25 @@ function validateEditUser() {
 
   if (!name) {
     nameBorder.classList.add("submit");
-    nameVal.innerHTML = "*This field is required!";
     nameVal.style.visibility = "visible";
     valid = false;
   } else if (!/^[A-Za-z\s]+$/.test(name)) {
     nameBorder.classList.add("submit");
-    nameVal.innerHTML = "*Only letters allowed!";
     nameVal.style.visibility = "visible";
+    nameVal.innerHTML = "*Only letters allowed!";
     valid = false;
   } else if (name.length < 3) {
     nameBorder.classList.add("submit");
-    nameVal.innerHTML = "*Name must be at least 3 letters!";
     nameVal.style.visibility = "visible";
+    nameVal.innerHTML = "*Name must be at least 3 letters!";
     valid = false;
   } else {
     nameBorder.classList.remove("submit");
-    nameVal.innerHTML = "";
     nameVal.style.visibility = "hidden";
   }
 
   if (!email) {
     emailBorder.classList.add("submit");
-    emailVal.innerHTML = "*This field is required!";
     emailVal.style.visibility = "visible";
     valid = false;
   } else if (email.length < 5) {
@@ -50,13 +47,11 @@ function validateEditUser() {
     valid = false;
   } else {
     emailBorder.classList.remove("submit");
-    emailVal.innerHTML = "";
     emailVal.style.visibility = "hidden";
   }
 
   if (!phone) {
     phoneBorder.classList.add("submit");
-    phoneVal.innerHTML = "*This field is required!";
     phoneVal.style.visibility = "visible";
     valid = false;
   } else if (!/^\+?[0-9]+$/.test(phone)) {
@@ -71,12 +66,10 @@ function validateEditUser() {
     valid = false;
   } else {
     phoneBorder.classList.remove("submit");
-    phoneVal.innerHTML = "";
     phoneVal.style.visibility = "hidden";
   }
   return valid;
 }
-
 
 function validateAddNewUser() {
   let name = document.getElementById("name_new_user").value.trim();

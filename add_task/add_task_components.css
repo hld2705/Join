@@ -241,6 +241,7 @@ textarea {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.15s ease;
+    padding-right: 2px;
 }
 
 .single-subtask-container:hover .subtask-icons {

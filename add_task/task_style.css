@@ -63,7 +63,7 @@ header {
     padding-right: 30px;
     min-width: 0;
     width: clamp(320px, 30vw, 1120px);
-    padding-bottom: 92px;
+    margin-bottom: -20px;
 }
 
 .task-title {
@@ -101,7 +101,7 @@ header {
 .task-button-container {
     display: flex;
     position: absolute;
-    top: 190px;
+    top: 170px;
     right: 0px;
     gap: 20px;
 }
@@ -236,6 +236,10 @@ header {
     background-color: #2A3647 !important;
 }
 
+#filteredBadgesContainer {
+    height: 26px;
+}
+
 .category-option {
     height: 50px;
     display: flex;
@@ -316,6 +320,12 @@ header {
     align-items: center;
     z-index: 9999;
     transition: all 0.2s ease;
+}
+
+#subtask-content {
+    height: 100px;
+    overflow-y: auto;
+    width: 100%;
 }
 
 .single-subtask-container {
