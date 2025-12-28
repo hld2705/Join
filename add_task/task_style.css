@@ -213,6 +213,21 @@ header {
     display: none;
 }
 
+#filteredBadgesContainer{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 3px;
+}
+
+.badge-dots {
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 6px;
+    user-select: none;
+}
+
+
 .Assigned-dropdown-username {
     cursor: pointer;
     height: 50px;

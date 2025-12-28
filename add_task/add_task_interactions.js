@@ -182,6 +182,26 @@ function filterBadges(badge, badgeContainer, userId) {
     let clone = badge.cloneNode(true);
     clone.dataset.userId = userId;
     badgeContainer.appendChild(clone);
+
+    const MAX_VISIBLE = 3;
+
+    const oldDots = badgeContainer.querySelector('.badge-dots');
+    if (oldDots) oldDots.remove();
+
+    const badges = [...badgeContainer.children].filter(
+        el => !el.classList.contains('badge-dots')
+    );
+
+    badges.forEach((badge, index) => {
+        badge.style.display = index < MAX_VISIBLE ? 'flex' : 'none';
+    });
+
+    if (badges.length > MAX_VISIBLE) {
+        const dotsEl = document.createElement('span');
+        dotsEl.className = 'badge-dots';
+        dotsEl.textContent = '...';
+        badgeContainer.appendChild(dotsEl);
+    }
 }
 
 function switchCategoryPlaceholder(e) {
@@ -344,7 +364,7 @@ function handleEditIcon(li, text, icons, afterEditIcons, inputfield) {
     icons.classList.add('hidden');
     afterEditIcons.classList.remove('hidden');
     li.classList.add('edit-text');
-    li.style.listStyleType = 'none';
+    //li.style.listStyleType = 'none'; punkt geht verloren beim subtask editieren Halid
 }
 
 function handleConfirmEdit(editIcon, acceptIcon, li, text, icons, afterEditIcons, inputfield) {

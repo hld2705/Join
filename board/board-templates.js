@@ -26,9 +26,10 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
                         </div>
                     <div class="contacts-badge-container">
                         <div class="only-badges-container">
-                            ${badges.map(b => `
-                            <img class="badges-img" src="${b.badge}" title="${b.name}" style="border-color:${b.color}">
-                            `).join('')}
+                            ${badges.slice(0, 3).map(b => `
+                                <img class="badges-img" src="${b.badge}" title="${b.name}" style="border-color:${b.color}">
+                                `).join('')}
+                            ${badges.length > 3 ? `<span class="badge-dots">...</span>` : ''}
                         </div>
                         <div>
                           <img class="priority-badge" src="${imgSrc}">  
@@ -70,12 +71,11 @@ function detailedCardInfoTemplate(task) {
             </div>
             <div class="card-overlay-assigned_to-details-container">
                 <p class="label">Assigned To:</p>
-                    <div>
-                        ${badges.map(b => `
-                            <div class="card-overlay-badge-name-details-container">
-                            <img class="" src="${b.badge}" title="${b.name}" style="border-color:${b.color}">
-                            <p>${b.name}</p>
-                            </div>`).join('')}
+                    <div class="card-overlay-assigned_to-details-container-badges">
+                        ${badges.slice(0, 3).map(b => `
+                                <img class="badges-img" src="${b.badge}" title="${b.name}" style="border-color:${b.color}">
+                                `).join('')}
+                            ${badges.length > 3 ? `<span class="badge-dots">...</span>` : ''}
                     </div>   
             </div>
             <div class="card-overlay-subtasks-details-container">
