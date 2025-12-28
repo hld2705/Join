@@ -35,12 +35,14 @@ const FIREBASE_URL = "https://join-gruppenarbeit-75ecf-default-rtdb.europe-west1
 
 async function getAllUser(path = "") {
     let response = await fetch(FIREBASE_URL + path + ".json");
-    let responseToJson = await response.json();
-    let users = Object.values(responseToJson);
+    let data = await response.json();
+    if (!data) return [];
 
-    for (let i = 1; i < users.length; i++) {
-    }
-    return users;
+    return Object.entries(data).map(([id, user]) => ({
+        id,
+        ...user,
+        color: user.color || getRandomColor()
+    }));
 }
 
 function loadAddTaskForm() {
@@ -67,25 +69,34 @@ async function showUserName() {
 function appendUserItem(dropList, user) {
     let div = document.createElement("div");
     let name = document.createElement("span");
-    let img = document.createElement("img");
+
     div.classList.add("Assigned-dropdown-username");
     div.dataset.userId = user.id;
     div.dataset.name = user.name.toLowerCase();
     name.textContent = user.name;
 
-    let badgePath = user.badge.startsWith("./")
-        ? user.badge.replace("./", "/", "/Join")
-        : user.badge;
+    let badge = document.createElement("div");
+    badge.classList.add("userBadge", "userBadgeCircle");
 
-    img.src = badgePath;
-    div.dataset.badge = badgePath;
-    img.classList.add("userBadge");
-    if (badgePath.includes("person.svg")) {
-        img.classList.add("newUserIcon");
-    }
+    badge.textContent = user.badge?.text || getInitials(user.name);
+    badge.style.backgroundColor = user.color;
 
-    div.append(img, name, renderCheckButton());
+    div.append(badge, name, renderCheckButton());
     dropList.appendChild(div);
+}
+
+function getInitials(name) {
+    return name
+        .split(" ")
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(word => word.charAt(0).toUpperCase())
+        .join("");
+}
+
+function getRandomColor() {
+    const colors = ["#2A3647", "#29ABE2", "#FF7A00", "#9327FF", "#FC71FF", "#fccc59", "#442c8c", "#fc4444"];
+    return colors[Math.floor(Math.random() * colors.length)];
 }
 
 function openCalendar() {
@@ -104,7 +115,6 @@ function openCalendar() {
     }
 }
 
-
 function addNewTask() {
     const taskData = getNewTaskInputs();
     const newTask = {
@@ -117,7 +127,6 @@ function addNewTask() {
             console.error('Task wurde nicht weitergeleitet:', error);
         });
 }
-
 
 function editTask() {
     const editTaskData = getEditTaskInputs();
@@ -166,7 +175,6 @@ function getEditTaskInputs() {
         assigned: getAssignedUsers(),
     };
 }
-
 
 function getAssignedUsers() {
     return Array.from(document.querySelectorAll('.Assigned-dropdown-username.bg-grey'))

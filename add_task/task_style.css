@@ -10,6 +10,21 @@ body {
     box-sizing: border-box;
 }
 
+.userBadgeCircle {
+    width: 38px;
+    height: 38px;
+    padding-left: 0px;
+    color: white;
+    font-size: 12px;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid;
+    border-color: white;
+    border-radius: 32px;
+}
+
 header {
     display: flex;
     align-items: center;
@@ -218,7 +233,7 @@ header {
     display: none;
 }
 
-#filteredBadgesContainer{
+#filteredBadgesContainer {
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -254,6 +269,7 @@ header {
 
 #filteredBadgesContainer {
     height: 26px;
+        padding-top: 16px;
 }
 
 .category-option {

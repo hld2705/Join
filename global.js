@@ -111,24 +111,6 @@ async function getCurrentUser() {
 
   return snapshot.val();
 }
-/*
-async function dynamicUserHeaderBadge(){
-  const user = await getCurrentUser();
-  if (!user || !user.badge) return;
-
-  let userInfo = document.getElementById("user-info-id");
-  userInfo.innerHTML += `<div class="user-info">
-        <a class="user-info-help" href="./help.html" onclick="event.preventDefault(); navigate('./help.html')"> <img class="Hilfe" src="./assets/help.svg" alt="help"> </a>
-        <div id="header-badge" class="profil" style="background:${user.badge.color}" onclick="badgeOverlay()">
-        <p class="avatar-text">${user.badge.text}</p>
-        </div>
-        <div id="badge-overlay" class="navbar">
-          <a href="legal_notice.html">Legal Notice</a>
-          <a href="privacy_policy.html">Privacy Policy</a>
-          <a href="index.html" id="logout-link">Log out</a>
-        </div>
-      </div>`
-}*/
 
 function badgeOverlay() {
   const overlay = document.getElementById("badge-overlay");
@@ -178,7 +160,7 @@ function updateHelpLink() {
   const overlay = document.getElementById("badge-overlay");
   const helpIcon = document.querySelector(".user-info-help");
   const mobileHelp = document.getElementById("mobile-help-link");
-  if (innerWidth >= 900) {
+  if (innerWidth >= 900 && helpIcon) {
     helpIcon.style.display = "block";
     if (mobileHelp) mobileHelp.remove();
   } else if (helpIcon) {

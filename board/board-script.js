@@ -205,20 +205,29 @@ function renderSubtaskMore(count) {
 }
 
 function renderSubtask(subtasks, taskId) {
-    let safe = Array.isArray(subtasks)
+    if (!subtasks) {
+        return "<p>Currently no subtasks available</p>";
+    }
+
+    const safe = Array.isArray(subtasks)
         ? subtasks
         : Object.values(subtasks);
 
-    if (safe.length === 0)
+    if (safe.length === 0) {
         return "<p>Currently no subtasks available</p>";
-    let visibleSubtasks = safe.slice(0, 2);
-    let remainingCount = safe.length - visibleSubtasks.length;
+    }
+
+    const visibleSubtasks = safe.slice(0, 2);
+    const remainingCount = safe.length - visibleSubtasks.length;
+
     let html = visibleSubtasks
         .map((st, i) => renderSubtaskItem(st, taskId, i))
         .join('');
+
     if (remainingCount > 0) {
         html += renderSubtaskMore(remainingCount);
     }
+
     return html;
 }
 
@@ -310,8 +319,6 @@ function getEditPriorityIcons(priority) {
       : "./assets/low-priority-board.svg",
   };
 }
-
-
 
 function getPriorityImg(priority) {
   if (priority === "urgent") return "./assets/urgent-priority-board.svg";
@@ -427,6 +434,11 @@ let addTaskInteractionsLoaded = false;
 function openEditOverlay(taskId) {
   let task = tasks.find(t => t.id === taskId);
   editOverlayTemplate(task);
+
+setTimeout(() => {
+    preselectAssignedUsers(task.assigned);
+}, 0);
+
   if (!addTaskInteractionsLoaded) {
     loadAddTaskInteractions();
     addTaskInteractionsLoaded = true;
@@ -447,6 +459,44 @@ function openEditOverlay(taskId) {
       cancelEditOverlay();
     }
   })
+}
+
+async function preselectAssignedUsers(assigned) {
+    if (!assigned || assigned.length === 0) return;
+
+    await showUserName();
+
+    assigned.forEach(userId => {
+        const el = document.querySelector(
+            `.Assigned-dropdown-username[data-user-id="${userId}"]`
+        );
+        if (el) {
+            el.classList.add("bg-grey");
+        }
+    });
+
+    renderFilteredBadges();
+}
+
+function renderFilteredBadges() {
+    const container = document.getElementById("filteredBadgesContainer");
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    const selectedUsers = document.querySelectorAll(
+        ".Assigned-dropdown-username.bg-grey"
+    );
+
+    selectedUsers.forEach(userEl => {
+        const name = userEl.querySelector("span")?.textContent || "";
+        const badgeEl = userEl.querySelector(".userBadge");
+        if (!badgeEl) return;
+        const badge = badgeEl.cloneNode(true);
+        badge.classList.add("assigned-badge");
+        badge.title = name;
+        container.appendChild(badge);
+    });
 }
 
 function openDetailedInfoCardInstant() {
