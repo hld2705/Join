@@ -268,9 +268,7 @@ function handleSubtaskAccept(e) {
         subTaskOutput.innerHTML = `<ul></ul>`;
     }
     let ul = subTaskOutput.querySelector('ul');
-    if (ul.children.length >= 2) {
-        return;
-    } ul.insertAdjacentHTML('beforeend', subtaskOutputTemplate(subtaskInput, subtaskCounter));
+    ul.insertAdjacentHTML('beforeend', subtaskOutputTemplate(subtaskInput, subtaskCounter));
     subtaskCounter++;
 }
 

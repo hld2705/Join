@@ -186,7 +186,7 @@ function editUserTemplate(user) {
                         <img src="./assets/icons/person.svg">
                       </div>
 
-                      <p class="required-mssg" id="required_name_edit_user"></p>
+                      <p class="required-mssg" id="required_name_edit_user">*This field is required!</p>
 
                       <div class="createnewcontact-inputfield-icon" id="input_field_edit_email">
                         <input id="edit_email" type="email" value="${user.email}" 
@@ -194,7 +194,7 @@ function editUserTemplate(user) {
                         <img src="./assets/icons/mail.svg">
                       </div>
 
-                      <p class="required-mssg" id="required_email_edit_user"></p>
+                      <p class="required-mssg" id="required_email_edit_user">*This field is required!</p>
 
                       <div class="createnewcontact-inputfield-icon" id="input_field_edit_phone">
                         <input id="edit_phone" type="tel" value="${user.phone}" 
@@ -202,7 +202,7 @@ function editUserTemplate(user) {
                         <img src="./assets/icons/call.svg">
                       </div>
                       
-                      <p class="required-mssg" id="required_phone_edit_user"></p>
+                      <p class="required-mssg" id="required_phone_edit_user">*This field is required!</p>
 
                       <div class="createnewcontact-buttons-placement">
                         <div class="editcontact-button-cancel" onclick="deleteUser('${user.id}')">

@@ -182,25 +182,44 @@ function detailedCardInfo(taskId) {
   document.body.insertAdjacentHTML("beforeend", detailedCardInfoTemplate(task));
 }
 
-function renderSubtask(subtasks, taskId) {
-  if (!subtasks || subtasks.length === 0)
-    return "<p>Currently no subtasks available</p>";
-  let safe = Array.isArray(subtasks)
-    ? subtasks
-    : Object.values(subtasks);
-  if (safe.length === 0)
-    return "<p>Currently no subtasks available</p>";
-  return safe.map((st, i) => `
+function renderSubtaskItem(st, taskId, index) {
+    return `
         <div class="subtask-item">
-          <img
-              id="subtask-${taskId}-${i}" 
-              src="${getSubtasksImg(st.done)}"
-              class="subtask-icon"
-              onclick="toggleSubtask(${taskId}, ${i})"
-          >
-          <p>${st.text}</p>
-      </div>
-    `).join('');
+            <img
+                id="subtask-${taskId}-${index}" 
+                src="${getSubtasksImg(st.done)}"
+                class="subtask-icon"
+                onclick="toggleSubtask(${taskId}, ${index})"
+            >
+            <p>${st.text}</p>
+        </div>
+    `;
+}
+
+function renderSubtaskMore(count) {
+    return `
+        <div class="subtask-more">
+            +${count}
+        </div>
+    `;
+}
+
+function renderSubtask(subtasks, taskId) {
+    let safe = Array.isArray(subtasks)
+        ? subtasks
+        : Object.values(subtasks);
+
+    if (safe.length === 0)
+        return "<p>Currently no subtasks available</p>";
+    let visibleSubtasks = safe.slice(0, 2);
+    let remainingCount = safe.length - visibleSubtasks.length;
+    let html = visibleSubtasks
+        .map((st, i) => renderSubtaskItem(st, taskId, i))
+        .join('');
+    if (remainingCount > 0) {
+        html += renderSubtaskMore(remainingCount);
+    }
+    return html;
 }
 
 function toggleSubtask(taskId, index) {

@@ -181,7 +181,7 @@ function updateHelpLink() {
   if (innerWidth >= 900) {
     helpIcon.style.display = "block";
     if (mobileHelp) mobileHelp.remove();
-  } else {
+  } else if (helpIcon) {
     helpIcon.style.display = "none";
     if (!mobileHelp) {
       const link = document.createElement("a");
