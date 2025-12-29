@@ -82,7 +82,7 @@ async function getUrgent() {
                   <h1 class="task-count">${Urgent.length}</h1>
                   <span>Urgent</span>
                 </div>
-                 <div class="vector"></div>`
+               `
 }
 getUrgent()
 async function getEndDate() {
