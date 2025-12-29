@@ -632,11 +632,11 @@ textarea {
 }
 
 .navbar {
-    top: 74px;
+  top: 74px;
 }
 
 #badge-overlay {
-    right: 0px;
+  right: 0px;
 }
 
 .navbar a:hover {
@@ -653,20 +653,20 @@ textarea {
 }
 
 .edit-overlay .userBadgeCircle {
-    width: 38px;
-    height: 38px;
-    padding-left: 0px;
-    color: white;
-    font-size: 12px;
-    font-weight: 300;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid;
-    border-color: white;
-    border-radius: 32px;
-    padding-right: 14px;
-    padding-left: 14px;
+  width: 38px;
+  height: 38px;
+  padding-left: 0px;
+  color: white;
+  font-size: 12px;
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid;
+  border-color: white;
+  border-radius: 32px;
+  padding-right: 14px;
+  padding-left: 14px;
 }
 
 
@@ -792,7 +792,7 @@ textarea {
   background-color: #f5f6f7;
   padding-left: 250px;
   max-width: 1920px;
-          overflow-y: auto;
+  overflow-y: auto;
 }
 
 header {
@@ -800,7 +800,7 @@ header {
   align-items: center;
   justify-content: space-around;
   height: 96px;
-  padding: 0 20px 0 20px;
+  padding: 0 20px 0 12px;
   background-color: #FFFFFF;
   flex: 0 0 100px;
   gap: 20px;
@@ -949,8 +949,8 @@ body.no-scroll {
 }
 
 .search-bar-container {
-    flex: 1;
-    max-width: 600px;
+  flex: 1;
+  max-width: 600px;
 }
 
 .seperation-line {
@@ -1464,9 +1464,7 @@ progress::-webkit-progress-value {
   font-size: 20px;
 }
 
-.card-overlay-assigned_to-details-container-badges{
-
-}
+.card-overlay-assigned_to-details-container-badges {}
 
 .edit-overlay .tbc-wrapper {
   background: white;
@@ -1697,7 +1695,7 @@ progress::-webkit-progress-value {
     color: #42526E;
     font-weight: 700;
     overflow-x: auto;
-    scrollbar-width: none;
+    scrollbar-width: thin;
   }
 
   .distribution {
@@ -1735,8 +1733,8 @@ progress::-webkit-progress-value {
   .search-bar-container {
     width: 100%;
     padding-right: 0px;
-         flex: 1; 
-     max-width: 100%;
+    flex: 1;
+    max-width: 100%;
   }
 
   .openaddtaskoverlayresponsive {
@@ -1766,18 +1764,19 @@ progress::-webkit-progress-value {
     width: 100%;
     height: 48px;
     margin-left: 20px;
+    margin-right: 20px;
   }
 
   .search-icon {
     left: auto;
-    right: 10px;
+    right: 30px;
   }
 
   .seperation-line {
     position: absolute;
     top: 8px;
     left: auto;
-    right: 50px;
+    right: 64px;
     height: 30px;
   }
 
@@ -1858,7 +1857,6 @@ progress::-webkit-progress-value {
 
   .task-container {
     display: flex;
-    flex-direction: column;
   }
 
   .openaddtaskoverlayresponsive {
@@ -1888,7 +1886,7 @@ progress::-webkit-progress-value {
   }
 
   .card-overlay-main-container {
-    width: 113px;
+    width: 140px;
     height: 27px;
     font-size: 16px;
   }
