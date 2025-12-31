@@ -68,17 +68,20 @@ function appendUserItem(dropList, user) {
     let div = document.createElement("div");
     let name = document.createElement("span");
     let img = document.createElement("img");
+
     div.classList.add("Assigned-dropdown-username");
     div.dataset.userId = user.id;
     div.dataset.name = user.name.toLowerCase();
     name.textContent = user.name;
 
-    let badgePath = user.badge.startsWith("./")
-        ? user.badge.replace("./", "/", "/Join")
-        : user.badge;
+    let badgePath =
+        typeof user.badge === "string"
+            ? user.badge
+            : "../assets/person.svg";
 
     img.src = badgePath;
     div.dataset.badge = badgePath;
+
     img.classList.add("userBadge");
     if (badgePath.includes("person.svg")) {
         img.classList.add("newUserIcon");
@@ -87,6 +90,7 @@ function appendUserItem(dropList, user) {
     div.append(img, name, renderCheckButton());
     dropList.appendChild(div);
 }
+
 
 function openCalendar() {
     let dateInput = document.getElementById('date-input');
