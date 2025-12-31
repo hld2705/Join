@@ -9,7 +9,10 @@ const firebaseConfig = {
     measurementId: "G-5R563MH52P"
 };
 
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+
 const FIREBASE_USERS = firebase.database().ref("users");
 
 window.logIn = async function logIn() {

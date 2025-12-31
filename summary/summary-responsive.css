@@ -138,6 +138,8 @@
 
   .status-box {
     width: 100%;
+    height: 110px;
+    gap: 0px;
   }
 
   .summary-header p {
@@ -148,8 +150,8 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-left: 55px;
-    margin-top: 48px;
+    margin-left: 18px;
+    margin-top: 16px;
     padding-bottom: 0px;
   }
 
@@ -165,14 +167,33 @@
     font-size: 20px;
   }
 
-  .summary-header p {
-    order: 3;
-    align-items: center;
-    transform: rotate(90deg);
-    height: 90px;
+  .summary-header h1 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
+  .summary-header span::after {
+    content: "";
+    width: 80px;
+    height: 2px;
+    background-color: #29ABE2;
+    margin-top: 12px;
+    display: block;
+  }
 
+  .summary-task-status {
+    justify-content: space-evenly;
+
+  }
+
+  .summary-header p::after {
+    visibility: hidden;
+  }
+
+  .status-box-container {
+    margin-top: 36px;
+  }
 
   #deadline-container img {
     margin-left: 20px;
@@ -291,7 +312,9 @@
   }
 
   .left-content {
-    flex: 0 0 0;
+    flex: 1 0 0;
+    margin-left: 20px;
+    margin-right: 20px;
   }
 }
 
@@ -306,8 +329,7 @@
 }
 
 @media(max-width: 450px) {
-
-
+  
   .todo {
     display: flex;
     flex-direction: column;
@@ -329,5 +351,22 @@
   .vector {
     margin-left: 20px;
 
+  }
+}
+
+@media (min-width: 320px) and (max-width: 340px){
+  .status-box{
+    height: 137px;
+  }
+  .status-overview {
+    gap: 11px;
+  }
+
+  .content {
+    max-width: 320px;
+  }
+
+  header {
+    padding: 0 50px 0 0px;
   }
 }

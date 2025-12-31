@@ -314,8 +314,6 @@ function getEditPriorityIcons(priority) {
   };
 }
 
-
-
 function getPriorityImg(priority) {
   if (priority === "urgent") return "./assets/urgent-priority-board.svg";
   if (priority === "medium") return "./assets/medium-priority-board.svg";
@@ -430,6 +428,11 @@ let addTaskInteractionsLoaded = false;
 function openEditOverlay(taskId) {
   let task = tasks.find(t => t.id === taskId);
   editOverlayTemplate(task);
+
+setTimeout(() => {
+    preselectAssignedUsers(task.assigned);
+}, 0);
+
   if (!addTaskInteractionsLoaded) {
     loadAddTaskInteractions();
     addTaskInteractionsLoaded = true;
@@ -450,6 +453,44 @@ function openEditOverlay(taskId) {
       cancelEditOverlay();
     }
   })
+}
+
+async function preselectAssignedUsers(assigned) {
+    if (!assigned || assigned.length === 0) return;
+
+    await showUserName();
+
+    assigned.forEach(userId => {
+        const el = document.querySelector(
+            `.Assigned-dropdown-username[data-user-id="${userId}"]`
+        );
+        if (el) {
+            el.classList.add("bg-grey");
+        }
+    });
+
+    renderFilteredBadges();
+}
+
+function renderFilteredBadges() {
+    const container = document.getElementById("filteredBadgesContainer");
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    const selectedUsers = document.querySelectorAll(
+        ".Assigned-dropdown-username.bg-grey"
+    );
+
+    selectedUsers.forEach(userEl => {
+        const name = userEl.querySelector("span")?.textContent || "";
+        const badgeEl = userEl.querySelector(".userBadge");
+        if (!badgeEl) return;
+        const badge = badgeEl.cloneNode(true);
+        badge.classList.add("assigned-badge");
+        badge.title = name;
+        container.appendChild(badge);
+    });
 }
 
 function openDetailedInfoCardInstant() {

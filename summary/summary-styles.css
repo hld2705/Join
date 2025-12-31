@@ -19,12 +19,19 @@ body {
     font-size: 27px;
 }
 
-
 .summary-header p {
-    width: 3px;
-    height: 59px;
-    background-color: #29ABE2;
+    position: relative;
+    width: 2px;
+    height: 38px;
+    flex-shrink: 0;
     margin: 0 20px;
+}
+
+.summary-header p::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: #29ABE2;
 }
 
 .icon-to-do {
