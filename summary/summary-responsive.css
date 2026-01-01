@@ -7,6 +7,10 @@
 
 @media(max-width:1230px) {
 
+  .status-overview {
+    padding-bottom: 90px;
+}
+
   header {
     height: 80px;
   }
