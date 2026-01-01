@@ -22,31 +22,17 @@ function badgeOverlay() {
   updateHelpLink();
 }
 
-window.addEventListener("resize", updateHelpLink, () => {
-  const overlay = document.getElementById("badge-overlay");
-  const helpIcon = document.querySelector(".user-info-help");
-  const mobileHelp = document.getElementById("mobile-help-link");
-
-  if (innerWidth >= 900) {
-    helpIcon.style.display = "block";
-    if (mobileHelp) mobileHelp.remove();
-  } else {
-    helpIcon.style.display = "none";
-    if (!mobileHelp) {
-      const link = document.createElement("a");
-      link.href = "./help.html";
-      link.id = "mobile-help-link";
-      link.textContent = "Help";
-      overlay.prepend(link);
-    }
-  }
-});
+window.addEventListener("resize", updateHelpLink);
+window.addEventListener("DOMContentLoaded", updateHelpLink);
 
 function updateHelpLink() {
   const overlay = document.getElementById("badge-overlay");
   const helpIcon = document.querySelector(".user-info-help");
   const mobileHelp = document.getElementById("mobile-help-link");
-  if (innerWidth >= 900) {
+
+  if (!overlay || !helpIcon) return;
+
+  if (window.innerWidth >= 900) {
     helpIcon.style.display = "block";
     if (mobileHelp) mobileHelp.remove();
   } else {
@@ -242,6 +228,7 @@ async function dynamicUserHeaderBadge(){
           <a href="index.html" id="logout-link">Log out</a>
         </div>
       </div>`);
+      updateHelpLink();
 }
 
 function navigate(path) {
@@ -272,6 +259,7 @@ function renderGuestHeader() {
           <a href="index.html" id="logout-link" onclick="LogOut()">Log out</a>
         </div>
       </div>`);
+      updateHelpLink();
 }
 
 function LogOut(){
