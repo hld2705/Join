@@ -60,7 +60,7 @@
 }
 
 @media (max-width: 1230px) {
-      #subtask-content {
+    #subtask-content {
         height: 70px;
     }
 
@@ -73,8 +73,8 @@
     }
 
     #task-form-container {
-       overflow-y: scroll;
-         scrollbar-width: none;  
+        overflow-y: scroll;
+        scrollbar-width: none;
     }
 
     .low-container input::placeholder {
@@ -168,7 +168,7 @@
 
     .mobile-required-text {
         display: block;
-             margin-top: 40px;
+        margin-top: 40px;
         margin-bottom: 200px;
     }
 
@@ -176,13 +176,13 @@
         margin-bottom: 140px;
     }
 
-     .edit-overlay .mobile-required-text {
+    .edit-overlay .mobile-required-text {
         margin-bottom: 100px;
     }
 
     .drop-down-arrow-svg,
     .drop-down-arrow-svg-category {
-       top: 80px;
+        top: 80px;
         right: 18px;
     }
 
@@ -195,7 +195,7 @@
     }
 
     .left-side {
-      position: fixed;
+        position: fixed;
         bottom: 0;
         height: 100px;
         top: auto;
@@ -204,7 +204,7 @@
     }
 
     .left-side a {
-              display: flex;
+        display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
@@ -213,18 +213,18 @@
         color: #CDCDCD;
         height: 38px !important;
         border-radius: 20px;
-        width: 65px;
+       min-width: 60px;
         box-sizing: unset;
     }
 
     nav {
-     display: flex;
+        display: flex;
         flex-direction: row;
         gap: 0px;
         justify-content: space-around;
     }
 
- nav a {
+    nav a {
         padding-left: 0;
         padding: 31px 10px;
         font-size: 16px;
@@ -246,9 +246,10 @@
     header {
         display: flex;
         align-items: center;
-        height: 96px;
+        height: 80px;
         padding: 0px 20px 0 20px;
         background-color: #FFFFFF;
+        flex: 0 0 80px !important;
     }
 
     .user-info {
@@ -360,36 +361,36 @@
         right: 12px;
     }
 
-     .footer-task {
-    width: 71px !important;
-  }
+    .footer-task {
+        width: 71px !important;
+    }
 }
 
 @media (max-width: 900px) {
-   
-        .left-side a {
+
+    .left-side a {
         height: 37px !important;
     }
 }
 
 @media (max-width: 500px) {
 
-     .left-side a {
-    height: 17px !important;
-  }
+    .left-side a {
+        height: 17px !important;
+    }
 
-      .task-button-container {
+    .task-button-container {
         margin-bottom: 0px;
 
     }
-  
+
     .task-content-container {
         display: grid !important;
     }
 
-      .left-side {
-    height: 80px;
-  }
+    .left-side {
+        height: 80px;
+    }
 
     .priority-input-container {
         gap: 5px;

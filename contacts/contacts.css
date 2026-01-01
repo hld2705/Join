@@ -18,9 +18,14 @@ header {
     height: 96px;
     padding: 0 20px 0 20px;
     background-color: #FFFFFF;
-    flex: 0 0 100px;
+    flex: 0 0 80px;
     gap: 20px;
     flex-wrap: wrap;
+}
+
+.guestloginprofilebadge {
+    width: 44px;
+    height: 44px;
 }
 
 .header-content {
@@ -948,7 +953,7 @@ header {
         color: #CDCDCD;
         height: 38px !important;
         border-radius: 20px;
-        width: 65px;
+        min-width: 60px;
     }
 
     .left-blue-side {

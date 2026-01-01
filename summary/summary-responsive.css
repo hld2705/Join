@@ -1,3 +1,10 @@
+@media(max-width:1400px) {
+  .greeting span {
+    text-align: center;
+    font-size: 40px;
+  }
+}
+
 @media(max-width:1230px) {
 
   header {
@@ -6,8 +13,8 @@
 
   .responsive-logo {
     display: block;
-    width: 100px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     background-image: url("../assets/logo-black.svg");
   }
 
@@ -56,7 +63,7 @@
     color: #CDCDCD;
     height: 38px !important;
     border-radius: 20px;
-    width: 65px;
+    min-width: 60px;
     box-sizing: unset;
   }
 
@@ -193,6 +200,7 @@
 
   .status-box-container {
     margin-top: 36px;
+    gap: 16px;
   }
 
   #deadline-container img {
@@ -323,13 +331,21 @@
     height: 17px !important;
   }
 
+  .summary-todo {
+    gap: 0px;
+  }
+
   .left-side {
     height: 80px;
+  }
+
+  .status-overview {
+    gap: 20px;
   }
 }
 
 @media(max-width: 450px) {
-  
+
   .todo {
     display: flex;
     flex-direction: column;
@@ -349,24 +365,21 @@
   }
 
   .vector {
-    margin-left: 20px;
+    margin-left: 0px;
+  }
 
+  .done-text-container {
+    padding-left: 0px;
   }
 }
 
-@media (min-width: 320px) and (max-width: 340px){
-  .status-box{
-    height: 137px;
-  }
+@media (min-width: 320px) and (max-width: 340px) {
   .status-overview {
-    gap: 11px;
+    gap: 10px;
+    padding-bottom: 100px;
   }
 
   .content {
     max-width: 320px;
-  }
-
-  header {
-    padding: 0 50px 0 0px;
   }
 }

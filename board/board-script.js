@@ -183,7 +183,7 @@ function detailedCardInfo(taskId) {
 }
 
 function renderSubtaskItem(st, taskId, index) {
-    return `
+  return `
         <div class="subtask-item">
             <img
                 id="subtask-${taskId}-${index}" 
@@ -197,7 +197,7 @@ function renderSubtaskItem(st, taskId, index) {
 }
 
 function renderSubtaskMore(count) {
-    return `
+  return `
         <div class="subtask-more">
             +${count}
         </div>
@@ -205,24 +205,24 @@ function renderSubtaskMore(count) {
 }
 
 function renderSubtask(subtasks, taskId) {
-    if (!subtasks) {
-        return "<p>Currently no subtasks available</p>";
-    }
-    const safe = Array.isArray(subtasks)
-        ? subtasks
-        : Object.values(subtasks);
-    if (safe.length === 0) {
-        return "<p>Currently no subtasks available</p>";
-    }
-    const visibleSubtasks = safe.slice(0, 2);
-    const remainingCount = safe.length - visibleSubtasks.length;
-    let html = visibleSubtasks
-        .map((st, i) => renderSubtaskItem(st, taskId, i))
-        .join('');
-    if (remainingCount > 0) {
-        html += renderSubtaskMore(remainingCount);
-    }
-    return html;
+  if (!subtasks) {
+    return "<p>Currently no subtasks available</p>";
+  }
+  const safe = Array.isArray(subtasks)
+    ? subtasks
+    : Object.values(subtasks);
+  if (safe.length === 0) {
+    return "<p>Currently no subtasks available</p>";
+  }
+  const visibleSubtasks = safe.slice(0, 2);
+  const remainingCount = safe.length - visibleSubtasks.length;
+  let html = visibleSubtasks
+    .map((st, i) => renderSubtaskItem(st, taskId, i))
+    .join('');
+  if (remainingCount > 0) {
+    html += renderSubtaskMore(remainingCount);
+  }
+  return html;
 }
 
 function toggleSubtask(taskId, index) {
@@ -376,9 +376,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function openAddTaskOverlay(column) {
-   if (window.innerWidth < 1230) {
+  if (window.innerWidth < 1230) {
     window.location.href = "add_task.html";
-    return; 
+    return;
   }
   window.currentTaskColumn = column;
   let overlayBg = document.getElementById("task-overlay-background");
@@ -429,9 +429,9 @@ function openEditOverlay(taskId) {
   let task = tasks.find(t => t.id === taskId);
   editOverlayTemplate(task);
 
-setTimeout(() => {
+  setTimeout(() => {
     preselectAssignedUsers(task.assigned);
-}, 0);
+  }, 0);
 
   if (!addTaskInteractionsLoaded) {
     loadAddTaskInteractions();
@@ -456,41 +456,49 @@ setTimeout(() => {
 }
 
 async function preselectAssignedUsers(assigned) {
-    if (!assigned || assigned.length === 0) return;
+  if (!assigned || assigned.length === 0) return;
 
-    await showUserName();
+  await showUserName();
 
-    assigned.forEach(userId => {
-        const el = document.querySelector(
-            `.Assigned-dropdown-username[data-user-id="${userId}"]`
-        );
-        if (el) {
-            el.classList.add("bg-grey");
-        }
-    });
+  assigned.forEach(userId => {
+    const el = document.querySelector(
+      `.Assigned-dropdown-username[data-user-id="${userId}"]`
+    );
+    if (el) {
+      el.classList.add("bg-grey");
+      let checkButton = el.querySelector('.check-button');
+      let checkIcon = el.querySelector('.check-icon-assignedTo');
+      if (checkButton) {
+        checkIcon.classList.toggle("hidden");
+        checkButton.classList.toggle("check-button-white");
+      }
+    }
+  });
 
-    renderFilteredBadges();
+  renderFilteredBadges();
 }
 
+
+
 function renderFilteredBadges() {
-    const container = document.getElementById("filteredBadgesContainer");
-    if (!container) return;
+  const container = document.getElementById("filteredBadgesContainer");
+  if (!container) return;
 
-    container.innerHTML = "";
+  container.innerHTML = "";
 
-    const selectedUsers = document.querySelectorAll(
-        ".Assigned-dropdown-username.bg-grey"
-    );
+  const selectedUsers = document.querySelectorAll(
+    ".Assigned-dropdown-username.bg-grey"
+  );
 
-    selectedUsers.forEach(userEl => {
-        const name = userEl.querySelector("span")?.textContent || "";
-        const badgeEl = userEl.querySelector(".userBadge");
-        if (!badgeEl) return;
-        const badge = badgeEl.cloneNode(true);
-        badge.classList.add("assigned-badge");
-        badge.title = name;
-        container.appendChild(badge);
-    });
+  selectedUsers.forEach(userEl => {
+    const name = userEl.querySelector("span")?.textContent || "";
+    const badgeEl = userEl.querySelector(".userBadge");
+    if (!badgeEl) return;
+    const badge = badgeEl.cloneNode(true);
+    badge.classList.add("assigned-badge");
+    badge.title = name;
+    container.appendChild(badge);
+  });
 }
 
 function openDetailedInfoCardInstant() {
