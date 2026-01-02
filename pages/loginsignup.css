@@ -104,7 +104,7 @@ h1 {
     top: 50%;
     inset: 0;
     z-index: 99;
-       pointer-events: none;
+    pointer-events: none;
 }
 
 .signedupconfirmationcontainer {
@@ -282,14 +282,14 @@ h1 {
 
 .required-mssg {
     color: #FF8190;
-     visibility: hidden;
+    visibility: hidden;
     font-size: 16px;
     text-align: left;
-    margin-top: 6px;
+    margin-top: 0px;
 }
 
 .required-mssg.show {
-  visibility: visible;
+    visibility: visible;
 }
 
 .signupcenter {
@@ -336,7 +336,6 @@ h1 {
     display: block;
     flex-direction: column;
     gap: 40px;
-    padding: 40px 20px;
     position: relative;
 }
 
@@ -359,12 +358,12 @@ h1 {
 }
 
 .signup-inputs {
- width: 80% !important;
+    width: 80% !important;
 }
 
 .signup-inputs input {
     padding: 12px 12px 12px 10px;
-       
+
 }
 
 .accept-text {
@@ -388,8 +387,12 @@ h1 {
 }
 
 button.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.signup-h1 {
+    font-size: 61px;
 }
 
 @media (max-width: 1200px) {
@@ -435,51 +438,65 @@ button.disabled {
         width: 100%;
     }
 
-
-
     .signup {
-        height: 80vh;
+        height: 74vh;
     }
 
-
-    .userinputcustom {
-        width: 90%;
-        height: auto;
-    }
-
-    .loginwriting {
+    .signupcenter {
+        height: 94vh;
+        padding: 0px 20px;
         margin-bottom: -40px;
-        gap: 18px;
     }
 
-    .login-title {
-        font-size: 46px;
+    .main-logo-small {
+        left: 40px;
+        width: 60px;
+        top: 10px;
     }
 
-    .buttons {
-        flex-direction: column;
-    }
 
-    .buttonguestlogin {
-        padding: 10px 84px;
-        font-size: 21px;
-    }
 
-    .headerwritingresponsive {
-        margin-bottom: 50px;
-    }
-
+.userinputcustom {
+    width: 90%;
+    height: auto;
 }
 
-.signup-h1 {
-    font-size: 61px;
+.loginwriting {
+    margin-bottom: -40px;
+    gap: 18px;
 }
 
+.login-title {
+    font-size: 46px;
+}
 
+.buttons {
+    flex-direction: column;
+}
+
+.buttonguestlogin {
+    padding: 10px 84px;
+    font-size: 21px;
+}
+
+.headerwritingresponsive {
+    margin-bottom: 50px;
+}
+}
 
 @media (max-width: 500px) {
     .signup-h1 {
         font-size: 38px;
+    }
+
+    .headerwritingresponsive {
+        margin-bottom: 60px !important;
+    }
+
+    .login {
+        height: 56vh !important;
+        margin-top: -30px !important;
+        margin-bottom: 0px;
     }
 
     .blue-vector {
@@ -496,7 +513,7 @@ button.disabled {
 
     .signup-inputs {
         width: 80% !important;
-        padding: 6px;
+        padding: 0px 6px 0px 6px;
     }
 
     .login-title {
@@ -505,15 +522,19 @@ button.disabled {
 
 
     .main-logo-small {
-        left: 40px;
-        width: 60px;
-
+        left: 35px;
+        width: 50px;
+        top: -10px;
     }
 
-    .buttonlogin {
-        width: auto !important;
-        padding: 12px 40px;
-        font-size: 16px;
+  .buttonlogin {
+    padding: 7px 0px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+    .checkboxandbutton {
+        gap: 0px;
     }
 
     .buttonguestlogin {
@@ -543,6 +564,16 @@ button.disabled {
     h1 {
         width: auto;
         height: auto;
+    }
+
+    .required-mssg {
+        margin-top: 0px;
+        margin-block-end: 0em;
+    }
+
+    .userinput {
+        padding-bottom: 0px;
+        margin-bottom: -10px;
     }
 }
 
