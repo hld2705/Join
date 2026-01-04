@@ -179,6 +179,19 @@ window.loginUserPushedInfo = async function () {
     setTimeout(() => { window.location = `/summary.html?uid=${user.id}` }, 100)
 };
 
+
+function showPasswordError(message) {
+const passError = document.getElementById("required-login-password");
+    passError.textContent = message;
+    passError.classList.add("show");
+}
+
+function hidePasswordError() {
+const passError = document.getElementById("required-login-password");
+    passError.classList.remove("show");
+    passError.textContent = "";
+}
+
 async function validateAndFindUser(identifier, password) {
     let hasError = false;
 
@@ -186,7 +199,6 @@ async function validateAndFindUser(identifier, password) {
     const passInput = document.getElementById("password");
 
     const nameMsg = document.getElementById("required-login-name");
-    const passMsg = document.getElementById("required-login-password");
 
     if (!identifier || !isValidEmail(identifier)) {
         nameInput.classList.add("submit");
@@ -196,7 +208,7 @@ async function validateAndFindUser(identifier, password) {
 
     if (!password) {
         passInput.classList.add("submit");
-        passMsg.classList.add("show");
+         showPasswordError("Password is required");
         hasError = true;
     }
 
@@ -229,7 +241,7 @@ async function validateAndFindUser(identifier, password) {
 
     if (matchedUser.password !== password) {
         passInput.classList.add("submit");
-        passMsg.classList.add("show");
+        showPasswordError("Password does not match");
         return false;
     }
 

@@ -489,6 +489,10 @@ button.disabled {
         font-size: 38px;
     }
 
+    .main-logo {
+    width: 300px;
+}
+
     .headerwritingresponsive {
         margin-bottom: 60px !important;
     }

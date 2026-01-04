@@ -226,6 +226,11 @@ function checkRequiredTitle() {
     }
 }
 
+document.addEventListener('input', (e) => {
+    if (e.target.id !== 'title-input') return;
+    checkRequiredTitle();
+});
+
 function checkRequiredDate() {
     let dateInput = document.getElementById('date-input');
     let requiredMessage = document.getElementById('required-message-date');
@@ -234,9 +239,14 @@ function checkRequiredDate() {
         requiredMessage.style.visibility = "visible";
     } else {
         dateInput.classList.remove('submit');
-          requiredMessage.style.visibility = "hidden";
+        requiredMessage.style.visibility = "hidden";
     }
 }
+
+document.addEventListener('change', (e) => {
+    if (e.target.id !== 'date-input') return;
+    checkRequiredDate();
+});
 
 function checkRequiredCategory() {
     let categoryInput = document.getElementById('category-input');
@@ -246,7 +256,7 @@ function checkRequiredCategory() {
         requiredMessage.style.visibility = "visible";
     } else {
         categoryInput.classList.remove('submit');
-          requiredMessage.style.visibility = "hidden";
+        requiredMessage.style.visibility = "hidden";
     }
 }
 
@@ -273,12 +283,10 @@ function removeRequiredDate() {
 
 function removeRequiredCategory() {
     let categoryInput = document.getElementById('category-input');
-    let msg = document.getElementById('required-message-category');
-    if (!categoryInput || !msg) return; setupIdSwitchingForForms
 
     if (categoryInput.placeholder !== "Select task category") {
         categoryInput.classList.remove("submit");
-        msg.textContent = "";
+        document.getElementById('required-message-category').style.visibility = "hidden";
     }
 }
 
@@ -286,15 +294,15 @@ function clearAllInputs() {
     let title = document.getElementById('title-input');
     let description = document.getElementById('description-input');
     let date = document.getElementById('date-input');
-    let requiredMessageTitle = document.getElementById('required-message-title');//Halid
-    let requiredMessageDate = document.getElementById('required-message-date');//Halid
-    let requiredMessageCategory = document.getElementById('required-message-category');//Halid
+    document.getElementById('required-message-title').style.visibility = "hidden";
+    document.getElementById('required-message-date').style.visibility = "hidden";
+    document.getElementById('required-message-category').style.visibility = "hidden";
+    document.getElementById('category-input').classList.remove('submit');
+    title.classList.remove('submit');
+    date.classList.remove('submit');
     title.value = "";
     description.value = "";
     date.value = "";
-    requiredMessageTitle.innerHTML = "";//Halid
-    requiredMessageDate.innerHTML = "";//Halid
-    requiredMessageCategory.innerHTML = "";//Halid
 }
 
 function clearAll(e) {

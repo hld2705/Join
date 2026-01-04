@@ -68,7 +68,7 @@ header {
     z-index: 9984;
     position: relative;
     min-width: 0;
-    width: clamp(320px, 45vw, 1120px);
+    width: clamp(320px, 45vw, 900px);
 }
 
 .right-task {
@@ -78,7 +78,7 @@ header {
     position: relative;
     padding-right: 30px;
     min-width: 0;
-    max-width: 600px;
+    width: clamp(320px, 28vw, 600px);
     margin-bottom: -20px;
 }
 
@@ -99,6 +99,14 @@ header {
 
 .padding-top20 {
     padding-top: 20px;
+}
+
+.margin-top20 {
+    margin-top: 20px;
+}
+
+.padding-top0 {
+    padding-top: 0px;
 }
 
 .em-05 {
@@ -295,7 +303,7 @@ header {
     padding-right: 200px;
     z-index: -1;
     position: relative;
-    top: -100px;
+    top: -92px;
 }
 
 .cancel-accept-container {

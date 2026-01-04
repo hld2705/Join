@@ -16,7 +16,7 @@
                         <input required id="title-input" class="input" type="text" placeholder="Enter a title">
                         <p class="required-mssg visibility-hidden" id="required-message-title">*This field ist required</p>
                     </div>
-                    <div class="padding-top20">
+                    <div>
                         <div class="em-05">Description</div>
                         <textarea id="description-input" class="input" placeholder="Enter a Description"></textarea>
                     </div>
@@ -67,8 +67,8 @@
                     </div>
                     <div id="filteredBadgesContainer"></div>
                     <div id="editFilterBadges"></div>
-                    <div class="category-container">
-                        <div class="em-05 padding-top20">Category<span class="asterisk">*</span></div>
+                    <div id="category-container" class="category-container">
+                        <div class="em-05 ">Category<span class="asterisk">*</span></div>
                         <input id="category-input" onclick="switchArrowIcon()" type="text"
                             class="input category-input cursorPointer" placeholder="Select task category" readonly>
                         <p class="required-mssg visibility-hidden" id="required-message-category">*This field ist required</p>
@@ -80,7 +80,7 @@
                         </div>
                     </div>
 
-                    <div class="em-05 padding-top20">Subtasks</div>
+                    <div class="em-05 padding-top0">Subtasks</div>
                     <div class="subtask-input-container">
                         <input type="text" id="subtask-input" class="input subtask-input" placeholder="Add new subtask">
                         <div id="cancel-accept-container" class="cancel-accept-container">

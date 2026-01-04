@@ -130,16 +130,24 @@ document.addEventListener('input', handleAssignedSearch);
 
 function toggleAssignedinputContent(e) {
     let isInsideAssigned = e.target.closest('.Assigned-dropdown-username');
-    if (!isInsideAssigned) return;
-    if (isInsideAssigned) {
-        isInsideAssigned.classList.toggle('bg-grey');
-        let badge = isInsideAssigned.querySelector('.userBadge');
-        let badgeContainer = document.getElementById('filteredBadgesContainer');
-        let userId = isInsideAssigned.dataset.userId
-        toggleAssignedcheckButton(isInsideAssigned)
-        filterBadges(badge, badgeContainer, userId);
+      if (!isInsideAssigned) return;
+    isInsideAssigned.classList.toggle('bg-grey');
+    let badge = isInsideAssigned.querySelector('.userBadge');
+    let badgeContainer = document.getElementById('filteredBadgesContainer');
+    let userId = isInsideAssigned.dataset.userId;
+    toggleAssignedcheckButton(isInsideAssigned);
+    filterBadges(badge, badgeContainer, userId);
+    let hasAnySelected = document.querySelector(
+        '.Assigned-dropdown-username.bg-grey'
+    );
+    let categoryContainer = document.getElementById('category-container');
+    if (hasAnySelected) {
+        categoryContainer.classList.add('margin-top20');
+    } else {
+        categoryContainer.classList.remove('margin-top20');
     }
 }
+
 
 function toggleAssignedcheckButton(isInsideAssigned) {
     let checkButton = isInsideAssigned.querySelector('.check-button');

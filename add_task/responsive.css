@@ -10,11 +10,28 @@
 
     .right-task {
         margin-right: -14px;
+    }
 
+    .equals-icon {
+        width: 16px;
+        right: 12px;
+    }
+
+    .double-down {
+        width: 16px;
+    }
+
+    .double-up-arrow {
+        width: 16px;
     }
 }
 
 @media (max-width: 1400px) {
+
+    .priority-input-container {
+    display: flex;
+    gap: 10px;
+}
 
     .left-task-container {
         padding-right: 100px;
@@ -57,6 +74,23 @@
         margin-left: -0px;
     }
 
+}
+
+
+@media (max-width: 1300px) {
+
+    .equals-icon {
+        width: 14px;
+        right: 12px;
+    }
+
+    .double-down {
+        width: 14px;
+    }
+
+    .double-up-arrow {
+        width: 14px;
+    }
 }
 
 @media (max-width: 1230px) {
@@ -213,7 +247,7 @@
         color: #CDCDCD;
         height: 38px !important;
         border-radius: 20px;
-       min-width: 60px;
+        min-width: 60px;
         box-sizing: unset;
     }
 

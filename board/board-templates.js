@@ -300,12 +300,12 @@ function addTaskOverlayTemplate() {
 
                     <h1 class="task-title">Add Task</h1>
 
-                    <div class="title-container">
+                                      <div class="title-container">
                         <div class="em-05">Title<span class="asterisk">*</span></div>
                         <input required id="title-input" class="input" type="text" placeholder="Enter a title">
-                        <p class="required-mssg" id="required-message-title"></p>
+                        <p class="required-mssg visibility-hidden" id="required-message-title">*This field ist required</p>
                     </div>
-                    <div class="padding-top20">
+                    <div>
                         <div class="em-05">Description</div>
                         <textarea id="description-input" class="input" placeholder="Enter a Description"></textarea>
                     </div>
@@ -315,12 +315,14 @@ function addTaskOverlayTemplate() {
                             <input type="date" required id="date-input" class="input" placeholder="dd/mm/yyyy">
                             <img id="calendar-icon" onclick="openCalendar()" class="date-icon"
                                 src="../add_task_assets/img/event.svg">
+                                 <p class="required-mssg visibility-hidden" id="required-message-date">*This field ist required</p>
                         </label>
-                        <p class="required-mssg" id="required-message-date"></p>
                     </div>
                 </div>
-                <span class="required-text"><span class="asterisk">*</span>This field ist required</span>
+
+                <span id="required-text" class="required-text"><span class="asterisk">*</span>This field ist required</span>
             </div>
+
             <div class="vertical-line"></div>
             <div class="right-task">
                 <div class="right-side-inner">
@@ -333,7 +335,7 @@ function addTaskOverlayTemplate() {
                                 <img id="double-arrow" class="double-up-arrow" src="../assets/Prio alta.svg">
                             </div>
                             <div onclick="changeMediumColor()" class="medium-container">
-                                <input id="medium-input" class="input priority-input" placeholder="Medium" readonly
+                                <input id="medium-input" class="input priority-input no-focus" placeholder="Medium" readonly
                                     data-prio="medium">
                                 <img id="equal" class="equals-icon" src="../assets/Prio media.svg">
                             </div>
@@ -344,6 +346,7 @@ function addTaskOverlayTemplate() {
                             </div>
                         </div>
                     </div>
+
                     <div class="assigned-to-container">
                         <div class="em-05 padding-top20">Assigned to</div>
                         <input onclick="renderAssignDropdown()" id="assign-input" type="text" class="input assign-Input cursorPointer"
@@ -353,11 +356,11 @@ function addTaskOverlayTemplate() {
                     </div>
                     <div id="filteredBadgesContainer"></div>
                     <div id="editFilterBadges"></div>
-                    <div class="category-container">
-                        <div class="em-05 padding-top20">Category<span class="asterisk">*</span></div>
+                    <div id="category-container" class="category-container">
+                        <div class="em-05 ">Category<span class="asterisk">*</span></div>
                         <input id="category-input" onclick="switchArrowIcon()" type="text"
                             class="input category-input cursorPointer" placeholder="Select task category" readonly>
-                        <p class="required-mssg" id="required-message-category"></p>
+                        <p class="required-mssg visibility-hidden" id="required-message-category">*This field ist required</p>
                         <img onclick="switchArrowIcon()" id="drop-down-svg-category"
                             class="drop-down-arrow-svg-category" src="../assets/arrow_drop_down.svg">
                         <div id="dropdownListCategory" class="dropdown-list">
@@ -365,7 +368,8 @@ function addTaskOverlayTemplate() {
                             <div id="user-story-option" class="category-option">User Story</div>
                         </div>
                     </div>
-                    <div class="em-05 padding-top20">Subtasks</div>
+
+                    <div class="em-05 padding-top0">Subtasks</div>
                     <div class="subtask-input-container">
                         <input type="text" id="subtask-input" class="input subtask-input" placeholder="Add new subtask">
                         <div id="cancel-accept-container" class="cancel-accept-container">
@@ -375,6 +379,7 @@ function addTaskOverlayTemplate() {
                                 <img id="subtask-accept" class="subtask-check-svg" src="../assets/check-grey.svg">
                             </div>
                         </div>
+
                         <div id="subtask-content"></div>
                         <span class="mobile-required-text"><span class="asterisk">*</span>This field ist required</span>
                         <div class="tbc-wrapper">
