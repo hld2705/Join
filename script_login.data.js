@@ -23,8 +23,10 @@ window.logIn = async function logIn() {
     const passwordConfirm = document.getElementById("confirmation_password_sign_up").value.trim();
     if (!signUpValidation(name, email, password, passwordConfirm)) return;
     const newEntry = FIREBASE_USERS.push();
-
  const exists = await userExistsByEmail(email);
+
+    resetSignUpUI();
+
     if (exists) {
         const emailBorder = document.getElementById("email_sign_up");
         const existsMsg = document.getElementById("required-sign_up-email");
@@ -94,7 +96,6 @@ function getRandomColor() {
 
     resetSignUpUI();
 
-
     if (!name) {
         nameBorder.classList.add("submit");
         nameMsg.classList.add("show");
@@ -144,7 +145,6 @@ function resetSignUpUI() {
         document.getElementById(id)?.classList.remove("show")
     );
 }
-
 
 async function forwardingNextPage(firebaseId) {
     localStorage.setItem("uid", firebaseId);

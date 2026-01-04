@@ -13,13 +13,18 @@
 }
 
 .left-task::after {
-    content: "";
     border-right: 2px solid #D1D1D1;
     position: absolute;
     height: 46%;
     right: 90px;
-    top: 200px;
-    background-color: grey;
+    content: "";
+    position: absolute;
+    height: 70%;
+    max-height: 265px;
+    max-height: 400px;
+    top: 50%;
+    transform: translateY(-59%);
+    width: 2px;
 }
 
 input {

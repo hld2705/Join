@@ -62,21 +62,3 @@ function signUp() {
    if (headerResp) headerResp.style.display = "none";
 }
 
-document.addEventListener("input", e => {
-    const input = e.target;
-    if (!input.matches("input")) return;
-
-    const wrapper = input.closest(".userinputcustom");
-    if (!wrapper) return;
-
-    const value = input.value.trim();
-
-    if (value !== "") {
-        wrapper.classList.remove("submit");
-
-        const errorMsg = wrapper.nextElementSibling;
-        if (errorMsg && errorMsg.classList.contains("required-mssg")) {
-            errorMsg.classList.remove("show");
-        }
-    }
-});
