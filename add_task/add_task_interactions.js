@@ -365,7 +365,6 @@ function handleEditIcon(li, text, icons, afterEditIcons, inputfield) {
     icons.classList.add('hidden');
     afterEditIcons.classList.remove('hidden');
     li.classList.add('edit-text');
-    //li.style.listStyleType = 'none'; punkt geht verloren beim subtask editieren Halid
 }
 
 function handleConfirmEdit(editIcon, acceptIcon, li, text, icons, afterEditIcons, inputfield) {
