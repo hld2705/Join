@@ -3,12 +3,12 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
     const imgSrc = getPriorityImg(priority);
     subtasks = Array.isArray(subtasks) ? subtasks : Object.values(subtasks || []);
     let total = subtasks.length;
-    let progress = 0;
-    if (total === 1) {
-        progress = 50;
-    } else if (total >= 2) {
-        progress = 100;
+    let hideProgressClass = '';
+
+    if (total === 0) {
+        hideProgressClass = 'hidden';
     }
+
     const done = subtasks.filter(s => s.done).length;
     const percent = total === 0 ? 0 : Math.round((done / total) * 100);
     const badges = renderBadges(assigned);
@@ -17,10 +17,10 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
                 <div class="task-main-container" style="background-color: ${bgColor}">${main}
                 </div> 
                     <div class="card-container-title-content">
-                        <h2>${title}<h2>
+                        <h2>${title}</h2>
                         <p>${description}</p>
                     </div>
-                        <div class="progress-bar-container">
+                        <div id="subtask-bar-${taskId}" class="progress-bar-container ${hideProgressClass}">
                          <progress class="subtask-progress" value="${percent}" max="100"></progress>
                           <p class="subtask-render-p" class="subtask-template">${done}/${total} Subtasks</p>
                         </div>
@@ -416,4 +416,5 @@ function addTaskOverlayTemplate() {
             </div>
         </div>
 </form>`
-}}
+    }
+}

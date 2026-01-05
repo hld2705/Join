@@ -167,7 +167,7 @@
         font-size: 30px !important;
     }
 
-        .task-container {
+    .task-container {
         width: 220px;
     }
 
@@ -187,7 +187,7 @@
         width: 214px;
     }
 
-        .task-container {
+    .task-container {
         width: 220px;
     }
 
@@ -204,7 +204,7 @@
     }
 
     .distribution-progress {
-                width: 230px;
+        width: 100%;
     }
 }
 
