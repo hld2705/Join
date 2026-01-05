@@ -3,6 +3,7 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
     const imgSrc = getPriorityImg(priority);
     subtasks = Array.isArray(subtasks) ? subtasks : Object.values(subtasks || []);
     let total = subtasks.length;
+   
     let progress = 0;
     if (total === 1) {
         progress = 50;
@@ -20,7 +21,7 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
                         <h2>${title}<h2>
                         <p>${description}</p>
                     </div>
-                        <div class="progress-bar-container">
+                        <div class="progress-bar-container" >
                          <progress class="subtask-progress" value="${percent}" max="100"></progress>
                           <p class="subtask-render-p" class="subtask-template">${done}/${total} Subtasks</p>
                         </div>
@@ -281,7 +282,7 @@ function editOverlayTemplate(task) {
 `
     }
 }
-
+/** asdasdasdasd */ 
 function addTaskOverlayTemplate() {
     let formContainer = document.getElementById('task-form-container');
     if (!formContainer) return;

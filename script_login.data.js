@@ -140,7 +140,8 @@ function resetSignUpUI() {
         "required-sign_up-name",
         "required-sign_up-email",
         "required-sign_up-password",
-        "required-sign_up-password2"
+        "required-sign_up-password2",
+        "required-correct-password"
     ].forEach(id =>
         document.getElementById(id)?.classList.remove("show")
     );
@@ -204,12 +205,14 @@ async function validateAndFindUser(identifier, password) {
         nameInput.classList.add("submit");
         nameMsg.classList.add("show");
         hasError = true;
+        resetSignUpUI();
     }
 
     if (!password) {
         passInput.classList.add("submit");
          showPasswordError("Password is required");
         hasError = true;
+        resetSignUpUI();
     }
 
     if (hasError) return false;
@@ -220,6 +223,7 @@ async function validateAndFindUser(identifier, password) {
     if (!users) {
         nameInput.classList.add("submit");
         nameMsg.classList.add("show");
+        resetSignUpUI();
         return false;
     }
 
@@ -236,6 +240,7 @@ async function validateAndFindUser(identifier, password) {
     if (!matchedUser) {
         nameInput.classList.add("submit");
         nameMsg.classList.add("show");
+        resetSignUpUI();
         return false;
     }
 
@@ -244,7 +249,7 @@ async function validateAndFindUser(identifier, password) {
         showPasswordError("Password does not match");
         return false;
     }
-
+    
     return matchedUser;
 }
 

@@ -205,6 +205,7 @@ function renderSubtaskMore(count) {
 }
 
 function renderSubtask(subtasks, taskId) {
+  console.log(subtasks);
   if (!subtasks) {
     return "<p>Currently no subtasks available</p>";
   }
