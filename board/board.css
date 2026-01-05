@@ -15,11 +15,12 @@ body {
   padding: 0px;
 }
 
-
-
-
 .hidden {
   display: none !important;
+}
+
+.hidden-visibility {
+  visibility: hidden;
 }
 
 .layout {
@@ -1334,11 +1335,15 @@ progress::-webkit-progress-value {
 }
 
 .subtask-render-icons-text {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  flex-direction: column;
-  font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    font-size: 18px;
+    max-height: 100px;
+    overflow-y: auto;
+    width: 100%;
+    padding-top: 10px;
 }
 
 .distribution-icon:hover {
@@ -1492,8 +1497,17 @@ progress::-webkit-progress-value {
   padding-bottom: 92px;
 }
 
-@media (max-width: 1500px) {
+.badge-dots {
+    position: absolute;
+    padding-left: 76px;
+    padding-top: 15px;
+}
 
+.subtask-more:hover {
+cursor: pointer;
+}
+
+@media (max-width: 1500px) {
   .seperation-line-responsive {
     display: block;
     position: absolute;
@@ -1850,6 +1864,11 @@ progress::-webkit-progress-value {
 
   .task-container {
     display: flex;
+    margin-top: 40px;
+  }
+
+  .done {
+    margin-top:10px;
   }
 
   .openaddtaskoverlayresponsive {
@@ -1889,12 +1908,20 @@ progress::-webkit-progress-value {
     width: 100%;
     padding: 14px 2px;
   }
+
+  .distribution-text-icon-wrapper {
+  position: absolute;
+  left: 20px;
+  right: 0;
+}
+
 }
 
 @media (max-width: 500px) {
   .left-side {
     height: 80px;
   }
+
 }
 
 @media (max-width: 320px) {

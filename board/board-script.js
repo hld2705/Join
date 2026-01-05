@@ -196,34 +196,52 @@ function renderSubtaskItem(st, taskId, index) {
     `;
 }
 
-function renderSubtaskMore(count) {
+function renderSubtaskMore(count, taskId) {
   return `
-        <div class="subtask-more">
-            +${count}
-        </div>
-    `;
+    <div class="subtask-more" onclick="showAllSubtasks(${taskId})">
+      +${count}
+    </div>
+  `;
 }
 
 function renderSubtask(subtasks, taskId) {
-  console.log(subtasks);
-  if (!subtasks) {
-    return "<p>Currently no subtasks available</p>";
-  }
+  if (!subtasks) return "<p>Currently no subtasks available</p>";
+
   const safe = Array.isArray(subtasks)
     ? subtasks
     : Object.values(subtasks);
+
   if (safe.length === 0) {
     return "<p>Currently no subtasks available</p>";
   }
+
   const visibleSubtasks = safe.slice(0, 2);
   const remainingCount = safe.length - visibleSubtasks.length;
+
   let html = visibleSubtasks
     .map((st, i) => renderSubtaskItem(st, taskId, i))
     .join('');
+
   if (remainingCount > 0) {
-    html += renderSubtaskMore(remainingCount);
+    html += renderSubtaskMore(remainingCount, taskId);
   }
+
   return html;
+}
+
+function showAllSubtasks(taskId) {
+  const task = tasks.find(t => t.id === taskId);
+  if (!task) return;
+
+  const container = document.querySelector(
+    '.card-overlay-subtasks-details-container .subtask-render-icons-text'
+  );
+
+  if (!container) return;
+
+  container.innerHTML = task.subtasks
+    .map((st, i) => renderSubtaskItem(st, taskId, i))
+    .join('');
 }
 
 function toggleSubtask(taskId, index) {
