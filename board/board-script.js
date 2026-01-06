@@ -2,6 +2,11 @@ const boardTaskFormURL = './add_task/form_task.html';
 let originalParent;
 let isDragging = false;
 
+let touchDraggingCard = null;
+let touchOffsetX = 0;
+let touchOffsetY = 0;
+let touchGhost = null;
+
 function dragAndDrop() {
   let container = document.getElementById("template-overview");
   const containers = {
@@ -59,6 +64,80 @@ function renderBadges(assigned) {
     }
   }
   return badges;
+}
+
+function touchStart(e) {
+  if (e.touches.length !== 1) return;
+  const card = e.currentTarget;
+  const touch = e.touches[0];
+  const rect = card.getBoundingClientRect();
+  touchDraggingCard = card;
+  touchOffsetX = touch.clientX - rect.left;
+  touchOffsetY = touch.clientY - rect.top;
+  touchGhost = card.cloneNode(true);
+  touchGhost.style.position = "fixed";
+  touchGhost.style.left = rect.left + "px";
+  touchGhost.style.top = rect.top + "px";
+  touchGhost.style.width = rect.width + "px";
+  touchGhost.style.pointerEvents = "none";
+  //touchGhost.style.opacity = "0.9";
+  //touchGhost.style.zIndex = "9999";
+  touchGhost.style.visibility = "hidden";
+  document.body.appendChild(touchGhost);
+  e.preventDefault();
+}
+
+function touchMove(e) {
+  if (!touchGhost) return;
+  const touch = e.touches[0];
+  touchGhost.style.left = (touch.clientX - touchOffsetX) + "px";
+  touchGhost.style.top = (touch.clientY - touchOffsetY) + "px";
+  e.preventDefault();
+}
+
+function touchEnd(e) {
+  if (!touchDraggingCard) return;
+  const touch = e.changedTouches[0];
+  const target = document.elementFromPoint(
+    touch.clientX,
+    touch.clientY
+  );
+  const column = target?.closest(".distribution-progress");
+  if (column) {
+    const container = column.querySelector(".task-container");
+    if (container) {
+      container.appendChild(touchDraggingCard);
+      const taskId = Number(
+        touchDraggingCard.id.replace("card-", "")
+      );
+      let newStatus = null;
+      if (container.id === "todo-container") newStatus = "todo";
+      if (container.id === "in-progress-container") newStatus = "inprogress";
+      if (container.id === "feedback-container") newStatus = "review";
+      if (container.id === "done-container") newStatus = "done";
+      const task = tasks.find(t => t.id === taskId);
+      if (task && newStatus) {
+        task.status = newStatus;
+        firebase.database().ref("tasks/" + taskId).update({
+          status: newStatus
+        });
+      }
+      updateContainerTemplate(container);
+    }
+  }
+  cleanupTouchDrag();
+}
+
+function cleanupTouchDrag() {
+  if (touchGhost) {
+    touchGhost.remove();
+    touchGhost = null;
+  }
+  if (touchDraggingCard) {
+    touchDraggingCard.style.visibility = "visible";
+    touchDraggingCard = null;
+    }
+    updateAllContainers();
 }
 
 let originalContainer = null;
@@ -140,7 +219,6 @@ function moveTo(ev, newStatus) {
   } else {
     container.appendChild(card);
   }
-
   const taskId = Number(card.id.replace("card-", ""));
   const task = tasks.find(t => t.id === taskId);
   if (task) {
@@ -206,39 +284,30 @@ function renderSubtaskMore(count, taskId) {
 
 function renderSubtask(subtasks, taskId) {
   if (!subtasks) return "<p>Currently no subtasks available</p>";
-
   const safe = Array.isArray(subtasks)
     ? subtasks
     : Object.values(subtasks);
-
   if (safe.length === 0) {
     return "<p>Currently no subtasks available</p>";
   }
-
   const visibleSubtasks = safe.slice(0, 2);
   const remainingCount = safe.length - visibleSubtasks.length;
-
   let html = visibleSubtasks
     .map((st, i) => renderSubtaskItem(st, taskId, i))
     .join('');
-
   if (remainingCount > 0) {
     html += renderSubtaskMore(remainingCount, taskId);
   }
-
   return html;
 }
 
 function showAllSubtasks(taskId) {
   const task = tasks.find(t => t.id === taskId);
   if (!task) return;
-
   const container = document.querySelector(
     '.card-overlay-subtasks-details-container .subtask-render-icons-text'
   );
-
   if (!container) return;
-
   container.innerHTML = task.subtasks
     .map((st, i) => renderSubtaskItem(st, taskId, i))
     .join('');
@@ -322,11 +391,9 @@ function getEditPriorityIcons(priority) {
     urgent: priority === "urgent"
       ? "../assets/arrows-up-white.png"
       : "./assets/urgent-priority-board.svg",
-
     medium: priority === "medium"
       ? "../assets/equal-white.svg"
       : "./assets/medium-priority-board.svg",
-
     low: priority === "low"
       ? "../assets/double-down-white.svg"
       : "./assets/low-priority-board.svg",
