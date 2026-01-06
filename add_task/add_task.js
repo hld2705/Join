@@ -69,19 +69,14 @@ async function showUserName() {
 function appendUserItem(dropList, user) {
     let div = document.createElement("div");
     let name = document.createElement("span");
-
-
     div.classList.add("Assigned-dropdown-username");
     div.dataset.userId = user.id;
     div.dataset.name = user.name.toLowerCase();
     name.textContent = user.name;
-
     let badge = document.createElement("div");
     badge.classList.add("userBadge", "userBadgeCircle");
-
     badge.textContent = user.badge?.text || getInitials(user.name);
     badge.style.backgroundColor = user.color;
-
     div.append(badge, name, renderCheckButton());
     dropList.appendChild(div);
 }
@@ -102,7 +97,6 @@ function getRandomColor() {
 
 function openCalendar() {
     let dateInput = document.getElementById('date-input');
-
     const today = new Date();
     const formattedToday = today.toISOString().split("T")[0];
     dateInput.min = formattedToday;
@@ -135,7 +129,6 @@ function editTask() {
     const filteredData = {};
     for (const key in editTaskData) {
         const value = editTaskData[key];
-
         if (key === "main") continue;
         if (value === "" || value === undefined || value === null) continue;
         if (key === "assigned") {
@@ -393,14 +386,10 @@ function closeTaskOverlay() {
 }
 
 function redirectToBoard() {
-    let title = document.getElementById('title-input');
-    let date = document.getElementById('date-input');
-
-    if (!title.value.trim() || !date.value.trim()) {
+    if (!isTaskFormValid()) {
         checkRequiredTitle?.();
         checkRequiredDate?.();
-        return;
-    }
+        return;}
     if (window.location.href.includes("board.html")) {
         closeTaskOverlay();
         setTimeout(async () => {
@@ -409,7 +398,12 @@ function redirectToBoard() {
         }, 300);
     } else {
         location.assign("../board.html");
-    }
+    }}
+
+function isTaskFormValid() {
+    const title = document.getElementById("title-input");
+    const date = document.getElementById("date-input");
+    return title.value.trim() && date.value.trim();
 }
 
 function setupIdSwitchingForForms() {
