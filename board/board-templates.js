@@ -281,7 +281,7 @@ function editOverlayTemplate(task) {
 `
     }
 }
-/** asdasdasdasd */ 
+
 function addTaskOverlayTemplate() {
     let formContainer = document.getElementById('task-form-container');
     if (!formContainer) return;

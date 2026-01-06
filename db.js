@@ -9,8 +9,6 @@ async function loadData() {
   const tasksRes = await fetch(BASE_URL + '/tasks.json');
   const usersData = await usersRes.json();
   const tasksData = await tasksRes.json();
-  users = [];
-  tasks = [];
   if (usersData) {
     for (let key in usersData) {
       users.push({ id: key, ...usersData[key] });
@@ -20,8 +18,7 @@ async function loadData() {
     for (let key in tasksData) {
       tasks.push({ id: key, ...tasksData[key] });
     }
-  }
-}
+  }}
 
 async function saveData(type, item) {
   await fetch(BASE_URL + '/' + type + '/' + item.id + '.json', {

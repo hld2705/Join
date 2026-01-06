@@ -2,9 +2,7 @@ function badgeOverlay() {
   const overlay = document.getElementById("badge-overlay");
   const helpIcon = document.querySelector(".user-info-help");
   const mobileHelp = document.getElementById("mobile-help-link");
-
   overlay.classList.toggle("show");
-
   if (innerWidth < 900) {
     helpIcon.style.display = "none";
 
@@ -29,9 +27,7 @@ function updateHelpLink() {
   const overlay = document.getElementById("badge-overlay");
   const helpIcon = document.querySelector(".user-info-help");
   const mobileHelp = document.getElementById("mobile-help-link");
-
   if (!overlay || !helpIcon) return;
-
   if (window.innerWidth >= 900) {
     helpIcon.style.display = "block";
     if (mobileHelp) mobileHelp.remove();
@@ -102,9 +98,7 @@ function badgeOverlay() {
   const overlay = document.getElementById("badge-overlay");
   const helpIcon = document.querySelector(".user-info-help");
   const mobileHelp = document.getElementById("mobile-help-link");
-
   overlay.classList.toggle("show");
-
   if (innerWidth < 900) {
     helpIcon.style.display = "none";
 
@@ -126,7 +120,6 @@ window.addEventListener("resize", updateHelpLink, () => {
   const overlay = document.getElementById("badge-overlay");
   const helpIcon = document.querySelector(".user-info-help");
   const mobileHelp = document.getElementById("mobile-help-link");
-
   if (innerWidth >= 900) {
     helpIcon.style.display = "block";
     if (mobileHelp) mobileHelp.remove();

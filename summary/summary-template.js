@@ -49,8 +49,6 @@ async function getToDo() {
   `;
 }
 
-getToDo()
-
 async function getDoneTasks() {
   await loadData();
   const DoneTasks = tasks.filter(done => done.status === "done");
@@ -71,7 +69,7 @@ async function getDoneTasks() {
                 </div>
                 `
 }
-getDoneTasks();
+
 async function getUrgent() {
   await loadData();
   const Urgent = tasks.filter(urgent => urgent.priority === "urgent");
@@ -84,7 +82,7 @@ async function getUrgent() {
                 </div>
                `
 }
-getUrgent()
+
 async function getEndDate() {
   await loadData();
   const next = getNextUpcomingDeadline(tasks);
@@ -112,7 +110,6 @@ function guestLogIn() {
   const fullNav = document.getElementById("togglednone");
   const loginNav = document.getElementById("loginnav");
   const isNonLogin = window.location.search.includes("nonlogin=true");
-
   if (isNonLogin) {
     if (fullNav) fullNav.style.display = "none";
     if (loginNav) {
@@ -122,10 +119,8 @@ function guestLogIn() {
   } else {
     if (loginNav) {
       loginNav.style.display = "none";
-      loginNav.style.cursor = "default";
-    }
-    if (fullNav) fullNav.style.display = "flex";
-  }
+      loginNav.style.cursor = "default";}
+    if (fullNav) fullNav.style.display = "flex";}
 }
 
 function renderNextDeadline(dateString) {
@@ -141,7 +136,7 @@ function renderNextDeadline(dateString) {
     <span>Upcoming deadline</span>
   `;
 }
-getEndDate();
+
 async function getTasksInBoard() {
   await loadData();
   const total = Array.isArray(tasks) ? tasks.length : 0;
@@ -152,7 +147,7 @@ async function getTasksInBoard() {
   <span>Tasks in <br>Board</span>
   </div>`
 }
-getTasksInBoard()
+
 async function getTasksInProgress() {
   await loadData();
   const inProgress = tasks.filter(progress => progress.status === "inprogress");
@@ -163,7 +158,7 @@ async function getTasksInProgress() {
   <span>Tasks in <br>Progress</span>
   </div>`
 }
-getTasksInProgress()
+
 async function getFeedbackTasks() {
   await loadData();
   const feedback = tasks.filter(f => f.status === "review");
@@ -175,7 +170,6 @@ async function getFeedbackTasks() {
   </div>`
 }
 
-getFeedbackTasks();
 
 function redirectToBoard() {
   location.assign("../board.html");
@@ -190,34 +184,29 @@ function getGreetingByTime() {
 }
 
 async function updateGreeting() {
-  const greetingSpan = document.querySelector('.greeting span:first-child');
-  const userSpan = document.querySelector('.logged-user');
-  const isGuest = window.location.search.includes("nonlogin=true") || sessionStorage.getItem("guest") === "true";
-  if (!greetingSpan || !userSpan) return;
-  const params = new URLSearchParams(window.location.search);
-  const uid = params.get("uid");
-  const greetingText = getGreetingByTime();
-  if (isGuest) {
-    greetingSpan.textContent = `${greetingText},`;
-    userSpan.textContent = "Guest";
-    userSpan.style.display = "inline";
-    return;
-  }
-  if (!uid) {
-    greetingSpan.textContent = "Not logged in";
-    userSpan.style.display = "none";
-    return;
-  }
-  const snapshot = await FIREBASE_USERS.child(uid).once("value");
-  const userData = snapshot.val();
-  if (!userData || !userData.name) {
-    greetingSpan.textContent = "Unknown user";
-    userSpan.style.display = "none";
-    return;
-  }
-  greetingSpan.textContent = `${greetingText},`;
-  userSpan.textContent = userData.name;
+  const greeting = document.querySelector(".greeting span:first-child");
+  const userSpan = document.querySelector(".logged-user");
+  if (!greeting || !userSpan) return;
+  const text = getGreetingByTime();
+  const uid = new URLSearchParams(location.search).get("uid");
+  const isGuest = location.search.includes("nonlogin=true") || sessionStorage.getItem("guest") === "true";
+  if (isGuest) return setGreeting(greeting, userSpan, text, "Guest");
+  if (!uid) return hideGreeting(greeting, userSpan, "Not logged in");
+  const snap = await FIREBASE_USERS.child(uid).once("value");
+  const user = snap.val();
+  if (!user?.name) return hideGreeting(greeting, userSpan, "Unknown user");
+  setGreeting(greeting, userSpan, text, user.name);
+}
+
+function setGreeting(greeting, userSpan, text, name) {
+  greeting.textContent = `${text},`;
+  userSpan.textContent = name;
   userSpan.style.display = "inline";
+}
+
+function hideGreeting(greeting, userSpan, text) {
+  greeting.textContent = text;
+  userSpan.style.display = "none";
 }
 
 async function getLoggedInUser() {
@@ -228,40 +217,39 @@ async function getLoggedInUser() {
   return snapshot.val();
 }
 
+window.addEventListener("DOMContentLoaded", getToDo(), 
+getDoneTasks(),getUrgent(),getEndDate(),
+getTasksInBoard(),getTasksInProgress(),
+getFeedbackTasks())
+
 window.addEventListener("DOMContentLoaded", async () => {
+  document.body.style.opacity = "1";
   await updateGreeting();
   const content = document.getElementById("summary_content");
-  //const greetingSpan = document.querySelector('.greeting span:first-child');
-  const userSpan = document.querySelector('.logged-user');
-
-  //greetingSpan.textContent = `${getGreetingByTime()},`;
-  //userSpan.textContent = "";
-  document.body.style.opacity = "1";
-
-  let showWelcomeGuest = sessionStorage.getItem("guestWelcome");
-  let showWelcomeUser = sessionStorage.getItem("userWelcome");
-
-  if (window.innerWidth >= 900) {
-    const user = await getLoggedInUser();
-    if (user && user.name) userSpan.textContent = user.name;
-    return;
-  }
+  const userSpan = document.querySelector(".logged-user");
   const user = await getLoggedInUser();
-  if (user && user.name) userSpan.textContent = user.name;
-
-  if (showWelcomeGuest || showWelcomeUser) {
-    const greetingText = getGreetingByTime();
-    content.innerHTML = `
-      <div style="height: 100vh; width:100%; display:flex; align-items:center; justify-content:center; flex-direction:column;">
-        <h1>${greetingText}</h1>
-        <h1 style="color: #29ABE2;">${user ? user.name : "Guest"}</h1>
-      </div>
-    `;
-
-    setTimeout(() => {
-      sessionStorage.removeItem("guestWelcome");
-      sessionStorage.removeItem("userWelcome");
-      location.reload();
-    }, 1500);
-  }
+  if (user?.name) userSpan.textContent = user.name;
+  if (window.innerWidth >= 900) return;
+  showWelcome(content, user, userSpan);
 });
+
+function showWelcome(content, user, userSpan) {
+  const guest = sessionStorage.getItem("guestWelcome");
+  const logged = sessionStorage.getItem("userWelcome");
+  if (!guest && !logged) return;
+
+  const greeting = getGreetingByTime();
+  content.innerHTML = `
+    <div style="height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+      <h1>${greeting}</h1>
+      <h1 style="color:#29ABE2;">${user?.name || "Guest"}</h1>
+    </div>
+  `;
+
+  setTimeout(() => {
+    sessionStorage.removeItem("guestWelcome");
+    sessionStorage.removeItem("userWelcome");
+    location.reload();
+  }, 1500);
+}
+

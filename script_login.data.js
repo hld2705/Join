@@ -267,13 +267,13 @@ window.loginUserPushedInfo = async function () {
 };
 
 function showPasswordError(message) {
-const passError = document.getElementById("required-login-password");
+    const passError = document.getElementById("required-login-password");
     passError.textContent = message;
     passError.classList.add("show");
 }
 
 function hidePasswordError() {
-const passError = document.getElementById("required-login-password");
+    const passError = document.getElementById("required-login-password");
     passError.classList.remove("show");
     passError.textContent = "";
 }
@@ -301,7 +301,7 @@ async function validateAndFindUser(identifier, password) {
     if (!identifyUser(identifier, emailInput, emailMsg)) return false;
     if (!isLoginPasswordCorrect(passInput, password)) return false;
     const user = await getUserByEmail(identifier);
-      if (!isLoginPasswordMatching(user, password, emailInput, passInput)) return false;
+    if (!isLoginPasswordMatching(user, password, emailInput, passInput)) return false;
     return user;
 }
 

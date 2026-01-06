@@ -80,8 +80,6 @@ function touchStart(e) {
   touchGhost.style.top = rect.top + "px";
   touchGhost.style.width = rect.width + "px";
   touchGhost.style.pointerEvents = "none";
-  //touchGhost.style.opacity = "0.9";
-  //touchGhost.style.zIndex = "9999";
   touchGhost.style.visibility = "hidden";
   document.body.appendChild(touchGhost);
   e.preventDefault();
