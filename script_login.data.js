@@ -16,43 +16,63 @@ if (!firebase.apps.length) {
 const FIREBASE_USERS = firebase.database().ref("users");
 
 window.logIn = async function logIn() {
+    const data = getSignUpInputValues();
+    if (!signUpValidation(data.name, data.email, data.password, data.passwordConfirm)) return;
 
-    const name = document.getElementById("name_sign_up").value.trim();
-    const email = document.getElementById("email_sign_up").value.trim();
-    const password = document.getElementById("password_sign_up").value.trim();
-    const passwordConfirm = document.getElementById("confirmation_password_sign_up").value.trim();
-    if (!signUpValidation(name, email, password, passwordConfirm)) return;
-    const newEntry = FIREBASE_USERS.push();
- const exists = await userExistsByEmail(email);
-
+    const exists = await userExistsByEmail(data.email);
     resetSignUpUI();
 
     if (exists) {
-        const emailBorder = document.getElementById("email_sign_up");
-        const existsMsg = document.getElementById("required-sign_up-email");
-        emailBorder.classList.add("submit");
-        existsMsg.classList.add("show");
-        existsMsg.innerHTML = `*User already found!`
+        showUserAlreadyExists();
         return;
     }
 
+    const firebaseId = await createNewUser(data);
+    forwardingNextPage(firebaseId);
+};
+
+function getSignUpInputValues() {
+    return {
+        name: document.getElementById("name_sign_up").value.trim(),
+        email: document.getElementById("email_sign_up").value.trim(),
+        password: document.getElementById("password_sign_up").value.trim(),
+        passwordConfirm: document.getElementById("confirmation_password_sign_up").value.trim()
+    };
+}
+
+function showUserAlreadyExists() {
+    const emailBorder = document.getElementById("email_sign_up");
+    const existsMsg = document.getElementById("required-sign_up-email");
+
+    emailBorder.classList.add("submit");
+    existsMsg.classList.add("show");
+    existsMsg.innerHTML = "*User already found!";
+}
+
+async function createNewUser(data) {
+    const newEntry = FIREBASE_USERS.push();
     const firebaseId = newEntry.key;
-    const newUserObj = {
-        id: firebaseId,
-        name: name,
-        email: email,
+    const newUserObj = createNewUserObject(firebaseId, data);
+
+    await newEntry.set(newUserObj);
+    return firebaseId;
+}
+
+function createNewUserObject(id, data) {
+    return {
+        id: id,
+        name: data.name,
+        email: data.email,
         phone: "",
-        password: password,
+        password: data.password,
         login: 1,
         badge: {
-            text: getInitials(name),
+            text: getInitials(data.name),
             color: getRandomColor()
         },
         newUser: true
     };
-    await newEntry.set(newUserObj);
-    forwardingNextPage(firebaseId);
-};
+}
 
 function getInitials(name) {
     return name
@@ -81,69 +101,137 @@ function getRandomColor() {
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
-    function signUpValidation(name, email, password, passwordConfirm) {
+function signUpValidation(name, email, password, passwordConfirm) {
+    resetSignUpUI();
     let hasError = false;
 
-    const nameBorder = document.getElementById("name_sign_up");
-    const emailBorder = document.getElementById("email_sign_up");
-    const passwordBorder = document.getElementById("password_sign_up");
-    const password2Border = document.getElementById("confirmation_password_sign_up");
-
-    const nameMsg = document.getElementById("required-sign_up-name");
-    const emailMsg = document.getElementById("required-sign_up-email");
-    const passwordMsg = document.getElementById("required-sign_up-password");
-    const password2Msg = document.getElementById("required-sign_up-password2");
-
-    resetSignUpUI();
-
-    if (!name) {
-        nameBorder.classList.add("submit");
-        nameMsg.classList.add("show");
-        hasError = true;
-    }
-
-    if (!email || !isValidEmail(email)) {
-        emailBorder.classList.add("submit");
-        emailMsg.classList.add("show");
-        hasError = true;
-    }
-
-    if (!password) {
-        passwordBorder.classList.add("submit");
-        passwordMsg.classList.add("show");
-        hasError = true;
-    }
-
-    if (password && password !== passwordConfirm) {
-        passwordBorder.classList.add("submit");
-        password2Border.classList.add("submit");
-        password2Msg.classList.add("show");
-        hasError = true;
-    }
+    hasError |= validateName(name);
+    hasError |= validateEmail(email);
+    hasError |= validatePassword(password);
+    hasError |= validatePasswordMatch(password, passwordConfirm);
 
     return !hasError;
 }
 
+function validateName(name) {
+    if (name) return false;
+    document.getElementById("name_sign_up").classList.add("submit");
+    document.getElementById("required-sign_up-name").classList.add("show");
+    return true;
+}
+
+function validateEmail(email) {
+    if (email && isValidEmail(email)) return false;
+    document.getElementById("email_sign_up").classList.add("submit");
+    document.getElementById("required-sign_up-email").classList.add("show");
+    return true;
+}
+
+function validatePassword(password) {
+    if (password) return false;
+    document.getElementById("password_sign_up").classList.add("submit");
+    document.getElementById("required-sign_up-password").classList.add("show");
+    return true;
+}
+
+function validatePasswordMatch(password, passwordConfirm) {
+    if (!password || password === passwordConfirm) return false;
+    document.getElementById("password_sign_up").classList.add("submit");
+    document.getElementById("confirmation_password_sign_up").classList.add("submit");
+    document.getElementById("required-sign_up-password2").classList.add("show");
+    return true;
+}
+
+function InputSignUpValidation() {
+    const nameInput = document.getElementById("name_sign_up");
+    const emailInput = document.getElementById("email_sign_up");
+    const passwordInput = document.getElementById("password_sign_up");
+    const passwordConfirmInput = document.getElementById("confirmation_password_sign_up");
+
+    nameInput.addEventListener("input", validateNameLive);
+    emailInput.addEventListener("input", validateEmailLive);
+    passwordInput.addEventListener("input", validatePasswordLive);
+    passwordConfirmInput.addEventListener("input", validatePasswordMatchLive);
+}
+
+document.addEventListener("DOMContentLoaded", InputSignUpValidation);
+
+function validateNameLive() {
+    const input = document.getElementById("name_sign_up");
+    const msg = document.getElementById("required-sign_up-name");
+
+    if (input.value.trim()) {
+        input.classList.remove("submit");
+        msg.classList.remove("show");
+    }
+}
+
+function validateEmailLive() {
+    const input = document.getElementById("email_sign_up");
+    const msg = document.getElementById("required-sign_up-email");
+
+    if (isValidEmail(input.value.trim())) {
+        input.classList.remove("submit");
+        msg.classList.remove("show");
+    }
+}
+
+function validatePasswordLive() {
+    const input = document.getElementById("password_sign_up");
+    const msg = document.getElementById("required-sign_up-password");
+
+    if (input.value.trim()) {
+        input.classList.remove("submit");
+        msg.classList.remove("show");
+    }
+}
+
+function validatePasswordMatchLive() {
+    const pass = document.getElementById("password_sign_up").value;
+    const confirm = document.getElementById("confirmation_password_sign_up").value;
+
+    const passInput = document.getElementById("password_sign_up");
+    const confirmInput = document.getElementById("confirmation_password_sign_up");
+    const msg = document.getElementById("required-sign_up-password2");
+
+    if (pass && confirm && pass === confirm) {
+        passInput.classList.remove("submit");
+        confirmInput.classList.remove("submit");
+        msg.classList.remove("show");
+    }
+}
+
 function resetSignUpUI() {
-    [
+    resetSignUpInputs();
+    resetSignUpMessages();
+}
+
+function resetSignUpInputs() {
+    const inputIds = [
         "name_sign_up",
         "email_sign_up",
         "password_sign_up",
         "confirmation_password_sign_up"
-    ].forEach(id => {
+    ];
+
+    inputIds.forEach(id => {
         const input = document.getElementById(id);
         input.classList.remove("submit");
         input.closest(".userinputcustom")?.classList.remove("submit");
     });
+}
 
-    [
+function resetSignUpMessages() {
+    const messageIds = [
         "required-sign_up-name",
         "required-sign_up-email",
         "required-sign_up-password",
         "required-sign_up-password2"
-    ].forEach(id =>
-        document.getElementById(id)?.classList.remove("show")
-    );
+    ];
+
+    messageIds.forEach(id => {
+        document.getElementById(id)?.classList.remove("show");
+    });
 }
 
 async function forwardingNextPage(firebaseId) {
@@ -159,7 +247,6 @@ async function forwardingNextPage(firebaseId) {
     if (overlay) overlay.remove();
     window.location = "/summary.html?uid=" + firebaseId;
 }
-
 
 window.goBackLogin = function () {
     const errorWindow = document.getElementById("errorWindow");
@@ -179,7 +266,6 @@ window.loginUserPushedInfo = async function () {
     setTimeout(() => { window.location = `/summary.html?uid=${user.id}` }, 100)
 };
 
-
 function showPasswordError(message) {
 const passError = document.getElementById("required-login-password");
     passError.textContent = message;
@@ -192,60 +278,57 @@ const passError = document.getElementById("required-login-password");
     passError.textContent = "";
 }
 
-async function validateAndFindUser(identifier, password) {
-    let hasError = false;
+async function getUserByEmail(email) {
+    let snapshot = await FIREBASE_USERS.get();
+    let users = snapshot.val();
 
-    const nameInput = document.getElementById("login_identifier");
-    const passInput = document.getElementById("password");
-
-    const nameMsg = document.getElementById("required-login-name");
-
-    if (!identifier || !isValidEmail(identifier)) {
-        nameInput.classList.add("submit");
-        nameMsg.classList.add("show");
-        hasError = true;
-    }
-
-    if (!password) {
-        passInput.classList.add("submit");
-         showPasswordError("Password is required");
-        hasError = true;
-    }
-
-    if (hasError) return false;
-
-    const snapshot = await FIREBASE_USERS.get();
-    const users = snapshot.val();
-
-    if (!users) {
-        nameInput.classList.add("submit");
-        nameMsg.classList.add("show");
-        return false;
-    }
-
-    let matchedUser = null;
-
-    for (const uid in users) {
-        const u = users[uid];
-        if (u.email?.trim().toLowerCase() === identifier) {
-            matchedUser = u;
-            break;
+    for (let id in users) {
+        if (users[id].email.toLowerCase() === email.toLowerCase()) {
+            return users[id];
         }
     }
 
-    if (!matchedUser) {
-        nameInput.classList.add("submit");
-        nameMsg.classList.add("show");
-        return false;
-    }
+    return null;
+}
 
-    if (matchedUser.password !== password) {
+async function validateAndFindUser(identifier, password) {
+    const emailInput = document.getElementById("login_identifier");
+    const passInput = document.getElementById("password");
+    const emailMsg = document.getElementById("required-login-name");
+    emailInput.classList.remove("submit");
+    passInput.classList.remove("submit");
+    emailMsg.classList.remove("show");
+    if (!identifyUser(identifier, emailInput, emailMsg)) return false;
+    if (!isLoginPasswordCorrect(passInput, password)) return false;
+    const user = await getUserByEmail(identifier);
+      if (!isLoginPasswordMatching(user, password, emailInput, passInput)) return false;
+    return user;
+}
+
+function isLoginPasswordCorrect(passInput, password) {
+    if (!password) {
         passInput.classList.add("submit");
-        showPasswordError("Password does not match");
+        showPasswordError("Password is required");
         return false;
     }
+    return true;
+}
 
-    return matchedUser;
+function isLoginPasswordMatching(user, password, emailInput, passInput) {
+    if (user && user.password === password) return true;
+    emailInput.classList.add("submit");
+    passInput.classList.add("submit");
+    showPasswordError("Password or email does not match");
+    return false;
+}
+
+function identifyUser(identifier, emailInput, emailMsg) {
+    if (identifier && isValidEmail(identifier)) return true;
+
+    emailInput.classList.add("submit");
+    emailMsg.textContent = "Please enter a valid email address";
+    emailMsg.classList.add("show");
+    return false;
 }
 
 function isValidEmail(email) {
@@ -267,7 +350,6 @@ function resetLoginUI() {
         document.getElementById(id).classList.remove("show")
     );
 }
-
 
 window.guestLogIn = function () {
     let isMobile = window.innerWidth < 780;

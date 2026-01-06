@@ -1506,6 +1506,8 @@ progress::-webkit-progress-value {
 cursor: pointer;
 }
 
+
+
 @media (max-width: 1500px) {
   .seperation-line-responsive {
     display: block;

@@ -57,8 +57,7 @@ function signUp() {
     signup.classList.remove('d_none');
   }
   if (!headerwriting.classList.contains('d_none')) {
-    headerwriting.classList.add('d_none');
-  }
+    headerwriting.classList.add('d_none');}
    if (headerResp) headerResp.style.display = "none";
 }
 

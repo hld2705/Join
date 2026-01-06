@@ -493,6 +493,10 @@ button.disabled {
         font-size: 38px;
     }
 
+    .signup-inputs input {
+    padding: 12px 38px 12px 12px;
+}
+
     .main-logo {
     width: 300px;
 }
@@ -516,7 +520,7 @@ button.disabled {
 
     .buttons {
         gap: 15px;
-        margin-top: -40px;
+      margin-top: -18px;
     }
 
     .signup-inputs {
