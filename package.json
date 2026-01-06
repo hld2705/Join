@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/hld2705/Join/issues"
   },
-  "homepage": "https://github.com/hld2705/Join#readme"
+  "homepage": "https://github.com/hld2705/Join#readme",
+  "devDependencies": {
+    "jsdoc": "^4.0.5"
+  }
 }
