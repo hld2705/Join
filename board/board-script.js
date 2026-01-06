@@ -541,9 +541,7 @@ function openEditOverlay(taskId) {
 
 async function preselectAssignedUsers(assigned) {
   if (!assigned || assigned.length === 0) return;
-
   await showUserName();
-
   assigned.forEach(userId => {
     const el = document.querySelector(
       `.Assigned-dropdown-username[data-user-id="${userId}"]`
@@ -561,8 +559,6 @@ async function preselectAssignedUsers(assigned) {
 
   renderFilteredBadges();
 }
-
-
 
 function renderFilteredBadges() {
   const container = document.getElementById("filteredBadgesContainer");

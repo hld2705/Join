@@ -130,13 +130,17 @@ document.addEventListener('input', handleAssignedSearch);
 
 function toggleAssignedinputContent(e) {
     let isInsideAssigned = e.target.closest('.Assigned-dropdown-username');
-      if (!isInsideAssigned) return;
+    if (!isInsideAssigned) return;
     isInsideAssigned.classList.toggle('bg-grey');
     let badge = isInsideAssigned.querySelector('.userBadge');
     let badgeContainer = document.getElementById('filteredBadgesContainer');
     let userId = isInsideAssigned.dataset.userId;
     toggleAssignedcheckButton(isInsideAssigned);
     filterBadges(badge, badgeContainer, userId);
+    getAssignedSpace();
+}
+
+function getAssignedSpace() {
     let hasAnySelected = document.querySelector(
         '.Assigned-dropdown-username.bg-grey'
     );
@@ -147,7 +151,6 @@ function toggleAssignedinputContent(e) {
         categoryContainer.classList.remove('margin-top20');
     }
 }
-
 
 function toggleAssignedcheckButton(isInsideAssigned) {
     let checkButton = isInsideAssigned.querySelector('.check-button');

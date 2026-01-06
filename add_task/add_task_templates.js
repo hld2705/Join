@@ -35,30 +35,3 @@ function subtaskOutputTemplate(text, i) {
     </li>`;
 }
 
-
-
-function overlayTemplateValues() {
-  let test = document.getElementById('test')
-  let task = getTaskInputs();
-  let title = document.getElementById('title-input')
-  let subtasksText = '';
-  for (let i = 0; i < task.subtasks.length; i++) {
-    let singleTask = task.subtasks[i];
-    subtasksText += `${singleTask.id}: ${singleTask.text} (done: ${singleTask.done})<br>`;
-  }
-
-  if (title) title.value = task.title;
-
-  if (test) {
-    test.innerHTML = `<div>
-    Main: ${task.main}<br>
-    Title: ${task.title}<br>
-    Description: ${task.description}<br>
-    Date: ${task.date}<br>
-    Category: ${task.category}<br>
-    Priority: ${getPriority()}<br>
-    Assigned: ${task.assignedUser}<br>
-    Subtasks: ${subtasksText}
-    </div>`;
-  }
-}
