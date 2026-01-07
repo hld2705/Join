@@ -8,41 +8,21 @@ let touchOffsetY = 0;
 let touchGhost = null;
 
 function dragAndDrop() {
-  let container = document.getElementById("template-overview");
   const containers = {
-    todo: document.getElementById("todo-container"),
-    inprogress: document.getElementById("in-progress-container"),
-    review: document.getElementById("feedback-container"),
-    done: document.getElementById("done-container")
+    todo: "todo-container",
+    inprogress: "in-progress-container",
+    review: "feedback-container",
+    done: "done-container"
   };
-
   for (let key in containers) {
-    if (containers[key]) containers[key].innerHTML = "";
-  }
-
-  for (let i = 0; i < tasks.length; i++) {
-    const task = tasks[i];
-    const container = containers[task.status]
-    const badges = Array.isArray(task.assignedBadge) ? task.assignedBadge : [];
-    if (container) {
+    const container = document.getElementById(containers[key]);
+    container.innerHTML = "";
+    tasks.filter(t => t.status === key).forEach(t => {
       container.innerHTML += dragAndDropTemplate(
-        task.id,
-        task.title,
-        task.main,
-        task.description,
-        task.subtasks,
-        task.assigned,
-        task.priority,
-        task.enddate
+        t.id, t.title, t.main, t.description, t.subtasks, t.assigned, t.priority, t.enddate
       );
-    }
-  }
-
-  for (let key in containers) {
-    const container = containers[key];
-    if (container && container.children.length === 0) {
-      container.innerHTML = noCardsTemplate();
-    }
+    });
+    if (container.children.length === 0) container.innerHTML = noCardsTemplate();
   }
   updateAllContainers();
 }
@@ -60,9 +40,9 @@ function renderBadges(assigned) {
         badge: user.badge,
         name: user.name,
         color: user.color
-      });
+      })
     }
-  }
+  };
   return badges;
 }
 
@@ -96,35 +76,39 @@ function touchMove(e) {
 function touchEnd(e) {
   if (!touchDraggingCard) return;
   const touch = e.changedTouches[0];
-  const target = document.elementFromPoint(
-    touch.clientX,
-    touch.clientY
-  );
-  const column = target?.closest(".distribution-progress");
-  if (column) {
-    const container = column.querySelector(".task-container");
-    if (container) {
-      container.appendChild(touchDraggingCard);
-      const taskId = Number(
-        touchDraggingCard.id.replace("card-", "")
-      );
-      let newStatus = null;
-      if (container.id === "todo-container") newStatus = "todo";
-      if (container.id === "in-progress-container") newStatus = "inprogress";
-      if (container.id === "feedback-container") newStatus = "review";
-      if (container.id === "done-container") newStatus = "done";
-      const task = tasks.find(t => t.id === taskId);
-      if (task && newStatus) {
-        task.status = newStatus;
-        firebase.database().ref("tasks/" + taskId).update({
-          status: newStatus
-        });
-      }
-      updateContainerTemplate(container);
-    }
-  }
+  const container = getTargetContainer(touch);
+  if (!container) return cleanupTouchDrag();
+  moveCard(container, touchDraggingCard);
+  updateTaskStatus(touchDraggingCard, container);
+  updateContainerTemplate(container);
   cleanupTouchDrag();
 }
+
+function getTargetContainer(touch) {
+  const el = document.elementFromPoint(touch.clientX, touch.clientY);
+  const progress = el && el.closest(".distribution-progress");
+  return progress && progress.querySelector(".task-container");
+}
+
+function moveCard(container, card) {
+  container.appendChild(card);
+}
+
+function updateTaskStatus(card, container) {
+  const taskId = Number(card.id.replace("card-", ""));
+  const statusMap = {
+    "todo-container": "todo",
+    "in-progress-container": "inprogress",
+    "feedback-container": "review",
+    "done-container": "done"
+  };
+  const task = tasks.find(t => t.id === taskId);
+  const newStatus = statusMap[container.id];
+  if (!task || !newStatus) return;
+  task.status = newStatus;
+  firebase.database().ref("tasks/" + taskId).update({ status: newStatus });
+}
+
 
 function cleanupTouchDrag() {
   if (touchGhost) {
@@ -134,8 +118,8 @@ function cleanupTouchDrag() {
   if (touchDraggingCard) {
     touchDraggingCard.style.visibility = "visible";
     touchDraggingCard = null;
-    }
-    updateAllContainers();
+  }
+  updateAllContainers();
 }
 
 let originalContainer = null;
@@ -151,43 +135,43 @@ function startDragging(ev, id) {
 
 function dragoverHandler(ev) {
   ev.preventDefault();
-  document.querySelectorAll(".landing-field").forEach(lf => lf.remove());
-  const container = ev.currentTarget;
   const draggingCard = document.querySelector(".board-card.dragging");
-  if (!draggingCard) return;
-  const inner = container.querySelector(".task-container");
-  if (inner === originalContainer) {
-    return;
-  }
+  if (!draggingCard || ev.currentTarget.querySelector(".task-container") === originalContainer) return;
+  clearLandingFields();
+  if (!insertLandingField(ev.clientY, draggingCard, ev.currentTarget)) appendLandingField(draggingCard, ev.currentTarget);
+}
+
+function clearLandingFields() {
   document.querySelectorAll(".landing-field").forEach(lf => lf.remove());
+}
+
+function insertLandingField(mouseY, card, container) {
   const children = Array.from(container.querySelectorAll(".board-card"));
-  let inserted = false;
   for (let child of children) {
-    const rect = child.getBoundingClientRect();
-    const midpoint = rect.top + rect.height / 2;
-    if (ev.clientY < midpoint) {
+    if (mouseY < child.getBoundingClientRect().top + child.offsetHeight / 2) {
       let lf = child.nextElementSibling;
       if (!lf || !lf.classList.contains("landing-field")) {
         lf = document.createElement("div");
-        lf.classList.add("landing-field");
-        lf.style.height = draggingCard.offsetHeight + "px";
+        lf.className = "landing-field";
+        lf.style.height = card.offsetHeight + "px";
         child.parentElement.insertBefore(lf, child.nextSibling);
       }
       lf.style.display = "block";
-      inserted = true;
-      break;
+      return true;
     }
   }
-  if (!inserted) {
-    let lf = container.querySelector(".landing-field:last-child");
-    if (!lf) {
-      lf = document.createElement("div");
-      lf.classList.add("landing-field");
-      lf.style.height = draggingCard.offsetHeight + "px";
-      container.querySelector(".task-container").appendChild(lf);
-    }
-    lf.style.display = "block";
+  return false;
+}
+
+function appendLandingField(card, container) {
+  let lf = container.querySelector(".landing-field:last-child");
+  if (!lf) {
+    lf = document.createElement("div");
+    lf.className = "landing-field";
+    lf.style.height = card.offsetHeight + "px";
+    container.querySelector(".task-container").appendChild(lf);
   }
+  lf.style.display = "block";
 }
 
 function onDragEnd() {
@@ -206,10 +190,16 @@ function dragenterHandler(ev) {
 
 function moveTo(ev, newStatus) {
   ev.preventDefault();
-  const data = ev.dataTransfer.getData("text");
-  const card = document.getElementById(data);
+  const card = document.getElementById(ev.dataTransfer.getData("text"));
   const container = ev.currentTarget.querySelector(".task-container");
   if (!card || !container) return;
+  placeCard(container, card);
+  updateTask(card, newStatus);
+  document.querySelectorAll(".landing-field").forEach(lf => lf.style.display = "none");
+  updateContainerTemplate(container);
+}
+
+function placeCard(container, card) {
   const lf = container.querySelector(".landing-field[style*='display: block']");
   if (lf) {
     container.insertBefore(card, lf);
@@ -217,17 +207,14 @@ function moveTo(ev, newStatus) {
   } else {
     container.appendChild(card);
   }
-  const taskId = Number(card.id.replace("card-", ""));
-  const task = tasks.find(t => t.id === taskId);
-  if (task) {
-    task.status = newStatus;
-    firebase.database().ref("tasks/" + taskId).update({
-      status: newStatus
-    });
-  }
+}
 
-  document.querySelectorAll(".landing-field").forEach(lf => lf.style.display = "none");
-  updateContainerTemplate(container);
+function updateTask(card, status) {
+  const id = Number(card.id.replace("card-", ""));
+  const task = tasks.find(t => t.id === id);
+  if (!task) return;
+  task.status = status;
+  firebase.database().ref("tasks/" + id).update({ status });
 }
 
 let openedCardId = null;
@@ -462,16 +449,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 function openAddTaskOverlay(column) {
   if (window.innerWidth < 1230) {
     window.location.href = "add_task.html";
-    return;
-  }
+    return;}
   window.currentTaskColumn = column;
   let overlayBg = document.getElementById("task-overlay-background");
   let overlay = document.getElementById("task-overlay");
   addTaskOverlayTemplate();
   if (!addTaskInteractionsLoaded) {
     loadAddTaskInteractions();
-    addTaskInteractionsLoaded = true;
-  }
+    addTaskInteractionsLoaded = true;}
   setTimeout(() => {
     mediumActive = false;
     changeMediumColor();
@@ -488,8 +473,7 @@ function editTask() {
     const value = editTaskData[key];
     if (key === "main") continue;
     if (value === "" || value === undefined || value === null) continue;
-    filteredData[key] = value;
-  }
+    filteredData[key] = value;}
   return firebase.database()
     .ref("tasks/" + oldTask.id)
     .update(filteredData)
@@ -510,33 +494,30 @@ function loadAddTaskInteractions() {
 let addTaskInteractionsLoaded = false;
 
 function openEditOverlay(taskId) {
-  let task = tasks.find(t => t.id === taskId);
+  const task = tasks.find(t => t.id === taskId);
+  if (!task) return;
   editOverlayTemplate(task);
-
-  setTimeout(() => {
-    preselectAssignedUsers(task.assigned);
-  }, 0);
-
+  preselectUsersAndPriority(task);
   if (!addTaskInteractionsLoaded) {
     loadAddTaskInteractions();
     addTaskInteractionsLoaded = true;
   }
+  const bg = document.getElementById('edit-overlay-background');
+  const formContainer = document.getElementById('edit-task-form-container');
+  if (!bg || !formContainer) return;
+  closeOverlayCardInstant();
+  bg.classList.add('is-open');
+  bg.onclick = e => { if (e.target === bg) cancelEditOverlay(); };
+}
+
+function preselectUsersAndPriority(task) {
+  setTimeout(() => preselectAssignedUsers(task.assigned), 0);
   setTimeout(() => {
     changePriorityColor(task.priority);
     urgentActive = task.priority === "urgent";
     mediumActive = task.priority === "medium";
     lowActive = task.priority === "low";
   }, 20);
-  let bg = document.getElementById('edit-overlay-background');
-  let formContainer = document.getElementById('edit-task-form-container');
-  if (!bg || !formContainer) return;
-  closeOverlayCardInstant();
-  bg.classList.add('is-open');
-  bg.addEventListener('click', function (e) {
-    if (e.target === bg) {
-      cancelEditOverlay();
-    }
-  })
 }
 
 async function preselectAssignedUsers(assigned) {
@@ -553,23 +534,17 @@ async function preselectAssignedUsers(assigned) {
       if (checkButton) {
         checkIcon.classList.toggle("hidden");
         checkButton.classList.toggle("check-button-white");
-      }
-    }
-  });
-
+      }}});
   renderFilteredBadges();
 }
 
 function renderFilteredBadges() {
   const container = document.getElementById("filteredBadgesContainer");
   if (!container) return;
-
   container.innerHTML = "";
-
   const selectedUsers = document.querySelectorAll(
     ".Assigned-dropdown-username.bg-grey"
   );
-
   selectedUsers.forEach(userEl => {
     const name = userEl.querySelector("span")?.textContent || "";
     const badgeEl = userEl.querySelector(".userBadge");
@@ -612,7 +587,6 @@ function cancelEditOverlay() {
   let overlay = document.getElementById('edit-overlay');
   if (!bg || !overlay) return;
   overlay.classList.add('edit-overlay-exit');
-
   setTimeout(() => {
     overlay.classList.remove('edit-overlay-exit');
     bg.classList.remove('is-open');
@@ -648,8 +622,7 @@ function filterBoardCards(value) {
       count++;
     } else {
       card.style.display = "none";
-    }
-  }
+    }}
   noResult(count);
 }
 

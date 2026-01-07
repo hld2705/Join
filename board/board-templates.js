@@ -4,11 +4,9 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
     subtasks = Array.isArray(subtasks) ? subtasks : Object.values(subtasks || []);
     let total = subtasks.length;
     let hideProgressClass = '';
-
     if (total === 0) {
         hideProgressClass = 'hidden';
     }
-
     const done = subtasks.filter(s => s.done).length;
     const percent = total === 0 ? 0 : Math.round((done / total) * 100);
     const badges = renderBadges(assigned);

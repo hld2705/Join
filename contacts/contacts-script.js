@@ -1,5 +1,4 @@
 let activeUserId = null;
-
 const firebaseConfig = {
   apiKey: "AIzaSyDaAKocqkIROo_InISQbRjsoG8z1JCK3g0",
   authDomain: "join-gruppenarbeit-75ecf.firebaseapp.com",
@@ -10,11 +9,8 @@ const firebaseConfig = {
   appId: "1:180158531840:web:c894124a7d6eb515364be5",
   measurementId: "G-5R563MH52P"
 };
-
 firebase.initializeApp(firebaseConfig);
-
 const FIREBASE_USERS = firebase.database().ref("users");
-
 async function fetchData() {
   let response = await FIREBASE_USERS.once("value")
   let data = response.val();
@@ -22,58 +18,45 @@ async function fetchData() {
 }
 
 async function contactsLoad() {
-  let contacts = document.getElementById("contactsjs");
+  const contacts = document.getElementById("contactsjs");
   contacts.innerHTML = "";
-  let users = await fetchData();
-  users = users.filter(u => u && u.name);
-  users.sort((a, b) => a.name.localeCompare(b.name));
-  let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
-  responsiveEditContactId.style.display = "none";
+  const users = (await fetchData()).filter(u => u && u.name).sort((a, b) => a.name.localeCompare(b.name));
+  document.getElementById("responsiveeditcontactid").style.display = "none";
   let currentLetter = "";
-  for (let user of users) {
-    if (!user.name) continue;
-    let firstLetter = user.name.charAt(0).toUpperCase();
+  for (const user of users) {
+    const firstLetter = user.name.charAt(0).toUpperCase();
     if (firstLetter !== currentLetter) {
       currentLetter = firstLetter;
-      contacts.innerHTML += `
-        <div class="letter-separationline-container">
-          <h2 class="letter-header">${currentLetter}</h2>
-          <img class="separationline" src="./assets/Vector 10.svg">
-        </div>
-      `;
+      contacts.innerHTML += `<div class="letter-separationline-container">
+        <h2 class="letter-header">${currentLetter}</h2>
+        <img class="separationline" src="./assets/Vector 10.svg">
+      </div>`;
     }
     contacts.innerHTML += contactsLoadTemplate(user);
   }
 }
 
+
 async function contactsRender(userId) {
-  let contactInfo = document.getElementById("contactsinfo");
-  let responsiveLeftSide = document.getElementById("responsiveleftsidecontacts");
-  let responsiveContactsDetails = document.getElementById("responsivecontactsmoto");
-  let previousId = activeUserId;
+  const contactInfo = document.getElementById("contactsinfo");
+  const responsiveLeft = document.getElementById("responsiveleftsidecontacts");
+  const responsiveDetails = document.getElementById("responsivecontactsmoto");
+  const prevId = activeUserId;
   activeUserId = userId;
-
-  userHighlight(previousId, userId);
-
+  userHighlight(prevId, userId);
   if (window.innerWidth <= 900) {
-    if (responsiveLeftSide) responsiveLeftSide.style.display = "none";
-    if (responsiveContactsDetails) responsiveContactsDetails.style.display = "block";
+    if (responsiveLeft) responsiveLeft.style.display = "none";
+    if (responsiveDetails) responsiveDetails.style.display = "block";
   }
-  let users = await fetchData();
-  let userInfo = users.find(u => String(u.id) === String(userId));
+  const users = await fetchData();
+  const userInfo = users.find(u => String(u.id) === String(userId));
   if (!userInfo) return;
-  setTimeout(() => {
-    contactInfo.classList.add("is-open");
-  }, 50);
-  if (window.innerWidth <= 900) {
-    if (responsiveLeftSide) responsiveLeftSide.style.display = "none";
-    if (responsiveContactsDetails) responsiveContactsDetails.style.display = "block";
-  }
+  setTimeout(() => contactInfo.classList.add("is-open"), 50);
   contactInfo.classList.remove("is-open");
-  contactInfo.innerHTML = "";
   contactInfo.innerHTML = contactsRenderTemplate(userInfo);
   updateResponsiveButtons();
 }
+
 
 function userHighlight(previousId, newId) {
   let prev = document.getElementById(`contactfield${previousId}`);
@@ -194,8 +177,7 @@ async function saveUser(userId) {
     badge: {
     text: getInitials(nameEl),
     color: getRandomColor()
-  }
-  })
+  }})
   await contactsLoad();
   contactsRender(userId);
   updateDetailsPanel({ name: nameEl, email: emailEl, phone: phoneEl });
@@ -226,30 +208,24 @@ function getRandomColor() {
 }
 
 async function createContact() {
-  if(!validateAddNewUser()) return;
-  let nameNew = document.getElementById("name_new_user").value.trim();
-  let emailNew = document.getElementById("email_new_user").value.trim();
-  let phoneNew = document.getElementById("phone_new_user").value.trim();
-  let entry = firebase.database().ref("users").push();
-  let firebaseId = entry.key;
-  let newUser = {
-    id: firebaseId.toString(),
-    name: nameNew,
-    email: emailNew,
-    phone: phoneNew,
-    badge: {
-    text: getInitials(nameNew),
-    color: getRandomColor()
-  }
-  };
-  await entry.set(newUser);
+  if (!validateAddNewUser()) return;
+  const name = document.getElementById("name_new_user").value.trim();
+  const email = document.getElementById("email_new_user").value.trim();
+  const phone = document.getElementById("phone_new_user").value.trim();
+  const entry = firebase.database().ref("users").push();
+  const id = entry.key;
+  await entry.set({
+    id, name, email, phone,
+    badge: { text: getInitials(name), color: getRandomColor() }
+  });
   await contactsLoad();
-  activeUserId = firebaseId;
-  userHighlight(firebaseId, firebaseId);
-  await contactsRender(firebaseId);
+  activeUserId = id;
+  userHighlight(id, id);
+  await contactsRender(id);
   closeOverlay();
   await addedNewUser();
 }
+
 async function addedNewUser() {
   document.body.insertAdjacentHTML(
     "beforeend",
@@ -267,34 +243,23 @@ async function addedNewUser() {
 
 
 function reRenderContacts() {
-  let contactInfo = document.getElementById("contactsinfo");
-  let responsiveLeftSide = document.getElementById("responsiveleftsidecontacts");
-  let responsiveContactsDetails = document.getElementById("responsivecontactsmoto");
+  const contactInfo = document.getElementById("contactsinfo");
+  const leftSide = document.getElementById("responsiveleftsidecontacts");
+  const contactDetails = document.getElementById("responsivecontactsmoto");
+  const addContact = document.getElementById("responsiveaddcontactid");
+  const editContact = document.getElementById("responsiveeditcontactid");
   if (window.innerWidth <= 900) {
     contactInfo.innerHTML = "";
-    if (responsiveLeftSide) {
-      responsiveLeftSide.style.display = "block";
-    }
-    if (responsiveContactsDetails) {
-      responsiveContactsDetails.style.display = "none";
-    }
-  } else {
-    if (responsiveContactsDetails) {
-      responsiveContactsDetails.style.display = "block";
-    }
+    if (leftSide) leftSide.style.display = "block";
+    if (contactDetails) contactDetails.style.display = "none";
+  } else if (contactDetails) {
+    contactDetails.style.display = "block";
   }
   activeUserId = null;
   contactsLoad();
-  let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
-  if (responsiveAddContactId) {
-    responsiveAddContactId.style.display = "flex";
-  } else{
-    responsiveAddContactId.style.display = "none";
-  }
-  let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
-  if (responsiveEditContactId) {
-    responsiveEditContactId.style.display = "none";
-  }
+
+  if (addContact) addContact.style.display = "flex";
+  if (editContact) editContact.style.display = "none";
 }
 
 let lastIsMobile = window.innerWidth <= 900;
