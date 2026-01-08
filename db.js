@@ -18,7 +18,8 @@ async function loadData() {
     for (let key in tasksData) {
       tasks.push({ id: key, ...tasksData[key] });
     }
-  }}
+  }
+}
 
 async function saveData(type, item) {
   await fetch(BASE_URL + '/' + type + '/' + item.id + '.json', {
@@ -40,8 +41,3 @@ async function setCurrentUser(userId) {
     await saveData('users', user);
   }
 }
-
-
-document.addEventListener('DOMContentLoaded', async () => {
-  await loadData();
-});
