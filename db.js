@@ -41,3 +41,4 @@ async function setCurrentUser(userId) {
     await saveData('users', user);
   }
 }
+

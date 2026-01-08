@@ -1,6 +1,5 @@
 (function () {
   if (!window.firebase) return;
-
   if (!firebase.apps.length) {
     firebase.initializeApp({
       apiKey: "AIzaSyDaAKocqkIROo_InISQbRjsoG8z1JCK3g0",
@@ -16,22 +15,25 @@
 })();
 
 function handleNonLoginUI() {
-  const isNonLogin = window.location.search.includes("nonlogin=true"),
-        isMobile = window.innerWidth < 900,
-        fullNav = document.getElementById("togglednone"),
-        loginNav = document.getElementById("loginnav"),
-        footPriv = document.getElementById("footerresponsive_privacy_policy"),
-        footLegal = document.getElementById("footerresponsive_legal_notice"),
-        priv = document.getElementById("privacy_policy_footer"),
-        legal = document.getElementById("legal_notice_footer");
-  if (fullNav) fullNav.style.display = isNonLogin ? "none" : "flex";
-  if (loginNav) { loginNav.style.display = isNonLogin ? (isMobile ? "flex" : "block") : "none"; loginNav.style.alignItems = isMobile ? "center" : "flex-start"; }
-  if (footPriv) { footPriv.style.display = isNonLogin ? (isMobile ? "flex" : "block") : "none"; footPriv.style.justifyContent = "space-between"; footPriv.style.paddingRight = "20px"; }
-  if (footLegal) footLegal.style.display = isNonLogin ? (isMobile ? "flex" : "block") : "none";
-  if (priv) priv.style.display = isNonLogin ? "none" : (isMobile ? "none" : "block");
-  if (legal) legal.style.display = isNonLogin ? "none" : (isMobile ? "none" : "block");
+    const isNonLogin = window.location.search.includes("nonlogin=true");
+    const isMobile = window.innerWidth < 900;
+    applyNonLoginUI(isNonLogin, isMobile);
 }
 
+function applyNonLoginUI(isNonLogin, isMobile) {
+    const fullNav = document.getElementById("togglednone");
+    const loginNav = document.getElementById("loginnav");
+    const footPriv = document.getElementById("footerresponsive_privacy_policy");
+    const footLegal = document.getElementById("footerresponsive_legal_notice");
+    const priv = document.getElementById("privacy_policy_footer");
+    const legal = document.getElementById("legal_notice_footer");
+    if (fullNav) fullNav.style.display = isNonLogin ? "none" : "flex";
+    if (loginNav) { loginNav.style.display = isNonLogin ? (isMobile ? "flex" : "block") : "none"; loginNav.style.alignItems = isMobile ? "center" : "flex-start"; }
+    if (footPriv) { footPriv.style.display = isNonLogin ? (isMobile ? "flex" : "block") : "none"; footPriv.style.justifyContent = "space-between"; footPriv.style.paddingRight = "20px"; }
+    if (footLegal) footLegal.style.display = isNonLogin ? (isMobile ? "flex" : "block") : "none";
+    if (priv) priv.style.display = isNonLogin ? "none" : (isMobile ? "none" : "block");
+    if (legal) legal.style.display = isNonLogin ? "none" : (isMobile ? "none" : "block");
+}
 
 window.onload = handleNonLoginUI;
 window.addEventListener("resize", handleNonLoginUI);
