@@ -5,10 +5,13 @@ let tasks = [];
 let loggedInUser = null;
 
 async function loadData() {
+ 
   const usersRes = await fetch(BASE_URL + '/users.json');
   const tasksRes = await fetch(BASE_URL + '/tasks.json');
   const usersData = await usersRes.json();
   const tasksData = await tasksRes.json();
+  users = [];
+  tasks = [];
   if (usersData) {
     for (let key in usersData) {
       users.push({ id: key, ...usersData[key] });
@@ -41,4 +44,3 @@ async function setCurrentUser(userId) {
     await saveData('users', user);
   }
 }
-

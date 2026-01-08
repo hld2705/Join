@@ -170,9 +170,15 @@ async function getFeedbackTasks() {
   </div>`
 }
 
-
 function redirectToBoard() {
-  location.assign("../board.html");
+  const params = new URLSearchParams(window.location.search);
+  const uid = params.get("uid");
+  if (!uid) {
+    window.location.href = "/board.html?nonlogin=true";
+    return;
+  }else{
+    window.location.href = "/board.html?uid=" + uid;
+  }
 }
 
 function getGreetingByTime() {
