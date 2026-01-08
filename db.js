@@ -41,7 +41,6 @@ async function setCurrentUser(userId) {
   }
 }
 
-
 document.addEventListener('DOMContentLoaded', async () => {
   await loadData();
 });
