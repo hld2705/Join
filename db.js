@@ -4,24 +4,30 @@ let users = [];
 let tasks = [];
 let loggedInUser = null;
 
+async function fetchData(path) {
+  const response = await fetch(BASE_URL + path);
+  return await response.json();
+}
+
+function createArrayFromData(data) {
+  let result = [];
+  if (!data) return result;
+
+  for (let key in data) {
+    result.push({
+      id: key,
+      ...data[key]
+    });
+  }
+  return result;
+}
+
 async function loadData() {
- 
-  const usersRes = await fetch(BASE_URL + '/users.json');
-  const tasksRes = await fetch(BASE_URL + '/tasks.json');
-  const usersData = await usersRes.json();
-  const tasksData = await tasksRes.json();
-  users = [];
-  tasks = [];
-  if (usersData) {
-    for (let key in usersData) {
-      users.push({ id: key, ...usersData[key] });
-    }
-  }
-  if (tasksData) {
-    for (let key in tasksData) {
-      tasks.push({ id: key, ...tasksData[key] });
-    }
-  }
+  const usersData = await fetchData('/users.json');
+  const tasksData = await fetchData('/tasks.json');
+
+  users = createArrayFromData(usersData);
+  tasks = createArrayFromData(tasksData);
 }
 
 async function saveData(type, item) {

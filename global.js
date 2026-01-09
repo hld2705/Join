@@ -106,22 +106,18 @@ function handleResize() {
 window.addEventListener("resize", handleResize);
 
 function updateHelpLink() {
-  const overlay = document.getElementById("badge-overlay");
   const helpIcon = document.querySelector(".user-info-help");
   const mobileHelp = document.getElementById("mobile-help-link");
-  if (innerWidth >= 900 && helpIcon) {
-    helpIcon.style.display = "block";
-    if (mobileHelp) mobileHelp.remove();
-  } else if (helpIcon) {
-    helpIcon.style.display = "none";
-    if (!mobileHelp) {
-      const link = document.createElement("a");
-      link.href = "./help.html";
-      link.id = "mobile-help-link";
-      link.textContent = "Help";
-      overlay.prepend(link);
-    }
-  }
+  const overlay = document.getElementById("badge-overlay");
+  if (!helpIcon) return;
+  helpIcon.style.display = innerWidth >= 900 ? "block" : "none";
+  if (innerWidth >= 900) return mobileHelp?.remove();
+  if (mobileHelp) return;
+  const link = document.createElement("a");
+  link.href = "./help.html";
+  link.id = "mobile-help-link";
+  link.textContent = "Help";
+  overlay?.prepend(link);
 }
 
 document.addEventListener('click', function (event) {
