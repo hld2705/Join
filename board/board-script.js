@@ -514,15 +514,12 @@ let addTaskInteractionsLoaded = false;
 function openEditOverlay(taskId) {
   let task = tasks.find(t => t.id === taskId);
   editOverlayTemplate(task);
-
   setTimeout(() => {
     preselectAssignedUsers(task.assigned);
   }, 0);
-
   if (!addTaskInteractionsLoaded) {
     loadAddTaskInteractions();
-    addTaskInteractionsLoaded = true;
-  }
+    addTaskInteractionsLoaded = true;}
   setTimeout(() => {
     changePriorityColor(task.priority);
     urgentActive = task.priority === "urgent";
@@ -536,10 +533,7 @@ function openEditOverlay(taskId) {
   bg.classList.add('is-open');
   bg.addEventListener('click', function (e) {
     if (e.target === bg) {
-      cancelEditOverlay();
-    }
-  })
-}
+      cancelEditOverlay();}})}
 
 async function preselectAssignedUsers(assigned) {
   if (!assigned || assigned.length === 0) return;

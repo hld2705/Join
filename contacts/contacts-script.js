@@ -14,7 +14,12 @@ const FIREBASE_USERS = firebase.database().ref("users");
 async function fetchData() {
   let response = await FIREBASE_USERS.once("value")
   let data = response.val();
-  return data ? Object.entries(data).map(([id, user]) => ({ id: String(id), ...user })) : [];
+ return data
+  ? Object.entries(data).map(([key, user]) => ({
+      ...user,
+      id: String(key)
+    }))
+  : []; //edited
 }
 
 async function contactsLoad() {
@@ -155,15 +160,14 @@ async function editUser(userId) {
   }
 }
 
-async function deleteUser(userId) {
-  await FIREBASE_USERS.child(userId).remove();
-  if (activeUserId === userId) {
-    activeUserId = null;
-    document.getElementById("contactsinfo").innerHTML = "";
-  }
+async function deleteUser(userId) { //whole function edited/changed
+  await FIREBASE_USERS.child(String(userId)).remove();
+  activeUserId = null;
+  document.getElementById("contactsinfo").innerHTML = "";
   closeOverlay();
   contactsLoad();
 }
+
 
 async function saveUser(userId) {
   const nameEl = document.getElementById('edit_name').value.trim();
@@ -212,18 +216,29 @@ async function createContact() {
   const name = document.getElementById("name_new_user").value.trim();
   const email = document.getElementById("email_new_user").value.trim();
   const phone = document.getElementById("phone_new_user").value.trim();
-  const entry = firebase.database().ref("users").push();
-  const id = entry.key;
-  await entry.set({
-    id, name, email, phone,
-    badge: { text: getInitials(name), color: getRandomColor() }
-  });
+  const id = await saveNewContact(name, email, phone);
   await contactsLoad();
   activeUserId = id;
   userHighlight(id, id);
   await contactsRender(id);
   closeOverlay();
   await addedNewUser();
+}
+
+async function saveNewContact(name, email, phone) {
+  const entry = firebase.database().ref("users").push();
+  const id = entry.key;
+  await entry.set({
+    id,
+    name,
+    email,
+    phone,
+    badge: {
+      text: getInitials(name),
+      color: getRandomColor()
+    }
+  });
+  return id;
 }
 
 async function addedNewUser() {

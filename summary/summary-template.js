@@ -106,6 +106,7 @@ function getNextUpcomingDeadline(tasks) {
   }
   return nextTask;
 }
+
 function guestLogIn() {
   const fullNav = document.getElementById("togglednone");
   const loginNav = document.getElementById("loginnav");
@@ -223,10 +224,17 @@ async function getLoggedInUser() {
   return snapshot.val();
 }
 
-window.addEventListener("DOMContentLoaded", getToDo(), 
-getDoneTasks(),getUrgent(),getEndDate(),
-getTasksInBoard(),getTasksInProgress(),
-getFeedbackTasks())
+window.addEventListener("DOMContentLoaded", async () => {
+  await loadData();
+  getToDo();
+  getDoneTasks();
+  getUrgent();
+  getEndDate();
+  getTasksInBoard();
+  getTasksInProgress();
+  getFeedbackTasks();
+});
+
 
 window.addEventListener("DOMContentLoaded", async () => {
   document.body.style.opacity = "1";
