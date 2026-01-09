@@ -9,6 +9,7 @@ const firebaseConfig = {
   appId: "1:180158531840:web:c894124a7d6eb515364be5",
   measurementId: "G-5R563MH52P"
 };
+
 firebase.initializeApp(firebaseConfig);
 const FIREBASE_USERS = firebase.database().ref("users");
 async function fetchData() {
@@ -17,46 +18,63 @@ async function fetchData() {
   return data ? Object.entries(data).map(([id, user]) => ({ id: String(id), ...user })) : [];
 }
 
-async function contactsLoad() {
-  const contacts = document.getElementById("contactsjs");
-  contacts.innerHTML = "";
-  const users = (await fetchData()).filter(u => u && u.name).sort((a, b) => a.name.localeCompare(b.name));
-  document.getElementById("responsiveeditcontactid").style.display = "none";
-  let currentLetter = "";
-  for (const user of users) {
-    const firstLetter = user.name.charAt(0).toUpperCase();
-    if (firstLetter !== currentLetter) {
-      currentLetter = firstLetter;
-      contacts.innerHTML += `<div class="letter-separationline-container">
-        <h2 class="letter-header">${currentLetter}</h2>
-        <img class="separationline" src="./assets/Vector 10.svg">
-      </div>`;
-    }
-    contacts.innerHTML += contactsLoadTemplate(user);
-  }
+function letterSeparatorTemplate(letter) {
+  return `
+    <div class="letter-separationline-container">
+      <h2 class="letter-header">${letter}</h2>
+      <img class="separationline" src="./assets/Vector 10.svg">
+    </div>
+  `;
 }
 
+function renderContact(container, user, current) {
+  const letter = user.name.charAt(0).toUpperCase();
+  if (letter !== current.value) {
+    current.value = letter;
+    container.innerHTML += letterSeparatorTemplate(letter);
+  }
+  container.innerHTML += contactsLoadTemplate(user);
+}
 
-async function contactsRender(userId) {
-  const contactInfo = document.getElementById("contactsinfo");
-  const responsiveLeft = document.getElementById("responsiveleftsidecontacts");
-  const responsiveDetails = document.getElementById("responsivecontactsmoto");
+async function contactsLoad() {
+  const container = document.getElementById("contactsjs");
+  if (!container) return;
+  container.innerHTML = "";
+  const editBtn = document.getElementById("responsiveeditcontactid");
+  if (editBtn) editBtn.style.display = "none";
+
+  const usersRaw = await fetchData();
+  const users = (Array.isArray(usersRaw) ? usersRaw : [])
+    .filter(user => user && user.name)
+    .sort((a, b) => a.name.localeCompare(b.name));
+  const current = { value: "" };
+  for (let i = 0; i < users.length; i++) {
+    renderContact(container, users[i], current);
+  }}
+
+function openContactDetailsView(userId) {
+  const left = document.getElementById("responsiveleftsidecontacts");
+  const details = document.getElementById("responsivecontactsmoto");
   const prevId = activeUserId;
   activeUserId = userId;
   userHighlight(prevId, userId);
   if (window.innerWidth <= 900) {
-    if (responsiveLeft) responsiveLeft.style.display = "none";
-    if (responsiveDetails) responsiveDetails.style.display = "block";
+    if (left) left.style.display = "none";
+    if (details) details.style.display = "block";
   }
+}
+
+async function contactsRender(userId) {
+  const contactInfo = document.getElementById("contactsinfo");
+  openContactDetailsView(userId);
   const users = await fetchData();
   const userInfo = users.find(u => String(u.id) === String(userId));
   if (!userInfo) return;
-  setTimeout(() => contactInfo.classList.add("is-open"), 50);
   contactInfo.classList.remove("is-open");
   contactInfo.innerHTML = contactsRenderTemplate(userInfo);
+  setTimeout(() => contactInfo.classList.add("is-open"), 50);
   updateResponsiveButtons();
 }
-
 
 function userHighlight(previousId, newId) {
   let prev = document.getElementById(`contactfield${previousId}`);
@@ -73,36 +91,41 @@ function userHighlight(previousId, newId) {
   }
 }
 
-function updateResponsiveButtons() {
-  let responsiveAddContactId = document.getElementById("responsiveaddcontactid");
-  let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
-  if (window.innerWidth <= 900) {
-    if (activeUserId) {
-      if (responsiveAddContactId) responsiveAddContactId.style.display = "none";
-      if (responsiveEditContactId) responsiveEditContactId.style.display = "block";
-    } else {
-      if (responsiveAddContactId) responsiveAddContactId.style.display = "flex";
-      if (responsiveEditContactId) responsiveEditContactId.style.display = "none";
-    }
-  } else {
-    if (responsiveAddContactId) responsiveAddContactId.style.display = "none";
-    if (responsiveEditContactId) responsiveEditContactId.style.display = "none";
-  }
+function toggleButton(button, display) {
+  if (!button) return;
+  button.style.display = display;
 }
+
+function updateResponsiveButtons() {
+  const addButton = document.getElementById("responsiveaddcontactid");
+  const editButton = document.getElementById("responsiveeditcontactid");
+  if (window.innerWidth > 900) {
+    toggleButton(addButton, "none");
+    toggleButton(editButton, "none");
+    return;
+  }
+  if (activeUserId) {
+    toggleButton(addButton, "none");
+    toggleButton(editButton, "block");
+  } else {
+    toggleButton(addButton, "flex");
+    toggleButton(editButton, "none");
+  }}
 
 function editUserOptionsResponsive() {
   let userId = activeUserId;
   let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
-   document.getElementById("responsiveeditcontact-overlay-container").style.display = "block";
+  document.getElementById("responsiveeditcontact-overlay-container").style.display = "block";
   if (window.innerWidth >= 900) {
     responsiveEditContactId.style.display = "none";
-  } else { 
-    responsiveEditContactId.style.display = "block"; }
+  } else {
+    responsiveEditContactId.style.display = "block";
+  }
   document.getElementById("responsiveeditcontact-overlay-container").innerHTML =
     editUserOptionsResponsiveTemplate(userId);
 }
 
-document.addEventListener("click", function(e) {
+document.addEventListener("click", function (e) {
   let overlay = document.getElementById("edit_overlay");
   if (overlay && !e.target.closest("#edit_overlay")) {
     overlay.remove();
@@ -113,8 +136,8 @@ document.addEventListener("click", function(e) {
 function addNewContact() {
   let popUp = document.getElementById("body");
   if (!document.getElementById("closeoverlay")) {
-  popUp.innerHTML += addNewContactTemplate();
-}
+    popUp.innerHTML += addNewContactTemplate();
+  }
   let contactContainer = document.getElementById('contact-container')
   if (contactContainer) {
     setTimeout(() => {
@@ -123,20 +146,19 @@ function addNewContact() {
   }
 }
 
+function closeOverlayContainers() {
+  const contact = document.getElementById("contact-container");
+  const edit = document.getElementById("edit-main-container");
+  if (contact) contact.classList.remove("is-open");
+  if (edit) edit.classList.remove("is-open");
+}
+
 function closeOverlay() {
-  let contactContainer = document.getElementById('contact-container');
-  const overlay = document.getElementById("closeoverlay");
-  const editOverlay = document.getElementById("closediteoverlay");
-  const editContainer = document.getElementById('edit-main-container');
-  if (contactContainer) {
-    contactContainer.classList.remove('is-open');
-  }
-  if (editContainer) {
-    editContainer.classList.remove('is-open');
-  }
+  closeOverlayContainers();
+
   setTimeout(() => {
-    if (overlay) overlay.remove();
-    if (editOverlay) editOverlay.remove();
+    document.getElementById("closeoverlay")?.remove();
+    document.getElementById("closediteoverlay")?.remove();
   }, 250);
 }
 
@@ -147,7 +169,7 @@ async function editUser(userId) {
   let popUpEditUser = document.getElementById("body");
   popUpEditUser.innerHTML += editUserTemplate(user);
   let contactContainer = document.getElementById('edit-main-container')
- document.getElementById("responsiveeditcontact-overlay-container").style.display = "none";
+  document.getElementById("responsiveeditcontact-overlay-container").style.display = "none";
   if (contactContainer) {
     setTimeout(() => {
       contactContainer.classList.add('is-open')
@@ -165,22 +187,27 @@ async function deleteUser(userId) {
   contactsLoad();
 }
 
-async function saveUser(userId) {
-  const nameEl = document.getElementById('edit_name').value.trim();
-  const emailEl = document.getElementById('edit_email').value.trim();
-  const phoneEl = document.getElementById('edit_phone').value.trim();
-  if (!validateEditUser()) return;
+async function updateUserData(userId, name, email, phone) {
   await FIREBASE_USERS.child(userId).update({
-    name: nameEl,
-    email: emailEl,
-    phone: phoneEl,
+    name,
+    email,
+    phone,
     badge: {
-    text: getInitials(nameEl),
-    color: getRandomColor()
-  }})
+      text: getInitials(name),
+      color: getRandomColor()
+    }
+  });
+}
+
+async function saveUser(userId) {
+  if (!validateEditUser()) return;
+  const name = document.getElementById("edit_name").value.trim();
+  const email = document.getElementById("edit_email").value.trim();
+  const phone = document.getElementById("edit_phone").value.trim();
+  await updateUserData(userId, name, email, phone);
   await contactsLoad();
   contactsRender(userId);
-  updateDetailsPanel({ name: nameEl, email: emailEl, phone: phoneEl });
+  updateDetailsPanel({ name, email, phone });
   closeOverlay();
 }
 
@@ -204,7 +231,23 @@ function getInitials(fullName) {
 
 function getRandomColor() {
   const colors = ["#2A3647", "#29ABE2", "#FF7A00", "#9327FF", "#FC71FF", "#fccc59", "#442c8c", "#fc4444"];
-  return colors[Math.floor(Math.random() * colors.length)]; 
+  return colors[Math.floor(Math.random() * colors.length)];
+}
+
+async function saveNewContact(name, email, phone) {
+  const entry = firebase.database().ref("users").push();
+  const id = entry.key;
+  await entry.set({
+    id,
+    name,
+    email,
+    phone,
+    badge: {
+      text: getInitials(name),
+      color: getRandomColor()
+    }
+  });
+  return id;
 }
 
 async function createContact() {
@@ -212,12 +255,7 @@ async function createContact() {
   const name = document.getElementById("name_new_user").value.trim();
   const email = document.getElementById("email_new_user").value.trim();
   const phone = document.getElementById("phone_new_user").value.trim();
-  const entry = firebase.database().ref("users").push();
-  const id = entry.key;
-  await entry.set({
-    id, name, email, phone,
-    badge: { text: getInitials(name), color: getRandomColor() }
-  });
+  const id = await saveNewContact(name, email, phone);
   await contactsLoad();
   activeUserId = id;
   userHighlight(id, id);
@@ -241,25 +279,31 @@ async function addedNewUser() {
   overlay.remove();
 }
 
+function updateContactsLayout() {
+  const info = document.getElementById("contactsinfo");
+  const left = document.getElementById("responsiveleftsidecontacts");
+  const details = document.getElementById("responsivecontactsmoto");
+
+  if (window.innerWidth <= 900) {
+    info.innerHTML = "";
+    if (left) left.style.display = "block";
+    if (details) details.style.display = "none";
+  } else {
+    if (details) details.style.display = "block";
+  }
+}
 
 function reRenderContacts() {
-  const contactInfo = document.getElementById("contactsinfo");
-  const leftSide = document.getElementById("responsiveleftsidecontacts");
-  const contactDetails = document.getElementById("responsivecontactsmoto");
-  const addContact = document.getElementById("responsiveaddcontactid");
-  const editContact = document.getElementById("responsiveeditcontactid");
-  if (window.innerWidth <= 900) {
-    contactInfo.innerHTML = "";
-    if (leftSide) leftSide.style.display = "block";
-    if (contactDetails) contactDetails.style.display = "none";
-  } else if (contactDetails) {
-    contactDetails.style.display = "block";
-  }
+  updateContactsLayout();
+
   activeUserId = null;
   contactsLoad();
 
-  if (addContact) addContact.style.display = "flex";
-  if (editContact) editContact.style.display = "none";
+  const add = document.getElementById("responsiveaddcontactid");
+  const edit = document.getElementById("responsiveeditcontactid");
+
+  if (add) add.style.display = "flex";
+  if (edit) edit.style.display = "none";
 }
 
 let lastIsMobile = window.innerWidth <= 900;
@@ -268,7 +312,7 @@ window.addEventListener("resize", () => {
   const isMobile = window.innerWidth <= 900;
   if (isMobile !== lastIsMobile) {
     lastIsMobile = isMobile;
-    reRenderContacts();  
+    reRenderContacts();
   }
   updateResponsiveButtons();
 });

@@ -185,30 +185,34 @@ function closeAssignedInputOutclick(e) {
 document.addEventListener('click', closeAssignedInputOutclick);
 
 function filterBadges(badge, badgeContainer, userId) {
-    let existing = badgeContainer.querySelector(`[data-user-id="${userId}"]`);
+    const MAX_VISIBLE = 3;
+    const existing = badgeContainer.querySelector(`[data-user-id="${userId}"]`);
     if (existing) {
         existing.remove();
+        updateBadges(badgeContainer, MAX_VISIBLE);
         return;
     }
-    let clone = badge.cloneNode(true);
+    const clone = badge.cloneNode(true);
     clone.dataset.userId = userId;
     badgeContainer.appendChild(clone);
-    const MAX_VISIBLE = 3;
-    const oldDots = badgeContainer.querySelector('.badge-dots');
+    updateBadges(badgeContainer, MAX_VISIBLE);
+}
+
+function updateBadges(container, maxVisible) {
+    const oldDots = container.querySelector(".badge-dots");
     if (oldDots) oldDots.remove();
-    const badges = [...badgeContainer.children].filter(
-        el => !el.classList.contains('badge-dots')
-    );
-    badges.forEach((badge, index) => {
-        badge.style.display = index < MAX_VISIBLE ? 'flex' : 'none';
-    });
-    if (badges.length > MAX_VISIBLE) {
-        const dotsEl = document.createElement('span');
-        dotsEl.className = 'badge-dots';
-        dotsEl.textContent = '...';
-        badgeContainer.appendChild(dotsEl);
+    const badges = Array.from(container.children).filter(
+        el => !el.classList.contains("badge-dots")
+    ); for (let i = 0; i < badges.length; i++) {
+        badges[i].style.display = i < maxVisible ? "flex" : "none";
+    } if (badges.length > maxVisible) {
+        const dots = document.createElement("span");
+        dots.className = "badge-dots";
+        dots.textContent = "...";
+        container.appendChild(dots);
     }
 }
+
 
 function switchCategoryPlaceholder(e) {
     let dropDownCategory = document.getElementById('category-input')

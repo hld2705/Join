@@ -1,40 +1,41 @@
+
+
 function dragAndDropTemplate(taskId, title, main, description, subtasks, assigned, priority) {
-    const bgColor = getBgColor(main);
-    const imgSrc = getPriorityImg(priority);
-    subtasks = Array.isArray(subtasks) ? subtasks : Object.values(subtasks || []);
-    let total = subtasks.length;
-    let hideProgressClass = '';
-    if (total === 0) {
-        hideProgressClass = 'hidden';
-    }
-    const done = subtasks.filter(s => s.done).length;
-    const percent = total === 0 ? 0 : Math.round((done / total) * 100);
-    const badges = renderBadges(assigned);
-    return `
-           <div id="card-${taskId}" ontouchstart="touchStart(event)" ontouchmove="touchMove(event)" ontouchend="touchEnd(event)" draggable="true" ondragstart="startDragging(event, ${taskId})" ondragend="onDragEnd()" data-title="${title.toLowerCase()}" data-description ="${description.toLowerCase()}" class="board-card" onclick='detailedCardInfo(${taskId}); animateDetailedCardIn()'>
-                <div class="task-main-container" style="background-color: ${bgColor}">${main}
-                </div> 
-                    <div class="card-container-title-content">
-                        <h2>${title}</h2>
-                        <p>${description}</p>
-                    </div>
-                        <div id="subtask-bar-${taskId}" class="progress-bar-container ${hideProgressClass}">
-                         <progress class="subtask-progress" value="${percent}" max="100"></progress>
-                          <p class="subtask-render-p" class="subtask-template">${done}/${total} Subtasks</p>
-                        </div>
-                    <div class="contacts-badge-container">
-                        <div class="only-badges-container">
-                            ${badges.slice(0, 3).map(b => `
-                                <img class="badges-img" src="${b.badge}" title="${b.name}" style="border-color:${b.color}">
-                                `).join('')}
-                            ${badges.length > 3 ? `<span class="badge-dots">...</span>` : ''}
-                        </div>
-                        <div>
-                          <img class="priority-badge" src="${imgSrc}">  
-                        </div>
-                    </div>
-                </div>
-            </div>
+  const data = getDragAndDropData(subtasks, assigned, main, priority);
+  return `
+    <div id="card-${taskId}"ontouchstart="touchStart(event)" ontouchmove="touchMove(event)" ontouchend="touchEnd(event)" draggable="true" ondragstart="startDragging(event, ${taskId})" ondragend="onDragEnd()" data-title="${title.toLowerCase()}" data-description="${description.toLowerCase()}" class="board-card"
+         onclick="detailedCardInfo(${taskId}); animateDetailedCardIn()">
+      <div class="task-main-container" style="background-color:${data.bgColor}">
+        ${main}
+      </div>
+      <div class="card-container-title-content">
+        <h2>${title}</h2>
+        <p>${description}</p>
+      </div>
+      <div id="subtask-bar-${taskId}"
+           class="progress-bar-container ${data.hideProgressClass}">
+        <progress class="subtask-progress"
+                  value="${data.percent}"
+                  max="100"></progress>
+        <p class="subtask-render-p">
+          ${data.done}/${data.total} Subtasks
+        </p>
+      </div>
+      <div class="contacts-badge-container">
+        <div class="only-badges-container">
+          ${data.badges.slice(0, 3).map(b => `
+            <img class="badges-img"
+                 src="${b.badge}"
+                 title="${b.name}"
+                 style="border-color:${b.color}">
+          `).join("")}
+          ${data.badges.length > 3 ? `<span class="badge-dots">...</span>` : ""}
+        </div>
+        <div>
+          <img class="priority-badge" src="${data.imgSrc}">
+        </div>
+      </div>
+    </div>
   `;
 }
 

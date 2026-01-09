@@ -18,15 +18,12 @@ const FIREBASE_USERS = firebase.database().ref("users");
 window.logIn = async function logIn() {
     const data = getSignUpInputValues();
     if (!signUpValidation(data.name, data.email, data.password, data.passwordConfirm)) return;
-
     const exists = await userExistsByEmail(data.email);
     resetSignUpUI();
-
     if (exists) {
         showUserAlreadyExists();
         return;
     }
-
     const firebaseId = await createNewUser(data);
     forwardingNextPage(firebaseId);
 };
@@ -342,7 +339,6 @@ function resetLoginUI() {
     ].forEach(id =>
         document.getElementById(id).classList.remove("submit")
     );
-
     [
         "required-login-name",
         "required-login-password"

@@ -49,25 +49,33 @@ async function getToDo() {
   `;
 }
 
+function doneTasksTemplate(count) {
+  return `
+    <div class="summary-todo">
+      <div class="icon-summary">
+        <svg class="check-icon" width="37" height="30" viewBox="0 0 37 30" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.5 14.566L14.7288 25.6321L33.4434 3.5"
+            stroke="white" stroke-width="7"
+            stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+    </div>
+    <div class="done-text-container">
+      <h1 class="task-count">${count}</h1>
+      <span>Done</span>
+    </div>
+  `;
+}
+
 async function getDoneTasks() {
   await loadData();
-  const DoneTasks = tasks.filter(done => done.status === "done");
-  const DoneCard = document.getElementById("summary-done");
-  DoneCard.innerHTML = `
-             <div class="summary-todo">
-                  <div class="icon-summary">
-                    <svg class="check-icon" width="37" height="30" viewBox="0 0 37 30" fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path d="M3.5 14.566L14.7288 25.6321L33.4434 3.5" stroke="white" stroke-width="7"
-                        stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                  </div>
-                </div>
-                <div class="done-text-container">
-                  <h1 class="task-count">${DoneTasks.length}</h1>
-                  <span>Done</span>
-                </div>
-                `
+
+  const doneTasks = tasks.filter(task => task.status === "done");
+  const doneCard = document.getElementById("summary-done");
+  if (!doneCard) return;
+
+  doneCard.innerHTML = doneTasksTemplate(doneTasks.length);
 }
 
 async function getUrgent() {
@@ -94,33 +102,28 @@ function getNextUpcomingDeadline(tasks) {
   if (!Array.isArray(tasks)) return null;
   const now = Date.now();
   let nextTask = null;
-  for (let i = 0; i < tasks.length; i++) {
-    const task = tasks[i];
+  for (let task of tasks) {
     if (!task.enddate) continue;
-    const timestamp = Date.parse(task.enddate);
-    if (isNaN(timestamp)) continue;
-    if (timestamp < now) continue;
-    if (!nextTask || timestamp < Date.parse(nextTask.enddate)) {
+    const time = Date.parse(task.enddate);
+    if (isNaN(time) || time < now) continue;
+    if (!nextTask || time < Date.parse(nextTask.enddate)) {
       nextTask = task;
     }
   }
   return nextTask;
 }
+
 function guestLogIn() {
   const fullNav = document.getElementById("togglednone");
   const loginNav = document.getElementById("loginnav");
   const isNonLogin = window.location.search.includes("nonlogin=true");
-  if (isNonLogin) {
-    if (fullNav) fullNav.style.display = "none";
-    if (loginNav) {
-      loginNav.style.display = "flex";
-      loginNav.style.cursor = "default";
-    }
-  } else {
-    if (loginNav) {
-      loginNav.style.display = "none";
-      loginNav.style.cursor = "default";}
-    if (fullNav) fullNav.style.display = "flex";}
+
+  if (fullNav) fullNav.style.display = isNonLogin ? "none" : "flex";
+
+  if (loginNav) {
+    loginNav.style.display = isNonLogin ? "flex" : "none";
+    loginNav.style.cursor = "default";
+  }
 }
 
 function renderNextDeadline(dateString) {
@@ -239,23 +242,25 @@ window.addEventListener("DOMContentLoaded", async () => {
   showWelcome(content, user, userSpan);
 });
 
-function showWelcome(content, user, userSpan) {
-  const guest = sessionStorage.getItem("guestWelcome");
-  const logged = sessionStorage.getItem("userWelcome");
-  if (!guest && !logged) return;
-
-  const greeting = getGreetingByTime();
-  content.innerHTML = `
+function welcomeTemplate(greeting, name) {
+  return `
     <div style="height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;">
       <h1>${greeting}</h1>
-      <h1 style="color:#29ABE2;">${user?.name || "Guest"}</h1>
+      <h1 style="color:#29ABE2;">${name}</h1>
     </div>
   `;
+}
 
+function showWelcome(content, user) {
+  const showGuest = sessionStorage.getItem("guestWelcome");
+  const showUser = sessionStorage.getItem("userWelcome");
+  if (!showGuest && !showUser) return;
+  const greeting = getGreetingByTime();
+  const name = user?.name || "Guest";
+  content.innerHTML = welcomeTemplate(greeting, name);
   setTimeout(() => {
     sessionStorage.removeItem("guestWelcome");
     sessionStorage.removeItem("userWelcome");
     location.reload();
   }, 1500);
 }
-

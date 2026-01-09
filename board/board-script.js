@@ -1,69 +1,114 @@
 const boardTaskFormURL = './add_task/form_task.html';
 let originalParent;
 let isDragging = false;
-
 let touchDraggingCard = null;
 let touchOffsetX = 0;
 let touchOffsetY = 0;
 let touchGhost = null;
+let originalContainer = null;
+let openedCardId = null;
+let selectedPriority = null;
 
-function dragAndDrop() {
-  let container = document.getElementById("template-overview");
-  const containers = {
+function getDragAndDropData(subtasks, assigned, main, priority) {
+  const safeSubtasks = Array.isArray(subtasks)
+    ? subtasks
+    : Object.values(subtasks || []);
+  const total = safeSubtasks.length;
+  const done = safeSubtasks.filter(s => s.done).length;
+  return {
+    bgColor: getBgColor(main),
+    imgSrc: getPriorityImg(priority),
+    badges: renderBadges(assigned),
+    total,
+    done,
+    percent: total === 0 ? 0 : Math.round((done / total) * 100),
+    hideProgressClass: total === 0 ? "hidden" : ""
+  };
+}
+
+function getBoardContainers() {
+  return {
     todo: document.getElementById("todo-container"),
     inprogress: document.getElementById("in-progress-container"),
     review: document.getElementById("feedback-container"),
     done: document.getElementById("done-container")
   };
+}
 
+function clearContainers(containers) {
   for (let key in containers) {
     if (containers[key]) containers[key].innerHTML = "";
   }
+}
 
+function renderTasketoContainer(task, containers) {
+  const container = containers[task.status];
+  if (!container) return;
+  container.innerHTML += dragAndDropTemplate(
+    task.id,
+    task.title,
+    task.main,
+    task.description,
+    task.subtasks,
+    task.assigned,
+    task.priority,
+    task.enddate
+  );
+}
+
+function fillContainers(containers) {
   for (let i = 0; i < tasks.length; i++) {
-    const task = tasks[i];
-    const container = containers[task.status]
-    const badges = Array.isArray(task.assignedBadge) ? task.assignedBadge : [];
-    if (container) {
-      container.innerHTML += dragAndDropTemplate(
-        task.id,
-        task.title,
-        task.main,
-        task.description,
-        task.subtasks,
-        task.assigned,
-        task.priority,
-        task.enddate
-      );
-    }
+    renderTasketoContainer(tasks[i], containers);
   }
+}
 
+function fillEmptyContainers(containers) {
   for (let key in containers) {
     const container = containers[key];
     if (container && container.children.length === 0) {
       container.innerHTML = noCardsTemplate();
     }
   }
+}
+
+function dragAndDrop() {
+  const containers = getBoardContainers();
+  clearContainers(containers);
+  fillContainers(containers);
+  fillEmptyContainers(containers);
   updateAllContainers();
 }
 
+function getUserId(value) {
+  return Number(typeof value === "object" ? value.id : value);
+}
+
 function renderBadges(assigned) {
-  if (!assigned || assigned.length === 0) {
-    return [];
-  }
-  let badges = [];
+  if (!assigned || assigned.length === 0) return [];
+  const badges = [];
   for (let i = 0; i < assigned.length; i++) {
-    let userId = Number(typeof assigned[i] === "object" ? assigned[i].id : assigned[i]);
-    let user = join.users.find(u => u.id === userId);
-    if (user) {
-      badges.push({
-        badge: user.badge,
-        name: user.name,
-        color: user.color
-      });
-    }
-  }
+    const userId = getUserId(assigned[i]);
+    const user = join.users.find(u => u.id === userId);
+    if (!user) continue;
+
+    badges.push({
+      badge: user.badge,
+      name: user.name,
+      color: user.color
+    });}
   return badges;
+}
+
+function createTouchGhost(card, rect) {
+  const ghost = card.cloneNode(true);
+  ghost.style.position = "fixed";
+  ghost.style.left = rect.left + "px";
+  ghost.style.top = rect.top + "px";
+  ghost.style.width = rect.width + "px";
+  ghost.style.pointerEvents = "none";
+  ghost.style.visibility = "hidden";
+  document.body.appendChild(ghost);
+  return ghost;
 }
 
 function touchStart(e) {
@@ -74,16 +119,7 @@ function touchStart(e) {
   touchDraggingCard = card;
   touchOffsetX = touch.clientX - rect.left;
   touchOffsetY = touch.clientY - rect.top;
-  touchGhost = card.cloneNode(true);
-  touchGhost.style.position = "fixed";
-  touchGhost.style.left = rect.left + "px";
-  touchGhost.style.top = rect.top + "px";
-  touchGhost.style.width = rect.width + "px";
-  touchGhost.style.pointerEvents = "none";
-  //touchGhost.style.opacity = "0.9";
-  //touchGhost.style.zIndex = "9999";
-  touchGhost.style.visibility = "hidden";
-  document.body.appendChild(touchGhost);
+  touchGhost = createTouchGhost(card, rect);
   e.preventDefault();
 }
 
@@ -95,36 +131,30 @@ function touchMove(e) {
   e.preventDefault();
 }
 
+function updateTaskStatusByContainer(card, container) {
+  const taskId = Number(card.id.replace("card-", ""));
+  let newStatus = null;
+  if (container.id === "todo-container") newStatus = "todo";
+  if (container.id === "in-progress-container") newStatus = "inprogress";
+  if (container.id === "feedback-container") newStatus = "review";
+  if (container.id === "done-container") newStatus = "done";
+  const task = tasks.find(t => t.id === taskId);
+  if (!task || !newStatus) return;
+  task.status = newStatus;
+  firebase.database().ref("tasks/" + taskId).update({ status: newStatus });
+}
+
 function touchEnd(e) {
   if (!touchDraggingCard) return;
   const touch = e.changedTouches[0];
-  const target = document.elementFromPoint(
-    touch.clientX,
-    touch.clientY
-  );
-  const column = target?.closest(".distribution-progress");
-  if (column) {
-    const container = column.querySelector(".task-container");
-    if (container) {
-      container.appendChild(touchDraggingCard);
-      const taskId = Number(
-        touchDraggingCard.id.replace("card-", "")
-      );
-      let newStatus = null;
-      if (container.id === "todo-container") newStatus = "todo";
-      if (container.id === "in-progress-container") newStatus = "inprogress";
-      if (container.id === "feedback-container") newStatus = "review";
-      if (container.id === "done-container") newStatus = "done";
-      const task = tasks.find(t => t.id === taskId);
-      if (task && newStatus) {
-        task.status = newStatus;
-        firebase.database().ref("tasks/" + taskId).update({
-          status: newStatus
-        });
-      }
-      updateContainerTemplate(container);
-    }
-  }
+  const target = document.elementFromPoint(touch.clientX, touch.clientY);
+  const column = target && target.closest(".distribution-progress");
+  if (!column) return cleanupTouchDrag();
+  const container = column.querySelector(".task-container");
+  if (!container) return cleanupTouchDrag();
+  container.appendChild(touchDraggingCard);
+  updateTaskStatusByContainer(touchDraggingCard, container);
+  updateContainerTemplate(container);
   cleanupTouchDrag();
 }
 
@@ -136,11 +166,9 @@ function cleanupTouchDrag() {
   if (touchDraggingCard) {
     touchDraggingCard.style.visibility = "visible";
     touchDraggingCard = null;
-    }
-    updateAllContainers();
+  }
+  updateAllContainers();
 }
-
-let originalContainer = null;
 
 function startDragging(ev, id) {
   const card = document.getElementById(`card-${id}`);
@@ -151,45 +179,53 @@ function startDragging(ev, id) {
   document.querySelectorAll(".landing-field").forEach(lf => lf.remove());
 }
 
+function removeLandingFields() {
+  document.querySelectorAll(".landing-field").forEach(lf => lf.remove());
+}
+
+function insertLandingFieldAfter(child, height) {
+  let lf = child.nextElementSibling;
+  if (!lf || !lf.classList.contains("landing-field")) {
+    lf = document.createElement("div");
+    lf.classList.add("landing-field");
+    lf.style.height = height + "px";
+    child.parentElement.insertBefore(lf, child.nextSibling);
+  }
+  lf.style.display = "block";
+}
+
+function insertLandingFieldAtEnd(container, height) {
+  let lf = container.querySelector(".landing-field:last-child");
+  if (!lf) {
+    lf = document.createElement("div");
+    lf.classList.add("landing-field");
+    lf.style.height = height + "px";
+    container.querySelector(".task-container").appendChild(lf);
+  }
+  lf.style.display = "block";
+}
+
+function findPosition(cards, y, height) {
+  for (let card of cards) {
+    const rect = card.getBoundingClientRect();
+    if (y < rect.top + rect.height / 2) {
+      insertLandingFieldAfter(card, height);
+      return true;
+    }
+  }
+  return false;
+}
+
 function dragoverHandler(ev) {
   ev.preventDefault();
-  document.querySelectorAll(".landing-field").forEach(lf => lf.remove());
-  const container = ev.currentTarget;
+  removeLandingFields();
   const draggingCard = document.querySelector(".board-card.dragging");
-  if (!draggingCard) return;
-  const inner = container.querySelector(".task-container");
-  if (inner === originalContainer) {
-    return;
-  }
-  document.querySelectorAll(".landing-field").forEach(lf => lf.remove());
-  const children = Array.from(container.querySelectorAll(".board-card"));
-  let inserted = false;
-  for (let child of children) {
-    const rect = child.getBoundingClientRect();
-    const midpoint = rect.top + rect.height / 2;
-    if (ev.clientY < midpoint) {
-      let lf = child.nextElementSibling;
-      if (!lf || !lf.classList.contains("landing-field")) {
-        lf = document.createElement("div");
-        lf.classList.add("landing-field");
-        lf.style.height = draggingCard.offsetHeight + "px";
-        child.parentElement.insertBefore(lf, child.nextSibling);
-      }
-      lf.style.display = "block";
-      inserted = true;
-      break;
-    }
-  }
-  if (!inserted) {
-    let lf = container.querySelector(".landing-field:last-child");
-    if (!lf) {
-      lf = document.createElement("div");
-      lf.classList.add("landing-field");
-      lf.style.height = draggingCard.offsetHeight + "px";
-      container.querySelector(".task-container").appendChild(lf);
-    }
-    lf.style.display = "block";
-  }
+  const inner = ev.currentTarget.querySelector(".task-container");
+  if (!draggingCard || inner === originalContainer) return;
+  const cards = Array.from(ev.currentTarget.querySelectorAll(".board-card"));
+  const inserted = findPosition(cards, ev.clientY, draggingCard.offsetHeight);
+  if (!inserted)
+    insertLandingFieldAtEnd(ev.currentTarget, draggingCard.offsetHeight);
 }
 
 function onDragEnd() {
@@ -206,12 +242,7 @@ function dragenterHandler(ev) {
   ev.currentTarget.classList.add("drag-over");
 }
 
-function moveTo(ev, newStatus) {
-  ev.preventDefault();
-  const data = ev.dataTransfer.getData("text");
-  const card = document.getElementById(data);
-  const container = ev.currentTarget.querySelector(".task-container");
-  if (!card || !container) return;
+function moveCardInContainer(card, container) {
   const lf = container.querySelector(".landing-field[style*='display: block']");
   if (lf) {
     container.insertBefore(card, lf);
@@ -219,20 +250,30 @@ function moveTo(ev, newStatus) {
   } else {
     container.appendChild(card);
   }
-  const taskId = Number(card.id.replace("card-", ""));
-  const task = tasks.find(t => t.id === taskId);
-  if (task) {
-    task.status = newStatus;
-    firebase.database().ref("tasks/" + taskId).update({
-      status: newStatus
-    });
-  }
-
-  document.querySelectorAll(".landing-field").forEach(lf => lf.style.display = "none");
-  updateContainerTemplate(container);
 }
 
-let openedCardId = null;
+function updateTaskStatus(card, newStatus) {
+  const taskId = Number(card.id.replace("card-", ""));
+  const task = tasks.find(t => t.id === taskId);
+  if (!task) return;
+
+  task.status = newStatus;
+  firebase.database().ref("tasks/" + taskId).update({ status: newStatus });
+}
+
+function moveTo(ev, newStatus) {
+  ev.preventDefault();
+  const cardId = ev.dataTransfer.getData("text");
+  const card = document.getElementById(cardId);
+  const container = ev.currentTarget.querySelector(".task-container");
+  if (!card || !container) return;
+
+  moveCardInContainer(card, container);
+  updateTaskStatus(card, newStatus);
+  document.querySelectorAll(".landing-field")
+    .forEach(lf => lf.style.display = "none");
+  updateContainerTemplate(container);
+}
 
 function updateContainerTemplate(container) {
   if (!container) return;
@@ -282,22 +323,28 @@ function renderSubtaskMore(count, taskId) {
   `;
 }
 
-function renderSubtask(subtasks, taskId) {
-  if (!subtasks) return "<p>Currently no subtasks available</p>";
-  const safe = Array.isArray(subtasks)
+function getSafeSubtasks(subtasks) {
+  if (!subtasks) return [];
+  return Array.isArray(subtasks)
     ? subtasks
     : Object.values(subtasks);
-  if (safe.length === 0) {
-    return "<p>Currently no subtasks available</p>";
-  }
-  const visibleSubtasks = safe.slice(0, 2);
-  const remainingCount = safe.length - visibleSubtasks.length;
-  let html = visibleSubtasks
+}
+
+function renderNoSubtasks() {
+  return "<p>Currently no subtasks available</p>";
+}
+
+function renderSubtask(subtasks, taskId) {
+  const safe = getSafeSubtasks(subtasks);
+  if (safe.length === 0) return renderNoSubtasks();
+
+  const visible = safe.slice(0, 2);
+  const remaining = safe.length - visible.length;
+  let html = visible
     .map((st, i) => renderSubtaskItem(st, taskId, i))
-    .join('');
-  if (remainingCount > 0) {
-    html += renderSubtaskMore(remainingCount, taskId);
-  }
+    .join("");
+  if (remaining > 0)
+    html += renderSubtaskMore(remaining, taskId);
   return html;
 }
 
@@ -324,20 +371,21 @@ function toggleSubtask(taskId, index) {
   dragAndDrop();
 }
 
-function updateBoardSubtaskProgress(taskId, subtasks) {
+function getSubtaskProgress(subtasks) {
   const done = subtasks.filter(s => s.done).length;
   const total = subtasks.length;
+  const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+  return { done, total, percent };
+}
+
+function updateBoardSubtaskProgress(taskId, subtasks) {
   const card = document.getElementById(`card-${taskId}`);
   if (!card) return;
-  const text = card.querySelector('.subtask-template');
-  if (text) {
-    text.textContent = `${done}/${total} Subtasks`;
-  }
-  const progressBar = card.querySelector('.subtask-progress');
-  if (progressBar) {
-    const percent = total === 0 ? 0 : Math.round((done / total) * 100);
-    progressBar.value = percent;
-  }
+  const { done, total, percent } = getSubtaskProgress(subtasks);
+  const text = card.querySelector(".subtask-template");
+  if (text) text.textContent = `${done}/${total} Subtasks`;
+  const bar = card.querySelector(".subtask-progress");
+  if (bar) bar.value = percent;
 }
 
 function deleteCard(taskId) {
@@ -359,8 +407,6 @@ function getBgColor(main) {
   if (main === "Technical Task" || main === "techtask") return "#1FD7C1";
   return "#fff";
 }
-
-let selectedPriority = null;
 
 function changesUrgentColor() {
   selectedPriority = "urgent";
@@ -426,7 +472,6 @@ function closeOverlayCardInstant() {
   if (close) close.remove();
 }
 
-
 function animateOverlayIn(overlay) {
   overlay.classList.remove("is-open");
   setTimeout(() => {
@@ -461,14 +506,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   dragAndDrop();
 });
 
-function openAddTaskOverlay(column) {
-  if (window.innerWidth < 1230) {
-    window.location.href = "add_task.html";
-    return;
-  }
+function prepareAddTaskOverlay(column) {
   window.currentTaskColumn = column;
-  let overlayBg = document.getElementById("task-overlay-background");
-  let overlay = document.getElementById("task-overlay");
   addTaskOverlayTemplate();
   if (!addTaskInteractionsLoaded) {
     loadAddTaskInteractions();
@@ -478,6 +517,16 @@ function openAddTaskOverlay(column) {
     mediumActive = false;
     changeMediumColor();
   }, 50);
+}
+
+function openAddTaskOverlay(column) {
+  if (window.innerWidth < 1230) {
+    window.location.href = "add_task.html";
+    return;
+  }
+  const overlayBg = document.getElementById("task-overlay-background");
+  const overlay = document.getElementById("task-overlay");
+  prepareAddTaskOverlay(column);
   overlayBg.style.display = "block";
   animateOverlayIn(overlay);
 }
@@ -492,8 +541,7 @@ function editTask() {
     if (value === "" || value === undefined || value === null) continue;
     filteredData[key] = value;
   }
-  return firebase.database()
-    .ref("tasks/" + oldTask.id)
+  return firebase.database().ref("tasks/" + oldTask.id)
     .update(filteredData)
     .catch(err => console.error("Task update failed:", err));
 }
@@ -511,14 +559,9 @@ function loadAddTaskInteractions() {
 
 let addTaskInteractionsLoaded = false;
 
-function openEditOverlay(taskId) {
-  let task = tasks.find(t => t.id === taskId);
+function prepareEditOverlay(task) {
   editOverlayTemplate(task);
-
-  setTimeout(() => {
-    preselectAssignedUsers(task.assigned);
-  }, 0);
-
+  setTimeout(() => preselectAssignedUsers(task.assigned), 0);
   if (!addTaskInteractionsLoaded) {
     loadAddTaskInteractions();
     addTaskInteractionsLoaded = true;
@@ -529,62 +572,64 @@ function openEditOverlay(taskId) {
     mediumActive = task.priority === "medium";
     lowActive = task.priority === "low";
   }, 20);
-  let bg = document.getElementById('edit-overlay-background');
-  let formContainer = document.getElementById('edit-task-form-container');
-  if (!bg || !formContainer) return;
+}
+
+function openEditOverlay(taskId) {
+  const task = tasks.find(t => t.id === taskId);
+  if (!task) return;
+  prepareEditOverlay(task);
+  const bg = document.getElementById("edit-overlay-background");
+  const form = document.getElementById("edit-task-form-container");
+  if (!bg || !form) return;
+
   closeOverlayCardInstant();
-  bg.classList.add('is-open');
-  bg.addEventListener('click', function (e) {
-    if (e.target === bg) {
-      cancelEditOverlay();
-    }
-  })
+  bg.classList.add("is-open");
+  bg.addEventListener("click", e => {
+    if (e.target === bg) cancelEditOverlay();
+  });
+}
+
+function preselectSingleUser(userId) {
+  const el = document.querySelector(
+    `.Assigned-dropdown-username[data-user-id="${userId}"]`
+  );
+  if (!el) return;
+  el.classList.add("bg-grey");
+  const checkButton = el.querySelector(".check-button");
+  const checkIcon = el.querySelector(".check-icon-assignedTo");
+  if (checkButton) {
+    checkIcon.classList.toggle("hidden");
+    checkButton.classList.toggle("check-button-white");
+  }
 }
 
 async function preselectAssignedUsers(assigned) {
   if (!assigned || assigned.length === 0) return;
-
   await showUserName();
-
-  assigned.forEach(userId => {
-    const el = document.querySelector(
-      `.Assigned-dropdown-username[data-user-id="${userId}"]`
-    );
-    if (el) {
-      el.classList.add("bg-grey");
-      let checkButton = el.querySelector('.check-button');
-      let checkIcon = el.querySelector('.check-icon-assignedTo');
-      if (checkButton) {
-        checkIcon.classList.toggle("hidden");
-        checkButton.classList.toggle("check-button-white");
-      }
-    }
-  });
-
+  for (let i = 0; i < assigned.length; i++) {
+    preselectSingleUser(assigned[i]);
+  }
   renderFilteredBadges();
 }
 
-
+function getSelectedAssignedUsers() {
+  return document.querySelectorAll(".Assigned-dropdown-username.bg-grey");
+}
 
 function renderFilteredBadges() {
   const container = document.getElementById("filteredBadgesContainer");
   if (!container) return;
-
   container.innerHTML = "";
-
-  const selectedUsers = document.querySelectorAll(
-    ".Assigned-dropdown-username.bg-grey"
-  );
-
-  selectedUsers.forEach(userEl => {
-    const name = userEl.querySelector("span")?.textContent || "";
-    const badgeEl = userEl.querySelector(".userBadge");
-    if (!badgeEl) return;
+  const users = getSelectedAssignedUsers();
+  for (let i = 0; i < users.length; i++) {
+    const nameEl = users[i].querySelector("span");
+    const badgeEl = users[i].querySelector(".userBadge");
+    if (!badgeEl) continue;
     const badge = badgeEl.cloneNode(true);
     badge.classList.add("assigned-badge");
-    badge.title = name;
+    badge.title = nameEl ? nameEl.textContent : "";
     container.appendChild(badge);
-  });
+  }
 }
 
 function openDetailedInfoCardInstant() {
@@ -641,19 +686,22 @@ function animateDetailedCardIn() {
   }, 20);
 }
 
+function cardMatchesSearch(card, search) {
+  const title = card.dataset.title || "";
+  const description = card.dataset.description || "";
+  return title.includes(search) || description.includes(search);
+}
+
 function filterBoardCards(value) {
-  let search = value.toLowerCase();
-  let cards = document.getElementsByClassName("board-card");
+  const search = value.toLowerCase();
+  const cards = document.getElementsByClassName("board-card");
   let count = 0;
   for (let i = 0; i < cards.length; i++) {
-    let card = cards[i];
-    let title = card.dataset.title;
-    let description = card.dataset.description;
-    if (title.includes(search) || description.includes(search)) {
-      card.style.display = "";
+    if (cardMatchesSearch(cards[i], search)) {
+      cards[i].style.display = "";
       count++;
     } else {
-      card.style.display = "none";
+      cards[i].style.display = "none";
     }
   }
   noResult(count);
@@ -671,4 +719,3 @@ function noResult(count) {
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
