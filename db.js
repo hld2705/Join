@@ -15,7 +15,7 @@ function createArrayFromData(data) {
 
   for (let key in data) {
     result.push({
-      id: key,
+      id: String(key),
       ...data[key]
     });
   }

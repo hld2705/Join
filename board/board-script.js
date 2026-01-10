@@ -4,6 +4,9 @@ let isDragging = false;
 let touchDraggingCard = null;
 let touchOffsetX = 0;
 let touchOffsetY = 0;
+let touchStartX = 0;
+let touchStartY = 0;
+let touchHasMoved = false;
 let touchGhost = null;
 let originalContainer = null;
 let openedCardId = null;
@@ -80,22 +83,26 @@ function dragAndDrop() {
 }
 
 function getUserId(value) {
-  return Number(typeof value === "object" ? value.id : value);
+  return typeof value === "object" ? String(value.id) : String(value);
+
 }
 
 function renderBadges(assigned) {
-  if (!assigned || assigned.length === 0) return [];
-  const badges = [];
+  if (!assigned || assigned.length === 0) {
+    return [];
+  }
+  let badges = [];
   for (let i = 0; i < assigned.length; i++) {
-    const userId = getUserId(assigned[i]);
-    const user = join.users.find(u => u.id === userId);
-    if (!user) continue;
-
-    badges.push({
-      badge: user.badge,
-      name: user.name,
-      color: user.color
-    });}
+    let userId = typeof assigned[i] === "object" ? assigned[i].id : assigned[i];
+    let user = join.users.find(u => String(u.id) === String(userId));
+    if (user) {
+      badges.push({
+        badge: user.badge,
+        name: user.name,
+        color: user.color
+      })
+    }
+  };
   return badges;
 }
 
@@ -117,18 +124,77 @@ function touchStart(e) {
   const touch = e.touches[0];
   const rect = card.getBoundingClientRect();
   touchDraggingCard = card;
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+  touchHasMoved = false;
   touchOffsetX = touch.clientX - rect.left;
   touchOffsetY = touch.clientY - rect.top;
-  touchGhost = createTouchGhost(card, rect);
-  e.preventDefault();
+  touchGhost = card.cloneNode(true);
+  touchGhost.style.position = "fixed";
+  touchGhost.style.left = rect.left + "px";
+  touchGhost.style.top = rect.top + "px";
+  touchGhost.style.width = rect.width + "px";
+  touchGhost.style.pointerEvents = "none";
+  touchGhost.style.visibility = "hidden";
+  document.body.appendChild(touchGhost);
 }
 
 function touchMove(e) {
   if (!touchGhost) return;
   const touch = e.touches[0];
-  touchGhost.style.left = (touch.clientX - touchOffsetX) + "px";
-  touchGhost.style.top = (touch.clientY - touchOffsetY) + "px";
-  e.preventDefault();
+  const moved = Math.abs(touch.clientX - touchStartX) > 10 ||
+    Math.abs(touch.clientY - touchStartY) > 10;
+  if (moved && !touchHasMoved) {
+    touchHasMoved = true;
+  }
+  if (touchHasMoved) {
+    touchGhost.style.left = (touch.clientX - touchOffsetX) + "px";
+    touchGhost.style.top = (touch.clientY - touchOffsetY) + "px";
+    if (e.cancelable) {
+      e.preventDefault();
+    }
+  }
+}
+
+function handleTouchClick(card) {
+  const taskId = Number(card.id.replace("card-", ""));
+  cleanupTouchDrag();
+  detailedCardInfo(taskId);
+  setTimeout(() => {
+    animateDetailedCardIn();
+    updateAllContainers();
+  }, 10);
+}
+
+function touchEnd(e) {
+  if (!touchDraggingCard) return;
+  if (!touchHasMoved) {
+    e.preventDefault();
+    e.stopPropagation();
+    handleTouchClick(touchDraggingCard);
+    return;
+  }
+  const touch = e.changedTouches[0];
+  const target = document.elementFromPoint(touch.clientX, touch.clientY);
+  const container = target?.closest(".distribution-progress")?.querySelector(".task-container");
+  if (!container) return cleanupTouchDrag();
+  container.appendChild(touchDraggingCard);
+  updateTaskStatus(touchDraggingCard, container);
+  updateContainerTemplate(container);
+  cleanupTouchDrag();
+}
+
+function cleanupTouchDrag() {
+  if (touchGhost) {
+    touchGhost.remove();
+    touchGhost = null;
+  }
+  if (touchDraggingCard) {
+    touchDraggingCard.style.visibility = "visible";
+    touchDraggingCard = null;
+  }
+  touchHasMoved = false;
+  updateAllContainers();
 }
 
 function updateTaskStatusByContainer(card, container) {
@@ -144,31 +210,6 @@ function updateTaskStatusByContainer(card, container) {
   firebase.database().ref("tasks/" + taskId).update({ status: newStatus });
 }
 
-function touchEnd(e) {
-  if (!touchDraggingCard) return;
-  const touch = e.changedTouches[0];
-  const target = document.elementFromPoint(touch.clientX, touch.clientY);
-  const column = target && target.closest(".distribution-progress");
-  if (!column) return cleanupTouchDrag();
-  const container = column.querySelector(".task-container");
-  if (!container) return cleanupTouchDrag();
-  container.appendChild(touchDraggingCard);
-  updateTaskStatusByContainer(touchDraggingCard, container);
-  updateContainerTemplate(container);
-  cleanupTouchDrag();
-}
-
-function cleanupTouchDrag() {
-  if (touchGhost) {
-    touchGhost.remove();
-    touchGhost = null;
-  }
-  if (touchDraggingCard) {
-    touchDraggingCard.style.visibility = "visible";
-    touchDraggingCard = null;
-  }
-  updateAllContainers();
-}
 
 function startDragging(ev, id) {
   const card = document.getElementById(`card-${id}`);
@@ -564,7 +605,8 @@ function prepareEditOverlay(task) {
   setTimeout(() => preselectAssignedUsers(task.assigned), 0);
   if (!addTaskInteractionsLoaded) {
     loadAddTaskInteractions();
-    addTaskInteractionsLoaded = true;}
+    addTaskInteractionsLoaded = true;
+  }
   setTimeout(() => {
     changePriorityColor(task.priority);
     urgentActive = task.priority === "urgent";
