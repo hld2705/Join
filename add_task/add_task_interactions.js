@@ -136,7 +136,9 @@ function toggleAssignedinputContent(e) {
     let badgeContainer = document.getElementById('filteredBadgesContainer');
     let userId = isInsideAssigned.dataset.userId;
     toggleAssignedcheckButton(isInsideAssigned);
-    filterBadges(badge, badgeContainer, userId);
+     renderFilteredBadges(); 
+
+   
     getAssignedSpace();
 }
 
@@ -145,6 +147,7 @@ function getAssignedSpace() {
         '.Assigned-dropdown-username.bg-grey'
     );
     let categoryContainer = document.getElementById('category-container');
+    if (!categoryContainer) return;
     if (hasAnySelected) {
         categoryContainer.classList.add('margin-top20');
     } else {

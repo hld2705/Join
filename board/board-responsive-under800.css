@@ -1,0 +1,184 @@
+@media (max-width:800px) {
+    #bt-add-task p {
+
+        display: none;
+    }
+
+    .title-and-search {
+
+        display: flex;
+        flex-direction: column;
+    }
+
+    .board {
+
+        display: flex;
+        flex-direction: column;
+    }
+
+    h3 {
+
+        display: none;
+    }
+
+    .board-header {
+        margin-bottom: 8px;
+    }
+
+    .board-search {
+        margin-bottom: 16px;
+    }
+
+    .btn-addtask-responsive {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border-radius: 999px;
+        justify-content: center;
+    }
+
+    .btn-addtask-responsive .btn-label {
+        display: none;
+    }
+
+    .btn-addtask-responsive .btn-plus {
+        display: none;
+    }
+
+    .btn-addtask-responsive .btn-x {
+        display: inline;
+        font-size: 18px;
+        line-height: 1;
+    }
+}
+
+@media (max-width: 600px) {
+  .notasks-container {
+    min-width: 86vw;
+  }
+
+  .card-overlay-badge-name-details-container {
+    margin-top: 10px;
+  }
+
+  .card-overlay-icons-details-container {
+    bottom: 24px;
+    right: 24px;
+  }
+
+  .card-overlay-badge-name-details-container img {
+    height: 40px;
+  }
+
+  .card-overlay-description-details-container p {
+    margin-bottom: 16px;
+    column-gap: 0px;
+  }
+
+  .card-overlay-subtasks-details-container {
+    font-weight: 400;
+    font-style: normal;
+    font-size: 17px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 60px;
+    margin-top: 40px;
+  }
+
+  .card-overlay-title-container {
+    width: 445px;
+    font-weight: 700;
+    font-style: bold;
+    font-size: 60px;
+    margin-top: 14px;
+    margin-bottom: 10px;
+    inline-size: 200px;
+  }
+
+  .card-overlay-description-container {
+    font-weight: 400;
+    font-size: 16px;
+    padding-bottom: 10px;
+  }
+
+  .card-overlay-description-details-container {
+    font-weight: 400;
+    font-style: normal;
+    padding-top: 10px;
+    font-size: 16px;
+  }
+
+  .card-overlay-assigned_to-details-container {
+    width: 445px;
+    gap: 8px;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+  }
+
+  .task-container {
+    display: flex;
+    margin-top: 40px;
+  }
+
+  .done {
+    margin-top: 10px;
+  }
+
+  .openaddtaskoverlayresponsive {
+
+    margin-right: 10px;
+  }
+
+  .card-overlay-title-container {
+    width: 364px;
+    font-size: 30px;
+    padding: 0px;
+    inline-size: 200px;
+    width: 100%;
+    padding-bottom: 10px;
+  }
+
+  .card-overlay-description-container {
+    padding-bottom: 10px;
+  }
+
+  #card-content {
+    position: fixed;
+    padding: 18px 23px 0 30px;
+    width: min(90vw, 500px);
+    max-height: 98vh;
+    height: auto;
+  }
+
+  .card-overlay-main-container {
+    width: 140px;
+    height: 27px;
+    font-size: 16px;
+  }
+
+  .priority-input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 14px 2px;
+  }
+
+  .distribution-text-icon-wrapper {
+    position: absolute;
+    left: 20px;
+    right: 0;
+  }
+}
+
+@media (max-width:500px) {
+     .left-side {
+    height: 80px;
+  }
+
+  .edit-overlay .check-icon {
+    left: -4px;
+    top: 70px;
+  }
+}

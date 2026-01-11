@@ -415,3 +415,25 @@ function addTaskOverlayTemplate() {
 </form>`
     }
 }
+
+function renderSubtaskItem(st, taskId, index) {
+  return `
+        <div class="subtask-item">
+            <img
+                id="subtask-${taskId}-${index}" 
+                src="${getSubtasksImg(st.done)}"
+                class="subtask-icon"
+                onclick="toggleSubtask(${taskId}, ${index})"
+            >
+            <p>${st.text}</p>
+        </div>
+    `;
+}
+
+function renderSubtaskMore(count, taskId) {
+  return `
+    <div class="subtask-more" onclick="showAllSubtasks(${taskId})">
+      +${count}
+    </div>
+  `;
+}

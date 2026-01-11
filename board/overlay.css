@@ -161,7 +161,6 @@
   margin-bottom: 16px;
 }
 
-
 .edit-overlay #add-task-button {
   display: none !important;
 }
@@ -172,6 +171,226 @@
 
 
 .edit-overlay-card {
-
   width: 525px;
+}
+
+#overlay-add-task {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, .45);
+}
+
+#overlay-add-task.active {
+  display: flex;
+}
+
+#overlay-add-task .modal {
+  width: min(920px, 96vw);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
+  transform: translateY(8px) scale(.985);
+  opacity: .98;
+  transition: transform .25s ease, opacity .25s ease;
+  position: relative;
+}
+
+#overlay-add-task.active .modal {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+#edit-overlay .task-content-container {
+  background: white;
+  padding-bottom: 92px;
+}
+
+.edit-overlay-exit {
+  transition: transform 0.25s ease;
+  transform: translate(220%, -50%) !important;
+}
+
+.card-overlay-assigned_to-details-container {
+  width: 445px;
+  gap: 8px;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 20px;
+}
+
+.edit-overlay .tbc-wrapper {
+  background: white;
+  display: none;
+  position: fixed;
+  height: 100px;
+  left: 0;
+  right: 16px;
+  bottom: 2px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  z-index: 9998;
+}
+
+.edit-overlay #filteredBadgesContainer {
+  display: flex;
+  width: 50px;
+}
+
+.card-overlay-title-container {
+  width: 445px;
+  font-weight: 700;
+  font-style: bold;
+  font-size: 60px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.card-overlay-description-details-container {
+  font-weight: 400;
+  font-style: normal;
+  padding-top: 20px;
+  font-size: 18px;
+}
+
+.card-overlay-description-details-container p {
+  display: grid;
+  grid-template-columns: 110px auto;
+  align-items: center;
+  column-gap: 12px;
+  margin-bottom: 24px;
+}
+
+.card-overlay-description-details-container img {
+  padding-bottom: 19px;
+}
+
+.card-overlay-description-container {
+  font-weight: 400;
+  font-size: 20px;
+  padding-bottom: 10px;
+}
+
+.card-overlay-priority-details-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+
+.card-overlay-user-details-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+.card-overlay-badge-name-details-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  width: 216px;
+  height: 42px;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.card-overlay-subtasks-details-container {
+  gap: 12px;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 20px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 50px;
+  margin-top: 22px;
+}
+
+.card-overlay-icons-details-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: fixed;
+  bottom: 48px;
+  right: 40px;
+}
+
+.card-overlay-separationline-details-container {
+  width: 0px;
+  height: 24px;
+  border-width: 1px;
+  border: 1px solid #D1D1D1
+}
+
+.card-overlay-delete-icon-details-container {
+  width: 81px;
+  height: 24px;
+  gap: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.card-overlay-main-container {
+  height: 36px;
+  width: 164px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 400;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-overlay-main-container-img {
+  cursor: pointer;
+  object-fit: contain;
+  transition: padding .15s ease, background-color .15s ease;
+  width: 24px;
+  height: 24px;
+  border-radius: 20px;
+}
+
+.card-overlay-main-container-img:hover {
+  background-color: rgba(0, 0, 0, .06);
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.overlay-cards {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.45);
+  display: grid;
+  place-items: center;
+  z-index: 999999;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.edit-overlay .task-inner-content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+#edit-overlay-background.is-open {
+  display: grid;
 }

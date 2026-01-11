@@ -15,7 +15,11 @@
   <link rel="stylesheet" href="./add_task/responsive.css">
   <link rel="stylesheet" href="./add_task/responsive_board_overlay.css">
   <link rel="stylesheet" href="./board/board.css">
-  <link rel="stylesheet" href="./board/responsive.css">
+    <link rel="stylesheet" href="./board/board-cards.css">
+    <link rel="stylesheet" href="./board/board-layout.css">
+
+  <link rel="stylesheet" href="./board/board-responsive-under800.css">
+   <link rel="stylesheet" href="./board/board-responsive-over800.css">
   <link rel="stylesheet" href="./add_task/add_task_components.css">
   <link rel="stylesheet" href="./add_task/add_task_inputs.css">
   <link rel="stylesheet" href="./board/overlay.css">
@@ -94,9 +98,6 @@
           </div>
         </div>
       </div>
-      <div style="width: 100%; display: flex; justify-content: center; align-items: center; padding-top: 20px;">
-      <div id="no-results" style="display:none;">No tasks found</div>
-      </div>
       <div class="board-search-responsive">
         <input placeholder="Find Task" class="board-search-input-responsive" oninput="filterBoardCards(this.value)">
         <img class="seperation-line-responsive" src="./assets/Vector 5.png">
@@ -134,7 +135,9 @@
           <div class="task-container done" id="done-container"></div>
         </div>
       </div>
-
+ <div style="width: 100%; display: flex; justify-content: center; align-items: center; padding-top: 20px;">
+      <div id="no-results" style="display:none;">No tasks found</div>
+      </div>
 
       </div>
       <div id="task-overlay-background" class="overlay-bg">
@@ -172,6 +175,8 @@
     <script src="./db.js"></script>
     <script src="./firstdata.js" type="module"></script>
     <script src="./board/board-script.js" defer></script>
+    <script src="./board/board-drag.js" defer></script>
+    <script src="./board/board-overlay.js" defer></script>
     <script src="./board/board-templates.js" defer></script>
     <script src="./add_task/add_task.js" defer></script>
     <script src="./add_task/add_task_templates.js" defer></script>

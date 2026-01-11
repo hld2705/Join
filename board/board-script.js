@@ -11,6 +11,7 @@ let touchGhost = null;
 let originalContainer = null;
 let openedCardId = null;
 let selectedPriority = null;
+let dragTimeout = null;
 
 function getDragAndDropData(subtasks, assigned, main, priority) {
   const safeSubtasks = Array.isArray(subtasks)
@@ -106,216 +107,6 @@ function renderBadges(assigned) {
   return badges;
 }
 
-function createTouchGhost(card, rect) {
-  const ghost = card.cloneNode(true);
-  ghost.style.position = "fixed";
-  ghost.style.left = rect.left + "px";
-  ghost.style.top = rect.top + "px";
-  ghost.style.width = rect.width + "px";
-  ghost.style.pointerEvents = "none";
-  ghost.style.visibility = "hidden";
-  document.body.appendChild(ghost);
-  return ghost;
-}
-
-function touchStart(e) {
-  if (e.touches.length !== 1) return;
-  const card = e.currentTarget;
-  const touch = e.touches[0];
-  const rect = card.getBoundingClientRect();
-  touchDraggingCard = card;
-  touchStartX = touch.clientX;
-  touchStartY = touch.clientY;
-  touchHasMoved = false;
-  touchOffsetX = touch.clientX - rect.left;
-  touchOffsetY = touch.clientY - rect.top;
-  touchGhost = card.cloneNode(true);
-  touchGhost.style.position = "fixed";
-  touchGhost.style.left = rect.left + "px";
-  touchGhost.style.top = rect.top + "px";
-  touchGhost.style.width = rect.width + "px";
-  touchGhost.style.pointerEvents = "none";
-  touchGhost.style.visibility = "hidden";
-  document.body.appendChild(touchGhost);
-}
-
-function touchMove(e) {
-  if (!touchGhost) return;
-  const touch = e.touches[0];
-  const moved = Math.abs(touch.clientX - touchStartX) > 10 ||
-    Math.abs(touch.clientY - touchStartY) > 10;
-  if (moved && !touchHasMoved) {
-    touchHasMoved = true;
-  }
-  if (touchHasMoved) {
-    touchGhost.style.left = (touch.clientX - touchOffsetX) + "px";
-    touchGhost.style.top = (touch.clientY - touchOffsetY) + "px";
-    if (e.cancelable) {
-      e.preventDefault();
-    }
-  }
-}
-
-function handleTouchClick(card) {
-  const taskId = Number(card.id.replace("card-", ""));
-  cleanupTouchDrag();
-  detailedCardInfo(taskId);
-  setTimeout(() => {
-    animateDetailedCardIn();
-    updateAllContainers();
-  }, 10);
-}
-
-function touchEnd(e) {
-  if (!touchDraggingCard) return;
-  if (!touchHasMoved) {
-    e.preventDefault();
-    e.stopPropagation();
-    handleTouchClick(touchDraggingCard);
-    return;
-  }
-  const touch = e.changedTouches[0];
-  const target = document.elementFromPoint(touch.clientX, touch.clientY);
-  const container = target?.closest(".distribution-progress")?.querySelector(".task-container");
-  if (!container) return cleanupTouchDrag();
-  container.appendChild(touchDraggingCard);
-  updateTaskStatus(touchDraggingCard, container);
-  updateContainerTemplate(container);
-  cleanupTouchDrag();
-}
-
-function cleanupTouchDrag() {
-  if (touchGhost) {
-    touchGhost.remove();
-    touchGhost = null;
-  }
-  if (touchDraggingCard) {
-    touchDraggingCard.style.visibility = "visible";
-    touchDraggingCard = null;
-  }
-  touchHasMoved = false;
-  updateAllContainers();
-}
-
-function updateTaskStatusByContainer(card, container) {
-  const taskId = Number(card.id.replace("card-", ""));
-  let newStatus = null;
-  if (container.id === "todo-container") newStatus = "todo";
-  if (container.id === "in-progress-container") newStatus = "inprogress";
-  if (container.id === "feedback-container") newStatus = "review";
-  if (container.id === "done-container") newStatus = "done";
-  const task = tasks.find(t => t.id === taskId);
-  if (!task || !newStatus) return;
-  task.status = newStatus;
-  firebase.database().ref("tasks/" + taskId).update({ status: newStatus });
-}
-
-
-function startDragging(ev, id) {
-  const card = document.getElementById(`card-${id}`);
-  originalContainer = card.parentElement;
-  ev.dataTransfer.setData("text", `card-${id}`);
-  card.classList.add("dragging");
-  isDragging = true;
-  document.querySelectorAll(".landing-field").forEach(lf => lf.remove());
-}
-
-function removeLandingFields() {
-  document.querySelectorAll(".landing-field").forEach(lf => lf.remove());
-}
-
-function insertLandingFieldAfter(child, height) {
-  let lf = child.nextElementSibling;
-  if (!lf || !lf.classList.contains("landing-field")) {
-    lf = document.createElement("div");
-    lf.classList.add("landing-field");
-    lf.style.height = height + "px";
-    child.parentElement.insertBefore(lf, child.nextSibling);
-  }
-  lf.style.display = "block";
-}
-
-function insertLandingFieldAtEnd(container, height) {
-  let lf = container.querySelector(".landing-field:last-child");
-  if (!lf) {
-    lf = document.createElement("div");
-    lf.classList.add("landing-field");
-    lf.style.height = height + "px";
-    container.querySelector(".task-container").appendChild(lf);
-  }
-  lf.style.display = "block";
-}
-
-function findPosition(cards, y, height) {
-  for (let card of cards) {
-    const rect = card.getBoundingClientRect();
-    if (y < rect.top + rect.height / 2) {
-      insertLandingFieldAfter(card, height);
-      return true;
-    }
-  }
-  return false;
-}
-
-function dragoverHandler(ev) {
-  ev.preventDefault();
-  removeLandingFields();
-  const draggingCard = document.querySelector(".board-card.dragging");
-  const inner = ev.currentTarget.querySelector(".task-container");
-  if (!draggingCard || inner === originalContainer) return;
-  const cards = Array.from(ev.currentTarget.querySelectorAll(".board-card"));
-  const inserted = findPosition(cards, ev.clientY, draggingCard.offsetHeight);
-  if (!inserted)
-    insertLandingFieldAtEnd(ev.currentTarget, draggingCard.offsetHeight);
-}
-
-function onDragEnd() {
-  setTimeout(() => {
-    isDragging = false;
-    document.querySelectorAll(".board-card.dragging").forEach(c => c.classList.remove("dragging"));
-    document.querySelectorAll(".landing-field").forEach(lf => lf.style.display = "none");
-    updateAllContainers();
-  }, 50);
-}
-
-function dragenterHandler(ev) {
-  ev.preventDefault();
-  ev.currentTarget.classList.add("drag-over");
-}
-
-function moveCardInContainer(card, container) {
-  const lf = container.querySelector(".landing-field[style*='display: block']");
-  if (lf) {
-    container.insertBefore(card, lf);
-    lf.remove();
-  } else {
-    container.appendChild(card);
-  }
-}
-
-function updateTaskStatus(card, newStatus) {
-  const taskId = Number(card.id.replace("card-", ""));
-  const task = tasks.find(t => t.id === taskId);
-  if (!task) return;
-
-  task.status = newStatus;
-  firebase.database().ref("tasks/" + taskId).update({ status: newStatus });
-}
-
-function moveTo(ev, newStatus) {
-  ev.preventDefault();
-  const cardId = ev.dataTransfer.getData("text");
-  const card = document.getElementById(cardId);
-  const container = ev.currentTarget.querySelector(".task-container");
-  if (!card || !container) return;
-
-  moveCardInContainer(card, container);
-  updateTaskStatus(card, newStatus);
-  document.querySelectorAll(".landing-field")
-    .forEach(lf => lf.style.display = "none");
-  updateContainerTemplate(container);
-}
-
 function updateContainerTemplate(container) {
   if (!container) return;
   container.querySelectorAll(".notasks-container").forEach(el => el.remove());
@@ -340,28 +131,6 @@ function detailedCardInfo(taskId) {
   const task = tasks.find(t => t.id === taskId);
   if (!task) return;
   document.body.insertAdjacentHTML("beforeend", detailedCardInfoTemplate(task));
-}
-
-function renderSubtaskItem(st, taskId, index) {
-  return `
-        <div class="subtask-item">
-            <img
-                id="subtask-${taskId}-${index}" 
-                src="${getSubtasksImg(st.done)}"
-                class="subtask-icon"
-                onclick="toggleSubtask(${taskId}, ${index})"
-            >
-            <p>${st.text}</p>
-        </div>
-    `;
-}
-
-function renderSubtaskMore(count, taskId) {
-  return `
-    <div class="subtask-more" onclick="showAllSubtasks(${taskId})">
-      +${count}
-    </div>
-  `;
 }
 
 function getSafeSubtasks(subtasks) {
@@ -444,8 +213,8 @@ function deleteCard(taskId) {
 }
 
 function getBgColor(main) {
-  if (main === "User Story" || main === "userstory") return "#0038FF";
-  if (main === "Technical Task" || main === "techtask") return "#1FD7C1";
+  if (main === "User Story" || main === "User Story") return "#0038FF";
+  if (main === "Technical Task" || main === "Technical Task") return "#1FD7C1";
   return "#fff";
 }
 
@@ -499,79 +268,6 @@ function getSubtasksImg(isDone) {
   return "./assets/subtask_empty.svg";
 }
 
-function closeOverlayCard() {
-  let close = document.getElementById("overlayclose");
-  let overlay = document.getElementById("card-content");
-  overlay.classList.remove("is-open");
-  setTimeout(() => {
-    close.remove();
-  }, 250);
-}
-
-function closeOverlayCardInstant() {
-  const close = document.getElementById("overlayclose");
-  if (close) close.remove();
-}
-
-function animateOverlayIn(overlay) {
-  overlay.classList.remove("is-open");
-  setTimeout(() => {
-    overlay.classList.add("is-open");
-  }, 20);
-}
-
-function closeAddTaskOverlay() {
-  let overlayBg = document.getElementById("task-overlay-background");
-  let overlay = document.getElementById("task-overlay");
-  let container = document.getElementById("task-form-container");
-  animateOverlayOut(overlay);
-  setTimeout(() => {
-    overlayBg.style.display = "none";
-    container.innerHTML = "";
-  }, 250);
-}
-
-function animateOverlayOut(overlay) {
-  overlay.classList.remove("is-open");
-}
-
-document.getElementById("task-overlay-background").addEventListener("click", (e) => {
-  let overlay = document.getElementById("task-overlay");
-  if (!overlay.contains(e.target)) {
-    closeAddTaskOverlay();
-  }
-});
-
-document.addEventListener('DOMContentLoaded', async () => {
-  await loadData();
-  dragAndDrop();
-});
-
-function prepareAddTaskOverlay(column) {
-  window.currentTaskColumn = column;
-  addTaskOverlayTemplate();
-  if (!addTaskInteractionsLoaded) {
-    loadAddTaskInteractions();
-    addTaskInteractionsLoaded = true;
-  }
-  setTimeout(() => {
-    mediumActive = false;
-    changeMediumColor();
-  }, 50);
-}
-
-function openAddTaskOverlay(column) {
-  if (window.innerWidth < 1230) {
-    window.location.href = "add_task.html";
-    return;
-  }
-  const overlayBg = document.getElementById("task-overlay-background");
-  const overlay = document.getElementById("task-overlay");
-  prepareAddTaskOverlay(column);
-  overlayBg.style.display = "block";
-  animateOverlayIn(overlay);
-}
-
 function editTask() {
   const editTaskData = getTaskInputs();
   const oldTask = tasks.find(t => t.id === openedCardId);
@@ -596,38 +292,6 @@ function loadAddTaskInteractions() {
   let script = document.createElement("script");
   script.src = "./add_task/add_task_interactions.js";
   document.body.appendChild(script);
-}
-
-let addTaskInteractionsLoaded = false;
-
-function prepareEditOverlay(task) {
-  editOverlayTemplate(task);
-  setTimeout(() => preselectAssignedUsers(task.assigned), 0);
-  if (!addTaskInteractionsLoaded) {
-    loadAddTaskInteractions();
-    addTaskInteractionsLoaded = true;
-  }
-  setTimeout(() => {
-    changePriorityColor(task.priority);
-    urgentActive = task.priority === "urgent";
-    mediumActive = task.priority === "medium";
-    lowActive = task.priority === "low";
-  }, 20);
-}
-
-function openEditOverlay(taskId) {
-  const task = tasks.find(t => t.id === taskId);
-  if (!task) return;
-  prepareEditOverlay(task);
-  const bg = document.getElementById("edit-overlay-background");
-  const form = document.getElementById("edit-task-form-container");
-  if (!bg || !form) return;
-
-  closeOverlayCardInstant();
-  bg.classList.add("is-open");
-  bg.addEventListener("click", e => {
-    if (e.target === bg) cancelEditOverlay();
-  });
 }
 
 function preselectSingleUser(userId) {
@@ -660,71 +324,34 @@ function getSelectedAssignedUsers() {
 function renderFilteredBadges() {
   const container = document.getElementById("filteredBadgesContainer");
   if (!container) return;
+
   container.innerHTML = "";
-  const users = getSelectedAssignedUsers();
-  for (let i = 0; i < users.length; i++) {
-    const nameEl = users[i].querySelector("span");
-    const badgeEl = users[i].querySelector(".userBadge");
-    if (!badgeEl) continue;
+  const users = Array.from(getSelectedAssignedUsers());
+
+  appendAssignedBadges(container, users);
+  appendBadgeDotsIfNeeded(container, users);
+}
+
+function appendAssignedBadges(container, users) {
+  const maxVisible = 3;
+  users.slice(0, maxVisible).forEach(user => {
+    const badgeEl = user.querySelector(".userBadge");
+    const nameEl = user.querySelector("span");
+    if (!badgeEl) return;
     const badge = badgeEl.cloneNode(true);
     badge.classList.add("assigned-badge");
     badge.title = nameEl ? nameEl.textContent : "";
     container.appendChild(badge);
-  }
+  });
 }
 
-function openDetailedInfoCardInstant() {
-  const card = document.getElementById("card-content");
-  if (card) card.classList.add('is-instant-open');
-}
+function appendBadgeDotsIfNeeded(container, users) {
+  if (users.length <= 3) return;
 
-function animateDetailedCardOut(overlay) {
-  overlay.classList.remove("is-open");
-}
-
-function removeExistingDetailOverlay() {
-  const oldOverlay = document.getElementById("overlayclose");
-  if (oldOverlay) oldOverlay.remove();
-}
-
-async function closeEditOverlay() {
-  const bg = document.getElementById('edit-overlay-background');
-  if (!bg) return;
-  await editTask();
-  await loadData();
-  removeExistingDetailOverlay();
-  detailedCardInfo(openedCardId);
-  await dragAndDrop();
-  bg.classList.remove('is-open');
-  openDetailedInfoCardInstant();
-}
-
-function cancelEditOverlay() {
-  let bg = document.getElementById('edit-overlay-background');
-  let overlay = document.getElementById('edit-overlay');
-  if (!bg || !overlay) return;
-  overlay.classList.add('edit-overlay-exit');
-
-  setTimeout(() => {
-    overlay.classList.remove('edit-overlay-exit');
-    bg.classList.remove('is-open');
-    openDetailedInfoCardInstant();
-    closeOverlayCardInstant();
-  }, 350);
-}
-
-document.body.classList.remove('no-scroll');
-if (openedCardId !== null) {
-  detailedCardInfo(openedCardId);
-  animateDetailedCardIn();
-}
-
-function animateDetailedCardIn() {
-  let overlay = document.getElementById("card-content");
-  overlay.classList.remove("is-open");
-  setTimeout(() => {
-    overlay.classList.add("is-open");
-  }, 20);
+  const dots = document.createElement("span");
+  dots.classList.add("badge-dots");
+  dots.textContent = "...";
+  container.appendChild(dots);
 }
 
 function cardMatchesSearch(card, search) {
@@ -751,7 +378,7 @@ function filterBoardCards(value) {
 function noResult(count) {
   let noResults = document.getElementById("no-results");
   if (count === 0) {
-    noResults.style.display = "block";
+    noResults.style.display = "flex";
   } else {
     noResults.style.display = "none";
   }
