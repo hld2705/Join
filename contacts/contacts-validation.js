@@ -1,26 +1,33 @@
 function validateEditUser() {
-  return validateName(
+  const nameValid = validateName(
     document.getElementById("edit_name").value.trim(),
-    document.getElementById("input_field_edit_name"),
+    document.getElementById("edit_name"),
     document.getElementById("required_name_edit_user")
-  ) && validateEmail(
-    document.getElementById("edit_email").value.trim(),
-    document.getElementById("input_field_edit_email"),
-    document.getElementById("required_email_edit_user")
-  ) && validatePhone(
-    document.getElementById("edit_phone").value.trim(),
-    document.getElementById("input_field_edit_phone"),
-    document.getElementById("required_phone_edit_user")
-  );}
+  );
 
-function showError(border, messageEl, message) {
-  border.classList.add("submit");
+  const emailValid = validateEmail(
+    document.getElementById("edit_email").value.trim(),
+    document.getElementById("edit_email"),
+    document.getElementById("required_email_edit_user")
+  );
+
+  const phoneValid = validatePhone(
+    document.getElementById("edit_phone").value.trim(),
+    document.getElementById("edit_phone"),
+    document.getElementById("required_phone_edit_user")
+  );
+
+  return nameValid && emailValid && phoneValid;
+}
+
+function showError(inputEl, messageEl, message) {
+  inputEl.classList.add("submit");
   messageEl.style.visibility = "visible";
   if (message) messageEl.innerHTML = message;
 }
 
-function hideError(border, messageEl) {
-  border.classList.remove("submit");
+function hideError(inputEl, messageEl) {
+  inputEl.classList.remove("submit");
   messageEl.style.visibility = "hidden";
 }
 
@@ -65,16 +72,23 @@ function validatePhone(phone, border, messageEl) {
 }
 
 function validateAddNewUser() {
-  return validateName(
+  const nameValid = validateName(
     document.getElementById("name_new_user").value.trim(),
-    document.getElementById("input_name_border"),
+    document.getElementById("name_new_user"),
     document.getElementById("required_name_new_user")
-  ) && validateEmail(
+  );
+
+  const emailValid = validateEmail(
     document.getElementById("email_new_user").value.trim(),
-    document.getElementById("input_email_border"),
+    document.getElementById("email_new_user"),
     document.getElementById("required_email_new_user")
-  ) && validatePhone(
+  );
+
+  const phoneValid = validatePhone(
     document.getElementById("phone_new_user").value.trim(),
-    document.getElementById("input_phone_border"),
+    document.getElementById("phone_new_user"),
     document.getElementById("required_phone_new_user")
-  );}
+  );
+
+  return nameValid && emailValid && phoneValid;
+}

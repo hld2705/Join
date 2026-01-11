@@ -1,5 +1,3 @@
-
-
 function dragAndDropTemplate(taskId, title, main, description, subtasks, assigned, priority) {
   const data = getDragAndDropData(subtasks, assigned, main, priority);
   return `

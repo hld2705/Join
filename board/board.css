@@ -1689,10 +1689,10 @@ cursor: pointer;
     left: -70px;
   }
 
-  .edit-overlay .check-icon {
-    left: 160px;
-    top: 770px;
-  }
+    .edit-overlay .check-icon {
+        left: -20px;
+        top: 44px;
+    }
 
   .distribution-icon {
     margin-right: 20px;
@@ -1927,6 +1927,10 @@ cursor: pointer;
     height: 80px;
   }
 
+  .edit-overlay .check-icon {
+        left: -4px;
+        top: 70px;
+    }
 }
 
 @media (max-width: 320px) {

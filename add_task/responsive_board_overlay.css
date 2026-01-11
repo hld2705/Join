@@ -206,5 +206,6 @@ body.no-scroll {
 }
 
 .edit-overlay .check-icon {
-  left: 160px;
+    left: 0px;
+    top: 0px;
 }
