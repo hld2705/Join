@@ -24,7 +24,7 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
           ${data.badges.slice(0, 3).map(b => {
             if (b.type === "text") {
               return `
-                <div class="badges-text-badge"
+                <div class="avatar-badge"
                      style="background-color:${b.badgeColor}; border-color:${b.color}"
                      title="${b.name}">
                   ${b.badge}
@@ -45,9 +45,6 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
           <img class="priority-badge" src="${data.imgSrc}">
         </div>
       </div>
-        <div>
-          <img class="priority-badge" src="${data.imgSrc}">
-        </div>
       </div>
     </div>
   `;
@@ -88,7 +85,7 @@ function detailedCardInfoTemplate(task) {
                         ${badges.slice(0, 3).map(b => {
                           if (b.type === "text") {
                             return `
-                              <div class="badges-text-badge"
+                              <div class="avatar-badge"
                                    style="background-color:${b.badgeColor}; border-color:${b.color}"
                                    title="${b.name}">
                                 ${b.badge}

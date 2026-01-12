@@ -218,3 +218,24 @@
   position: relative;
   overflow: visible;
 }
+
+.avatar-badge {
+  margin-left: -8px;
+  height: 32px;
+  width: 32px;
+  margin-left: -12px;
+  padding-left: 0px;
+  color: white;
+  font-size: 12px;
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid;
+  border-color: white;
+  border-radius: 20px
+}
+
+.card-overlay-assigned_to-details-container-badges {
+  display: flex;
+}

@@ -41,7 +41,7 @@ async function getAllUser(path = "") {
     return Object.entries(data).map(([id, user]) => ({
         id,
         ...user,
-        color: user.color || getRandomColor()
+        color: user.badge?.color ?? user.color ?? null
     }));
 }
 

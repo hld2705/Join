@@ -57,7 +57,7 @@ async function createNewUser(data) {
 
 function createNewUserObject(id, data) {
     return {
-        id: id,
+        id,
         name: data.name,
         email: data.email,
         phone: "",
@@ -65,7 +65,7 @@ function createNewUserObject(id, data) {
         login: 1,
         badge: {
             text: getInitials(data.name),
-            color: getRandomColor()
+            color: getRandomColor() 
         },
         newUser: true
     };
