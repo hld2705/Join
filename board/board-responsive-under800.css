@@ -1,55 +1,55 @@
 @media (max-width:800px) {
-    #bt-add-task p {
+  #bt-add-task p {
 
-        display: none;
-    }
+    display: none;
+  }
 
-    .title-and-search {
+  .title-and-search {
 
-        display: flex;
-        flex-direction: column;
-    }
+    display: flex;
+    flex-direction: column;
+  }
 
-    .board {
+  .board {
 
-        display: flex;
-        flex-direction: column;
-    }
+    display: flex;
+    flex-direction: column;
+  }
 
-    h3 {
+  h3 {
 
-        display: none;
-    }
+    display: none;
+  }
 
-    .board-header {
-        margin-bottom: 8px;
-    }
+  .board-header {
+    margin-bottom: 8px;
+  }
 
-    .board-search {
-        margin-bottom: 16px;
-    }
+  .board-search {
+    margin-bottom: 16px;
+  }
 
-    .btn-addtask-responsive {
-        width: 40px;
-        height: 40px;
-        padding: 0;
-        border-radius: 999px;
-        justify-content: center;
-    }
+  .btn-addtask-responsive {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 999px;
+    justify-content: center;
+  }
 
-    .btn-addtask-responsive .btn-label {
-        display: none;
-    }
+  .btn-addtask-responsive .btn-label {
+    display: none;
+  }
 
-    .btn-addtask-responsive .btn-plus {
-        display: none;
-    }
+  .btn-addtask-responsive .btn-plus {
+    display: none;
+  }
 
-    .btn-addtask-responsive .btn-x {
-        display: inline;
-        font-size: 18px;
-        line-height: 1;
-    }
+  .btn-addtask-responsive .btn-x {
+    display: inline;
+    font-size: 18px;
+    line-height: 1;
+  }
 }
 
 @media (max-width: 600px) {
@@ -159,10 +159,10 @@
     font-size: 16px;
   }
 
-  .priority-input {
+  #edit-overlay .priority-input {
     box-sizing: border-box;
     width: 100%;
-    padding: 14px 2px;
+    padding: 10px 2px;
   }
 
   .distribution-text-icon-wrapper {
@@ -170,15 +170,47 @@
     left: 20px;
     right: 0;
   }
-}
 
-@media (max-width:500px) {
-     .left-side {
-    height: 80px;
+  .edit-overlay .contents {
+    padding: 0px
+  }
+
+  .edit-overlay #edit-overlay-accept {
+    left: -54px;
   }
 
   .edit-overlay .check-icon {
-    left: -4px;
-    top: 70px;
+    left: -6px;
+  }
+
+}
+
+@media (max-width:500px) {
+ #edit-overlay .left-side {
+    height: 80px;
+  }
+
+  #edit-overlay .double-up-arrow {
+    right: 12px;
+    top: 16px;
+  }
+
+  #edit-overlay .double-down {
+    width: 14px;
+    top: 16px;
+  }
+
+  .edit-overlay .priority-input-container {
+    gap: 2px;
+}
+
+  #edit-overlay .equals-icon {
+    top: 19px;
+  }
+
+  .edit-overlay .right-task,
+  .edit-overlay .left-task {
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }

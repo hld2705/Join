@@ -56,7 +56,18 @@ let addTaskInteractionsLoaded = false;
 
 function prepareEditOverlay(task) {
   editOverlayTemplate(task);
-  setTimeout(() => preselectAssignedUsers(task.assigned), 0);
+  setTimeout(async () => {
+     await showUserName(); 
+    await preselectAssignedUsers(task.assigned);
+    document
+      .querySelectorAll('.Assigned-dropdown-username.bg-grey')
+      .forEach(el => {
+        const badge = el.querySelector('.userBadge');
+        const container = document.getElementById('filteredBadgesContainer');
+        filterBadges(badge, container, el.dataset.userId);
+      });
+  }, 0);
+
   if (!addTaskInteractionsLoaded) {
     loadAddTaskInteractions();
     addTaskInteractionsLoaded = true;

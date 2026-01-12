@@ -29,9 +29,9 @@
 @media (max-width: 1400px) {
 
     .priority-input-container {
-    display: flex;
-    gap: 10px;
-}
+        display: flex;
+        gap: 10px;
+    }
 
     .left-task-container {
         padding-right: 100px;
@@ -94,10 +94,6 @@
 }
 
 @media (max-width: 1230px) {
-    #subtask-content {
-        height: 70px;
-    }
-
     body {
         font-size: 16px;
     }
@@ -211,7 +207,7 @@
     }
 
     .edit-overlay .mobile-required-text {
-        margin-bottom: 100px;
+        margin-bottom: 60px;
     }
 
     .drop-down-arrow-svg,

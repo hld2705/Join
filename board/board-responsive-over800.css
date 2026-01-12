@@ -1,15 +1,15 @@
 @media (min-width: 1230px) and (max-width: 1500px) {
-    .board {
-        grid-template-columns: repeat(2, minmax(240px, 1fr));
-        margin-left: 100px;
-    }
+  .board {
+    grid-template-columns: repeat(2, minmax(240px, 1fr));
+    margin-left: 100px;
+  }
 
-    .distribution,
-    .template-overview {
-        padding-left: 12px;
-        gap: 0px;
-        max-width: 1170px;
-    }
+  .distribution,
+  .template-overview {
+    padding-left: 12px;
+    gap: 0px;
+    max-width: 1170px;
+  }
 }
 
 
@@ -86,32 +86,33 @@
 }
 
 @media (min-width: 1230px) and (max-width: 1400px) {
-    .task-container {
-        width: 220px;
-    }
+  .task-container {
+    width: 220px;
+  }
 
-    progress {
-        width: 80px;
-    }
+  progress {
+    width: 80px;
+  }
 
-    .progress-bar-container {
-        width: 194px;
-    }
+  .progress-bar-container {
+    width: 194px;
+  }
 
-    .contacts-badge-container {
-        width: 180px;
-    }
+  .contacts-badge-container {
+    width: 180px;
+  }
 
-    .distribution-progress {
-        width: 214px;
-    }
+  .distribution-progress {
+    width: 214px;
+  }
 }
 
 @media (max-width: 1230px) {
-    .distribution-icon {
-        margin-right: 20px;
-    }
-      .subtask-render-p {
+  .distribution-icon {
+    margin-right: 20px;
+  }
+
+  .subtask-render-p {
     font-size: 18px;
   }
 
@@ -209,13 +210,13 @@
 
   .edit-overlay #edit-overlay-accept {
     display: inline-block !important;
-    top: 20px;
+    top: 44px;
     left: -70px;
   }
 
   .edit-overlay .check-icon {
     left: -20px;
-    top: 44px;
+    top: 67px;
   }
 
   .distribution-icon {
@@ -325,5 +326,8 @@
   .subtask-template {
     font-size: 16px;
   }
-}
 
+  #edit-overlay .priority-container {
+    padding-top: 0px;
+  }
+}

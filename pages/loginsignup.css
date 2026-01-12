@@ -96,6 +96,8 @@ h1 {
     padding: 6px 20px;
     font-size: 21px;
     cursor: pointer;
+    height: 48px;
+    font-weight: 700;
 }
 
 .signedupconfirmationcontainerdarkoverlay {
@@ -139,9 +141,11 @@ h1 {
     background-color: white;
     color: black;
     font-size: 21px;
-    padding: 5px;
+    padding: 5px 14px 5px 14px;
     cursor: pointer;
     border: 1px solid;
+    height: 48px;
+    font-weight: 700;
 }
 
 .buttonguestlogin:hover {
@@ -375,6 +379,7 @@ h1 {
     height: 16px;
     border-radius: 3px;
     margin-right: 16px;
+    cursor: pointer;
 }
 
 .bordercolor-blue {
@@ -456,36 +461,36 @@ button.disabled {
 
 
 
-.userinputcustom {
-    width: 90%;
-    height: auto;
-}
+    .userinputcustom {
+        width: 90%;
+        height: auto;
+    }
 
-.loginwriting {
-    margin-bottom: -40px;
-    gap: 18px;
-}
+    .loginwriting {
+        margin-bottom: -40px;
+        gap: 18px;
+    }
 
-.login-title {
-    font-size: 46px;
-}
+    .login-title {
+        font-size: 46px;
+    }
 
-.buttons {
-    flex-direction: column;
-}
+    .buttons {
+        flex-direction: column;
+    }
 
-.buttonguestlogin {
-    padding: 10px 84px;
-    font-size: 21px;
-}
+    .buttonguestlogin {
+        padding: 10px 84px;
+        font-size: 21px;
+    }
 
-.headerwritingresponsive {
-    margin-bottom: 50px;
-}
+    .headerwritingresponsive {
+        margin-bottom: 50px;
+    }
 
-.buttonlogin {
-   padding: 10px 20px;
-}
+    .buttonlogin {
+        padding: 10px 20px;
+    }
 }
 
 @media (max-width: 500px) {
@@ -494,12 +499,12 @@ button.disabled {
     }
 
     .signup-inputs input {
-    padding: 12px 38px 12px 12px;
-}
+        padding: 12px 38px 12px 12px;
+    }
 
     .main-logo {
-    width: 300px;
-}
+        width: 300px;
+    }
 
     .headerwritingresponsive {
         margin-bottom: 60px !important;
@@ -520,7 +525,7 @@ button.disabled {
 
     .buttons {
         gap: 15px;
-      margin-top: -18px;
+        margin-top: -18px;
     }
 
     .signup-inputs {
@@ -539,11 +544,11 @@ button.disabled {
         top: -10px;
     }
 
-  .buttonlogin {
-    padding: 10px 0px;
-    font-size: 16px;
-    cursor: pointer;
-}
+    .buttonlogin {
+        padding: 10px 0px;
+        font-size: 16px;
+        cursor: pointer;
+    }
 
     .checkboxandbutton {
         gap: 0px;

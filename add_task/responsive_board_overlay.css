@@ -184,7 +184,7 @@ body.no-scroll {
 .edit-overlay .right-task {
   width: 100%;
   padding-top: 30px;
-  padding-bottom: 92px;
+  padding-bottom: 0px;
 }
 
 .edit-overlay .subtask-check-svg {

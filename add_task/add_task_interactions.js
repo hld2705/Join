@@ -136,9 +136,8 @@ function toggleAssignedinputContent(e) {
     let badgeContainer = document.getElementById('filteredBadgesContainer');
     let userId = isInsideAssigned.dataset.userId;
     toggleAssignedcheckButton(isInsideAssigned);
-     renderFilteredBadges(); 
-
-   
+    filterBadges(badge, badgeContainer, userId);
+    
     getAssignedSpace();
 }
 

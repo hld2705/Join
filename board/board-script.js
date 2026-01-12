@@ -303,18 +303,22 @@ function preselectSingleUser(userId) {
   const checkButton = el.querySelector(".check-button");
   const checkIcon = el.querySelector(".check-icon-assignedTo");
   if (checkButton) {
-    checkIcon.classList.toggle("hidden");
-    checkButton.classList.toggle("check-button-white");
+    checkIcon.classList.remove("hidden");
+    checkButton.classList.add("check-button-white");
   }
+}
+
+function getAssignedId(val) {
+  return typeof val === "object" ? String(val.id) : String(val);
 }
 
 async function preselectAssignedUsers(assigned) {
   if (!assigned || assigned.length === 0) return;
   await showUserName();
   for (let i = 0; i < assigned.length; i++) {
-    preselectSingleUser(assigned[i]);
+    preselectSingleUser(getAssignedId(assigned[i]));
   }
-  renderFilteredBadges();
+
 }
 
 function getSelectedAssignedUsers() {
@@ -324,6 +328,7 @@ function getSelectedAssignedUsers() {
 function renderFilteredBadges() {
   const container = document.getElementById("filteredBadgesContainer");
   if (!container) return;
+
 
   container.innerHTML = "";
   const users = Array.from(getSelectedAssignedUsers());
