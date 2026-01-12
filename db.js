@@ -22,6 +22,17 @@ function createArrayFromData(data) {
   return result;
 }
 
+/**
+ * Loads users and tasks from Firebase into memory.
+ *
+ * @async
+ * @sets users
+ * @sets tasks
+ *
+ * @warning Must be called after creating users or tasks
+ *          to keep local state in sync.
+ */
+
 async function loadData() {
   const usersData = await fetchData('/users.json');
   const tasksData = await fetchData('/tasks.json');

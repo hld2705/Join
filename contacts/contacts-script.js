@@ -250,6 +250,8 @@ async function saveNewContact(name, email, phone) {
       color: getRandomColor()
     }
   });
+  await entry.set(userObj);
+  join.users.push(userObj);
   return id;
 }
 
@@ -259,12 +261,13 @@ async function createContact() {
   const email = document.getElementById("email_new_user").value.trim();
   const phone = document.getElementById("phone_new_user").value.trim();
   const id = await saveNewContact(name, email, phone);
-  await contactsLoad();
   activeUserId = id;
   userHighlight(id, id);
   await contactsRender(id);
   closeOverlay();
   await addedNewUser();
+  await contactsLoad();
+  await loadData();
 }
 
 async function addedNewUser() {

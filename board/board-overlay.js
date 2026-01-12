@@ -140,6 +140,9 @@ document.getElementById("task-overlay-background").addEventListener("click", (e)
 
 document.addEventListener('DOMContentLoaded', async () => {
   await loadData();
+  if (users && users.length > 0) {
+    join.users = users;
+  }
   dragAndDrop();
 });
 

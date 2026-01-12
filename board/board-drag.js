@@ -88,6 +88,14 @@ function handleTouchClick(card) {
   }, 10);
 }
 
+/**
+ * Handles touch end behavior for board cards.
+ * - Tap → open task details
+ * - Drag → move card between columns
+ *
+ * @param {TouchEvent} e
+ */
+
 function touchEnd(e) {
   clearTimeout(dragTimeout);
   dragTimeout = null;

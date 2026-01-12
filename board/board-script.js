@@ -13,6 +13,18 @@ let openedCardId = null;
 let selectedPriority = null;
 let dragTimeout = null;
 
+/**
+ * Computes all visual data needed to render a task card.
+ *
+ * @param {Array|Object} subtasks
+ * @param {Array<string|Object>} assigned
+ * @param {string} main
+ * @param {string} priority
+ *
+ * @returns {Object}
+ * Prepared data for board card rendering (progress, badges, colors).
+ */
+
 function getDragAndDropData(subtasks, assigned, main, priority) {
   const safeSubtasks = Array.isArray(subtasks)
     ? subtasks
@@ -75,7 +87,15 @@ function fillEmptyContainers(containers) {
   }
 }
 
-function dragAndDrop() {
+/**
+ * Fully re-renders the board:
+ * - clears containers
+ * - renders tasks
+ * - fills empty columns
+ * - updates placeholders
+ */
+
+async function dragAndDrop() {
   const containers = getBoardContainers();
   clearContainers(containers);
   fillContainers(containers);
@@ -87,6 +107,16 @@ function getUserId(value) {
   return typeof value === "object" ? String(value.id) : String(value);
 
 }
+/**
+ * 
+ * @param {Array<string|object} assigned
+ * Array of user IDs or user objects assigned to a task.
+ *  
+ * @returns {Array<Object>}
+ * Array of badge ovjects {badge, name, color} used in templates.
+ * @requires join.users to be up-to-date
+ * @note if a user ID cannot be resolved, the badge is skipped.
+ */
 
 function renderBadges(assigned) {
   if (!assigned || assigned.length === 0) {
@@ -96,14 +126,35 @@ function renderBadges(assigned) {
   for (let i = 0; i < assigned.length; i++) {
     let userId = typeof assigned[i] === "object" ? assigned[i].id : assigned[i];
     let user = join.users.find(u => String(u.id) === String(userId));
-    if (user) {
+    if (!user) {
+      // Try to find in Firebase users array if join.users doesn't have it
+      user = users.find(u => String(u.id) === String(userId));
+    }
+    if (!user) {
+      console.warn("Missing user for badge:", userId);
+      continue;
+    }
+    
+    // Handle both badge formats: string (old) or object (new)
+    if (typeof user.badge === "string") {
+      // Old format: badge is an image path string
       badges.push({
         badge: user.badge,
         name: user.name,
-        color: user.color
-      })
+        color: user.color,
+        type: "image"
+      });
+    } else if (user.badge && typeof user.badge === "object") {
+      // New format: badge is an object with text and color
+      badges.push({
+        badge: user.badge.text || getInitials(user.name),
+        badgeColor: user.badge.color || user.color,
+        name: user.name,
+        color: user.color,
+        type: "text"
+      });
     }
-  };
+  }
   return badges;
 }
 

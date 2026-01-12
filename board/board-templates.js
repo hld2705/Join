@@ -19,16 +19,32 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
           ${data.done}/${data.total} Subtasks
         </p>
       </div>
-      <div class="contacts-badge-container">
+  <div class="contacts-badge-container">
         <div class="only-badges-container">
-          ${data.badges.slice(0, 3).map(b => `
-            <img class="badges-img"
-                 src="${b.badge}"
-                 title="${b.name}"
-                 style="border-color:${b.color}">
-          `).join("")}
+          ${data.badges.slice(0, 3).map(b => {
+            if (b.type === "text") {
+              return `
+                <div class="badges-text-badge"
+                     style="background-color:${b.badgeColor}; border-color:${b.color}"
+                     title="${b.name}">
+                  ${b.badge}
+                </div>
+              `;
+            } else {
+              return `
+                <img class="badges-img"
+                     src="${b.badge}"
+                     title="${b.name}"
+                     style="border-color:${b.color}">
+              `;
+            }
+          }).join("")}
           ${data.badges.length > 3 ? `<span class="badge-dots">...</span>` : ""}
         </div>
+        <div>
+          <img class="priority-badge" src="${data.imgSrc}">
+        </div>
+      </div>
         <div>
           <img class="priority-badge" src="${data.imgSrc}">
         </div>
@@ -69,11 +85,23 @@ function detailedCardInfoTemplate(task) {
             <div class="card-overlay-assigned_to-details-container">
                 <p class="label">Assigned To:</p>
                     <div class="card-overlay-assigned_to-details-container-badges">
-                        ${badges.slice(0, 3).map(b => `
-                                <img class="badges-img" src="${b.badge}" title="${b.name}" style="border-color:${b.color}">
-                                `).join('')}
+                        ${badges.slice(0, 3).map(b => {
+                          if (b.type === "text") {
+                            return `
+                              <div class="badges-text-badge"
+                                   style="background-color:${b.badgeColor}; border-color:${b.color}"
+                                   title="${b.name}">
+                                ${b.badge}
+                              </div>
+                            `;
+                          } else {
+                            return `
+                              <img class="badges-img" src="${b.badge}" title="${b.name}" style="border-color:${b.color}">
+                            `;
+                          }
+                        }).join('')}
                             ${badges.length > 3 ? `<span class="badge-dots">...</span>` : ''}
-                    </div>   
+                    </div>
             </div>
             <div class="card-overlay-subtasks-details-container">
                 <p class="label">Subtasks</p>
