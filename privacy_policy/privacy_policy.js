@@ -20,6 +20,15 @@ function handleNonLoginUI() {
     applyNonLoginUI(isNonLogin, isMobile);
 }
 
+/** 
+ * @param {String} isNonLogin 
+ * Is extracted from the guest flag and the nonlogin?=true tag that is being forwarded
+ *
+ * @param {onsize} isMobile 
+ * If the window is under 900px and the user logged in as guest
+ * an onsize eventlistener gets the needed information, triggering the buttons to dissapear, and also to align themselfs
+ */
+
 function applyNonLoginUI(isNonLogin, isMobile) {
     const fullNav = document.getElementById("togglednone");
     const loginNav = document.getElementById("loginnav");
