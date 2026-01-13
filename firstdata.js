@@ -1,3 +1,7 @@
+/**
+ * In order to get the first tasks and users, this Array was created that we later connected with firebase
+ */
+
 const join = {"users": [
   {
     id: 1,

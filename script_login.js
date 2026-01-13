@@ -29,6 +29,14 @@ function goBack() {
   if (headerResp) headerResp.style.display = "flex";
 }
 
+/**
+ * Displays the loading screen, fades it out after a short delay,
+ * and removes it from the DOM.
+ *
+ * @async
+ * @returns {Promise<void>} Resolves when the loading screen has been removed.
+ */
+
 async function loadingScreen() {
   const loadingscreen = document.getElementById('loadingscreen');
   if (!loadingscreen) return;

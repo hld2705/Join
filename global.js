@@ -82,6 +82,11 @@ window.addEventListener("DOMContentLoaded", () => {
   dynamicUserHeaderBadge();
 });
 
+/**
+ * Retrieves the param from the window location
+ * @returns params(uid)
+ */
+
 function getUserId() {
   const params = new URLSearchParams(window.location.search);
   return params.get("uid");
@@ -90,7 +95,6 @@ function getUserId() {
 async function getCurrentUser() {
   const uid = getUserId();
   if (!uid) return null;
-
   const snapshot = await firebase
     .database()
     .ref("users/" + uid)
@@ -159,25 +163,26 @@ function getUserId() {
   return params.get("uid");
 }
 
+/**
+ * Gets the UID from the window location 
+ * @returns snapshot = users, value
+ */
+
 async function getCurrentUser() {
   const uid = getUserId();
   if (!uid) return null;
-
   const snapshot = await firebase
     .database()
     .ref("users/" + uid)
     .once("value");
-
   return snapshot.val();
 }
 
 async function dynamicUserHeaderBadge() {
     const user = await getCurrentUser();
     if (!user || !user.badge) return;
-
     const userInfo = document.getElementById("user-info-id");
     if (userInfo.querySelector(".user-info")) return;
-
     userInfo.insertAdjacentHTML("beforeend", getUserHeaderBadgeTemplate(user));
     updateHelpLink();
 }
@@ -248,6 +253,10 @@ function getGuestHeaderTemplate() {
         </div>
     `;
 }
+
+/**
+ * removes the flagged user guest = true
+ */
 
 function LogOut() {
   sessionStorage.removeItem("guest", "true");

@@ -107,6 +107,7 @@ function getUserId(value) {
   return typeof value === "object" ? String(value.id) : String(value);
 
 }
+
 /**
  * 
  * @param {Array<string|object} assigned
@@ -127,17 +128,13 @@ function renderBadges(assigned) {
     let userId = typeof assigned[i] === "object" ? assigned[i].id : assigned[i];
     let user = join.users.find(u => String(u.id) === String(userId));
     if (!user) {
-      // Try to find in Firebase users array if join.users doesn't have it
       user = users.find(u => String(u.id) === String(userId));
     }
     if (!user) {
       console.warn("Missing user for badge:", userId);
       continue;
     }
-    
-    // Handle both badge formats: string (old) or object (new)
     if (typeof user.badge === "string") {
-      // Old format: badge is an image path string
       badges.push({
         badge: user.badge,
         name: user.name,
@@ -145,7 +142,6 @@ function renderBadges(assigned) {
         type: "image"
       });
     } else if (user.badge && typeof user.badge === "object") {
-      // New format: badge is an object with text and color
       badges.push({
         badge: user.badge.text || getInitials(user.name),
         badgeColor: user.badge.color || user.color,

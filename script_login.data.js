@@ -15,6 +15,15 @@ if (!firebase.apps.length) {
 
 const FIREBASE_USERS = firebase.database().ref("users");
 
+/**
+ * Validates if the user has entered the right values
+ * saves the user inside the firebase with a custom firebaseId
+ * 
+ * @async
+ * if the user exists he will be notified not to sign up multiple times, to keep the firebase up-to-date
+ * @returns exists
+ */
+
 window.logIn = async function logIn() {
     const data = getSignUpInputValues();
     if (!signUpValidation(data.name, data.email, data.password, data.passwordConfirm)) return;
@@ -40,7 +49,6 @@ function getSignUpInputValues() {
 function showUserAlreadyExists() {
     const emailBorder = document.getElementById("email_sign_up");
     const existsMsg = document.getElementById("required-sign_up-email");
-
     emailBorder.classList.add("submit");
     existsMsg.classList.add("show");
     existsMsg.innerHTML = "*User already found!";
@@ -50,10 +58,18 @@ async function createNewUser(data) {
     const newEntry = FIREBASE_USERS.push();
     const firebaseId = newEntry.key;
     const newUserObj = createNewUserObject(firebaseId, data);
-
     await newEntry.set(newUserObj);
     return firebaseId;
 }
+
+/**
+ * 
+ * @param {Array<string|object>} id 
+ * Values being attached to an ID
+ * @param {Array<string|object>} data 
+ * Values being needed in order to login, badge color being random generated
+ * @returns newUser
+ */
 
 function createNewUserObject(id, data) {
     return {
@@ -101,7 +117,6 @@ function getRandomColor() {
 function signUpValidation(name, email, password, passwordConfirm) {
     resetSignUpUI();
     let hasError = false;
-
     hasError |= validateName(name);
     hasError |= validateEmail(email);
     hasError |= validatePassword(password);
@@ -144,7 +159,6 @@ function InputSignUpValidation() {
     const emailInput = document.getElementById("email_sign_up");
     const passwordInput = document.getElementById("password_sign_up");
     const passwordConfirmInput = document.getElementById("confirmation_password_sign_up");
-
     nameInput.addEventListener("input", validateNameLive);
     emailInput.addEventListener("input", validateEmailLive);
     passwordInput.addEventListener("input", validatePasswordLive);
@@ -156,7 +170,6 @@ document.addEventListener("DOMContentLoaded", InputSignUpValidation);
 function validateNameLive() {
     const input = document.getElementById("name_sign_up");
     const msg = document.getElementById("required-sign_up-name");
-
     if (input.value.trim()) {
         input.classList.remove("submit");
         msg.classList.remove("show");
@@ -166,7 +179,6 @@ function validateNameLive() {
 function validateEmailLive() {
     const input = document.getElementById("email_sign_up");
     const msg = document.getElementById("required-sign_up-email");
-
     if (isValidEmail(input.value.trim())) {
         input.classList.remove("submit");
         msg.classList.remove("show");
@@ -176,7 +188,6 @@ function validateEmailLive() {
 function validatePasswordLive() {
     const input = document.getElementById("password_sign_up");
     const msg = document.getElementById("required-sign_up-password");
-
     if (input.value.trim()) {
         input.classList.remove("submit");
         msg.classList.remove("show");
@@ -186,11 +197,9 @@ function validatePasswordLive() {
 function validatePasswordMatchLive() {
     const pass = document.getElementById("password_sign_up").value;
     const confirm = document.getElementById("confirmation_password_sign_up").value;
-
     const passInput = document.getElementById("password_sign_up");
     const confirmInput = document.getElementById("confirmation_password_sign_up");
     const msg = document.getElementById("required-sign_up-password2");
-
     if (pass && confirm && pass === confirm) {
         passInput.classList.remove("submit");
         confirmInput.classList.remove("submit");
@@ -230,6 +239,13 @@ function resetSignUpMessages() {
         document.getElementById(id)?.classList.remove("show");
     });
 }
+
+/**
+ * Important function, the fireBaseId is being rendered on each change, differenting between a guest
+ * and a logged in user 
+ * @param {Array<string|object} firebaseId 
+ * @forwards window.location = "/summary.html?uid=" + firebaseId;
+ */
 
 async function forwardingNextPage(firebaseId) {
     localStorage.setItem("uid", firebaseId);
