@@ -112,6 +112,21 @@
     margin-right: 20px;
   }
 
+    .landing-field {
+    position: relative;
+    display: block;
+    flex-shrink: 0;
+    height: 190px;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: var(--card-height, 120px);
+    margin: 8px 0;
+    border: 2px dashed #b8b8b8;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.04);
+    transition: all 0.2s;
+  }
+
   .subtask-render-p {
     font-size: 18px;
   }
@@ -227,8 +242,10 @@
 
   .distribution-progress {
     display: flex;
-    justify-content: space-between;
+        flex-direction: column;
+    justify-content: flex-start;
     width: 100%;
+    min-width: 270px;
     color: #42526E;
     font-weight: 700;
     overflow-x: auto;

@@ -82,24 +82,28 @@ function detailedCardInfoTemplate(task) {
             <div class="card-overlay-assigned_to-details-container">
                 <p class="label">Assigned To:</p>
                     <div class="card-overlay-assigned_to-details-container-badges">
-                        ${badges.slice(0, 3).map(b => {
+                        ${badges.slice(0, 9).map(b => {
                           if (b.type === "text") {
                             return `
+                            <div class="badge-name-container">
                               <div class="avatar-badge"
                                    style="background-color:${b.badgeColor}; border-color:${b.color}"
                                    title="${b.name}">
                                 ${b.badge}
                               </div>
+                                ${b.name}
+                                 <div>
                             `;
                           } else {
                             return `
-                              <img class="badges-img" src="${b.badge}" title="${b.name}" style="border-color:${b.color}">
+                             <div class="badge-name-container"> <img class="badges-img" src="${b.badge}" title="${b.name}" style="border-color:${b.color}"><p>${b.name}</p> </div>
                             `;
                           }
                         }).join('')}
-                            ${badges.length > 3 ? `<span class="badge-dots">...</span>` : ''}
+                            
                     </div>
             </div>
+               </div>
             <div class="card-overlay-subtasks-details-container">
                 <p class="label">Subtasks</p>
                 <div class="subtask-render-icons-text">

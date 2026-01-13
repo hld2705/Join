@@ -5,18 +5,6 @@ function createTouchGhost(card, rect) {
   ghost.style.top = rect.top + "px";
   ghost.style.width = rect.width + "px";
   ghost.style.pointerEvents = "none";
-  ghost.style.visibility = "hidden";
-  document.body.appendChild(ghost);
-  return ghost;
-}
-
-function createTouchGhost(card, rect) {
-  const ghost = card.cloneNode(true);
-  ghost.style.position = "fixed";
-  ghost.style.left = rect.left + "px";
-  ghost.style.top = rect.top + "px";
-  ghost.style.width = rect.width + "px";
-  ghost.style.pointerEvents = "none";
   ghost.style.visibility = "visible";
   document.body.appendChild(ghost);
   return ghost;
@@ -44,22 +32,56 @@ function touchStart(e) {
   }, 350);
 }
 
-function touchMove(e) {
-  if (!touchGhost) return;
+function handleTouchLandingField(touch) {
+  const container = getDropContainer(touch);
+  if (!container) {
+    removeLandingFields();
+    return;
+  }
+  const noTasks = container.querySelector(".notasks-container");
+if (noTasks) noTasks.style.display = "none";
+  const cards = Array.from(container.querySelectorAll(".board-card"));
+  const ghostHeight = touchGhost.offsetHeight;
+  removeLandingFields();
+  const ghostRect = touchGhost.getBoundingClientRect();
+const ghostY = ghostRect.top + ghostRect.height / 2;
 
-  const touch = e.touches[0];
-  const moved = hasTouchMoved(touch);
-
-  if (moved && !touchHasMoved) touchHasMoved = true;
-
-  handleDragCancel(moved);
-  handleTouchDragging(e, touch);
+const inserted = findPosition(cards, ghostY, ghostHeight);
+  if (!inserted) {
+    insertLandingFieldAtEnd(container.closest(".distribution-progress"), ghostHeight);
+  }
 }
 
+function ScrollOnEdge(touch) {
+  const edge = 90;
+  const speed = 16;
+  const container = document.querySelector(".content");
+  if (!container) return;
+  const rect = container.getBoundingClientRect();
+  const y = touch.clientY;
+  if (y < rect.top + edge) {
+    container.scrollTop -= speed;
+  }
+  else if (y > rect.bottom - edge) {
+    container.scrollTop += speed;
+  }
+}
+
+function touchMove(e) {
+  if (!touchGhost) return;
+  if (e.cancelable) e.preventDefault();
+  const touch = e.touches[0];
+  const moved = hasTouchMoved(touch);
+  if (moved && !touchHasMoved) touchHasMoved = true;
+  handleDragCancel(moved);
+  handleTouchDragging(e, touch);
+  handleTouchLandingField(touch);
+  ScrollOnEdge(touch);
+}
 
 function hasTouchMoved(touch) {
   return Math.abs(touch.clientX - touchStartX) > 10 ||
-         Math.abs(touch.clientY - touchStartY) > 10;
+    Math.abs(touch.clientY - touchStartY) > 10;
 }
 
 function handleDragCancel(moved) {
@@ -113,18 +135,23 @@ function handleTouchDrop(e) {
   const container = getDropContainer(touch);
   if (!container) return cleanupTouchDrag();
 
-  container.appendChild(touchDraggingCard);
+  moveCardInContainer(touchDraggingCard, container);
   updateTaskStatusByContainer(touchDraggingCard, container);
   updateContainerTemplate(container);
   cleanupTouchDrag();
 }
 
 function getDropContainer(touch) {
-  const target = document.elementFromPoint(touch.clientX, touch.clientY);
+  if (!touchGhost) return null;
+  const rect = touchGhost.getBoundingClientRect();
+  const x = rect.left + rect.width / 2;
+  const y = rect.top + rect.height / 2;
+  const target = document.elementFromPoint(x, y);
   return target
     ?.closest(".distribution-progress")
     ?.querySelector(".task-container");
 }
+
 
 function cleanupTouchDrag() {
   if (touchGhost) {

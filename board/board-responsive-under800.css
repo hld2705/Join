@@ -111,7 +111,6 @@
   }
 
   .card-overlay-assigned_to-details-container {
-    width: 445px;
     gap: 8px;
     font-weight: 400;
     font-style: normal;
@@ -186,7 +185,7 @@
 }
 
 @media (max-width:500px) {
- #edit-overlay .left-side {
+  #edit-overlay .left-side {
     height: 80px;
   }
 
@@ -202,7 +201,7 @@
 
   .edit-overlay .priority-input-container {
     gap: 2px;
-}
+  }
 
   #edit-overlay .equals-icon {
     top: 19px;
@@ -212,5 +211,9 @@
   .edit-overlay .left-task {
     padding-left: 16px;
     padding-right: 16px;
+  }
+
+  .left-side {
+    height: 80px;
   }
 }

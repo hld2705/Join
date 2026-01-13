@@ -684,7 +684,6 @@ body.no-scroll {
   margin-left: -8px;
   height: 32px;
   width: 32px;
-  margin-left: -12px;
 }
 
 .priority-badge {
@@ -797,4 +796,10 @@ body.no-scroll {
 
 .navbar.open {
   display: block;
+}
+
+.badge-name-container {
+  display: flex;
+  gap: 10px;
+    align-items: center;
 }

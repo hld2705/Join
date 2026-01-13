@@ -223,10 +223,9 @@
   margin-left: -8px;
   height: 32px;
   width: 32px;
-  margin-left: -12px;
   padding-left: 0px;
   color: white;
-  font-size: 12px;
+  font-size: 9px;
   font-weight: 300;
   display: flex;
   align-items: center;
@@ -237,5 +236,12 @@
 }
 
 .card-overlay-assigned_to-details-container-badges {
-  display: flex;
+      display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    overflow-y: auto;
+    max-height: 140px;
+    overflow-x: hidden;
+    padding-left: 8px;
+    gap:8px;
 }
