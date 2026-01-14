@@ -82,7 +82,7 @@ function detailedCardInfoTemplate(task) {
             <div class="card-overlay-assigned_to-details-container">
                 <p class="label">Assigned To:</p>
                     <div class="card-overlay-assigned_to-details-container-badges">
-                        ${badges.slice(0, 9).map(b => {
+                        ${badges.slice(0, 20).map(b => {
                           if (b.type === "text") {
                             return `
                             <div class="avatar-container">
