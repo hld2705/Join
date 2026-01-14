@@ -162,7 +162,6 @@ function getDropContainer(touch) {
     ?.querySelector(".task-container");
 }
 
-
 function cleanupTouchDrag() {
   if (touchGhost) {
     touchGhost.remove();
@@ -192,7 +191,6 @@ function updateTaskStatusByContainer(card, container) {
   task.status = newStatus;
   firebase.database().ref("tasks/" + taskId).update({ status: newStatus });
 }
-
 
 function startDragging(ev, id) {
   const card = document.getElementById(`card-${id}`);

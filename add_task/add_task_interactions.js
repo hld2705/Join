@@ -73,7 +73,6 @@ async function renderAssignDropdown() {
     openAssignDropdown();
 }
 
-
 function openAssignDropdown() {
     let dropdownList = document.getElementById('dropdownList');
     let assignedInput = document.getElementById('assign-input');
@@ -86,8 +85,6 @@ function openAssignDropdown() {
         assignedInput.classList.add('borderColorBlue');
     }, 0);
 }
-
-
 
 function switchAssignedArrow() {
     let arrowIcon = document.getElementById('drop-down-svg-assign');
