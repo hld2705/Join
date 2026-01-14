@@ -94,8 +94,7 @@ function detailedCardInfoTemplate(task) {
                               </div>
                               <div>
                                 ${b.name}
-                                 </div>
-                                 </div>
+                                 <div>
                             `;
                           } else {
                             return `
