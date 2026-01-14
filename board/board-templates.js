@@ -94,7 +94,8 @@ function detailedCardInfoTemplate(task) {
                               </div>
                               <div>
                                 ${b.name}
-                                 <div>
+                                 </div>
+                                 </div>
                             `;
                           } else {
                             return `
@@ -105,7 +106,7 @@ function detailedCardInfoTemplate(task) {
                          </div>   
                     </div>
                     </div>
-            </div>
+
                </div>
             <div class="card-overlay-subtasks-details-container">
                 <p class="label">Subtasks</p>
