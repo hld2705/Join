@@ -205,6 +205,14 @@ function renderSubtask(subtasks, taskId) {
   return html;
 }
 
+function CutSubtaskText(text, max = 20) {
+  if (text.length > max) {
+    return text.slice(0, max) + "…";
+  } else {
+    return text;
+  }
+}
+
 function showAllSubtasks(taskId) {
   const task = tasks.find(t => t.id === taskId);
   if (!task) return;

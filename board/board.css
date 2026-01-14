@@ -703,7 +703,6 @@ body.no-scroll {
 
 .subtask-render-icons-text {
   display: flex;
-  justify-content: center;
   align-items: flex-start;
   flex-direction: column;
   font-size: 18px;
@@ -711,6 +710,7 @@ body.no-scroll {
   overflow-y: auto;
   width: 100%;
   padding-top: 10px;
+  gap: 8px;
 }
 
 .distribution-icon:hover {
@@ -728,8 +728,6 @@ body.no-scroll {
 .subtask-item:hover {
   background-color: rgba(148, 148, 148, 0.1);
   border-radius: 8px;
-  padding: 5px 8px;
-  margin: 0 -8px;
 }
 
 #no-results {

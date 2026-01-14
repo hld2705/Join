@@ -57,6 +57,10 @@
     min-width: 86vw;
   }
 
+  .card-overlay-assigned_to-details-container-badges {
+    max-height: 80px;
+}
+
   .card-overlay-badge-name-details-container {
     margin-top: 10px;
   }
@@ -84,7 +88,6 @@
     justify-content: center;
     flex-direction: column;
     margin-bottom: 60px;
-    margin-top: 40px;
   }
 
   .card-overlay-title-container {

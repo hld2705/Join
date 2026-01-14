@@ -105,9 +105,7 @@ function detailedCardInfoTemplate(task) {
                         }).join('')}
                          </div>   
                     </div>
-                    </div>
-
-               </div>
+                    </div>     
             <div class="card-overlay-subtasks-details-container">
                 <p class="label">Subtasks</p>
                 <div class="subtask-render-icons-text">
@@ -458,7 +456,7 @@ function renderSubtaskItem(st, taskId, index) {
                 class="subtask-icon"
                 onclick="toggleSubtask(${taskId}, ${index})"
             >
-            <p>${st.text}</p>
+             <p title="${st.text}">${CutSubtaskText(st.text)}</p>
         </div>
     `;
 }

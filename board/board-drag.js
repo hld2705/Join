@@ -1,3 +1,6 @@
+ let autoScrollInterval = null;
+ let lastTouch = null;
+
 function createTouchGhost(card, rect) {
   const ghost = card.cloneNode(true);
   ghost.style.position = "fixed";
@@ -54,30 +57,33 @@ const inserted = findPosition(cards, ghostY, ghostHeight);
 
 function ScrollOnEdge(touch) {
   const edge = 90;
-  const speed = 16;
+  const speed = 80;
   const container = document.querySelector(".content");
   if (!container) return;
   const rect = container.getBoundingClientRect();
   const y = touch.clientY;
   if (y < rect.top + edge) {
     container.scrollTop -= speed;
-  }
-  else if (y > rect.bottom - edge) {
+  } else if (y > rect.bottom - edge) {
     container.scrollTop += speed;
   }
 }
 
 function touchMove(e) {
   if (!touchGhost) return;
-  if (e.cancelable) e.preventDefault();
-  const touch = e.touches[0];
-  const moved = hasTouchMoved(touch);
+  e.cancelable && e.preventDefault();
+  const t = lastTouch = e.touches[0];
+  const moved = hasTouchMoved(t);
   if (moved && !touchHasMoved) touchHasMoved = true;
   handleDragCancel(moved);
-  handleTouchDragging(e, touch);
-  handleTouchLandingField(touch);
-  ScrollOnEdge(touch);
+  handleTouchDragging(e, t);
+  handleTouchLandingField(t);
+  autoScrollInterval ||= setInterval(
+    () => lastTouch && ScrollOnEdge(lastTouch),
+    80
+  );
 }
+
 
 function hasTouchMoved(touch) {
   return Math.abs(touch.clientX - touchStartX) > 10 ||
@@ -128,6 +134,10 @@ function touchEnd(e) {
     return handleTouchClick(touchDraggingCard);
   }
   handleTouchDrop(e);
+  if (autoScrollInterval) {
+  clearInterval(autoScrollInterval);
+  autoScrollInterval = null;
+}
 }
 
 function handleTouchDrop(e) {
@@ -164,6 +174,10 @@ function cleanupTouchDrag() {
   }
   touchHasMoved = false;
   updateAllContainers();
+  if (autoScrollInterval) {
+  clearInterval(autoScrollInterval);
+  autoScrollInterval = null;
+}
 }
 
 function updateTaskStatusByContainer(card, container) {
