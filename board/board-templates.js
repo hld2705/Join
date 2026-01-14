@@ -92,7 +92,7 @@ function detailedCardInfoTemplate(task) {
                                 ${b.badge}
                               </div>
                                 ${b.name}
-                                 <div>
+                                </div>
                             `;
                           } else {
                             return `
