@@ -209,7 +209,7 @@ header {
 }
 
 .submit {
-    border-color: #FF8190;
+    border-color: #FF8190 !important;
 }
 
 .required-mssg {

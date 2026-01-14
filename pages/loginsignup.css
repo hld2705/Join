@@ -346,6 +346,7 @@ h1 {
 .login-title {
     font-weight: 700;
     font-size: 61px;
+    padding-bottom: 12px;
 }
 
 .blue-line {
@@ -535,6 +536,7 @@ button.disabled {
 
     .login-title {
         font-size: 38px;
+        padding-bottom: 0px;
     }
 
 

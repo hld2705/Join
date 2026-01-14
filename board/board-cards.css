@@ -236,12 +236,18 @@
 }
 
 .card-overlay-assigned_to-details-container-badges {
-      display: flex;
-    flex-direction: column;
-    margin-top: 10px;
-    overflow-y: auto;
-    max-height: 140px;
-    overflow-x: hidden;
-    padding-left: 8px;
-    gap:8px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  overflow-y: auto;
+  max-height: 140px;
+  overflow-x: hidden;
+  padding-left: 8px;
+  gap: 8px;
+}
+
+.avatar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }

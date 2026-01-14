@@ -85,22 +85,26 @@ function detailedCardInfoTemplate(task) {
                         ${badges.slice(0, 9).map(b => {
                           if (b.type === "text") {
                             return `
+                            <div class="avatar-container">
                             <div class="badge-name-container">
                               <div class="avatar-badge"
                                    style="background-color:${b.badgeColor}; border-color:${b.color}"
                                    title="${b.name}">
                                 ${b.badge}
                               </div>
+                              <div>
                                 ${b.name}
-                                 <div>
+                                 </div>
+                                 </div>
                             `;
                           } else {
                             return `
-                             <div class="badge-name-container"> <img class="badges-img" src="${b.badge}" title="${b.name}" style="border-color:${b.color}"><p>${b.name}</p> </div>
+                            <div class="badge-name-container"> <img class="badges-img" src="${b.badge}" title="${b.name}" style="border-color:${b.color}"><p>${b.name}</p> </div>
                             `;
                           }
                         }).join('')}
-                            
+                         </div>   
+                    </div>
                     </div>
             </div>
                </div>
