@@ -1,3 +1,7 @@
+/**
+ * Resets all priority buttons to their default state.
+ */
+
 function resetAllButton() {
     document.getElementById('urgent').classList.remove('bg-red');
     document.getElementById('double-arrow').src = "../assets/Prio alta.svg"
@@ -9,6 +13,10 @@ function resetAllButton() {
     document.getElementById('double-down').src = "../assets/double-down.svg"
     lowActive = false;
 }
+
+/**
+ * Toggles the urgent priority state and updates its visual appearance.
+ */
 
 function changeUrgentColor() {
     if (urgentActive) {
@@ -59,6 +67,10 @@ function inputBorderColorSwitch(e) {
 
 document.addEventListener("click", inputBorderColorSwitch)
 
+/**
+ * Toggles the assigned users dropdown.
+ */
+
 async function renderAssignDropdown() {
     let dropdownList = document.getElementById('dropdownList');
     let assignedInput = document.getElementById('assign-input');
@@ -72,6 +84,10 @@ async function renderAssignDropdown() {
     }
     openAssignDropdown();
 }
+
+/**
+ * Opens the assigned users dropdown and prepares input interaction.
+ */
 
 function openAssignDropdown() {
     let dropdownList = document.getElementById('dropdownList');
@@ -96,6 +112,10 @@ function switchAssignedArrow() {
     }
 }
 
+/**
+ * Clears all assigned user selections and resets the assigned input.
+ */
+
 function clearAssignedInput() {
     document.getElementById('dropdownList').classList.remove('open');
     document.getElementById('filteredBadgesContainer').innerHTML = "";
@@ -113,6 +133,12 @@ function clearAssignedIcon() {
     });
 }
 
+/**
+ * Handles search input for filtering assigned users.
+ *
+ * @param {Event} e
+ */
+
 async function handleAssignedSearch(e) {
     if (!e.target.closest('#assign-input')) return;
     let list = document.getElementById('dropdownList');
@@ -124,6 +150,12 @@ async function handleAssignedSearch(e) {
 }
 
 document.addEventListener('input', handleAssignedSearch);
+
+/**
+ * Toggles selection state of an assigned user entry.
+ *
+ * @param {Event} e
+ */
 
 function toggleAssignedinputContent(e) {
     let isInsideAssigned = e.target.closest('.Assigned-dropdown-username');
@@ -183,6 +215,14 @@ function closeAssignedInputOutclick(e) {
 
 document.addEventListener('click', closeAssignedInputOutclick);
 
+/**
+ * Adds or removes a user badge and updates badge visibility.
+ *
+ * @param {HTMLElement} badge
+ * @param {HTMLElement} badgeContainer
+ * @param {string} userId
+ */
+
 function filterBadges(badge, badgeContainer, userId) {
     const MAX_VISIBLE = 3;
     const existing = badgeContainer.querySelector(`[data-user-id="${userId}"]`);
@@ -196,6 +236,13 @@ function filterBadges(badge, badgeContainer, userId) {
     badgeContainer.appendChild(clone);
     updateBadges(badgeContainer, MAX_VISIBLE);
 }
+
+/**
+ * Updates visible badges and applies overflow indicator.
+ *
+ * @param {HTMLElement} container
+ * @param {number} maxVisible
+ */
 
 function updateBadges(container, maxVisible) {
     const oldDots = container.querySelector(".badge-dots");
@@ -212,6 +259,11 @@ function updateBadges(container, maxVisible) {
     }
 }
 
+/**
+ * Sets the selected task category and updates placeholder text.
+ *
+ * @param {Event} e
+ */
 
 function switchCategoryPlaceholder(e) {
     let dropDownCategory = document.getElementById('category-input')
@@ -227,6 +279,12 @@ function switchCategoryPlaceholder(e) {
         removeRequiredCategory();
     }
 }
+
+/**
+ * Toggles the category dropdown visibility.
+ *
+ * @param {Event} e
+ */
 
 function renderCategoryDropdown(e) {
     let dropdownListCategory = document.getElementById('dropdownListCategory')
@@ -252,6 +310,12 @@ function clearCategoryInput() {
     }
 }
 
+/**
+ * Handles subtask input actions such as accept and cancel.
+ *
+ * @param {Event} e
+ */
+
 function handleSubtaskOutput(e) {
     let inputfield = document.getElementById('subtask-input');
     if (e.target.closest?.('#subtask-accept') || (e.type === 'keydown' && e.key === 'Enter' && e.target.id === 'subtask-input')) {
@@ -265,6 +329,12 @@ function handleSubtaskOutput(e) {
 document.addEventListener('keydown', (e) => {
     handleSubtaskOutput(e);
 });
+
+/**
+ * Creates and renders a new subtask entry.
+ *
+ * @param {Event} e
+ */
 
 function handleSubtaskAccept(e) {
     let inputfield = document.getElementById('subtask-input');
@@ -333,6 +403,12 @@ function clearSubtaskOutput() {
     if (container) container.innerHTML = "";
 }
 
+/**
+ * Deletes a subtask entry from the list.
+ *
+ * @param {Event} e
+ */
+
 function handleSubtaskDelete(e) {
     let deleteIcon = e.target.closest('.delete-icon');
     if (!deleteIcon) return;
@@ -373,6 +449,18 @@ function handleEditIcon(li, text, icons, afterEditIcons, inputfield) {
     li.classList.add('edit-text');
 }
 
+/**
+ * Handles edit and confirm actions for a subtask.
+ *
+ * @param {HTMLElement|null} editIcon
+ * @param {HTMLElement|null} acceptIcon
+ * @param {HTMLElement} li
+ * @param {HTMLElement} text
+ * @param {HTMLElement} icons
+ * @param {HTMLElement} afterEditIcons
+ * @param {HTMLInputElement} inputfield
+ */
+
 function handleConfirmEdit(editIcon, acceptIcon, li, text, icons, afterEditIcons, inputfield) {
     if (editIcon) {
         handleEditIcon(li, text, icons, afterEditIcons, inputfield);
@@ -408,5 +496,3 @@ document.addEventListener('dblclick', (e) => {
 });
 
 document.addEventListener('click', handleIcons);
-
-

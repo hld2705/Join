@@ -1,3 +1,5 @@
+let addTaskInteractionsLoaded = false;
+
 function openDetailedInfoCardInstant() {
   const card = document.getElementById("card-content");
   if (card) card.classList.add('is-instant-open');
@@ -12,6 +14,12 @@ function removeExistingDetailOverlay() {
   if (oldOverlay) oldOverlay.remove();
 }
 
+/**
+ * Saves edited task data, reloads board state and reopens the detail overlay.
+ *
+ * @async
+ * @returns {Promise<void>}
+ */
 async function closeEditOverlay() {
   const bg = document.getElementById('edit-overlay-background');
   if (!bg) return;
@@ -52,8 +60,11 @@ function animateDetailedCardIn() {
   }, 20);
 }
 
-let addTaskInteractionsLoaded = false;
-
+/**
+ * Prepares the edit overlay UI with task data.
+ *
+ * @param {Object} task
+ */
 function prepareEditOverlay(task) {
   editOverlayTemplate(task);
   setTimeout(async () => {
@@ -138,6 +149,9 @@ document.getElementById("task-overlay-background").addEventListener("click", (e)
   }
 });
 
+/**
+ * Initializes board data and renders tasks on page load.
+ */
 document.addEventListener('DOMContentLoaded', async () => {
   await loadData();
   if (users && users.length > 0) {

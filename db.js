@@ -4,11 +4,24 @@ let users = [];
 let tasks = [];
 let loggedInUser = null;
 
+/**
+ * Fetches data from Firebase for the given path.
+ *
+ * @async
+ * @param {string} path - Firebase endpoint path
+ * @returns {Promise<Object|null>}
+ */
 async function fetchData(path) {
   const response = await fetch(BASE_URL + path);
   return await response.json();
 }
 
+/**
+ * Converts Firebase object data into an array with IDs.
+ *
+ * @param {Object|null} data
+ * @returns {Array<Object>}
+ */
 function createArrayFromData(data) {
   let result = [];
   if (!data) return result;
@@ -32,7 +45,6 @@ function createArrayFromData(data) {
  * @warning Must be called after creating users or tasks
  *          to keep local state in sync.
  */
-
 async function loadData() {
   const usersData = await fetchData('/users.json');
   const tasksData = await fetchData('/tasks.json');
@@ -41,6 +53,14 @@ async function loadData() {
   tasks = createArrayFromData(tasksData);
 }
 
+/**
+ * Saves a single item to Firebase.
+ *
+ * @async
+ * @param {string} type - Firebase collection name (e.g. "users", "tasks")
+ * @param {Object} item - Item to be stored
+ * @returns {Promise<void>}
+ */
 async function saveData(type, item) {
   await fetch(BASE_URL + '/' + type + '/' + item.id + '.json', {
     method: 'PUT',
@@ -49,6 +69,14 @@ async function saveData(type, item) {
   });
 }
 
+/**
+ * Sets the currently logged-in user and updates login state in Firebase.
+ *
+ * @async
+ * @param {string} userId
+ * @sets loggedInUser
+ * @returns {Promise<void>}
+ */
 async function setCurrentUser(userId) {
   for (let i = 0; i < users.length; i++) {
     let user = users[i];

@@ -42,6 +42,11 @@ function getDragAndDropData(subtasks, assigned, main, priority) {
   };
 }
 
+/**
+ * Returns all board column containers.
+ *
+ * @returns {Object}
+ */
 function getBoardContainers() {
   return {
     todo: document.getElementById("todo-container"),
@@ -51,12 +56,24 @@ function getBoardContainers() {
   };
 }
 
+/**
+ * Clears all task containers.
+ *
+ * @param {Object} containers
+ */
 function clearContainers(containers) {
   for (let key in containers) {
     if (containers[key]) containers[key].innerHTML = "";
   }
 }
 
+
+/**
+ * Renders a single task into its status container.
+ *
+ * @param {Object} task
+ * @param {Object} containers
+ */
 function renderTasketoContainer(task, containers) {
   const container = containers[task.status];
   if (!container) return;
@@ -72,6 +89,11 @@ function renderTasketoContainer(task, containers) {
   );
 }
 
+/**
+ * Renders all tasks into their respective containers.
+ *
+ * @param {Object} containers
+ */
 function fillContainers(containers) {
   for (let i = 0; i < tasks.length; i++) {
     renderTasketoContainer(tasks[i], containers);
@@ -94,7 +116,6 @@ function fillEmptyContainers(containers) {
  * - fills empty columns
  * - updates placeholders
  */
-
 async function dragAndDrop() {
   const containers = getBoardContainers();
   clearContainers(containers);
@@ -103,9 +124,14 @@ async function dragAndDrop() {
   updateAllContainers();
 }
 
+/**
+ * Resolves a user ID from object or primitive.
+ *
+ * @param {string|Object} value
+ * @returns {string}
+ */
 function getUserId(value) {
   return typeof value === "object" ? String(value.id) : String(value);
-
 }
 
 /**
@@ -118,7 +144,6 @@ function getUserId(value) {
  * @requires join.users to be up-to-date
  * @note if a user ID cannot be resolved, the badge is skipped.
  */
-
 function renderBadges(assigned) {
   if (!assigned || assigned.length === 0) {
     return [];
@@ -225,6 +250,12 @@ function showAllSubtasks(taskId) {
     .join('');
 }
 
+/**
+ * Toggles completion state of a subtask and updates board state.
+ *
+ * @param {number} taskId
+ * @param {number} index
+ */
 function toggleSubtask(taskId, index) {
   let task = tasks.find(t => t.id === taskId);
   if (!task) return;
@@ -253,6 +284,11 @@ function updateBoardSubtaskProgress(taskId, subtasks) {
   if (bar) bar.value = percent;
 }
 
+/**
+ * Deletes a task from Firebase and updates the board.
+ *
+ * @param {number} taskId
+ */
 function deleteCard(taskId) {
   firebase.database().ref("tasks/" + taskId).remove();
   const index = tasks.findIndex(t => t.id === taskId);
@@ -323,6 +359,12 @@ function getSubtasksImg(isDone) {
   return "./assets/subtask_empty.svg";
 }
 
+/**
+ * Updates an existing task with edited values.
+ *
+ * @async
+ * @returns {Promise<void>}
+ */
 function editTask() {
   const editTaskData = getTaskInputs();
   const oldTask = tasks.find(t => t.id === openedCardId);

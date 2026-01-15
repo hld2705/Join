@@ -84,7 +84,6 @@ function touchMove(e) {
   );
 }
 
-
 function hasTouchMoved(touch) {
   return Math.abs(touch.clientX - touchStartX) > 10 ||
     Math.abs(touch.clientY - touchStartY) > 10;
@@ -140,6 +139,11 @@ function touchEnd(e) {
 }
 }
 
+/**
+ * Handles dropping a dragged card via touch interaction.
+ *
+ * @param {TouchEvent} e
+ */
 function handleTouchDrop(e) {
   const touch = e.changedTouches[0];
   const container = getDropContainer(touch);
@@ -151,6 +155,12 @@ function handleTouchDrop(e) {
   cleanupTouchDrag();
 }
 
+/**
+ * Determines the target task container based on touch position.
+ *
+ * @param {Touch} touch
+ * @returns {HTMLElement|null}
+ */
 function getDropContainer(touch) {
   if (!touchGhost) return null;
   const rect = touchGhost.getBoundingClientRect();
@@ -179,6 +189,12 @@ function cleanupTouchDrag() {
 }
 }
 
+/**
+ * Updates task status based on the container it was dropped into.
+ *
+ * @param {HTMLElement} card
+ * @param {HTMLElement} container
+ */
 function updateTaskStatusByContainer(card, container) {
   const taskId = Number(card.id.replace("card-", ""));
   let newStatus = null;
@@ -274,6 +290,12 @@ function moveCardInContainer(card, container) {
   }
 }
 
+/**
+ * Updates task status and persists it to Firebase.
+ *
+ * @param {HTMLElement} card
+ * @param {string} newStatus
+ */
 function updateTaskStatus(card, newStatus) {
   const taskId = Number(card.id.replace("card-", ""));
   const task = tasks.find(t => t.id === taskId);

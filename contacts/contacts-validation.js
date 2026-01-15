@@ -1,3 +1,8 @@
+/**
+ * Validates all input fields when editing an existing user.
+ *
+ * @returns {boolean} True if all fields are valid
+ */
 function validateEditUser() {
   const nameValid = validateName(
     document.getElementById("edit_name").value.trim(),
@@ -20,17 +25,38 @@ function validateEditUser() {
   return nameValid && emailValid && phoneValid;
 }
 
+/**
+ * Displays a validation error for a given input field.
+ *
+ * @param {HTMLElement} inputEl
+ * @param {HTMLElement} messageEl
+ * @param {string} [message]
+ */
 function showError(inputEl, messageEl, message) {
   inputEl.classList.add("submit");
   messageEl.style.visibility = "visible";
   if (message) messageEl.innerHTML = message;
 }
 
+/**
+ * Hides the validation error for a given input field.
+ *
+ * @param {HTMLElement} inputEl
+ * @param {HTMLElement} messageEl
+ */
 function hideError(inputEl, messageEl) {
   inputEl.classList.remove("submit");
   messageEl.style.visibility = "hidden";
 }
 
+/**
+ * Validates a name input.
+ *
+ * @param {string} name
+ * @param {HTMLElement} border
+ * @param {HTMLElement} messageEl
+ * @returns {boolean}
+ */
 function validateName(name, border, messageEl) {
   if (!name)
     return showError(border, messageEl), false;
@@ -45,6 +71,14 @@ function validateName(name, border, messageEl) {
   return true;
 }
 
+/**
+ * Validates an email input.
+ *
+ * @param {string} email
+ * @param {HTMLElement} border
+ * @param {HTMLElement} messageEl
+ * @returns {boolean}
+ */
 function validateEmail(email, border, messageEl) {
   if (!email)
     return showError(border, messageEl), false;
@@ -59,6 +93,14 @@ function validateEmail(email, border, messageEl) {
   return true;
 }
 
+/**
+ * Validates a phone number input.
+ *
+ * @param {string} phone
+ * @param {HTMLElement} border
+ * @param {HTMLElement} messageEl
+ * @returns {boolean}
+ */
 function validatePhone(phone, border, messageEl) {
   const cleaned = phone.replace(/\s+/g, "");
   if (!cleaned)
@@ -71,6 +113,11 @@ function validatePhone(phone, border, messageEl) {
   return true;
 }
 
+/**
+ * Validates all input fields when creating a new user.
+ *
+ * @returns {boolean} True if all fields are valid
+ */
 function validateAddNewUser() {
   const nameValid = validateName(
     document.getElementById("name_new_user").value.trim(),

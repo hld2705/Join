@@ -1,3 +1,7 @@
+/**
+ * Toggles the user badge overlay and updates help link visibility.
+ */
+
 function badgeOverlay() {
   const overlay = document.getElementById("badge-overlay");
   const helpIcon = document.querySelector(".user-info-help");
@@ -6,6 +10,15 @@ function badgeOverlay() {
   badgeOverlayMobile(overlay, helpIcon, mobileHelp)
   updateHelpLink();
 }
+
+
+/**
+ * Handles mobile-specific badge overlay behavior.
+ *
+ * @param {HTMLElement} overlay
+ * @param {HTMLElement} helpIcon
+ * @param {HTMLElement|null} mobileHelp
+ */
 
 function badgeOverlayMobile(overlay, helpIcon, mobileHelp) {
   if (innerWidth < 900) {
@@ -26,6 +39,9 @@ function badgeOverlayMobile(overlay, helpIcon, mobileHelp) {
 window.addEventListener("resize", updateHelpLink);
 window.addEventListener("DOMContentLoaded", updateHelpLink);
 
+/**
+ * Updates the help link depending on viewport size.
+ */
 function updateHelpLink() {
   const overlay = document.getElementById("badge-overlay");
   const helpIcon = document.querySelector(".user-info-help");
@@ -91,6 +107,14 @@ function getUserId() {
   const params = new URLSearchParams(window.location.search);
   return params.get("uid");
 }
+
+
+/**
+ * Fetches the currently logged-in user from Firebase.
+ *
+ * @async
+ * @returns {Promise<Object|null>}
+ */
 
 async function getCurrentUser() {
   const uid = getUserId();
@@ -178,6 +202,12 @@ async function getCurrentUser() {
   return snapshot.val();
 }
 
+/**
+ * Dynamically renders the user badge in the header.
+ *
+ * @async
+ * @returns {Promise<void>}
+ */
 async function dynamicUserHeaderBadge() {
     const user = await getCurrentUser();
     if (!user || !user.badge) return;
@@ -187,6 +217,13 @@ async function dynamicUserHeaderBadge() {
     updateHelpLink();
 }
 
+
+/**
+ * Generates the HTML template for the user header badge.
+ *
+ * @param {Object} user
+ * @returns {string}
+ */
 function getUserHeaderBadgeTemplate(user) {
     return `
         <div class="user-info">
@@ -210,6 +247,11 @@ function getUserHeaderBadgeTemplate(user) {
     `;
 }
 
+/**
+ * Navigates to a given path while keeping user or guest state.
+ *
+ * @param {string} path
+ */
 function navigate(path) {
   const isGuest = sessionStorage.getItem("guest") === "true";
   const uid = getUserId();

@@ -16,14 +16,12 @@ if (!firebase.apps.length) {
 const FIREBASE_USERS = firebase.database().ref("users");
 
 /**
- * Validates if the user has entered the right values
- * saves the user inside the firebase with a custom firebaseId
- * 
+ * Validates signup inputs, checks if user already exists,
+ * and creates a new user in Firebase if not.
+ *
  * @async
- * if the user exists he will be notified not to sign up multiple times, to keep the firebase up-to-date
- * @returns exists
+ * @returns {Promise<void>}
  */
-
 window.logIn = async function logIn() {
     const data = getSignUpInputValues();
     if (!signUpValidation(data.name, data.email, data.password, data.passwordConfirm)) return;
@@ -54,6 +52,13 @@ function showUserAlreadyExists() {
     existsMsg.innerHTML = "*User already found!";
 }
 
+/**
+ * Creates a new user entry in Firebase and returns its generated id.
+ *
+ * @async
+ * @param {Object} data
+ * @returns {Promise<string>} Firebase user id
+ */
 async function createNewUser(data) {
     const newEntry = FIREBASE_USERS.push();
     const firebaseId = newEntry.key;
@@ -63,14 +68,12 @@ async function createNewUser(data) {
 }
 
 /**
- * 
- * @param {Array<string|object>} id 
- * Values being attached to an ID
- * @param {Array<string|object>} data 
- * Values being needed in order to login, badge color being random generated
- * @returns newUser
+ * Builds the user object structure for Firebase.
+ *
+ * @param {string} id
+ * @param {Object} data
+ * @returns {Object}
  */
-
 function createNewUserObject(id, data) {
     return {
         id,
@@ -81,7 +84,7 @@ function createNewUserObject(id, data) {
         login: 1,
         badge: {
             text: getInitials(data.name),
-            color: getRandomColor() 
+            color: getRandomColor()
         },
         newUser: true
     };
@@ -96,6 +99,13 @@ function getInitials(name) {
         .join("");
 }
 
+/**
+ * Checks if a user with the given email already exists in Firebase.
+ *
+ * @async
+ * @param {string} email
+ * @returns {Promise<boolean>}
+ */
 async function userExistsByEmail(email) {
     const snapshot = await FIREBASE_USERS.get();
     const users = snapshot.val();
@@ -114,6 +124,15 @@ function getRandomColor() {
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
+/**
+ * Validates signup input fields.
+ *
+ * @param {string} name
+ * @param {string} email
+ * @param {string} password
+ * @param {string} passwordConfirm
+ * @returns {boolean}
+ */
 function signUpValidation(name, email, password, passwordConfirm) {
     resetSignUpUI();
     let hasError = false;
@@ -241,12 +260,13 @@ function resetSignUpMessages() {
 }
 
 /**
- * Important function, the fireBaseId is being rendered on each change, differenting between a guest
- * and a logged in user 
- * @param {Array<string|object} firebaseId 
- * @forwards window.location = "/summary.html?uid=" + firebaseId;
+ * Stores the user id locally, shows a confirmation overlay,
+ * then redirects to the summary page.
+ *
+ * @async
+ * @param {string} firebaseId
+ * @returns {Promise<void>}
  */
-
 async function forwardingNextPage(firebaseId) {
     localStorage.setItem("uid", firebaseId);
     await new Promise(r => setTimeout(r, 300));
@@ -266,6 +286,12 @@ window.goBackLogin = function () {
     if (errorWindow) errorWindow.remove();
 };
 
+/**
+ * Handles login submission, validates inputs, and forwards user to summary page on success.
+ *
+ * @async
+ * @returns {Promise<void>}
+ */
 window.loginUserPushedInfo = async function () {
     const identifier = document.getElementById("login_identifier").value.trim().toLowerCase();
     const password = document.getElementById("password").value.trim();
@@ -276,7 +302,7 @@ window.loginUserPushedInfo = async function () {
     if (isMobile) {
         sessionStorage.setItem("userWelcome", "true");
     }
-    setTimeout(() => { window.location = `/summary.html?uid=${user.id}` }, 100)
+    setTimeout(() => { window.location = `/summary.html?uid=${user.id}` }, 100);
 };
 
 function showPasswordError(message) {
@@ -291,6 +317,13 @@ function hidePasswordError() {
     passError.textContent = "";
 }
 
+/**
+ * Returns a user by email from Firebase or null if not found.
+ *
+ * @async
+ * @param {string} email
+ * @returns {Promise<Object|null>}
+ */
 async function getUserByEmail(email) {
     let snapshot = await FIREBASE_USERS.get();
     let users = snapshot.val();
@@ -304,6 +337,14 @@ async function getUserByEmail(email) {
     return null;
 }
 
+/**
+ * Validates login inputs and returns the matching user object on success.
+ *
+ * @async
+ * @param {string} identifier
+ * @param {string} password
+ * @returns {Promise<Object|false>}
+ */
 async function validateAndFindUser(identifier, password) {
     const emailInput = document.getElementById("login_identifier");
     const passInput = document.getElementById("password");
@@ -369,5 +410,5 @@ window.guestLogIn = function () {
     if (isMobile) {
         sessionStorage.setItem("guestWelcome", "true");
     }
-    setTimeout(() => { window.location.href = "./summary.html?nonlogin=true"; }, 100)
-}
+    setTimeout(() => { window.location.href = "./summary.html?nonlogin=true"; }, 100);
+};

@@ -12,6 +12,13 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const FIREBASE_USERS = firebase.database().ref("users");
+
+/**
+ * Fetches all users from Firebase.
+ *
+ * @async
+ * @returns {Promise<Array<Object>>}
+ */
 async function fetchData() {
   let response = await FIREBASE_USERS.once("value")
   let data = response.val();
@@ -23,6 +30,12 @@ async function fetchData() {
   : [];
 }
 
+/**
+ * Returns the HTML template for a letter separator.
+ *
+ * @param {string} letter
+ * @returns {string}
+ */
 function letterSeparatorTemplate(letter) {
   return `
     <div class="letter-separationline-container">
@@ -32,6 +45,14 @@ function letterSeparatorTemplate(letter) {
   `;
 }
 
+
+/**
+ * Renders a single contact entry including letter grouping.
+ *
+ * @param {HTMLElement} container
+ * @param {Object} user
+ * @param {Object} current
+ */
 function renderContact(container, user, current) {
   const letter = user.name.charAt(0).toUpperCase();
   if (letter !== current.value) {
@@ -41,6 +62,12 @@ function renderContact(container, user, current) {
   container.innerHTML += contactsLoadTemplate(user);
 }
 
+/**
+ * Loads and renders the contact list.
+ *
+ * @async
+ * @returns {Promise<void>}
+ */
 async function contactsLoad() {
   const container = document.getElementById("contactsjs");
   if (!container) return;
@@ -57,6 +84,11 @@ async function contactsLoad() {
     renderContact(container, users[i], current);
   }}
 
+/**
+ * Opens the contact details view and updates active user state.
+ *
+ * @param {string} userId
+ */
 function openContactDetailsView(userId) {
   const left = document.getElementById("responsiveleftsidecontacts");
   const details = document.getElementById("responsivecontactsmoto");
@@ -69,6 +101,13 @@ function openContactDetailsView(userId) {
   }
 }
 
+/**
+ * Renders contact details for a selected user.
+ *
+ * @async
+ * @param {string} userId
+ * @returns {Promise<void>}
+ */
 async function contactsRender(userId) {
   const contactInfo = document.getElementById("contactsinfo");
   openContactDetailsView(userId);
@@ -81,6 +120,12 @@ async function contactsRender(userId) {
   updateResponsiveButtons();
 }
 
+/**
+ * Highlights the selected contact in the list.
+ *
+ * @param {string|null} previousId
+ * @param {string} newId
+ */
 function userHighlight(previousId, newId) {
   let prev = document.getElementById(`contactfield${previousId}`);
   let curr = document.getElementById(`contactfield${newId}`);
@@ -167,6 +212,13 @@ function closeOverlay() {
   }, 250);
 }
 
+/**
+ * Opens the edit user overlay with user data.
+ *
+ * @async
+ * @param {string} userId
+ * @returns {Promise<void>}
+ */
 async function editUser(userId) {
   let users = await fetchData();
   let user = users.find(u => String(u.id) === String(userId));
@@ -182,6 +234,13 @@ async function editUser(userId) {
   }
 }
 
+/**
+ * Deletes a user from Firebase and refreshes contact list.
+ *
+ * @async
+ * @param {string} userId
+ * @returns {Promise<void>}
+ */
 async function deleteUser(userId) {
   await FIREBASE_USERS.child(String(userId)).remove();
   activeUserId = null;
@@ -190,6 +249,16 @@ async function deleteUser(userId) {
   contactsLoad();
 }
 
+/**
+ * Updates user data in Firebase.
+ *
+ * @async
+ * @param {string} userId
+ * @param {string} name
+ * @param {string} email
+ * @param {string} phone
+ * @returns {Promise<void>}
+ */
 async function updateUserData(userId, name, email, phone) {
   await FIREBASE_USERS.child(userId).update({
     name,
@@ -202,6 +271,13 @@ async function updateUserData(userId, name, email, phone) {
   });
 }
 
+/**
+ * Saves edited user data and refreshes UI.
+ *
+ * @async
+ * @param {string} userId
+ * @returns {Promise<void>}
+ */
 async function saveUser(userId) {
   if (!validateEditUser()) return;
   const name = document.getElementById("edit_name").value.trim();
@@ -255,6 +331,12 @@ async function saveNewContact(name, email, phone) {
   return id;
 }
 
+/**
+ * Creates a new contact and refreshes contact list.
+ *
+ * @async
+ * @returns {Promise<void>}
+ */
 async function createContact() {
   if (!validateAddNewUser()) return;
   const name = document.getElementById("name_new_user").value.trim();
@@ -298,6 +380,10 @@ function updateContactsLayout() {
   }
 }
 
+
+/**
+ * Re-renders contacts when layout breakpoint changes.
+ */
 function reRenderContacts() {
   updateContactsLayout();
   activeUserId = null;
