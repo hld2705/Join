@@ -174,8 +174,10 @@ function prepareAddTaskOverlay(column) {
 }
 
 function openAddTaskOverlay(column) {
+  const params = new URLSearchParams(window.location.search);
+  const uid = params.get("uid");
   if (window.innerWidth < 1230) {
-    window.location.href = "add_task.html";
+    window.location.href = "add_task.html?uid=" + uid;
     return;
   }
   const overlayBg = document.getElementById("task-overlay-background");
