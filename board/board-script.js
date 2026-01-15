@@ -289,28 +289,27 @@ function getBgColor(main) {
   return "#fff";
 }
 
-function changesUrgentColor() {
-  selectedPriority = "urgent";
-  document.getElementById('urgent').classList.add("bg-red");
-  document.getElementById('double-arrow').src = "../assets/arrows-up-white.png";
-}
-
-function changesMediumColor() {
-  selectedPriority = "medium";
-  document.getElementById('medium-input').classList.add("bg-orange");
-  document.getElementById("equal").src = "../assets/equal-white.svg";
-}
-
-function changesLowColor() {
-  selectedPriority = "low";
-  document.getElementById('low-input').classList.add("bg-green");
-  document.getElementById("double-down").src = "../assets/double-down-white.svg";
+function resetPriorityStyles() {
+  document.getElementById('urgent').classList.remove("bg-red");
+  document.getElementById('medium-input').classList.remove("bg-orange");
+  document.getElementById('low-input').classList.remove("bg-green");
+  document.getElementById('double-arrow').src = "./assets/urgent-priority-board.svg";
+  document.getElementById('equal').src = "./assets/medium-priority-board.svg";
+  document.getElementById('double-down').src = "./assets/low-priority-board.svg";
 }
 
 function changePriorityColor(priority) {
-  if (priority === "urgent") changesUrgentColor();
-  if (priority === "medium") changesMediumColor();
-  if (priority === "low") changesLowColor();
+  resetPriorityStyles();
+  selectedPriority = priority;
+  if (priority === "urgent"){
+  document.getElementById('urgent').classList.add("bg-red");
+  document.getElementById('double-arrow').src = "../assets/arrows-up-white.png";}  
+  if (priority === "medium"){
+  document.getElementById('medium-input').classList.add("bg-orange");
+  document.getElementById("equal").src = "../assets/equal-white.svg";} 
+  if (priority === "low") {
+  document.getElementById('low-input').classList.add("bg-green");
+  document.getElementById("double-down").src = "../assets/double-down-white.svg";} 
 }
 
 function getEditPriorityIcons(priority) {

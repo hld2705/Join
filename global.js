@@ -11,7 +11,6 @@ function badgeOverlay() {
   updateHelpLink();
 }
 
-
 /**
  * Handles mobile-specific badge overlay behavior.
  *
