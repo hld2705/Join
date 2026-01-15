@@ -323,3 +323,10 @@ function toggleSubtaskFocus(e) {
 }
 
 document.addEventListener('click', toggleSubtaskFocus);
+
+function renderCheckButton() {
+    const checkButton = document.createElement("div");
+    checkButton.classList.add("check-button-container");
+    checkButton.innerHTML = checkButtonTemplate();
+    return checkButton;
+}

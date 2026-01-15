@@ -50,11 +50,7 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
   `;
 }
 
-function detailedCardInfoTemplate(task) {
-    const bgColor = getBgColor(task.main);
-    const imgSrc = getPriorityImg(task.priority);
-    const badges = renderBadges(task.assigned);
-    const subtask = renderSubtask(task.subtasks, task.id)
+function detailedCardInfoMarkup(task, bgColor, imgSrc, badges, subtask) {
     return `
     <div class="overlay-cards" id="overlayclose" onclick="closeOverlayCard()">
         <div id="card-content" class="card-content" onclick="event.stopPropagation()">
@@ -126,7 +122,7 @@ function detailedCardInfoTemplate(task) {
             </div>
         </div>      
     </div>
-    `
+    `;
 }
 
 function noCardsTemplate() {
@@ -136,13 +132,8 @@ function noCardsTemplate() {
     `
 }
 
-function renderSubtaskEdit(subtasks) {
-    let html = "<ul>";
-    if (!subtasks || subtasks.length === 0) {
-        return "<ul></ul>";
-    }
-    subtasks.forEach((st, i) => {
-        html += `
+function subtaskEditItemTemplate(st, i) {
+    return `
       <li class="single-subtask" data-subtask-id="${i}">
         <div class="single-subtask-container">
           
@@ -164,21 +155,10 @@ function renderSubtaskEdit(subtasks) {
         </div>
       </li>
     `;
-    });
-
-    html += "</ul>";
-    return html;
 }
 
-function editOverlayTemplate(task) {
-    const subtaskContent = renderSubtaskEdit(task.subtasks);
-    let formContainer = document.getElementById('edit-task-form-container');
-    task.priority === "urgent";
-    const icons = getEditPriorityIcons(task.priority);
-    if (!formContainer) return;
-    if (formContainer) {
-        formContainer.innerHTML =
-            `
+function editOverlayMarkup(task, icons, subtaskContent) {
+    return `
 <form novalidate class="task-form">
     <div id="badge-overlay">
         <a href="../legal_notice.html" onclick="event.preventDefault(); navigate('./legal_notice.html')">Legal Notice</a>
@@ -307,8 +287,7 @@ function editOverlayTemplate(task) {
             </div>
         </div>
 </form>
-`
-    }
+`;
 }
 
 function addTaskOverlayTemplate() {

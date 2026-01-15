@@ -67,22 +67,42 @@ function animateDetailedCardIn() {
  */
 function prepareEditOverlay(task) {
   editOverlayTemplate(task);
-  setTimeout(async () => {
-     await showUserName(); 
-    await preselectAssignedUsers(task.assigned);
-    document
-      .querySelectorAll('.Assigned-dropdown-username.bg-grey')
-      .forEach(el => {
-        const badge = el.querySelector('.userBadge');
-        const container = document.getElementById('filteredBadgesContainer');
-        filterBadges(badge, container, el.dataset.userId);
-      });
-  }, 0);
+  initEditOverlayAssigned(task);
 
   if (!addTaskInteractionsLoaded) {
     loadAddTaskInteractions();
     addTaskInteractionsLoaded = true;
   }
+
+  initEditOverlayPriority(task);
+}
+
+/**
+ * Initializes assigned users and their badges in the edit overlay.
+ *
+ * @param {Object} task - Task currently being edited
+ * @param {Array} task.assigned - Assigned users of the task
+ * @returns {Promise<void>}
+ */
+async function initEditOverlayAssigned(task) {
+  await showUserName();
+  await preselectAssignedUsers(task.assigned);
+
+  document
+    .querySelectorAll('.Assigned-dropdown-username.bg-grey')
+    .forEach(el => {
+      const badge = el.querySelector('.userBadge');
+      const container = document.getElementById('filteredBadgesContainer');
+      filterBadges(badge, container, el.dataset.userId);
+    });
+}
+
+/**
+ * Initializes priority UI and state for the edit overlay.
+ *
+ * @param {Object} task - Task currently being edited
+ */
+function initEditOverlayPriority(task) {
   setTimeout(() => {
     changePriorityColor(task.priority);
     urgentActive = task.priority === "urgent";
@@ -254,4 +274,34 @@ function noResult(count) {
 
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function editOverlayTemplate(task) {
+    const subtaskContent = renderSubtaskEdit(task.subtasks);
+    let formContainer = document.getElementById('edit-task-form-container');
+    task.priority === "urgent";
+    const icons = getEditPriorityIcons(task.priority);
+    if (!formContainer) return;
+    if (formContainer) formContainer.innerHTML = editOverlayMarkup(task, icons, subtaskContent);
+}
+
+function renderSubtaskEdit(subtasks) {
+    if (!subtasks || subtasks.length === 0) return "<ul></ul>";
+
+    let html = "<ul>";
+    subtasks.forEach((st, i) => {
+        html += subtaskEditItemTemplate(st, i);
+    });
+    html += "</ul>";
+
+    return html;
+}
+
+function detailedCardInfoTemplate(task) {
+    const bgColor = getBgColor(task.main);
+    const imgSrc = getPriorityImg(task.priority);
+    const badges = renderBadges(task.assigned);
+    const subtask = renderSubtask(task.subtasks, task.id);
+
+    return detailedCardInfoMarkup(task, bgColor, imgSrc, badges, subtask);
 }

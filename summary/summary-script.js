@@ -40,18 +40,15 @@ async function getDoneTasks() {
  * @returns {Promise<void>}
  */
 async function getUrgent() {
-  await loadData();
-  const Urgent = tasks.filter(urgent => urgent.priority === "urgent");
-  let SummaryCard = document.getElementById("deadline-container");
-  SummaryCard.innerHTML = `
-           <img src="./assets/urgent-icon.png">
-                <div class="done-text-container">
-                  <h1 class="task-count">${Urgent.length}</h1>
-                  <span>Urgent</span>
-                </div>
-               `
+    await loadData();
+    const urgentCount = tasks.filter(t => t.priority === "urgent").length;
+    renderUrgent(urgentCount);
 }
 
+function renderUrgent(count) {
+    const container = document.getElementById("deadline-container");
+    container.innerHTML = urgentTemplate(count);
+}
 
 /**
  * Determines the next upcoming task deadline and renders it
@@ -102,72 +99,52 @@ function guestLogIn() {
 }
 
 function renderNextDeadline(dateString) {
-  const el = document.getElementById("enddate");
-  if (!el) return;
-  const formatted = new Date(dateString).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-  el.innerHTML = `
-    <h1 class="urgent-date-text">${formatted}</h1>
-    <span>Upcoming deadline</span>
-  `;
+    const el = document.getElementById("enddate");
+    if (!el) return;
+
+    const formatted = new Date(dateString).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+    });
+
+    el.innerHTML = nextDeadlineTemplate(formatted);
 }
 
-/**
- * Loads all tasks and renders the total number of tasks
- * currently available in the board.
- *
- * @async
- * @returns {Promise<void>}
- */
-async function getTasksInBoard() {
-  await loadData();
-  const total = Array.isArray(tasks) ? tasks.length : 0;
-  let boardCard = document.getElementById('current-board-tasks');
-  boardCard.innerHTML = `
-  <div class="overview-box-wrapper" >
-  <h1 class="task-count">${total}</h1>
-  <span>Tasks in <br>Board</span>
-  </div>`
-}
 
 /**
- * Loads all tasks and renders the number of tasks
- * currently in progress.
- *
- * @async
- * @returns {Promise<void>}
+ *loader for task-based summary cards.
  */
-async function getTasksInProgress() {
-  await loadData();
-  const inProgress = tasks.filter(progress => progress.status === "inprogress");
-  let ProgressCard = document.getElementById('progress-board-tasks');
-  ProgressCard.innerHTML = `
-  <div class="overview-box-wrapper" >
-  <h1 class="task-count">${inProgress.length}</h1>
-  <span>Tasks in <br>Progress</span>
-  </div>`
+async function loadTaskSummary(containerId, filterFn, labelHtml) {
+    await loadData();
+    const count = filterFn ? tasks.filter(filterFn).length : tasks.length;
+    renderSummaryCard(containerId, count, labelHtml);
 }
 
-/**
- * Loads all tasks and renders the number of tasks
- * awaiting feedback.
- *
- * @async
- * @returns {Promise<void>}
- */
-async function getFeedbackTasks() {
-  await loadData();
-  const feedback = tasks.filter(f => f.status === "review");
-  let feedbackCard = document.getElementById('feedback-board-tasks');
-  feedbackCard.innerHTML = `
-  <div class="overview-box-wrapper" >
-  <h1 class="task-count">${feedback.length}</h1>
-  <span>Awaiting<br>Feedback</span>
-  </div>`
+function getTasksInBoard() {
+    loadTaskSummary(
+        'current-board-tasks',
+        null,
+        'Tasks in <br>Board'
+    );
 }
+
+function getTasksInProgress() {
+    loadTaskSummary(
+        'progress-board-tasks',
+        t => t.status === 'inprogress',
+        'Tasks in <br>Progress'
+    );
+}
+
+function getFeedbackTasks() {
+    loadTaskSummary(
+        'feedback-board-tasks',
+        t => t.status === 'review',
+        'Awaiting<br>Feedback'
+    );
+}
+
 
 function redirectToBoard() {
   const params = new URLSearchParams(window.location.search);

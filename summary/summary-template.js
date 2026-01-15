@@ -66,3 +66,33 @@ function welcomeTemplate(greeting, name) {
     </div>
   `;
 }
+
+function urgentTemplate(count) {
+    return `
+        <img src="./assets/urgent-icon.png">
+        <div class="done-text-container">
+            <h1 class="task-count">${count}</h1>
+            <span>Urgent</span>
+        </div>
+    `;
+}
+
+/**
+ * Renders a summary card with a task count.
+ */
+function renderSummaryCard(containerId, count, labelHtml) {
+    const el = document.getElementById(containerId);
+    el.innerHTML = `
+        <div class="overview-box-wrapper">
+            <h1 class="task-count">${count}</h1>
+            <span>${labelHtml}</span>
+        </div>
+    `;
+}
+
+function nextDeadlineTemplate(formattedDate) {
+    return `
+        <h1 class="urgent-date-text">${formattedDate}</h1>
+        <span>Upcoming deadline</span>
+    `;
+}
