@@ -24,11 +24,9 @@ function initTouchDrag(card, touch, rect) {
 
 function touchStart(e) {
   if (e.touches.length !== 1) return;
-
   const card = e.currentTarget;
   const touch = e.touches[0];
   const rect = card.getBoundingClientRect();
-
   dragTimeout = setTimeout(() => {
     initTouchDrag(card, touch, rect);
     touchGhost = createTouchGhost(card, rect);
@@ -48,7 +46,6 @@ if (noTasks) noTasks.style.display = "none";
   removeLandingFields();
   const ghostRect = touchGhost.getBoundingClientRect();
 const ghostY = ghostRect.top + ghostRect.height / 2;
-
 const inserted = findPosition(cards, ghostY, ghostHeight);
   if (!inserted) {
     insertLandingFieldAtEnd(container.closest(".distribution-progress"), ghostHeight);
@@ -91,16 +88,13 @@ function hasTouchMoved(touch) {
 
 function handleDragCancel(moved) {
   if (!moved || !dragTimeout) return;
-
   clearTimeout(dragTimeout);
   dragTimeout = null;
 }
 
 function handleTouchDragging(e, touch) {
   if (!touchHasMoved) return;
-
   if (e.cancelable) e.preventDefault();
-
   touchGhost.style.left = (touch.clientX - touchOffsetX) + "px";
   touchGhost.style.top = (touch.clientY - touchOffsetY) + "px";
 }
@@ -130,8 +124,7 @@ function touchEnd(e) {
   if (!touchHasMoved) {
     e.preventDefault();
     e.stopPropagation();
-    return handleTouchClick(touchDraggingCard);
-  }
+    return handleTouchClick(touchDraggingCard);}
   handleTouchDrop(e);
   if (autoScrollInterval) {
   clearInterval(autoScrollInterval);
@@ -144,11 +137,11 @@ function touchEnd(e) {
  *
  * @param {TouchEvent} e
  */
+
 function handleTouchDrop(e) {
   const touch = e.changedTouches[0];
   const container = getDropContainer(touch);
   if (!container) return cleanupTouchDrag();
-
   moveCardInContainer(touchDraggingCard, container);
   updateTaskStatusByContainer(touchDraggingCard, container);
   updateContainerTemplate(container);
@@ -161,6 +154,7 @@ function handleTouchDrop(e) {
  * @param {Touch} touch
  * @returns {HTMLElement|null}
  */
+
 function getDropContainer(touch) {
   if (!touchGhost) return null;
   const rect = touchGhost.getBoundingClientRect();
@@ -185,8 +179,7 @@ function cleanupTouchDrag() {
   updateAllContainers();
   if (autoScrollInterval) {
   clearInterval(autoScrollInterval);
-  autoScrollInterval = null;
-}
+  autoScrollInterval = null;}
 }
 
 /**
@@ -195,6 +188,7 @@ function cleanupTouchDrag() {
  * @param {HTMLElement} card
  * @param {HTMLElement} container
  */
+
 function updateTaskStatusByContainer(card, container) {
   const taskId = Number(card.id.replace("card-", ""));
   let newStatus = null;
@@ -296,11 +290,11 @@ function moveCardInContainer(card, container) {
  * @param {HTMLElement} card
  * @param {string} newStatus
  */
+
 function updateTaskStatus(card, newStatus) {
   const taskId = Number(card.id.replace("card-", ""));
   const task = tasks.find(t => t.id === taskId);
   if (!task) return;
-
   task.status = newStatus;
   firebase.database().ref("tasks/" + taskId).update({ status: newStatus });
 }
@@ -311,7 +305,6 @@ function moveTo(ev, newStatus) {
   const card = document.getElementById(cardId);
   const container = ev.currentTarget.querySelector(".task-container");
   if (!card || !container) return;
-
   moveCardInContainer(card, container);
   updateTaskStatus(card, newStatus);
   document.querySelectorAll(".landing-field")
