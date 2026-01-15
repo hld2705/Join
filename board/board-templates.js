@@ -469,3 +469,7 @@ function renderSubtaskMore(count, taskId) {
     </div>
   `;
 }
+
+function renderNoSubtasks() {
+  return "<p>Currently no subtasks available</p>";
+}

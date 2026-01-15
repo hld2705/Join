@@ -186,3 +186,72 @@ function openAddTaskOverlay(column) {
   overlayBg.style.display = "block";
   animateOverlayIn(overlay);
 }
+
+// Carryover from board-script (last functions in the file)
+function getSelectedAssignedUsers() {
+  return document.querySelectorAll(".Assigned-dropdown-username.bg-grey");
+}
+
+function renderFilteredBadges() {
+  const container = document.getElementById("filteredBadgesContainer");
+  if (!container) return;
+  container.innerHTML = "";
+  const users = Array.from(getSelectedAssignedUsers());
+  appendAssignedBadges(container, users);
+  appendBadgeDotsIfNeeded(container, users);
+}
+
+function appendAssignedBadges(container, users) {
+  const maxVisible = 3;
+  users.slice(0, maxVisible).forEach(user => {
+    const badgeEl = user.querySelector(".userBadge");
+    const nameEl = user.querySelector("span");
+    if (!badgeEl) return;
+    const badge = badgeEl.cloneNode(true);
+    badge.classList.add("assigned-badge");
+    badge.title = nameEl ? nameEl.textContent : "";
+    container.appendChild(badge);
+  });
+}
+
+function appendBadgeDotsIfNeeded(container, users) {
+  if (users.length <= 3) return;
+  const dots = document.createElement("span");
+  dots.classList.add("badge-dots");
+  dots.textContent = "...";
+  container.appendChild(dots);
+}
+
+function cardMatchesSearch(card, search) {
+  const title = card.dataset.title || "";
+  const description = card.dataset.description || "";
+  return title.includes(search) || description.includes(search);
+}
+
+function filterBoardCards(value) {
+  const search = value.toLowerCase();
+  const cards = document.getElementsByClassName("board-card");
+  let count = 0;
+  for (let i = 0; i < cards.length; i++) {
+    if (cardMatchesSearch(cards[i], search)) {
+      cards[i].style.display = "";
+      count++;
+    } else {
+      cards[i].style.display = "none";
+    }
+  }
+  noResult(count);
+}
+
+function noResult(count) {
+  let noResults = document.getElementById("no-results");
+  if (count === 0) {
+    noResults.style.display = "flex";
+  } else {
+    noResults.style.display = "none";
+  }
+}
+
+function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

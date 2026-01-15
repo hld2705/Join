@@ -47,6 +47,7 @@ function getDragAndDropData(subtasks, assigned, main, priority) {
  *
  * @returns {Object}
  */
+
 function getBoardContainers() {
   return {
     todo: document.getElementById("todo-container"),
@@ -61,12 +62,12 @@ function getBoardContainers() {
  *
  * @param {Object} containers
  */
+
 function clearContainers(containers) {
   for (let key in containers) {
     if (containers[key]) containers[key].innerHTML = "";
   }
 }
-
 
 /**
  * Renders a single task into its status container.
@@ -74,6 +75,7 @@ function clearContainers(containers) {
  * @param {Object} task
  * @param {Object} containers
  */
+
 function renderTasketoContainer(task, containers) {
   const container = containers[task.status];
   if (!container) return;
@@ -94,6 +96,7 @@ function renderTasketoContainer(task, containers) {
  *
  * @param {Object} containers
  */
+
 function fillContainers(containers) {
   for (let i = 0; i < tasks.length; i++) {
     renderTasketoContainer(tasks[i], containers);
@@ -116,6 +119,7 @@ function fillEmptyContainers(containers) {
  * - fills empty columns
  * - updates placeholders
  */
+
 async function dragAndDrop() {
   const containers = getBoardContainers();
   clearContainers(containers);
@@ -130,6 +134,7 @@ async function dragAndDrop() {
  * @param {string|Object} value
  * @returns {string}
  */
+
 function getUserId(value) {
   return typeof value === "object" ? String(value.id) : String(value);
 }
@@ -144,6 +149,7 @@ function getUserId(value) {
  * @requires join.users to be up-to-date
  * @note if a user ID cannot be resolved, the badge is skipped.
  */
+
 function renderBadges(assigned) {
   if (!assigned || assigned.length === 0) {
   return [];}
@@ -152,8 +158,6 @@ function renderBadges(assigned) {
     let userId = typeof assigned[i] === "object" ? assigned[i].id : assigned[i];
     let user = join.users.find(u => String(u.id) === String(userId));
     if (!user) {user = users.find(u => String(u.id) === String(userId));}
-    if (!user) {
-      console.warn("Missing user for badge:", userId); continue;}
     if (typeof user.badge === "string") {badges.push({badge: user.badge,name: user.name,color: user.color,type: "image"});
     } else if (user.badge && typeof user.badge === "object") {
       badges.push({badge: user.badge.text || getInitials(user.name),badgeColor: user.badge.color || user.color,name: user.name,color: user.color,type: "text"});
@@ -165,9 +169,7 @@ function updateContainerTemplate(container) {
   if (!container) return;
   container.querySelectorAll(".notasks-container").forEach(el => el.remove());
   const hasCards = container.querySelectorAll(".board-card").length > 0;
-  if (!hasCards) {
-    container.insertAdjacentHTML("beforeend", noCardsTemplate());
-  }
+  if (!hasCards) {container.insertAdjacentHTML("beforeend", noCardsTemplate());}
 }
 
 function updateAllContainers() {
@@ -175,8 +177,7 @@ function updateAllContainers() {
     document.getElementById("todo-container"),
     document.getElementById("in-progress-container"),
     document.getElementById("feedback-container"),
-    document.getElementById("done-container")
-  ];
+    document.getElementById("done-container")];
   containers.forEach(container => updateContainerTemplate(container));
 }
 
@@ -194,14 +195,9 @@ function getSafeSubtasks(subtasks) {
     : Object.values(subtasks);
 }
 
-function renderNoSubtasks() {
-  return "<p>Currently no subtasks available</p>";
-}
-
 function renderSubtask(subtasks, taskId) {
   const safe = getSafeSubtasks(subtasks);
   if (safe.length === 0) return renderNoSubtasks();
-
   const visible = safe.slice(0, 2);
   const remaining = safe.length - visible.length;
   let html = visible
@@ -238,6 +234,7 @@ function showAllSubtasks(taskId) {
  * @param {number} taskId
  * @param {number} index
  */
+
 function toggleSubtask(taskId, index) {
   let task = tasks.find(t => t.id === taskId);
   if (!task) return;
@@ -271,6 +268,7 @@ function updateBoardSubtaskProgress(taskId, subtasks) {
  *
  * @param {number} taskId
  */
+
 function deleteCard(taskId) {
   firebase.database().ref("tasks/" + taskId).remove();
   const index = tasks.findIndex(t => t.id === taskId);
@@ -347,6 +345,7 @@ function getSubtasksImg(isDone) {
  * @async
  * @returns {Promise<void>}
  */
+
 function editTask() {
   const editTaskData = getTaskInputs();
   const oldTask = tasks.find(t => t.id === openedCardId);
@@ -397,77 +396,4 @@ async function preselectAssignedUsers(assigned) {
   for (let i = 0; i < assigned.length; i++) {
     preselectSingleUser(getAssignedId(assigned[i]));
   }
-
-}
-
-function getSelectedAssignedUsers() {
-  return document.querySelectorAll(".Assigned-dropdown-username.bg-grey");
-}
-
-function renderFilteredBadges() {
-  const container = document.getElementById("filteredBadgesContainer");
-  if (!container) return;
-
-
-  container.innerHTML = "";
-  const users = Array.from(getSelectedAssignedUsers());
-
-  appendAssignedBadges(container, users);
-  appendBadgeDotsIfNeeded(container, users);
-}
-
-function appendAssignedBadges(container, users) {
-  const maxVisible = 3;
-  users.slice(0, maxVisible).forEach(user => {
-    const badgeEl = user.querySelector(".userBadge");
-    const nameEl = user.querySelector("span");
-    if (!badgeEl) return;
-    const badge = badgeEl.cloneNode(true);
-    badge.classList.add("assigned-badge");
-    badge.title = nameEl ? nameEl.textContent : "";
-    container.appendChild(badge);
-  });
-}
-
-function appendBadgeDotsIfNeeded(container, users) {
-  if (users.length <= 3) return;
-
-  const dots = document.createElement("span");
-  dots.classList.add("badge-dots");
-  dots.textContent = "...";
-  container.appendChild(dots);
-}
-
-function cardMatchesSearch(card, search) {
-  const title = card.dataset.title || "";
-  const description = card.dataset.description || "";
-  return title.includes(search) || description.includes(search);
-}
-
-function filterBoardCards(value) {
-  const search = value.toLowerCase();
-  const cards = document.getElementsByClassName("board-card");
-  let count = 0;
-  for (let i = 0; i < cards.length; i++) {
-    if (cardMatchesSearch(cards[i], search)) {
-      cards[i].style.display = "";
-      count++;
-    } else {
-      cards[i].style.display = "none";
-    }
-  }
-  noResult(count);
-}
-
-function noResult(count) {
-  let noResults = document.getElementById("no-results");
-  if (count === 0) {
-    noResults.style.display = "flex";
-  } else {
-    noResults.style.display = "none";
-  }
-}
-
-function capitalize(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
 }

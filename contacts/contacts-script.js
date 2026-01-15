@@ -1,4 +1,5 @@
 let activeUserId = null;
+let lastIsMobile = window.innerWidth <= 900;
 const firebaseConfig = {
   apiKey: "AIzaSyDaAKocqkIROo_InISQbRjsoG8z1JCK3g0",
   authDomain: "join-gruppenarbeit-75ecf.firebaseapp.com",
@@ -31,22 +32,6 @@ async function fetchData() {
 }
 
 /**
- * Returns the HTML template for a letter separator.
- *
- * @param {string} letter
- * @returns {string}
- */
-function letterSeparatorTemplate(letter) {
-  return `
-    <div class="letter-separationline-container">
-      <h2 class="letter-header">${letter}</h2>
-      <img class="separationline" src="./assets/Vector 10.svg">
-    </div>
-  `;
-}
-
-
-/**
  * Renders a single contact entry including letter grouping.
  *
  * @param {HTMLElement} container
@@ -57,8 +42,7 @@ function renderContact(container, user, current) {
   const letter = user.name.charAt(0).toUpperCase();
   if (letter !== current.value) {
     current.value = letter;
-    container.innerHTML += letterSeparatorTemplate(letter);
-  }
+    container.innerHTML += letterSeparatorTemplate(letter);}
   container.innerHTML += contactsLoadTemplate(user);
 }
 
@@ -74,7 +58,6 @@ async function contactsLoad() {
   container.innerHTML = "";
   const editBtn = document.getElementById("responsiveeditcontactid");
   if (editBtn) editBtn.style.display = "none";
-
   const usersRaw = await fetchData();
   const users = (Array.isArray(usersRaw) ? usersRaw : [])
     .filter(user => user && user.name)
@@ -133,8 +116,7 @@ function userHighlight(previousId, newId) {
     prev.style.backgroundColor = "#fff";
     prev.style.color = "black";
     prev.style.borderRadius = "10px";
-  }
-  if (curr) {
+  }if (curr) {
     curr.style.backgroundColor = "#2A3647";
     curr.style.color = "white";
     curr.style.borderRadius = "10px";
@@ -152,8 +134,7 @@ function updateResponsiveButtons() {
   if (window.innerWidth > 900) {
     toggleButton(addButton, "none");
     toggleButton(editButton, "none");
-    return;
-  }
+    return;}
   if (activeUserId) {
     toggleButton(addButton, "none");
     toggleButton(editButton, "block");
@@ -169,8 +150,7 @@ function editUserOptionsResponsive() {
   if (window.innerWidth >= 900) {
     responsiveEditContactId.style.display = "none";
   } else {
-    responsiveEditContactId.style.display = "block";
-  }
+    responsiveEditContactId.style.display = "block";}
   document.getElementById("responsiveeditcontact-overlay-container").innerHTML =
     editUserOptionsResponsiveTemplate(userId);
 }
@@ -178,22 +158,18 @@ function editUserOptionsResponsive() {
 document.addEventListener("click", function (e) {
   let overlay = document.getElementById("edit_overlay");
   if (overlay && !e.target.closest("#edit_overlay")) {
-    overlay.remove();
-  }
+    overlay.remove();}
   updateResponsiveButtons();
 });
 
 function addNewContact() {
   let popUp = document.getElementById("body");
   if (!document.getElementById("closeoverlay")) {
-    popUp.innerHTML += addNewContactTemplate();
-  }
+    popUp.innerHTML += addNewContactTemplate();}
   let contactContainer = document.getElementById('contact-container')
   if (contactContainer) {
     setTimeout(() => {
-      contactContainer.classList.add('is-open')
-    }, 20);
-  }
+      contactContainer.classList.add('is-open')}, 20);}
 }
 
 function closeOverlayContainers() {
@@ -205,11 +181,9 @@ function closeOverlayContainers() {
 
 function closeOverlay() {
   closeOverlayContainers();
-
   setTimeout(() => {
     document.getElementById("closeoverlay")?.remove();
-    document.getElementById("closediteoverlay")?.remove();
-  }, 250);
+    document.getElementById("closediteoverlay")?.remove();}, 250);
 }
 
 /**
@@ -229,9 +203,7 @@ async function editUser(userId) {
   document.getElementById("responsiveeditcontact-overlay-container").style.display = "none";
   if (contactContainer) {
     setTimeout(() => {
-      contactContainer.classList.add('is-open')
-    }, 20);
-  }
+      contactContainer.classList.add('is-open')}, 20);}
 }
 
 /**
@@ -266,9 +238,7 @@ async function updateUserData(userId, name, email, phone) {
     phone,
     badge: {
       text: getInitials(name),
-      color: getRandomColor()
-    }
-  });
+      color: getRandomColor()}});
 }
 
 /**
@@ -355,12 +325,10 @@ async function createContact() {
 async function addedNewUser() {
   document.body.insertAdjacentHTML(
     "beforeend",
-    addedNewUserTemplate()
-  );
+    addedNewUserTemplate());
   const overlay = document.getElementById("new-user-overlay");
   requestAnimationFrame(() => {
-    overlay.classList.add("is-open");
-  });
+  overlay.classList.add("is-open");});
   await new Promise(r => setTimeout(r, 3500));
   overlay.classList.remove("is-open");
   await new Promise(r => setTimeout(r, 300));
@@ -380,7 +348,6 @@ function updateContactsLayout() {
   }
 }
 
-
 /**
  * Re-renders contacts when layout breakpoint changes.
  */
@@ -394,14 +361,11 @@ function reRenderContacts() {
   if (edit) edit.style.display = "none";
 }
 
-let lastIsMobile = window.innerWidth <= 900;
-
 window.addEventListener("resize", () => {
   const isMobile = window.innerWidth <= 900;
   if (isMobile !== lastIsMobile) {
     lastIsMobile = isMobile;
-    reRenderContacts();
-  }
+    reRenderContacts();}
   updateResponsiveButtons();
 });
 

@@ -240,3 +240,12 @@ function editUserOptionsResponsiveTemplate(userId) {
     </div>
     </div>`;
 }
+
+function letterSeparatorTemplate(letter) {
+  return `
+    <div class="letter-separationline-container">
+      <h2 class="letter-header">${letter}</h2>
+      <img class="separationline" src="./assets/Vector 10.svg">
+    </div>
+  `;
+}
