@@ -1,14 +1,13 @@
 let taskFormURL = "./add_task/form_task.html";
+let priority = 'medium';
 
 /**
  * Initializes the add task view and loads required data.
  */
+
 function init() {
     removeRequiredTitle();
     loadAddTaskForm();
-    setTimeout(() => {
-        changeMediumColor();
-    }, 50);
     removeRequiredDate();
     getAllUser("/users");
 }
@@ -33,6 +32,7 @@ const FIREBASE_URL = "https://join-gruppenarbeit-75ecf-default-rtdb.europe-west1
  * @param {string} path - Firebase path
  * @returns {Promise<Array<Object>>} Array of user objects
  */
+
 async function getAllUser(path = "") {
     let response = await fetch(FIREBASE_URL + path + ".json");
     let data = await response.json();
@@ -57,12 +57,14 @@ function loadAddTaskForm() {
             if (formContainer) {
                 formContainer.innerHTML = html;
             }
+            setPriorityOnLoad();
         })
 }
 
 /**
  * Renders all users into the assigned users dropdown.
  */
+
 async function showUserName() {
     let dropList = document.getElementById('dropdownList');
     let users = await getAllUser("/users");
@@ -78,6 +80,7 @@ async function showUserName() {
  * @param {HTMLElement} dropList
  * @param {Object} user
  */
+
 function appendUserItem(dropList, user) {
     let div = document.createElement("div");
     let name = document.createElement("span");
@@ -96,6 +99,7 @@ function appendUserItem(dropList, user) {
 /**
  * Opens the date picker and restricts selection to future dates.
  */
+
 function openCalendar() {
     let dateInput = document.getElementById('date-input');
     const today = new Date();
@@ -112,10 +116,19 @@ function openCalendar() {
 }
 
 /**
+ * Locks the onload function for the priority to be already preset to medium
+ */
+
+function setPriorityOnLoad(){
+    changePriorityColor("medium");
+}
+
+/**
  * Creates a new task and stores it in Firebase.
  *
  * @returns {Promise<void>}
  */
+
 function addNewTask() {
     const taskData = getNewTaskInputs();
     const newTask = {
@@ -134,6 +147,7 @@ function addNewTask() {
  *
  * @returns {Promise<void>}
  */
+
 function editTask() {
     const editTaskData = getEditTaskInputs();
     const oldTask = tasks.find(t => t.id === openedCardId);
@@ -299,6 +313,7 @@ function TaskTransitionRequirement(e) {
  *
  * @param {Event} e
  */
+
 function TaskTransitionRequirement(e) {
     checkRequiredCategory(); checkRequiredDate(); checkRequiredTitle();
     let validTitle = document.getElementById('title-input').checkValidity();
@@ -346,6 +361,7 @@ function closeTaskOverlay() {
 /**
  * Redirects to board view after task creation.
  */
+
 function redirectToBoard() {
     if (!isTaskFormValid()) {
         checkRequiredTitle?.();

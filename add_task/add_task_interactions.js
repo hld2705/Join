@@ -1,53 +1,34 @@
+priority = null;
+
 /**
  * Resets all priority buttons to their default state.
  */
 
-function resetAllButton() {
-    document.getElementById('urgent').classList.remove('bg-red');
-    document.getElementById('double-arrow').src = "../assets/Prio alta.svg"
-    urgentActive = false;
-    document.getElementById('medium-input').classList.remove('bg-orange');
-    document.getElementById('equal').src = "../assets/Prio media.svg"
-    mediumActive = false;
-    document.getElementById('low-input').classList.remove('bg-green');
-    document.getElementById('double-down').src = "../assets/double-down.svg"
-    lowActive = false;
+function resetPriorityStyles() {
+  document.getElementById('urgent').classList.remove("bg-red");
+  document.getElementById('medium-input').classList.remove("bg-orange");
+  document.getElementById('low-input').classList.remove("bg-green");
+  document.getElementById('double-arrow').src = "./assets/urgent-priority-board.svg";
+  document.getElementById('equal').src = "./assets/medium-priority-board.svg";
+  document.getElementById('double-down').src = "./assets/low-priority-board.svg";
 }
 
 /**
  * Toggles the urgent priority state and updates its visual appearance.
  */
-function changeUrgentColor() {
-    if (urgentActive) {
-        resetAllButton();
-    } else {
-        resetAllButton();
-        document.getElementById('urgent').classList.add("bg-red");
-        document.getElementById('double-arrow').src = "../assets/arrows-up-white.png";
-        urgentActive = true;
-    }
-}
 
-function changeMediumColor() {
-    if (mediumActive) {
-        resetAllButton();
-    } else {
-        resetAllButton();
-        document.getElementById('medium-input').classList.add("bg-orange");
-        document.getElementById("equal").src = "../assets/equal-white.svg";
-        mediumActive = true;
-    }
-}
-
-function changeLowColor() {
-    if (lowActive) {
-        resetAllButton();
-    } else {
-        resetAllButton();
-        document.getElementById('low-input').classList.add("bg-green");
-        document.getElementById("double-down").src = "../assets/double-down-white.svg";
-        lowActive = true;
-    }
+function changePriorityColor(priority) {
+  resetPriorityStyles();
+  selectedPriority = priority;
+  if (priority === "urgent"){
+  document.getElementById('urgent').classList.add("bg-red");
+  document.getElementById('double-arrow').src = "../assets/arrows-up-white.png";}  
+  if (priority === "medium"){
+  document.getElementById('medium-input').classList.add("bg-orange");
+  document.getElementById("equal").src = "../assets/equal-white.svg";} 
+  if (priority === "low") {
+  document.getElementById('low-input').classList.add("bg-green");
+  document.getElementById("double-down").src = "../assets/double-down-white.svg";} 
 }
 
 function inputBorderColorSwitch(e) {
@@ -69,6 +50,7 @@ document.addEventListener("click", inputBorderColorSwitch)
 /**
  * Toggles the assigned users dropdown.
  */
+
 async function renderAssignDropdown() {
     let dropdownList = document.getElementById('dropdownList');
     let assignedInput = document.getElementById('assign-input');
