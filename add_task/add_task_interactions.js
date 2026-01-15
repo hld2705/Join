@@ -17,7 +17,6 @@ function resetAllButton() {
 /**
  * Toggles the urgent priority state and updates its visual appearance.
  */
-
 function changeUrgentColor() {
     if (urgentActive) {
         resetAllButton();
@@ -70,7 +69,6 @@ document.addEventListener("click", inputBorderColorSwitch)
 /**
  * Toggles the assigned users dropdown.
  */
-
 async function renderAssignDropdown() {
     let dropdownList = document.getElementById('dropdownList');
     let assignedInput = document.getElementById('assign-input');
@@ -88,7 +86,6 @@ async function renderAssignDropdown() {
 /**
  * Opens the assigned users dropdown and prepares input interaction.
  */
-
 function openAssignDropdown() {
     let dropdownList = document.getElementById('dropdownList');
     let assignedInput = document.getElementById('assign-input');
@@ -115,7 +112,6 @@ function switchAssignedArrow() {
 /**
  * Clears all assigned user selections and resets the assigned input.
  */
-
 function clearAssignedInput() {
     document.getElementById('dropdownList').classList.remove('open');
     document.getElementById('filteredBadgesContainer').innerHTML = "";
@@ -138,7 +134,6 @@ function clearAssignedIcon() {
  *
  * @param {Event} e
  */
-
 async function handleAssignedSearch(e) {
     if (!e.target.closest('#assign-input')) return;
     let list = document.getElementById('dropdownList');
@@ -156,7 +151,6 @@ document.addEventListener('input', handleAssignedSearch);
  *
  * @param {Event} e
  */
-
 function toggleAssignedinputContent(e) {
     let isInsideAssigned = e.target.closest('.Assigned-dropdown-username');
     if (!isInsideAssigned) return;
@@ -222,7 +216,6 @@ document.addEventListener('click', closeAssignedInputOutclick);
  * @param {HTMLElement} badgeContainer
  * @param {string} userId
  */
-
 function filterBadges(badge, badgeContainer, userId) {
     const MAX_VISIBLE = 3;
     const existing = badgeContainer.querySelector(`[data-user-id="${userId}"]`);
@@ -243,7 +236,6 @@ function filterBadges(badge, badgeContainer, userId) {
  * @param {HTMLElement} container
  * @param {number} maxVisible
  */
-
 function updateBadges(container, maxVisible) {
     const oldDots = container.querySelector(".badge-dots");
     if (oldDots) oldDots.remove();
@@ -264,7 +256,6 @@ function updateBadges(container, maxVisible) {
  *
  * @param {Event} e
  */
-
 function switchCategoryPlaceholder(e) {
     let dropDownCategory = document.getElementById('category-input')
     let dropdownListCategory = document.getElementById('dropdownListCategory')
@@ -285,7 +276,6 @@ function switchCategoryPlaceholder(e) {
  *
  * @param {Event} e
  */
-
 function renderCategoryDropdown(e) {
     let dropdownListCategory = document.getElementById('dropdownListCategory')
     let dropdownSelect = e.target.closest('#category-input')
@@ -310,178 +300,6 @@ function clearCategoryInput() {
     }
 }
 
-/**
- * Handles subtask input actions such as accept and cancel.
- *
- * @param {Event} e
- */
-
-function handleSubtaskOutput(e) {
-    let inputfield = document.getElementById('subtask-input');
-    if (e.target.closest?.('#subtask-accept') || (e.type === 'keydown' && e.key === 'Enter' && e.target.id === 'subtask-input')) {
-        e.preventDefault();
-        handleSubtaskAccept(e);
-        inputfield.value = '';
-    }
-    handleSubtaskCancel(e);
-}
-
-document.addEventListener('keydown', (e) => {
-    handleSubtaskOutput(e);
-});
-
-/**
- * Creates and renders a new subtask entry.
- *
- * @param {Event} e
- */
-
-function handleSubtaskAccept(e) {
-    let inputfield = document.getElementById('subtask-input');
-    e.preventDefault();
-    let subTaskOutput = document.getElementById('subtask-content');
-    document.getElementById('cancel-accept-container').style.display = "none";
-    let subtaskInput = inputfield.value.trim();
-    if (!subtaskInput) return;
-    if (!subTaskOutput.querySelector("ul")) {
-        subTaskOutput.innerHTML = `<ul></ul>`;
-    }
-    let ul = subTaskOutput.querySelector('ul');
-    ul.insertAdjacentHTML('beforeend', subtaskOutputTemplate(subtaskInput, subtaskCounter));
-    subtaskCounter++;
-}
-
-function handleSubtaskCancel(e) {
-    let inputfield = document.getElementById('subtask-input');
-    if (e.target.closest('#subtask-cancel')) {
-        inputfield.value = '';
-        document.getElementById('cancel-accept-container').style.display = "none";
-    }
-}
-
-document.addEventListener('click', handleSubtaskOutput);
-
-function toggleSubtaskFocus(e) {
-    if (e.target.closest('#subtask-input')) {
-        document.getElementById('subtask-input').classList.add('box-shadow-blue');
-    }
-    if (!e.target.closest('#subtask-input')) {
-        document.getElementById('subtask-input').classList.remove('box-shadow-blue');
-    }
-}
-
-document.addEventListener('click', toggleSubtaskFocus);
-
-function showSubtaskIcons(e) {
-    if (e.target.id === 'subtask-input') {
-        if (e.target.value.trim() !== "") {
-            document.getElementById('cancel-accept-container').style.display = "flex";
-            document.getElementById('subtask-input').classList.add('box-shadow-blue');
-        }
-    }
-}
-
-document.addEventListener('keyup', showSubtaskIcons);
-
-function hideSubtaskIcons(e) {
-    if (e.target.id === 'subtask-input') {
-        let container = document.getElementById('cancel-accept-container');
-        if (!container) return;
-
-        if (e.target.value.trim() === "") {
-            container.style.display = "none";
-        } else {
-            container.style.display = "flex";
-        }
-    }
-}
-
-document.addEventListener('input', hideSubtaskIcons);
-
-function clearSubtaskOutput() {
-    let container = document.getElementById('subtask-content');
-    if (container) container.innerHTML = "";
-}
-
-/**
- * Deletes a subtask entry from the list.
- *
- * @param {Event} e
- */
-
-function handleSubtaskDelete(e) {
-    let deleteIcon = e.target.closest('.delete-icon');
-    if (!deleteIcon) return;
-    let container = deleteIcon.closest('#subtask-content');
-    if (!container) return;
-    let li = deleteIcon.closest('li.single-subtask');
-    if (li) {
-        document.getElementById('subtask-input').disabled = false;
-        li.remove();
-    }
-}
-
-document.addEventListener('click', handleSubtaskDelete);
-
-function handleConfirmEditText(li, text, icons, afterEditIcons, inputfield) {
-    let newText = text.innerText.trim()
-    if (newText === '') {
-        li.remove();
-        clearSubtaskOutput();
-    }
-    text.contentEditable = 'false';
-    icons.style.display = 'block';
-    afterEditIcons.style.display = 'none';
-    icons.classList.remove('hidden');
-    afterEditIcons.classList.add('hidden');
-    li.classList.remove('edit-text');
-    inputfield.disabled = false;
-}
-
-function handleEditIcon(li, text, icons, afterEditIcons, inputfield) {
-    inputfield.disabled = true;
-    text.contentEditable = 'true';
-    cursorToEnd(text);
-    icons.style.display = 'none';
-    afterEditIcons.style.display = 'flex';
-    icons.classList.add('hidden');
-    afterEditIcons.classList.remove('hidden');
-    li.classList.add('edit-text');
-}
-
-/**
- * Handles edit and confirm actions for a subtask.
- *
- * @param {HTMLElement|null} editIcon
- * @param {HTMLElement|null} acceptIcon
- * @param {HTMLElement} li
- * @param {HTMLElement} text
- * @param {HTMLElement} icons
- * @param {HTMLElement} afterEditIcons
- * @param {HTMLInputElement} inputfield
- */
-
-function handleConfirmEdit(editIcon, acceptIcon, li, text, icons, afterEditIcons, inputfield) {
-    if (editIcon) {
-        handleEditIcon(li, text, icons, afterEditIcons, inputfield);
-    }
-    if (acceptIcon) {
-        handleConfirmEditText(li, text, icons, afterEditIcons, inputfield);
-    }
-}
-
-function handleIcons(e) {
-    let editIcon = e.target.closest('.edit-icon');
-    let acceptIcon = e.target.closest('#edit-accept-icon');
-    let li = e.target.closest('li.single-subtask');
-    let inputfield = document.getElementById('subtask-input');
-    if (!editIcon && !acceptIcon) return;
-    let text = li.querySelector('.subtask-text');
-    let icons = li.querySelector('.subtask-icons');
-    let afterEditIcons = li.querySelector('.edit-subtask-icons');
-    handleConfirmEdit(editIcon, acceptIcon, li, text, icons, afterEditIcons, inputfield);
-}
-
 document.addEventListener('dblclick', (e) => {
     let container = e.target.closest('.single-subtask-container');
     if (!container) return;
@@ -495,4 +313,13 @@ document.addEventListener('dblclick', (e) => {
     handleEditIcon(li, text, icons, afterEditIcons, inputfield);
 });
 
-document.addEventListener('click', handleIcons);
+function toggleSubtaskFocus(e) {
+    if (e.target.closest('#subtask-input')) {
+        document.getElementById('subtask-input').classList.add('box-shadow-blue');
+    }
+    if (!e.target.closest('#subtask-input')) {
+        document.getElementById('subtask-input').classList.remove('box-shadow-blue');
+    }
+}
+
+document.addEventListener('click', toggleSubtaskFocus);

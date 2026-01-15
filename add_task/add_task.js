@@ -1,23 +1,14 @@
-let urgentActive = false;
-let mediumActive = false;
-let lowActive = false;
-let task = [];
-let names = [];
 let taskFormURL = "./add_task/form_task.html";
-let subtaskCounter = 0;
 
 /**
  * Initializes the add task view and loads required data.
  */
-
 function init() {
     removeRequiredTitle();
     loadAddTaskForm();
-
     setTimeout(() => {
         changeMediumColor();
     }, 50);
-
     removeRequiredDate();
     getAllUser("/users");
 }
@@ -34,7 +25,6 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-
 const FIREBASE_URL = "https://join-gruppenarbeit-75ecf-default-rtdb.europe-west1.firebasedatabase.app/"
 
 /**
@@ -43,7 +33,6 @@ const FIREBASE_URL = "https://join-gruppenarbeit-75ecf-default-rtdb.europe-west1
  * @param {string} path - Firebase path
  * @returns {Promise<Array<Object>>} Array of user objects
  */
-
 async function getAllUser(path = "") {
     let response = await fetch(FIREBASE_URL + path + ".json");
     let data = await response.json();
@@ -59,7 +48,6 @@ async function getAllUser(path = "") {
 /**
  * Loads the add task form HTML into the DOM.
  */
-
 function loadAddTaskForm() {
     fetch(taskFormURL)
         .then(response => response.text())
@@ -75,7 +63,6 @@ function loadAddTaskForm() {
 /**
  * Renders all users into the assigned users dropdown.
  */
-
 async function showUserName() {
     let dropList = document.getElementById('dropdownList');
     let users = await getAllUser("/users");
@@ -91,7 +78,6 @@ async function showUserName() {
  * @param {HTMLElement} dropList
  * @param {Object} user
  */
-
 function appendUserItem(dropList, user) {
     let div = document.createElement("div");
     let name = document.createElement("span");
@@ -107,24 +93,9 @@ function appendUserItem(dropList, user) {
     dropList.appendChild(div);
 }
 
-function getInitials(name) {
-    return name
-        .split(" ")
-        .filter(Boolean)
-        .slice(0, 2)
-        .map(word => word.charAt(0).toUpperCase())
-        .join("");
-}
-
-function getRandomColor() {
-    const colors = ["#2A3647", "#29ABE2", "#FF7A00", "#9327FF", "#FC71FF", "#fccc59", "#442c8c", "#fc4444"];
-    return colors[Math.floor(Math.random() * colors.length)];
-}
-
 /**
  * Opens the date picker and restricts selection to future dates.
  */
-
 function openCalendar() {
     let dateInput = document.getElementById('date-input');
     const today = new Date();
@@ -145,7 +116,6 @@ function openCalendar() {
  *
  * @returns {Promise<void>}
  */
-
 function addNewTask() {
     const taskData = getNewTaskInputs();
     const newTask = {
@@ -164,7 +134,6 @@ function addNewTask() {
  *
  * @returns {Promise<void>}
  */
-
 function editTask() {
     const editTaskData = getEditTaskInputs();
     const oldTask = tasks.find(t => t.id === openedCardId);
@@ -180,109 +149,15 @@ function editTask() {
         }
         filteredData[key] = value;
     }
-
     return firebase.database()
         .ref("tasks/" + oldTask.id)
         .update(filteredData)
         .catch(err => console.error("Task update failed:", err));
 }
 
-/**
- * Collects input values for creating a new task.
- *
- * @returns {Object} Task input data
- */
-
-function getNewTaskInputs() {
-    return {
-        title: document.getElementById('title-input').value,
-        description: document.getElementById('description-input').value,
-        enddate: document.getElementById('date-input').value,
-        main: getCategory(),
-        subtasks: getSubtasks(),
-        priority: getPriority(),
-        assigned: getAssignedUsers(),
-    };
-}
-
-/**
- * Collects input values for editing an existing task.
- *
- * @returns {Object} Task input data
- */
-
-function getEditTaskInputs() {
-    const oldTask = tasks.find(t => t.id === openedCardId);
-    return {
-        title: document.getElementById('title-input').value,
-        description: document.getElementById('description-input').value,
-        enddate: document.getElementById('date-input').value,
-        main: oldTask.main,
-        subtasks: getSubtasks(),
-        priority: getPriority(),
-        assigned: getAssignedUsers(),
-    };
-}
-
-/**
- * Returns IDs of all selected assigned users.
- *
- * @returns {Array<string>}
- */
-
-function getAssignedUsers() {
-    return Array.from(document.querySelectorAll('.Assigned-dropdown-username.bg-grey'))
-        .map(el => el.dataset.userId);
-}
-
 function getAssignedUserBadge() {
     return Array.from(document.querySelectorAll('.Assigned-dropdown-username.bg-grey'))
         .map(el => el.dataset.badge);
-}
-
-/**
- * Returns the selected task priority.
- *
- * @returns {string|null}
- */
-
-function getPriority() {
-    let activeInput = document.querySelector('.priority-input.bg-green, .priority-input.bg-red, .priority-input.bg-orange');
-    return priority = activeInput ? activeInput.dataset.prio : null;
-}
-
-/**
- * Returns the selected task category.
- *
- * @returns {string}
- */
-
-function getCategory() {
-    let categoryInput = document.getElementById('category-input');
-    let categoryPlaceholder = categoryInput.placeholder;
-    return category = categoryPlaceholder !== "Select task category" ? categoryPlaceholder : "";
-}
-
-/**
- * Collects all subtasks from the DOM.
- *
- * @returns {Array<Object>}
- */
-
-function getSubtasks() {
-    let subtaskDivs = document.querySelectorAll('[id^="subtask-text-"]');
-    let subtasks = [];
-    subtaskDivs.forEach((el, index) => {
-        let text = (el.textContent || el.innerText || "").trim();
-        if (text) {
-            subtasks.push({
-                id: "subTask" + index,
-                text: text,
-                done: false
-            });
-        }
-    });
-    return subtasks;
 }
 
 function checkRequiredTitle() {
@@ -424,7 +299,6 @@ function TaskTransitionRequirement(e) {
  *
  * @param {Event} e
  */
-
 function TaskTransitionRequirement(e) {
     checkRequiredCategory(); checkRequiredDate(); checkRequiredTitle();
     let validTitle = document.getElementById('title-input').checkValidity();
@@ -472,7 +346,6 @@ function closeTaskOverlay() {
 /**
  * Redirects to board view after task creation.
  */
-
 function redirectToBoard() {
     if (!isTaskFormValid()) {
         checkRequiredTitle?.();
@@ -487,12 +360,6 @@ function redirectToBoard() {
     } else {
         location.assign("../board.html");
     }}
-
-function isTaskFormValid() {
-    const title = document.getElementById("title-input");
-    const date = document.getElementById("date-input");
-    return title.value.trim() && date.value.trim();
-}
 
 function setupIdSwitchingForForms() {
     const forms = ['#task-form-container', '#edit-task-form-container'];
@@ -511,7 +378,3 @@ function setupIdSwitchingForForms() {
 
 setupIdSwitchingForForms();
 
-function cursorToEnd(el) {
-    el.focus();
-    document.getSelection().collapse(el, 1);
-}
