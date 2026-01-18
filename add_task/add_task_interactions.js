@@ -3,7 +3,6 @@ priority = null;
 /**
  * Resets all priority buttons to their default state.
  */
-
 function resetPriorityStyles() {
   document.getElementById('urgent').classList.remove("bg-red");
   document.getElementById('medium-input').classList.remove("bg-orange");
@@ -16,7 +15,6 @@ function resetPriorityStyles() {
 /**
  * Toggles the urgent priority state and updates its visual appearance.
  */
-
 function changePriorityColor(priority) {
   resetPriorityStyles();
   selectedPriority = priority;
@@ -50,7 +48,6 @@ document.addEventListener("click", inputBorderColorSwitch)
 /**
  * Toggles the assigned users dropdown.
  */
-
 async function renderAssignDropdown() {
     let dropdownList = document.getElementById('dropdownList');
     let assignedInput = document.getElementById('assign-input');
