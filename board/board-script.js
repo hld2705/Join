@@ -24,7 +24,6 @@ let dragTimeout = null;
  * @returns {Object}
  * Prepared data for board card rendering (progress, badges, colors).
  */
-
 function getDragAndDropData(subtasks, assigned, main, priority) {
   const safeSubtasks = Array.isArray(subtasks)
     ? subtasks
@@ -47,7 +46,6 @@ function getDragAndDropData(subtasks, assigned, main, priority) {
  *
  * @returns {Object}
  */
-
 function getBoardContainers() {
   return {
     todo: document.getElementById("todo-container"),
@@ -62,7 +60,6 @@ function getBoardContainers() {
  *
  * @param {Object} containers
  */
-
 function clearContainers(containers) {
   for (let key in containers) {
     if (containers[key]) containers[key].innerHTML = "";
@@ -75,7 +72,6 @@ function clearContainers(containers) {
  * @param {Object} task
  * @param {Object} containers
  */
-
 function renderTasketoContainer(task, containers) {
   const container = containers[task.status];
   if (!container) return;
@@ -96,7 +92,6 @@ function renderTasketoContainer(task, containers) {
  *
  * @param {Object} containers
  */
-
 function fillContainers(containers) {
   for (let i = 0; i < tasks.length; i++) {
     renderTasketoContainer(tasks[i], containers);
@@ -119,7 +114,6 @@ function fillEmptyContainers(containers) {
  * - fills empty columns
  * - updates placeholders
  */
-
 async function dragAndDrop() {
   const containers = getBoardContainers();
   clearContainers(containers);
@@ -134,7 +128,6 @@ async function dragAndDrop() {
  * @param {string|Object} value
  * @returns {string}
  */
-
 function getUserId(value) {
   return typeof value === "object" ? String(value.id) : String(value);
 }
@@ -149,7 +142,6 @@ function getUserId(value) {
  * @requires join.users to be up-to-date
  * @note if a user ID cannot be resolved, the badge is skipped.
  */
-
 function renderBadges(assigned) {
   if (!assigned || assigned.length === 0) {
   return [];}
@@ -234,7 +226,6 @@ function showAllSubtasks(taskId) {
  * @param {number} taskId
  * @param {number} index
  */
-
 function toggleSubtask(taskId, index) {
   let task = tasks.find(t => t.id === taskId);
   if (!task) return;
@@ -268,7 +259,6 @@ function updateBoardSubtaskProgress(taskId, subtasks) {
  *
  * @param {number} taskId
  */
-
 function deleteCard(taskId) {
   firebase.database().ref("tasks/" + taskId).remove();
   const index = tasks.findIndex(t => t.id === taskId);
@@ -344,7 +334,6 @@ function getSubtasksImg(isDone) {
  * @async
  * @returns {Promise<void>}
  */
-
 function editTask() {
   const editTaskData = getTaskInputs();
   const oldTask = tasks.find(t => t.id === openedCardId);
