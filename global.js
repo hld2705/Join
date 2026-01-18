@@ -1,7 +1,6 @@
 /**
  * Toggles the user badge overlay and updates help link visibility.
  */
-
 function badgeOverlay() {
   const overlay = document.getElementById("badge-overlay");
   const helpIcon = document.querySelector(".user-info-help");
@@ -18,13 +17,12 @@ function badgeOverlay() {
  * @param {HTMLElement} helpIcon
  * @param {HTMLElement|null} mobileHelp
  */
-
 function badgeOverlayMobile(overlay, helpIcon, mobileHelp) {
   if (innerWidth < 900) {
     helpIcon.style.display = "none";
     if (!mobileHelp) {
       const link = document.createElement("a");
-      link.href = "./help.html";
+      link.href = getHelpUrl();
       link.id = "mobile-help-link";
       link.textContent = "Help";
       overlay.prepend(link);
@@ -33,6 +31,15 @@ function badgeOverlayMobile(overlay, helpIcon, mobileHelp) {
     helpIcon.style.display = "block";
     if (mobileHelp) mobileHelp.remove();
   }
+}
+
+function getHelpUrl() {
+  const isGuest =
+  sessionStorage.getItem("guest") === "true" ||
+  window.location.search.includes("nonlogin=true");
+  if (isGuest) return "./help.html?nonlogin=true";
+  const uid = getUserId();
+  return uid ? `./help.html?uid=${uid}` : "./index.html";
 }
 
 window.addEventListener("resize", updateHelpLink);
@@ -48,20 +55,6 @@ function updateHelpLink() {
   if (!overlay || !helpIcon) return;
   mobileUpdateHelpLink(mobileHelp, helpIcon, overlay);
 }
-
-function mobileUpdateHelpLink(mobileHelp, helpIcon, overlay) {
-  if (window.innerWidth >= 900) {
-    helpIcon.style.display = "block";
-    if (mobileHelp) mobileHelp.remove();
-  } else {
-    helpIcon.style.display = "none";
-    if (!mobileHelp) {
-      const link = document.createElement("a");
-      link.href = "./help.html";
-      link.id = "mobile-help-link";
-      link.textContent = "Help";
-      overlay.prepend(link);
-    }}}
 
 document.addEventListener('click', function (event) {
   const overlay = document.getElementById('badge-overlay');
@@ -97,10 +90,12 @@ window.addEventListener("DOMContentLoaded", () => {
  * Retrieves the param from the window location
  * @returns params(uid)
  */
-
 function getUserId() {
   const params = new URLSearchParams(window.location.search);
-  return params.get("uid");
+  return (
+    params.get("uid") ||
+    sessionStorage.getItem("uid")
+  );
 }
 
 
@@ -110,7 +105,6 @@ function getUserId() {
  * @async
  * @returns {Promise<Object|null>}
  */
-
 async function getCurrentUser() {
   const uid = getUserId();
   if (!uid) return null;
@@ -118,12 +112,11 @@ async function getCurrentUser() {
     .database()
     .ref("users/" + uid)
     .once("value");
-
   return snapshot.val();
 }
 
 function handleResize() {
-    updateHelpLink();
+  updateHelpLink();
 }
 
 window.addEventListener("resize", handleResize);
@@ -137,7 +130,7 @@ function updateHelpLink() {
   if (innerWidth >= 900) return mobileHelp?.remove();
   if (mobileHelp) return;
   const link = document.createElement("a");
-  link.href = "./help.html";
+  link.href = getHelpUrl();
   link.id = "mobile-help-link";
   link.textContent = "Help";
   overlay?.prepend(link);
@@ -169,10 +162,6 @@ function handleBlur(event) {
   el.classList.remove("bordercolor-blue");
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  dynamicUserHeaderBadge();
-});
-
 function getUserId() {
   const params = new URLSearchParams(window.location.search);
   return params.get("uid");
@@ -200,14 +189,13 @@ async function getCurrentUser() {
  * @returns {Promise<void>}
  */
 async function dynamicUserHeaderBadge() {
-    const user = await getCurrentUser();
-    if (!user || !user.badge) return;
-    const userInfo = document.getElementById("user-info-id");
-    if (userInfo.querySelector(".user-info")) return;
-    userInfo.insertAdjacentHTML("beforeend", getUserHeaderBadgeTemplate(user));
-    updateHelpLink();
+  const user = await getCurrentUser();
+  if (!user || !user.badge) return;
+  const userInfo = document.getElementById("user-info-id");
+  if (userInfo.querySelector(".user-info")) return;
+  userInfo.insertAdjacentHTML("beforeend", getUserHeaderBadgeTemplate(user));
+  updateHelpLink();
 }
-
 
 /**
  * Navigates to a given path while keeping user or guest state.
@@ -229,17 +217,15 @@ function navigate(path) {
 }
 
 function renderGuestHeader() {
-    const userInfo = document.getElementById("user-info-id");
-    if (!userInfo) return;
-
-    userInfo.insertAdjacentHTML("beforeend", getGuestHeaderTemplate());
-    updateHelpLink();
+  const userInfo = document.getElementById("user-info-id");
+  if (!userInfo) return;
+  userInfo.insertAdjacentHTML("beforeend", getGuestHeaderTemplate());
+  updateHelpLink();
 }
 
 /**
  * removes the flagged user guest = true
  */
-
 function LogOut() {
   sessionStorage.removeItem("guest", "true");
 }
@@ -247,10 +233,8 @@ function LogOut() {
 window.addEventListener("DOMContentLoaded", initHeader);
 
 function initHeader() {
-  const isGuest =
-    sessionStorage.getItem("guest") === "true" ||
-    window.location.search.includes("nonlogin=true");
-
+  const uid = getUserId();
+  const isGuest = !uid && sessionStorage.getItem("guest") === "true";
   if (isGuest) {
     renderGuestHeader();
   } else {

@@ -4,7 +4,7 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
     <div id="card-${taskId}"ontouchstart="touchStart(event)" ontouchmove="touchMove(event)" ontouchend="touchEnd(event)" draggable="true" ondragstart="startDragging(event, ${taskId})" ondragend="onDragEnd()" data-title="${title.toLowerCase()}" data-description="${description.toLowerCase()}" class="board-card"
          onclick="detailedCardInfo(${taskId}); animateDetailedCardIn()">
       <div class="task-main-container" style="background-color:${data.bgColor}">
-        ${main}
+        ${data.main}
       </div>
       <div class="card-container-title-content">
         <h2>${title}</h2>

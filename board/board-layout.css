@@ -69,7 +69,6 @@
 header {
   display: flex;
   align-items: center;
-  justify-content: space-around;
   height: 96px;
   padding: 0 20px 0 12px;
   background-color: #FFFFFF;
@@ -84,6 +83,7 @@ header {
   justify-content: space-between;
   width: calc(100vw - 264px);
   margin-left: 232px;
+  max-width: 1550px;
 }
 
 .openaddtaskoverlayresponsive {

@@ -4,7 +4,6 @@ let priority = 'medium';
 /**
  * Initializes the add task view and loads required data.
  */
-
 function init() {
     removeRequiredTitle();
     loadAddTaskForm();
@@ -32,7 +31,6 @@ const FIREBASE_URL = "https://join-gruppenarbeit-75ecf-default-rtdb.europe-west1
  * @param {string} path - Firebase path
  * @returns {Promise<Array<Object>>} Array of user objects
  */
-
 async function getAllUser(path = "") {
     let response = await fetch(FIREBASE_URL + path + ".json");
     let data = await response.json();
@@ -64,7 +62,6 @@ function loadAddTaskForm() {
 /**
  * Renders all users into the assigned users dropdown.
  */
-
 async function showUserName() {
     let dropList = document.getElementById('dropdownList');
     let users = await getAllUser("/users");
@@ -80,7 +77,6 @@ async function showUserName() {
  * @param {HTMLElement} dropList
  * @param {Object} user
  */
-
 function appendUserItem(dropList, user) {
     let div = document.createElement("div");
     let name = document.createElement("span");
@@ -99,26 +95,20 @@ function appendUserItem(dropList, user) {
 /**
  * Opens the date picker and restricts selection to future dates.
  */
-
 function openCalendar() {
     let dateInput = document.getElementById('date-input');
     const today = new Date();
     const formattedToday = today.toISOString().split("T")[0];
     dateInput.min = formattedToday;
-
     if (!dateInput) return;
-
     if (dateInput.showPicker) {
         dateInput.showPicker();
-    } else {
-        dateInput.focus();
-    }
+    } else {dateInput.focus();}
 }
 
 /**
  * Locks the onload function for the priority to be already preset to medium
  */
-
 function setPriorityOnLoad(){
     changePriorityColor("medium");
 }
@@ -128,7 +118,6 @@ function setPriorityOnLoad(){
  *
  * @returns {Promise<void>}
  */
-
 function addNewTask() {
     const taskData = getNewTaskInputs();
     const newTask = {
@@ -147,7 +136,6 @@ function addNewTask() {
  *
  * @returns {Promise<void>}
  */
-
 function editTask() {
     const editTaskData = getEditTaskInputs();
     const oldTask = tasks.find(t => t.id === openedCardId);
@@ -157,12 +145,8 @@ function editTask() {
         if (key === "main") continue;
         if (value === "" || value === undefined || value === null) continue;
         if (key === "assigned") {
-            if (Array.isArray(value) && value.length === 0) {
-                continue;
-            }
-        }
-        filteredData[key] = value;
-    }
+        if (Array.isArray(value) && value.length === 0) {
+            continue;}}filteredData[key] = value;}
     return firebase.database()
         .ref("tasks/" + oldTask.id)
         .update(filteredData)
@@ -174,6 +158,12 @@ function getAssignedUserBadge() {
         .map(el => el.dataset.badge);
 }
 
+/**
+ * Validates the title input field and toggles
+ * the required error message and submit styling.
+ * Uses native HTML5 form validation via `checkValidity()`.
+ * @returns {void}
+ */
 function checkRequiredTitle() {
     let titleInput = document.getElementById('title-input');
     let requiredMessage = document.getElementById('required-message-title');
@@ -191,6 +181,12 @@ document.addEventListener('input', (e) => {
     checkRequiredTitle();
 });
 
+/**
+ * Validates the date input field and toggles
+ * the required error message and submit styling.
+ * Uses native HTML5 form validation via `checkValidity()`.
+ * @returns {void}
+ */
 function checkRequiredDate() {
     let dateInput = document.getElementById('date-input');
     let requiredMessage = document.getElementById('required-message-date');
@@ -216,8 +212,7 @@ function checkRequiredCategory() {
         requiredMessage.style.visibility = "visible";
     } else {
         categoryInput.classList.remove('submit');
-        requiredMessage.style.visibility = "hidden";
-    }
+        requiredMessage.style.visibility = "hidden";}
 }
 
 function removeRequiredTitle() {
@@ -225,25 +220,19 @@ function removeRequiredTitle() {
     if (titleInput) {
         titleInput.addEventListener('input', () => {
             titleInput.classList.remove('submit');
-            document.getElementById('required-message-title').innerHTML = "";
-        });
-    }
+            document.getElementById('required-message-title').innerHTML = "";});}
 }
 
 function removeRequiredDate() {
     let dateInput = document.getElementById('date-input');
-
     if (dateInput) {
         dateInput.addEventListener('input', () => {
             dateInput.classList.remove('submit');
-            document.getElementById('required-message-date').innerHTML = "";
-        });
-    }
+            document.getElementById('required-message-date').innerHTML = "";});}
 }
 
 function removeRequiredCategory() {
     let categoryInput = document.getElementById('category-input');
-
     if (categoryInput.placeholder !== "Select task category") {
         categoryInput.classList.remove("submit");
         document.getElementById('required-message-category').style.visibility = "hidden";
@@ -283,15 +272,22 @@ function filterList(e) {
     let items = list.querySelectorAll('.Assigned-dropdown-username');
     if (inputText.length < 1) {
         items.forEach(div => div.style.display = '');
-        return;
-    }
+        return;}
     items.forEach(div => {
         let name = (div.dataset.name || '').toLowerCase();
-        div.style.display = name.includes(inputText) ? '' : 'none';
-    });
+        div.style.display = name.includes(inputText) ? '' : 'none';});
     list.classList.add('open');
 }
 
+/**
+ * Handles the visual transition after a task is added
+ * and redirects to the board view once the animation finishes.
+ *
+ * Triggered by clicking the "add task" button.
+ *
+ * @param {Event} e - The click event triggered by the add task action.
+ * @returns {void}
+ */
 function addedTaskTransition(e) {
     if (e.target.id === 'add-task-button') {
         let taskAddedStart = document.getElementById('task-added-info');
@@ -313,7 +309,6 @@ function TaskTransitionRequirement(e) {
  *
  * @param {Event} e
  */
-
 function TaskTransitionRequirement(e) {
     checkRequiredCategory(); checkRequiredDate(); checkRequiredTitle();
     let validTitle = document.getElementById('title-input').checkValidity();
@@ -322,8 +317,7 @@ function TaskTransitionRequirement(e) {
     let allValid = validTitle && validDate && validCategory;
     if (!allValid) {
         e.preventDefault();
-        return;
-    }
+        return;}
     addNewTask();
     switchToBoard(e);
 };
@@ -331,9 +325,7 @@ function TaskTransitionRequirement(e) {
 function switchToBoard(e) {
     if (!window.location.pathname.endsWith('board.html')) {
         addedTaskTransition(e);
-    } else {
-        redirectToBoard();
-    }
+    } else {redirectToBoard();}
 }
 
 document.addEventListener("click", (e) => {
@@ -350,18 +342,13 @@ function closeTaskOverlay() {
     setTimeout(() => {
         overlayBg.remove();
         container.innerHTML = "";
-
         setTimeout(() => {
-            taskAddedInfo.style.display = "none";
-        }, 0);
-    }, 900);
-
+        taskAddedInfo.style.display = "none";}, 0);}, 900);
 }
 
 /**
  * Redirects to board view after task creation.
  */
-
 function redirectToBoard() {
     if (!isTaskFormValid()) {
         checkRequiredTitle?.();
@@ -371,11 +358,8 @@ function redirectToBoard() {
         closeTaskOverlay();
         setTimeout(async () => {
             await loadData();
-            dragAndDrop();
-        }, 300);
-    } else {
-        location.assign("../board.html");
-    }}
+            dragAndDrop();}, 300);
+    } else {location.assign("../board.html");}}
 
 function setupIdSwitchingForForms() {
     const forms = ['#task-form-container', '#edit-task-form-container'];
@@ -385,11 +369,7 @@ function setupIdSwitchingForForms() {
             container.dataset.active = 'true';
             forms.forEach(sel => {
                 if (sel !== `#${container.id}`) {
-                    document.querySelector(sel)?.removeAttribute('data-active');
-                }
-            });
-        }
-    }, true);
+                    document.querySelector(sel)?.removeAttribute('data-active');}});}}, true);
 }
 
 setupIdSwitchingForForms();

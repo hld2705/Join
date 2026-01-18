@@ -15,16 +15,14 @@ function getUserHeaderBadgeTemplate(user) {
                onclick="event.preventDefault(); navigate('./help.html')">
                 <img class="Hilfe" src="./assets/help.svg" alt="help">
             </a>
-
             <div id="header-badge" class="profil"
                  style="background:${user.badge.color}"
                  onclick="badgeOverlay()">
                 <p class="avatar-text">${user.badge.text}</p>
             </div>
-
             <div id="badge-overlay" class="navbar">
-                <a href="legal_notice.html">Legal Notice</a>
-                <a href="privacy_policy.html">Privacy Policy</a>
+                <a href="legal_notice.html" onclick="event.preventDefault(); navigate('./legal_notice.html')">Legal Notice</a>
+                <a href="privacy_policy.html" onclick="event.preventDefault(); navigate('./privacy_policy.html')">Privacy Policy</a>
                 <a href="index.html" id="logout-link">Log out</a>
             </div>
         </div>
@@ -38,15 +36,13 @@ function getGuestHeaderTemplate() {
                onclick="event.preventDefault(); navigate('./help.html')">
                 <img class="Hilfe" src="./assets/help.svg" alt="help">
             </a>
-
             <div id="header-badge" class="guestloginprofilebadge"
                  onclick="badgeOverlay()">
                 <p class="avatar-text-guest">G</p>
             </div>
-
             <div id="badge-overlay" class="navbar">
-                <a href="legal_notice.html">Legal Notice</a>
-                <a href="privacy_policy.html">Privacy Policy</a>
+                <a href="legal_notice.html?nonlogin=true">Legal Notice</a>
+                <a href="privacy_policy.html?nonlogin=true">Privacy Policy</a>
                 <a href="index.html" id="logout-link" onclick="LogOut()">Log out</a>
             </div>
         </div>

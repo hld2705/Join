@@ -122,3 +122,6 @@ function showPasswordSignup() {
 }
 
 
+function nonLoginEntry(){
+  sessionStorage.setItem ("guest","true");
+}

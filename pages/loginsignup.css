@@ -390,6 +390,7 @@ h1 {
 .login-input-icon {
     position: absolute;
     right: 20px;
+    cursor: pointer;
 }
 
 button.disabled {

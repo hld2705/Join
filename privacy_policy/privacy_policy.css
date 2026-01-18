@@ -90,10 +90,6 @@ header {
     margin-left: 20px;
 }
 
-/*.footerresponsive {
-    display: none;
-}*/
-
 .arrowleftresponsive {
     display: none;
 }
@@ -101,6 +97,12 @@ header {
 .avatar-text {
     color: white;
     font-size: 16px;
+}
+
+body:not(.ui-ready) #togglednone,
+body:not(.ui-ready) #loginnav,
+body:not(.ui-ready) footer {
+  visibility: hidden;
 }
 
 .navbar {

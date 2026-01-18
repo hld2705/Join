@@ -34,11 +34,21 @@ function getDragAndDropData(subtasks, assigned, main, priority) {
     bgColor: getBgColor(main),
     imgSrc: getPriorityImg(priority),
     badges: renderBadges(assigned),
+    main: mainTranslate(main),
     total,
     done,
     percent: total === 0 ? 0 : Math.round((done / total) * 100),
     hideProgressClass: total === 0 ? "hidden" : ""
   };
+}
+
+function mainTranslate(main){
+  if(main === "userstory"){
+   return "User Story"
+  }
+  if(main === "techtask"){
+   return "Technical Task"
+  }
 }
 
 /**
@@ -274,8 +284,8 @@ function deleteCard(taskId) {
 }
 
 function getBgColor(main) {
-  if (main === "User Story" || main === "User Story") return "#0038FF";
-  if (main === "Technical Task" || main === "Technical Task") return "#1FD7C1";
+  if (main === "User Story" || main === "userstory") return "#0038FF";
+  if (main === "Technical Task" || main === "techtask") return "#1FD7C1";
   return "#fff";
 }
 

@@ -18,6 +18,7 @@ function handleNonLoginUI() {
     const isNonLogin = window.location.search.includes("nonlogin=true");
     const isMobile = window.innerWidth < 900;
     applyNonLoginUI(isNonLogin, isMobile);
+    document.body.classList.add("ui-ready");
 }
 
 /** 
@@ -44,5 +45,5 @@ function applyNonLoginUI(isNonLogin, isMobile) {
     if (legal) legal.style.display = isNonLogin ? "none" : (isMobile ? "none" : "block");
 }
 
-window.onload = handleNonLoginUI;
+document.addEventListener("DOMContentLoaded", handleNonLoginUI);
 window.addEventListener("resize", handleNonLoginUI);

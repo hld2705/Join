@@ -29,8 +29,10 @@ h3 {
     margin-bottom: 20px;
 }
 
-p {
-    margin-bottom: 20px;
+body:not(.ui-ready) #togglednone,
+body:not(.ui-ready) #loginnav,
+body:not(.ui-ready) footer {
+  visibility: hidden;
 }
 
 .nr {
