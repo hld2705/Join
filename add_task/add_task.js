@@ -177,12 +177,16 @@ function getAssignedUserBadge() {
 function checkRequiredTitle() {
     let titleInput = document.getElementById('title-input');
     let requiredMessage = document.getElementById('required-message-title');
-    if (!titleInput.checkValidity()) {
+    let value = titleInput.value.trim();
+
+    if (!value) {
         titleInput.classList.add('submit');
         requiredMessage.style.visibility = "visible";
+        return false;
     } else {
         titleInput.classList.remove('submit');
         requiredMessage.style.visibility = "hidden";
+        return true;
     }
 }
 
@@ -193,15 +197,18 @@ document.addEventListener('input', (e) => {
 
 function checkRequiredDate() {
     let dateInput = document.getElementById('date-input');
-    let requiredMessage = document.getElementById('required-message-date');
-    if (!dateInput.checkValidity()) {
+      let requiredMessage = document.getElementById('required-message-date');
+    const selectedDate = new Date(dateInput.value);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (!dateInput.checkValidity() || selectedDate < today) {
         dateInput.classList.add('submit');
         requiredMessage.style.visibility = "visible";
+        requiredMessage.innerText = "Date must not be in the past";
     } else {
         dateInput.classList.remove('submit');
         requiredMessage.style.visibility = "hidden";
-    }
-}
+    }}
 
 document.addEventListener('change', (e) => {
     if (e.target.id !== 'date-input') return;
@@ -316,7 +323,8 @@ function TaskTransitionRequirement(e) {
 
 function TaskTransitionRequirement(e) {
     checkRequiredCategory(); checkRequiredDate(); checkRequiredTitle();
-    let validTitle = document.getElementById('title-input').checkValidity();
+   const titleInput = document.getElementById('title-input');
+    let validTitle = titleInput.checkValidity() && titleInput.value.trim().length > 0;
     let validDate = document.getElementById('date-input').checkValidity();
     let validCategory = document.getElementById('category-input').placeholder !== "Select task category";
     let allValid = validTitle && validDate && validCategory;

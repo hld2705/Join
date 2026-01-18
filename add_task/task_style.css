@@ -407,6 +407,17 @@ ul {
     outline: none;
 }
 
+.subtask-text {
+    user-select: text;
+    cursor: text;
+}
+
+.subtask-icons,
+.edit-subtask-icons,
+.subtask-icons img {
+  user-select: none;
+}
+
 .avatar-text {
     color: white;
     font-size: 16px;

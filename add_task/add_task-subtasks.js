@@ -84,26 +84,25 @@ function clearSubtaskOutput() {
  * @param {Event} e
  */
 function handleSubtaskDelete(e) {
-    let deleteIcon = e.target.closest('.delete-icon');
-    if (!deleteIcon) return;
-    let container = deleteIcon.closest('#subtask-content');
-    if (!container) return;
-    let li = deleteIcon.closest('li.single-subtask');
-    if (li) {
-        document.getElementById('subtask-input').disabled = false;
-        li.remove();
-    }
+    const li = e.target.closest('li.single-subtask');
+    if (!li) return;
+
+    if (!e.target.closest('.delete-icon')) return;
+
+    li.remove();
+    document.getElementById('subtask-input').disabled = false;
 }
 
 document.addEventListener('click', handleSubtaskDelete);
 
 function handleConfirmEditText(li, text, icons, afterEditIcons, inputfield) {
-    let newText = text.innerText.trim()
+    let newText = text.innerText.trim();
     if (newText === '') {
         li.remove();
-        clearSubtaskOutput();
+        inputfield.disabled = false;
+        inputfield.focus();
+        return;
     }
-    text.contentEditable = 'false';
     icons.style.display = 'block';
     afterEditIcons.style.display = 'none';
     icons.classList.remove('hidden');
