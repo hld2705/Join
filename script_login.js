@@ -89,3 +89,36 @@ function signUp() {
 
   if (headerResp) headerResp.style.display = "none";
 }
+
+function showPassword() {
+  let input = document.getElementById("password");
+  let icon = document.getElementById("login-icon");
+  if (input.type === "password") {
+    input.type = "text";
+    icon.classList.add("eye_open_password");
+    icon.src = "./assets/icons/glass_eye_open.png";
+  } else {
+    input.type = "password";
+    icon.classList.add("eye_open_password");
+    icon.src = "./assets/icons/glass_eye_closed.png";
+  }
+}
+
+function showPasswordSignup() {
+  let input1 = document.getElementById("password_sign_up");
+  let icon1 = document.getElementById("signup-icon1");
+  let input2 = document.getElementById("confirmation_password_sign_up");
+  let icon2 = document.getElementById("signup-icon2");
+  if (input1.type === "password" && input2.type === "password") {
+    input1.type = input2.type = "text";
+    icon1.classList.add("eye_open_password");
+    icon1.src = icon2.src = "./assets/icons/glass_eye_open.png";
+    icon2.classList.add("eye_open_password");
+  } else {
+    input1.type = input2.type = "password";
+    icon1.classList.add("eye_open_password");
+    icon2.classList.add("eye_open_password");
+    icon1.src = icon2.src = "./assets/icons/glass_eye_closed.png";}
+}
+
+

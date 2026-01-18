@@ -16,5 +16,3 @@ function loadingScreenDesktopTemplate(){
     <a href="index.html"></a></div>
     </div>`
 }
-
-
