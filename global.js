@@ -94,10 +94,9 @@ function getUserId() {
   const params = new URLSearchParams(window.location.search);
   return (
     params.get("uid") ||
-    sessionStorage.getItem("uid")
+    localStorage.getItem("uid")
   );
 }
-
 
 /**
  * Fetches the currently logged-in user from Firebase.
@@ -160,11 +159,6 @@ function handleBlur(event) {
   const el = event.target;
   if (!isInput(el)) return;
   el.classList.remove("bordercolor-blue");
-}
-
-function getUserId() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get("uid");
 }
 
 /**

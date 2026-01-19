@@ -354,6 +354,15 @@ function closeTaskOverlay() {
         taskAddedInfo.style.display = "none";}, 0);}, 900);
 }
 
+
+function getUserId() {
+  const params = new URLSearchParams(window.location.search);
+  return (
+    params.get("uid") ||
+    localStorage.getItem("uid")
+  );
+}
+
 /**
  * Redirects to board view after task creation.
  */
@@ -362,12 +371,15 @@ function redirectToBoard() {
         checkRequiredTitle?.();
         checkRequiredDate?.();
         return;}
+        const uid = getUserId();
     if (window.location.href.includes("board.html")) {
         closeTaskOverlay();
         setTimeout(async () => {
             await loadData();
             dragAndDrop();}, 300);
-    } else {location.assign("../board.html");}}
+    } 
+     location.assign(`./board.html?uid=${uid}`);
+}
 
 function setupIdSwitchingForForms() {
     const forms = ['#task-form-container', '#edit-task-form-container'];

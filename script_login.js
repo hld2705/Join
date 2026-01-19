@@ -1,5 +1,8 @@
 let originalLoginHTML;
 
+sessionStorage.removeItem("guest","true");
+localStorage.removeItem("uid");
+
 document.addEventListener('DOMContentLoaded', () => {
   const loginEl = document.getElementById('login');
   if (loginEl) originalLoginHTML = loginEl.innerHTML;
