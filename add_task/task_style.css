@@ -56,6 +56,10 @@ header {
     max-width: 1920px;
 }
 
+.task-form {
+    max-width: 1920px;
+}
+
 .category-container {
     position: relative;
 }
@@ -415,7 +419,7 @@ ul {
 .subtask-icons,
 .edit-subtask-icons,
 .subtask-icons img {
-  user-select: none;
+    user-select: none;
 }
 
 .avatar-text {
@@ -446,10 +450,15 @@ ul {
     top: 100px;
 }
 
-#badge-overlay {
-    right: 10px;
-}
-
 .contents {
     display: flex;
+}
+
+.header-content {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1550px;
 }

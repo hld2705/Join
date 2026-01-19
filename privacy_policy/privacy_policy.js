@@ -39,7 +39,7 @@ function applyNonLoginUI(isNonLogin, isMobile) {
     const legal = document.getElementById("legal_notice_footer");
     if (fullNav) fullNav.style.display = isNonLogin ? "none" : "flex";
     if (loginNav) { loginNav.style.display = isNonLogin ? (isMobile ? "flex" : "block") : "none"; loginNav.style.alignItems = isMobile ? "center" : "flex-start"; }
-    if (footPriv) { footPriv.style.display = isNonLogin ? (isMobile ? "flex" : "block") : "none"; footPriv.style.justifyContent = "space-between"; footPriv.style.paddingRight = "20px"; }
+    if (footPriv) { footPriv.style.display = isNonLogin ? (isMobile ? "flex" : "block") : "none"; footPriv.style.justifyContent = "space-between"; footPriv.style.paddingRight = "0px"; }
     if (footLegal) footLegal.style.display = isNonLogin ? (isMobile ? "flex" : "block") : "none";
     if (priv) priv.style.display = isNonLogin ? "none" : (isMobile ? "none" : "block");
     if (legal) legal.style.display = isNonLogin ? "none" : (isMobile ? "none" : "block");
