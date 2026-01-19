@@ -12,7 +12,7 @@ function getUserHeaderBadgeTemplate(user) {
     return `
         <div class="user-info">
             <a class="user-info-help" href="./help.html"
-               onclick="event.preventDefault(); navigate('./help.html')">
+               onclick="event.preventDefault(); navigate('./help.html')" id="help">
                 <img class="Hilfe" src="./assets/help.svg" alt="help">
             </a>
             <div id="header-badge" class="profil"
@@ -33,7 +33,7 @@ function getGuestHeaderTemplate() {
     return `
         <div class="user-info">
             <a class="user-info-help" href="./help.html"
-               onclick="event.preventDefault(); navigate('./help.html')">
+               onclick="event.preventDefault(); navigate('./help.html')" id="help">
                 <img class="Hilfe" src="./assets/help.svg" alt="help">
             </a>
             <div id="header-badge" class="guestloginprofilebadge"
