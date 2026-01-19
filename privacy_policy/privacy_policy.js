@@ -14,8 +14,11 @@
   }
 })();
 
+/**
+ * forces new values as soon as the resize eventlistener takes place under 900px
+ */
 function handleNonLoginUI() {
-    const isNonLogin = window.location.search.includes("nonlogin=true");
+    const isNonLogin = sessionStorage.getItem("nonlogin") === "true";
     const isMobile = window.innerWidth < 900;
     applyNonLoginUI(isNonLogin, isMobile);
     document.body.classList.add("ui-ready");
@@ -47,3 +50,7 @@ function applyNonLoginUI(isNonLogin, isMobile) {
 
 document.addEventListener("DOMContentLoaded", handleNonLoginUI);
 window.addEventListener("resize", handleNonLoginUI);
+
+function removeSessionLogin(){
+  sessionStorage.removeItem("nonlogin");
+}

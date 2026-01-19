@@ -103,13 +103,13 @@ function openCalendar() {
     if (!dateInput) return;
     if (dateInput.showPicker) {
         dateInput.showPicker();
-    } else {dateInput.focus();}
+    } else { dateInput.focus(); }
 }
 
 /**
  * Locks the onload function for the priority to be already preset to medium
  */
-function setPriorityOnLoad(){
+function setPriorityOnLoad() {
     changePriorityColor("medium");
 }
 
@@ -137,20 +137,17 @@ function addNewTask() {
  * @returns {Promise<void>}
  */
 function editTask() {
-    const editTaskData = getEditTaskInputs();
-    const oldTask = tasks.find(t => t.id === openedCardId);
-    const filteredData = {};
-    for (const key in editTaskData) {
-        const value = editTaskData[key];
-        if (key === "main") continue;
-        if (value === "" || value === undefined || value === null) continue;
-        if (key === "assigned") {
-        if (Array.isArray(value) && value.length === 0) {
-            continue;}}filteredData[key] = value;}
-    return firebase.database()
-        .ref("tasks/" + oldTask.id)
-        .update(filteredData)
-        .catch(err => console.error("Task update failed:", err));
+  const data = getEditTaskInputs();
+  const task = tasks.find(t => t.id === openedCardId);
+  const update = {};
+  for (const key in data) {
+    const v = data[key];
+    if (key === "main" || v == null || v === "") continue;
+    if (key === "assigned" && Array.isArray(v) && !v.length) continue;
+    update[key] = v;
+  }
+  return firebase.database().ref("tasks/" + task.id).update(update)
+    .catch(e => console.error("Task update failed:", e));
 }
 
 function getAssignedUserBadge() {
@@ -193,7 +190,7 @@ document.addEventListener('input', (e) => {
  */
 function checkRequiredDate() {
     let dateInput = document.getElementById('date-input');
-      let requiredMessage = document.getElementById('required-message-date');
+    let requiredMessage = document.getElementById('required-message-date');
     const selectedDate = new Date(dateInput.value);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -204,7 +201,8 @@ function checkRequiredDate() {
     } else {
         dateInput.classList.remove('submit');
         requiredMessage.style.visibility = "hidden";
-    }}
+    }
+}
 
 document.addEventListener('change', (e) => {
     if (e.target.id !== 'date-input') return;
@@ -219,7 +217,8 @@ function checkRequiredCategory() {
         requiredMessage.style.visibility = "visible";
     } else {
         categoryInput.classList.remove('submit');
-        requiredMessage.style.visibility = "hidden";}
+        requiredMessage.style.visibility = "hidden";
+    }
 }
 
 function removeRequiredTitle() {
@@ -227,7 +226,9 @@ function removeRequiredTitle() {
     if (titleInput) {
         titleInput.addEventListener('input', () => {
             titleInput.classList.remove('submit');
-            document.getElementById('required-message-title').innerHTML = "";});}
+            document.getElementById('required-message-title').innerHTML = "";
+        });
+    }
 }
 
 function removeRequiredDate() {
@@ -235,7 +236,9 @@ function removeRequiredDate() {
     if (dateInput) {
         dateInput.addEventListener('input', () => {
             dateInput.classList.remove('submit');
-            document.getElementById('required-message-date').innerHTML = "";});}
+            document.getElementById('required-message-date').innerHTML = "";
+        });
+    }
 }
 
 function removeRequiredCategory() {
@@ -279,10 +282,12 @@ function filterList(e) {
     let items = list.querySelectorAll('.Assigned-dropdown-username');
     if (inputText.length < 1) {
         items.forEach(div => div.style.display = '');
-        return;}
+        return;
+    }
     items.forEach(div => {
         let name = (div.dataset.name || '').toLowerCase();
-        div.style.display = name.includes(inputText) ? '' : 'none';});
+        div.style.display = name.includes(inputText) ? '' : 'none';
+    });
     list.classList.add('open');
 }
 
@@ -318,14 +323,15 @@ function TaskTransitionRequirement(e) {
  */
 function TaskTransitionRequirement(e) {
     checkRequiredCategory(); checkRequiredDate(); checkRequiredTitle();
-   const titleInput = document.getElementById('title-input');
+    const titleInput = document.getElementById('title-input');
     let validTitle = titleInput.checkValidity() && titleInput.value.trim().length > 0;
     let validDate = document.getElementById('date-input').checkValidity();
     let validCategory = document.getElementById('category-input').placeholder !== "Select task category";
     let allValid = validTitle && validDate && validCategory;
     if (!allValid) {
         e.preventDefault();
-        return;}
+        return;
+    }
     addNewTask();
     switchToBoard(e);
 };
@@ -333,7 +339,7 @@ function TaskTransitionRequirement(e) {
 function switchToBoard(e) {
     if (!window.location.pathname.endsWith('board.html')) {
         addedTaskTransition(e);
-    } else {redirectToBoard();}
+    } else { redirectToBoard(); }
 }
 
 document.addEventListener("click", (e) => {
@@ -351,16 +357,18 @@ function closeTaskOverlay() {
         overlayBg.remove();
         container.innerHTML = "";
         setTimeout(() => {
-        taskAddedInfo.style.display = "none";}, 0);}, 900);
+            taskAddedInfo.style.display = "none";
+        }, 0);
+    }, 900);
 }
 
 
 function getUserId() {
-  const params = new URLSearchParams(window.location.search);
-  return (
-    params.get("uid") ||
-    localStorage.getItem("uid")
-  );
+    const params = new URLSearchParams(window.location.search);
+    return (
+        params.get("uid") ||
+        localStorage.getItem("uid")
+    );
 }
 
 /**
@@ -370,15 +378,17 @@ function redirectToBoard() {
     if (!isTaskFormValid()) {
         checkRequiredTitle?.();
         checkRequiredDate?.();
-        return;}
-        const uid = getUserId();
+        return;
+    }
+    const uid = getUserId();
     if (window.location.href.includes("board.html")) {
         closeTaskOverlay();
         setTimeout(async () => {
             await loadData();
-            dragAndDrop();}, 300);
-    } 
-     location.assign(`./board.html?uid=${uid}`);
+            dragAndDrop();
+        }, 300);
+    }
+    location.assign(`./board.html?uid=${uid}`);
 }
 
 function setupIdSwitchingForForms() {
@@ -389,7 +399,11 @@ function setupIdSwitchingForForms() {
             container.dataset.active = 'true';
             forms.forEach(sel => {
                 if (sel !== `#${container.id}`) {
-                    document.querySelector(sel)?.removeAttribute('data-active');}});}}, true);
+                    document.querySelector(sel)?.removeAttribute('data-active');
+                }
+            });
+        }
+    }, true);
 }
 
 setupIdSwitchingForForms();

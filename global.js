@@ -226,7 +226,17 @@ function LogOut() {
 
 window.addEventListener("DOMContentLoaded", initHeader);
 
+function nonLoginEntry(){
+ sessionStorage.setItem ("nonlogin","true");
+}
+
+function nonLoginEntryCheck(){
+  return (sessionStorage.getItem("nonlogin") === "true")
+}
+
 function initHeader() {
+  if(nonLoginEntryCheck()) return;
+  //if(!nonLoginEntry()){sessionStorage.removeItem("nonlogin")}
   const uid = getUserId();
   const isGuest = !uid && sessionStorage.getItem("guest") === "true";
   if (isGuest) {

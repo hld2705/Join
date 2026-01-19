@@ -124,18 +124,15 @@ function validateAddNewUser() {
     document.getElementById("name_new_user"),
     document.getElementById("required_name_new_user")
   );
-
   const emailValid = validateEmail(
     document.getElementById("email_new_user").value.trim(),
     document.getElementById("email_new_user"),
     document.getElementById("required_email_new_user")
   );
-
   const phoneValid = validatePhone(
     document.getElementById("phone_new_user").value.trim(),
     document.getElementById("phone_new_user"),
     document.getElementById("required_phone_new_user")
   );
-
   return nameValid && emailValid && phoneValid;
 }
