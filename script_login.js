@@ -1,7 +1,6 @@
 let originalLoginHTML;
 
 sessionStorage.removeItem("guest","true");
-localStorage.removeItem("uid");
 sessionStorage.removeItem("nonlogin","true");
 
 document.addEventListener('DOMContentLoaded', () => {

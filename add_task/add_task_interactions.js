@@ -340,7 +340,3 @@ function addedTaskTransition(e) {
         }, 800);
     }
 };
-
-function TaskTransitionRequirement(e) {
-    e.preventDefault();
-}
