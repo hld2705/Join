@@ -116,7 +116,6 @@ function handleTouchClick(card) {
  *
  * @param {TouchEvent} e
  */
-
 function touchEnd(e) {
   clearTimeout(dragTimeout);
   dragTimeout = null;
@@ -137,7 +136,6 @@ function touchEnd(e) {
  *
  * @param {TouchEvent} e
  */
-
 function handleTouchDrop(e) {
   const touch = e.changedTouches[0];
   const container = getDropContainer(touch);
@@ -154,7 +152,6 @@ function handleTouchDrop(e) {
  * @param {Touch} touch
  * @returns {HTMLElement|null}
  */
-
 function getDropContainer(touch) {
   if (!touchGhost) return null;
   const rect = touchGhost.getBoundingClientRect();
@@ -188,7 +185,6 @@ function cleanupTouchDrag() {
  * @param {HTMLElement} card
  * @param {HTMLElement} container
  */
-
 function updateTaskStatusByContainer(card, container) {
   const taskId = Number(card.id.replace("card-", ""));
   let newStatus = null;
@@ -290,7 +286,6 @@ function moveCardInContainer(card, container) {
  * @param {HTMLElement} card
  * @param {string} newStatus
  */
-
 function updateTaskStatus(card, newStatus) {
   const taskId = Number(card.id.replace("card-", ""));
   const task = tasks.find(t => t.id === taskId);

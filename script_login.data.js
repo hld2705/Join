@@ -238,7 +238,6 @@ function resetSignUpInputs() {
         "password_sign_up",
         "confirmation_password_sign_up"
     ];
-
     inputIds.forEach(id => {
         const input = document.getElementById(id);
         input.classList.remove("submit");

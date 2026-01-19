@@ -78,18 +78,14 @@ function signUp() {
   const login = document.getElementById('login');
   const headerwriting = document.getElementById('headerwritingdiv');
   const headerResp = document.querySelector('.headerwritingresponsive');
-
   if (!signup || !login || !headerwriting) return;
-
   if (signup.classList.contains('d_none')) {
     login.classList.add('d_none');
     signup.classList.remove('d_none');
   }
-
   if (!headerwriting.classList.contains('d_none')) {
     headerwriting.classList.add('d_none');
   }
-
   if (headerResp) headerResp.style.display = "none";
 }
 

@@ -111,7 +111,6 @@ function renderNextDeadline(dateString) {
     el.innerHTML = nextDeadlineTemplate(formatted);
 }
 
-
 /**
  *loader for task-based summary cards.
  */
@@ -144,7 +143,6 @@ function getFeedbackTasks() {
         'Awaiting<br>Feedback'
     );
 }
-
 
 function redirectToBoard() {
   const params = new URLSearchParams(window.location.search);

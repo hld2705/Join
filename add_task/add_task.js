@@ -354,7 +354,6 @@ function closeTaskOverlay() {
         taskAddedInfo.style.display = "none";}, 0);}, 900);
 }
 
-
 function getUserId() {
   const params = new URLSearchParams(window.location.search);
   return (
