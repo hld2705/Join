@@ -5,6 +5,7 @@ body {
 
 .content {
     background: linear-gradient(0deg, rgba(245, 246, 247, 1) 99%, rgb(223, 224, 225) 100%);
+    max-width: 1920px;
 }
 
 .guestloginprofilebadge {
@@ -295,4 +296,12 @@ body {
 
 #badge-overlay {
     right: -10px;
+}
+
+.header-content {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1550px;
 }

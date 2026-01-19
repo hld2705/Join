@@ -2,6 +2,7 @@
   display: flex;
   align-items: flex-start;
 }
+
 .board {
   display: flex;
   gap: 20px;
@@ -75,6 +76,8 @@ header {
   flex: 0 0 100px;
   gap: 20px;
   flex-wrap: wrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 100;
 }
 
 .header-content {

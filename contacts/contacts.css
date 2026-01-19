@@ -17,9 +17,9 @@ header {
     align-items: center;
     justify-content: space-between;
     height: 96px;
-    padding: 0 20px 0 20px;
+    padding: 0 20px 0 12px;
     background-color: #FFFFFF;
-    flex: 0 0 80px;
+    flex: 0 0 100px;
     gap: 20px;
     flex-wrap: wrap;
 }
@@ -30,11 +30,13 @@ header {
 }
 
 .header-content {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
     margin: 0px 16px 0px 16px;
+    max-width: 1550px;
 }
 
 .contact-badge {
@@ -733,9 +735,13 @@ header {
     font-weight: 500;
 }
 
+#badge-overlay {
+    top: 76px;
+    right: -14px;
+}
+
 .navbar {
     top: 74px;
-    right: 0px;
 }
 
 @media screen and (min-width: 320px) and (max-width: 500px) {
@@ -980,7 +986,12 @@ header {
         padding: 0px;
         gap: 42%;
         width: 100%;
-        ;
+        z-index: 100;
+    }
+
+    .responsive-logo-board {
+        display: flex;
+        width: 38px;
     }
 
     .addnewcontact {
