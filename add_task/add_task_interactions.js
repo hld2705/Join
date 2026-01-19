@@ -29,6 +29,11 @@ function changePriorityColor(priority) {
   document.getElementById("double-down").src = "../assets/double-down-white.svg";} 
 }
 
+/**
+ * Toggles focus border styles between assign and category inputs.
+ *
+ * @param {Event} e
+ */
 function inputBorderColorSwitch(e) {
     let assignInput = document.getElementById('assign-input');
     let categoryInput = document.getElementById('category-input');
@@ -177,6 +182,11 @@ function switchArrowIcon() {
     }
 }
 
+/**
+ * Closes the assigned users dropdown when clicking outside.
+ *
+ * @param {Event} e
+ */
 function closeAssignedInputOutclick(e) {
     if (e.target.id !== 'assign-input' && e.target.id !== 'drop-down-svg-assign' && !e.target.closest('#dropdownList') && document.getElementById('dropdownList').classList.contains('open')) {
         document.getElementById('dropdownList').classList.remove('open');
@@ -308,4 +318,29 @@ function renderCheckButton() {
     checkButton.classList.add("check-button-container");
     checkButton.innerHTML = checkButtonTemplate();
     return checkButton;
+}
+
+/**
+ * Handles the visual transition after a task is added
+ * and redirects to the board view once the animation finishes.
+ *
+ * Triggered by clicking the "add task" button.
+ *
+ * @param {Event} e - The click event triggered by the add task action.
+ * @returns {void}
+ */
+function addedTaskTransition(e) {
+    if (e.target.id === 'add-task-button') {
+        let taskAddedStart = document.getElementById('task-added-info');
+        taskAddedStart.style.visibility = "visible";
+        taskAddedStart.style.opacity = "1";
+        taskAddedStart.classList.add("task-added-end");
+        setTimeout(() => {
+            redirectToBoard();
+        }, 800);
+    }
+};
+
+function TaskTransitionRequirement(e) {
+    e.preventDefault();
 }

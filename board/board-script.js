@@ -13,6 +13,23 @@ let openedCardId = null;
 let selectedPriority = null;
 let dragTimeout = null;
 
+function normalizeSubtasks(subtasks) {
+  return Array.isArray(subtasks)
+    ? subtasks
+    : Object.values(subtasks || []);
+}
+
+function getProgressData(subtasks) {
+  const total = subtasks.length;
+  const done = subtasks.filter(s => s.done).length;
+  return {
+    total,
+    done,
+    percent: total === 0 ? 0 : Math.round((done / total) * 100),
+    hideProgressClass: total === 0 ? "hidden" : ""
+  };
+}
+
 /**
  * Computes all visual data needed to render a task card.
  *
@@ -20,25 +37,18 @@ let dragTimeout = null;
  * @param {Array<string|Object>} assigned
  * @param {string} main
  * @param {string} priority
- *
  * @returns {Object}
  * Prepared data for board card rendering (progress, badges, colors).
  */
 function getDragAndDropData(subtasks, assigned, main, priority) {
-  const safeSubtasks = Array.isArray(subtasks)
-    ? subtasks
-    : Object.values(subtasks || []);
-  const total = safeSubtasks.length;
-  const done = safeSubtasks.filter(s => s.done).length;
+  const safeSubtasks = normalizeSubtasks(subtasks);
+  const progress = getProgressData(safeSubtasks);
   return {
     bgColor: getBgColor(main),
     imgSrc: getPriorityImg(priority),
     badges: renderBadges(assigned),
     main: mainTranslate(main),
-    total,
-    done,
-    percent: total === 0 ? 0 : Math.round((done / total) * 100),
-    hideProgressClass: total === 0 ? "hidden" : ""
+    ...progress
   };
 }
 
@@ -53,7 +63,6 @@ function mainTranslate(main){
 
 /**
  * Returns all board column containers.
- *
  * @returns {Object}
  */
 function getBoardContainers() {
@@ -67,7 +76,6 @@ function getBoardContainers() {
 
 /**
  * Clears all task containers.
- *
  * @param {Object} containers
  */
 function clearContainers(containers) {
@@ -78,7 +86,6 @@ function clearContainers(containers) {
 
 /**
  * Renders a single task into its status container.
- *
  * @param {Object} task
  * @param {Object} containers
  */
@@ -146,7 +153,6 @@ function getUserId(value) {
  * 
  * @param {Array<string|object} assigned
  * Array of user IDs or user objects assigned to a task.
- *  
  * @returns {Array<Object>}
  * Array of badge ovjects {badge, name, color} used in templates.
  * @requires join.users to be up-to-date
@@ -232,7 +238,6 @@ function showAllSubtasks(taskId) {
 
 /**
  * Toggles completion state of a subtask and updates board state.
- *
  * @param {number} taskId
  * @param {number} index
  */
@@ -266,7 +271,6 @@ function updateBoardSubtaskProgress(taskId, subtasks) {
 
 /**
  * Deletes a task from Firebase and updates the board.
- *
  * @param {number} taskId
  */
 function deleteCard(taskId) {
@@ -340,7 +344,6 @@ function getSubtasksImg(isDone) {
 
 /**
  * Updates an existing task with edited values.
- *
  * @async
  * @returns {Promise<void>}
  */

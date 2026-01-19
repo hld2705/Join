@@ -1,6 +1,13 @@
  let autoScrollInterval = null;
  let lastTouch = null;
 
+ /**
+ * Creates a visual ghost element for touch dragging.
+ *
+ * @param {HTMLElement} card
+ * @param {DOMRect} rect
+ * @returns {HTMLElement}
+ */
 function createTouchGhost(card, rect) {
   const ghost = card.cloneNode(true);
   ghost.style.position = "fixed";
@@ -13,6 +20,13 @@ function createTouchGhost(card, rect) {
   return ghost;
 }
 
+/**
+ * Initializes touch drag state variables.
+ *
+ * @param {HTMLElement} card
+ * @param {Touch} touch
+ * @param {DOMRect} rect
+ */
 function initTouchDrag(card, touch, rect) {
   touchDraggingCard = card;
   touchStartX = touch.clientX;
@@ -22,6 +36,12 @@ function initTouchDrag(card, touch, rect) {
   touchOffsetY = touch.clientY - rect.top;
 }
 
+/**
+ * Initializes touch interaction on a board card.
+ * Starts long-press detection to distinguish tap vs drag.
+ *
+ * @param {TouchEvent} e
+ */
 function touchStart(e) {
   if (e.touches.length !== 1) return;
   const card = e.currentTarget;
@@ -33,26 +53,77 @@ function touchStart(e) {
   }, 350);
 }
 
-function handleTouchLandingField(touch) {
+/**
+ * Returns the drop container at the touch position
+ * or cleans up landing fields if none is found.
+ *
+ * @param {Touch} touch
+ * @returns {HTMLElement|null}
+ */
+function getContainerOrCleanup(touch) {
   const container = getDropContainer(touch);
-  if (!container) {
-    removeLandingFields();
-    return;
-  }
+  if (!container) removeLandingFields();
+  return container;
+}
+
+/**
+ * Hides the "no tasks" placeholder inside a container if present.
+ *
+ * @param {HTMLElement} container
+ */
+function hideNoTasksIfExists(container) {
   const noTasks = container.querySelector(".notasks-container");
-if (noTasks) noTasks.style.display = "none";
-  const cards = Array.from(container.querySelectorAll(".board-card"));
+  if (noTasks) noTasks.style.display = "none";
+}
+
+/**
+ * Returns the vertical center position of the touch ghost.
+ *
+ * @returns {number}
+ */
+function getGhostCenterY() {
+  const rect = touchGhost.getBoundingClientRect();
+  return rect.top + rect.height / 2;
+}
+
+/**
+ * Inserts a landing field at the end of a container.
+ *
+ * @param {HTMLElement} container
+ * @param {number} ghostHeight
+ */
+function handleInsertAtEnd(container, ghostHeight) {
+  insertLandingFieldAtEnd(
+    container.closest(".distribution-progress"),
+    ghostHeight
+  );
+}
+
+/**
+ * Calculates and displays the correct landing field
+ * based on the current ghost position.
+ *
+ * @param {Touch} touch
+ */
+function handleTouchLandingField(touch) {
+  const container = getContainerOrCleanup(touch);
+  if (!container) return;
+  hideNoTasksIfExists(container);
+  const cards = [...container.querySelectorAll(".board-card")];
   const ghostHeight = touchGhost.offsetHeight;
+  const ghostY = getGhostCenterY();
   removeLandingFields();
-  const ghostRect = touchGhost.getBoundingClientRect();
-const ghostY = ghostRect.top + ghostRect.height / 2;
-const inserted = findPosition(cards, ghostY, ghostHeight);
-  if (!inserted) {
-    insertLandingFieldAtEnd(container.closest(".distribution-progress"), ghostHeight);
+  if (!findPosition(cards, ghostY, ghostHeight)) {
+    handleInsertAtEnd(container, ghostHeight);
   }
 }
 
-function ScrollOnEdge(touch) {
+/**
+ * Scrolls the board container when dragging near top or bottom edges.
+ *
+ * @param {Touch} touch
+ */
+function scrollOnEdge(touch) {
   const edge = 90;
   const speed = 80;
   const container = document.querySelector(".content");
@@ -66,6 +137,12 @@ function ScrollOnEdge(touch) {
   }
 }
 
+/**
+ * Handles touch move events during dragging.
+ * Moves ghost element, updates landing fields and triggers auto-scroll.
+ *
+ * @param {TouchEvent} e
+ */
 function touchMove(e) {
   if (!touchGhost) return;
   e.cancelable && e.preventDefault();
@@ -76,7 +153,7 @@ function touchMove(e) {
   handleTouchDragging(e, t);
   handleTouchLandingField(t);
   autoScrollInterval ||= setInterval(
-    () => lastTouch && ScrollOnEdge(lastTouch),
+    () => lastTouch && scrollOnEdge(lastTouch),
     80
   );
 }
@@ -163,6 +240,9 @@ function getDropContainer(touch) {
     ?.querySelector(".task-container");
 }
 
+/**
+ * Resets all touch-drag related states and cleans up ghost elements.
+ */
 function cleanupTouchDrag() {
   if (touchGhost) {
     touchGhost.remove();
@@ -270,6 +350,12 @@ function dragenterHandler(ev) {
   ev.currentTarget.classList.add("drag-over");
 }
 
+/**
+ * Inserts a card into a container at the current landing field position.
+ *
+ * @param {HTMLElement} card
+ * @param {HTMLElement} container
+ */
 function moveCardInContainer(card, container) {
   const lf = container.querySelector(".landing-field[style*='display: block']");
   if (lf) {

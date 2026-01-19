@@ -5,11 +5,22 @@ let task = [];
 let names = [];
 let subtaskCounter = 0;
 
+/**
+ * Moves the cursor to the end of a contenteditable element.
+ *
+ * @param {HTMLElement} el
+ */
 function cursorToEnd(el) {
     el.focus();
     document.getSelection().collapse(el, 1);
 }
 
+/**
+ * Extracts initials from a full name.
+ *
+ * @param {string} name
+ * @returns {string}
+ */
 function getInitials(name) {
     return name
         .split(" ")
@@ -19,6 +30,11 @@ function getInitials(name) {
         .join("");
 }
 
+/**
+ * Returns a random predefined color value.
+ *
+ * @returns {string}
+ */
 function getRandomColor() {
     const colors = ["#2A3647", "#29ABE2", "#FF7A00", "#9327FF", "#FC71FF", "#fccc59", "#442c8c", "#fc4444"];
     return colors[Math.floor(Math.random() * colors.length)];

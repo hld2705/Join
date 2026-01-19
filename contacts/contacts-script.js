@@ -283,10 +283,8 @@ function getRandomColor() {
   return colors[Math.floor(Math.random() * colors.length)];
 }
 
-async function saveNewContact(name, email, phone) {
-  const entry = firebase.database().ref("users").push();
-  const id = entry.key;
-  await entry.set({
+function createUserObject(id, name, email, phone) {
+  return {
     id,
     name,
     email,
@@ -295,10 +293,17 @@ async function saveNewContact(name, email, phone) {
       text: getInitials(name),
       color: getRandomColor()
     }
-  });
+  };
+}
+
+async function saveNewContact(name, email, phone) {
+  const entry = firebase.database().ref("users").push();
+  const userObj = createUserObject(entry.key, name, email, phone);
+
   await entry.set(userObj);
   join.users.push(userObj);
-  return id;
+
+  return userObj.id;
 }
 
 /**

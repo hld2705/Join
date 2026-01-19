@@ -39,6 +39,11 @@ document.addEventListener('keydown', (e) => {
 
 document.addEventListener('click', handleSubtaskOutput);
 
+/**
+ * Cancels subtask input and resets the input field and icons.
+ *
+ * @param {Event} e
+ */
 function handleSubtaskCancel(e) {
     let inputfield = document.getElementById('subtask-input');
     if (e.target.closest('#subtask-cancel')) {
@@ -142,6 +147,11 @@ function handleConfirmEdit(editIcon, acceptIcon, li, text, icons, afterEditIcons
     }
 }
 
+/**
+ * Delegates edit and confirm icon interactions for subtasks.
+ *
+ * @param {Event} e
+ */
 function handleIcons(e) {
     let editIcon = e.target.closest('.edit-icon');
     let acceptIcon = e.target.closest('#edit-accept-icon');

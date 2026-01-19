@@ -292,31 +292,6 @@ function filterList(e) {
 }
 
 /**
- * Handles the visual transition after a task is added
- * and redirects to the board view once the animation finishes.
- *
- * Triggered by clicking the "add task" button.
- *
- * @param {Event} e - The click event triggered by the add task action.
- * @returns {void}
- */
-function addedTaskTransition(e) {
-    if (e.target.id === 'add-task-button') {
-        let taskAddedStart = document.getElementById('task-added-info');
-        taskAddedStart.style.visibility = "visible";
-        taskAddedStart.style.opacity = "1";
-        taskAddedStart.classList.add("task-added-end");
-        setTimeout(() => {
-            redirectToBoard();
-        }, 800);
-    }
-};
-
-function TaskTransitionRequirement(e) {
-    e.preventDefault();
-}
-
-/**
  * Validates form inputs and triggers task creation.
  *
  * @param {Event} e
