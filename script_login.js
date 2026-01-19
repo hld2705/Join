@@ -2,6 +2,7 @@ let originalLoginHTML;
 
 sessionStorage.removeItem("guest","true");
 localStorage.removeItem("uid");
+sessionStorage.removeItem("nonlogin","true");
 
 document.addEventListener('DOMContentLoaded', () => {
   const loginEl = document.getElementById('login');
@@ -122,5 +123,5 @@ function showPasswordSignup() {
 
 
 function nonLoginEntry(){
-  sessionStorage.setItem ("guest","true");
+  sessionStorage.setItem ("nonlogin","true");
 }
