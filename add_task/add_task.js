@@ -308,7 +308,14 @@ function TaskTransitionRequirement(e) {
         return;
     }
     addNewTask();
+<<<<<<< HEAD
 TaskTransitionBoardRequirement(e)
+=======
+    switchToBoard(e);
+    setTimeout(() => {
+        closeTaskOverlay();
+    }, 1000);
+>>>>>>> 6c23ba180cf3902bc5537b5dd6d3f0471ab7f1cb
 };
 
 /**
@@ -346,8 +353,8 @@ function closeTaskOverlay() {
         container.innerHTML = "";
         setTimeout(() => {
             taskAddedInfo.style.display = "none";
-        }, 0);
-    }, 900);
+        }, 9000);
+    }, 9000);
 }
 
 function getUserId() {

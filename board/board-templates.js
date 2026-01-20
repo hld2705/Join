@@ -305,9 +305,7 @@ function addTaskOverlayTemplate() {
         <div class="contents">
             <div class="left-task">
                 <div class="left-task-container">
-
                     <h1 class="task-title">Add Task</h1>
-
                                       <div class="title-container">
                         <div class="em-05">Title<span class="asterisk">*</span></div>
                         <input required id="title-input" class="input" type="text" placeholder="Enter a title">
@@ -327,27 +325,25 @@ function addTaskOverlayTemplate() {
                         </label>
                     </div>
                 </div>
-
                 <span id="required-text" class="required-text"><span class="asterisk">*</span>This field ist required</span>
             </div>
-
             <div class="vertical-line"></div>
             <div class="right-task">
                 <div class="right-side-inner">
                     <div class="priority-container">
                         <div class="em-05">Priority</div>
                         <div class="priority-input-container">
-                            <div id="urg-container" onclick="changeUrgentColor()" class="urgent-container">
+                            <div id="urg-container" onclick="changePriorityColor('urgent')" class="urgent-container">
                                 <input id="urgent" class="input priority-input" placeholder="Urgent" readonly
                                     data-prio="urgent">
                                 <img id="double-arrow" class="double-up-arrow" src="../assets/Prio alta.svg">
                             </div>
-                            <div onclick="changeMediumColor()" class="medium-container">
+                            <div onclick="changePriorityColor('medium')" class="medium-container">
                                 <input id="medium-input" class="input priority-input no-focus" placeholder="Medium" readonly
                                     data-prio="medium">
                                 <img id="equal" class="equals-icon" src="../assets/Prio media.svg">
                             </div>
-                            <div onclick="changeLowColor()" id="low-container" class="low-container">
+                            <div onclick="changePriorityColor('low')" id="low-container" class="low-container">
                                 <input id="low-input" class="input priority-input" placeholder="Low" readonly
                                     data-prio="low">
                                 <img id="double-down" class="double-down" src="../assets/double-down.svg">
@@ -424,6 +420,7 @@ function addTaskOverlayTemplate() {
             </div>
         </div>
 </form>`
+changePriorityColor("medium");
     }
 }
 
