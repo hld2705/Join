@@ -343,7 +343,6 @@ function getUserId() {
   return params.get("uid") || localStorage.getItem("uid");
 }
 
-
 /**
  * Redirects to board view after task creation.
  */
