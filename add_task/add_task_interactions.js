@@ -188,10 +188,14 @@ function switchArrowIcon() {
  * @param {Event} e
  */
 function closeAssignedInputOutclick(e) {
-    if (e.target.id !== 'assign-input' && e.target.id !== 'drop-down-svg-assign' && !e.target.closest('#dropdownList') && document.getElementById('dropdownList').classList.contains('open')) {
-        document.getElementById('dropdownList').classList.remove('open');
-        document.getElementById('assign-input').classList.remove('borderColorBlue');
-        document.getElementById('assign-input').placeholder = "Select contact to assign";
+    const dropdown = document.getElementById('dropdownList');
+    const assignInput = document.getElementById('assign-input');
+    if (!dropdown || !assignInput) return; 
+    if (e.target.id !== 'assign-input' && e.target.id !== 'drop-down-svg-assign' && !e.target.closest('#dropdownList') && dropdown.classList.contains('open')
+    ) {
+        dropdown.classList.remove('open');
+        assignInput.classList.remove('borderColorBlue');
+        assignInput.placeholder = "Select contact to assign";
         switchAssignedArrow();
     }
 }
@@ -269,6 +273,7 @@ function renderCategoryDropdown(e) {
     let dropdownListCategory = document.getElementById('dropdownListCategory')
     let dropdownSelect = e.target.closest('#category-input')
     let dropDownCategory = document.getElementById('category-input')
+    if (!dropDownCategory) return;
     if (dropdownSelect) {
         dropDownCategory.placeholder = "Select task category";
         dropdownListCategory.classList.toggle('open');
@@ -303,11 +308,12 @@ document.addEventListener('dblclick', (e) => {
 });
 
 function toggleSubtaskFocus(e) {
+    const input = document.getElementById('subtask-input');
+    if (!input) return;
     if (e.target.closest('#subtask-input')) {
-        document.getElementById('subtask-input').classList.add('box-shadow-blue');
-    }
-    if (!e.target.closest('#subtask-input')) {
-        document.getElementById('subtask-input').classList.remove('box-shadow-blue');
+        input.classList.add('box-shadow-blue');
+    } else {
+        input.classList.remove('box-shadow-blue');
     }
 }
 

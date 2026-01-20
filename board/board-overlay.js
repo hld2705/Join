@@ -189,7 +189,7 @@ function prepareAddTaskOverlay(column) {
   }
   setTimeout(() => {
     mediumActive = false;
-    changePriorityColor("medium");
+    changePriorityColor("medium")
   }, 50);
 }
 

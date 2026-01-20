@@ -420,7 +420,6 @@ function addTaskOverlayTemplate() {
             </div>
         </div>
 </form>`
-changePriorityColor("medium");
     }
 }
 

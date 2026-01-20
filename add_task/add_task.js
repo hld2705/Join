@@ -340,10 +340,12 @@ function closeTaskOverlay() {
     let overlayBg = document.getElementById("task-overlay-background");
     let container = document.getElementById("task-form-container");
     let taskAddedInfo = document.getElementById('task-added-info');
-    taskAddedInfo.style.display = "flex"
+
+    taskAddedInfo.style.display = "flex";
+
     setTimeout(() => {
-        overlayBg.remove();
-        container.innerHTML = "";
+        overlayBg.style.display = "none"; 
+        container.innerHTML = "";           
         setTimeout(() => {
             taskAddedInfo.style.display = "none";
         }, 0);
