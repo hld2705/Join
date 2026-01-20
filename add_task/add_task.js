@@ -309,6 +309,9 @@ function TaskTransitionRequirement(e) {
     }
     addNewTask();
     switchToBoard(e);
+    setTimeout(() => {
+        closeTaskOverlay();
+    }, 1000);
 };
 
 function switchToBoard(e) {
@@ -333,8 +336,8 @@ function closeTaskOverlay() {
         container.innerHTML = "";
         setTimeout(() => {
             taskAddedInfo.style.display = "none";
-        }, 0);
-    }, 900);
+        }, 9000);
+    }, 9000);
 }
 
 function getUserId() {

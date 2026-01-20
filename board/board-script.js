@@ -50,6 +50,7 @@ function getDragAndDropData(subtasks, assigned, main, priority) {
     main: mainTranslate(main),
     ...progress
   };
+  
 }
 
 function mainTranslate(main){
