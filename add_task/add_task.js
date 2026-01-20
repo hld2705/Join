@@ -308,7 +308,7 @@ function TaskTransitionRequirement(e) {
         return;
     }
     addNewTask();
-    TaskTransitionBoardRequirement(e);
+TaskTransitionBoardRequirement(e)
 };
 
 /**
