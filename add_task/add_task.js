@@ -137,17 +137,17 @@ function addNewTask() {
  * @returns {Promise<void>}
  */
 function editTask() {
-  const data = getEditTaskInputs();
-  const task = tasks.find(t => t.id === openedCardId);
-  const update = {};
-  for (const key in data) {
-    const v = data[key];
-    if (key === "main" || v == null || v === "") continue;
-    if (key === "assigned" && Array.isArray(v) && !v.length) continue;
-    update[key] = v;
-  }
-  return firebase.database().ref("tasks/" + task.id).update(update)
-    .catch(e => console.error("Task update failed:", e));
+    const data = getEditTaskInputs();
+    const task = tasks.find(t => t.id === openedCardId);
+    const update = {};
+    for (const key in data) {
+        const v = data[key];
+        if (key === "main" || v == null || v === "") continue;
+        if (key === "assigned" && Array.isArray(v) && !v.length) continue;
+        update[key] = v;
+    }
+    return firebase.database().ref("tasks/" + task.id).update(update)
+        .catch(e => console.error("Task update failed:", e));
 }
 
 function getAssignedUserBadge() {
@@ -338,31 +338,20 @@ function closeTaskOverlay() {
 }
 
 function getUserId() {
-    const params = new URLSearchParams(window.location.search);
-    return (
-        params.get("uid") ||
-        localStorage.getItem("uid")
-    );
+  if (sessionStorage.getItem("guest") === "true") return "guest";
+  const params = new URLSearchParams(window.location.search);
+  return params.get("uid") || localStorage.getItem("uid");
 }
 
 /**
  * Redirects to board view after task creation.
  */
 function redirectToBoard() {
-    if (!isTaskFormValid()) {
-        checkRequiredTitle?.();
-        checkRequiredDate?.();
-        return;
-    }
-    const uid = getUserId();
-    if (window.location.href.includes("board.html")) {
-        closeTaskOverlay();
-        setTimeout(async () => {
-            await loadData();
-            dragAndDrop();
-        }, 300);
-    }
-    location.assign(`./board.html?uid=${uid}`);
+  const user = getUserId();
+  const url = user === "guest"
+    ? "./board.html?nonlogin=true"
+    : `./board.html?uid=${user}`;
+  location.assign(url);
 }
 
 function setupIdSwitchingForForms() {
