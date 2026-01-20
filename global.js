@@ -236,7 +236,6 @@ function nonLoginEntryCheck(){
 
 function initHeader() {
   if(nonLoginEntryCheck()) return;
-  //if(!nonLoginEntry()){sessionStorage.removeItem("nonlogin")}
   const uid = getUserId();
   const isGuest = !uid && sessionStorage.getItem("guest") === "true";
   if (isGuest) {

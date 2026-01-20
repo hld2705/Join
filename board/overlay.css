@@ -244,6 +244,7 @@
   font-size: 60px;
   margin-top: 20px;
   margin-bottom: 10px;
+  overflow-wrap: anywhere;
 }
 
 .card-overlay-description-details-container {

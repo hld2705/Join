@@ -55,10 +55,10 @@ function getDragAndDropData(subtasks, assigned, main, priority) {
 function mainTranslate(main){
   if(main === "userstory"){
    return "User Story"
-  }
+  } else if(main === "User Story"){return "User Story"}
   if(main === "techtask"){
    return "Technical Task"
-  }
+  } else if(main === "Technical Task"){return "Technical Task"}
 }
 
 /**
