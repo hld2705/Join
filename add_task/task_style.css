@@ -391,6 +391,7 @@ header {
 ul {
     text-indent: -1%;
 }
+
 .navbar {
     position: absolute;
     top: 74px;
@@ -426,6 +427,11 @@ ul {
 .subtask-text {
     user-select: text;
     cursor: text;
+    display: inline-block;
+    line-height: 20px;
+    min-height: 20px;
+   min-width: 300px; 
+    flex: 1;   
 }
 
 .subtask-icons,
