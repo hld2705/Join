@@ -119,6 +119,9 @@ function handleConfirmEditText(li, text, icons, afterEditIcons, inputfield) {
 function handleEditIcon(li, text, icons, afterEditIcons, inputfield) {
     inputfield.disabled = true;
     text.contentEditable = 'true';
+     if (text.innerText.trim() === '') {
+        text.innerHTML = '\u00A0';
+    }
     cursorToEnd(text);
     icons.style.display = 'none';
     afterEditIcons.style.display = 'flex';

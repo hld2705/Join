@@ -180,7 +180,7 @@ textarea {
 }
 
 .subtask-check-svg {
-    padding-left: 2px;
+   margin-left: 5px;
     transition: all 0.2s;
 }
 
