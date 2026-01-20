@@ -430,8 +430,7 @@ ul {
     display: inline-block;
     line-height: 20px;
     min-height: 20px;
-   min-width: 300px; 
-    flex: 1;   
+   min-width: 180px; 
 }
 
 .subtask-icons,

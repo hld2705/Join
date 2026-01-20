@@ -308,8 +308,21 @@ function TaskTransitionRequirement(e) {
         return;
     }
     addNewTask();
-    switchToBoard(e);
+TaskTransitionBoardRequirement(e)
 };
+
+/**
+ * Validates form inputs and triggers task creation on board.html.
+ *
+ * @param {Event} e
+ */
+function TaskTransitionBoardRequirement(e) {
+   if (window.location.pathname.endsWith('board.html')) {
+        closeTaskOverlay();
+    } else {
+        switchToBoard(e);
+    }
+}
 
 function switchToBoard(e) {
     if (!window.location.pathname.endsWith('board.html')) {
