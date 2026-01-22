@@ -98,11 +98,11 @@ function showPassword() {
   if (input.type === "password") {
     input.type = "text";
     icon.classList.add("eye_open_password");
-    icon.src = "./assets/icons/glass_eye_open.png";
+    icon.src = "./assets/icons/visibility.svg";
   } else {
     input.type = "password";
     icon.classList.add("eye_open_password");
-    icon.src = "./assets/icons/glass_eye_closed.png";
+    icon.src = "./assets/icons/visibility_off.svg";
   }
 }
 
@@ -118,8 +118,8 @@ function togglePasswordVisibility(inputs, icons, show) {
   icons.forEach(icon => {
     icon.classList.add("eye_open_password");
     icon.src = show
-      ? "./assets/icons/glass_eye_open.png"
-      : "./assets/icons/glass_eye_closed.png";
+      ? "./assets/icons/visibility.svg"
+      : "./assets/icons/visibility_off.svg";
   });
 }
 
