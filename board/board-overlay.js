@@ -1,14 +1,20 @@
 let addTaskInteractionsLoaded = false;
 
+/** Instantly opens the detailed card without animation delay. */
 function openDetailedInfoCardInstant() {
   const card = document.getElementById("card-content");
   if (card) card.classList.add('is-instant-open');
 }
 
+/**
+ * Animates detailed card overlay out.
+ * @param {HTMLElement} overlay
+ */
 function animateDetailedCardOut(overlay) {
   overlay.classList.remove("is-open");
 }
 
+/** Removes any existing detailed card overlay from DOM. */
 function removeExistingDetailOverlay() {
   const oldOverlay = document.getElementById("overlayclose");
   if (oldOverlay) oldOverlay.remove();
@@ -32,6 +38,7 @@ async function closeEditOverlay() {
   openDetailedInfoCardInstant();
 }
 
+/** Cancels edit overlay with exit animation. */
 function cancelEditOverlay() {
   let bg = document.getElementById('edit-overlay-background');
   let overlay = document.getElementById('edit-overlay');
@@ -52,6 +59,7 @@ if (openedCardId !== null) {
   animateDetailedCardIn();
 }
 
+/** Animates detailed card overlay in. */
 function animateDetailedCardIn() {
   let overlay = document.getElementById("card-content");
   overlay.classList.remove("is-open");
@@ -111,6 +119,10 @@ function initEditOverlayPriority(task) {
   }, 20);
 }
 
+/**
+ * Opens the edit overlay for a specific task.
+ * @param {number|string} taskId
+ */
 function openEditOverlay(taskId) {
   const task = tasks.find(t => t.id === taskId);
   if (!task) return;
@@ -126,6 +138,7 @@ function openEditOverlay(taskId) {
   });
 }
 
+/** Closes detailed card overlay with animation. */
 function closeOverlayCard() {
   let close = document.getElementById("overlayclose");
   let overlay = document.getElementById("card-content");
@@ -135,11 +148,16 @@ function closeOverlayCard() {
   }, 250);
 }
 
+/** Instantly closes detailed card overlay. */
 function closeOverlayCardInstant() {
   const close = document.getElementById("overlayclose");
   if (close) close.remove();
 }
 
+/**
+ * Animates overlay element in.
+ * @param {HTMLElement} overlay
+ */
 function animateOverlayIn(overlay) {
   overlay.classList.remove("is-open");
   setTimeout(() => {
@@ -147,6 +165,7 @@ function animateOverlayIn(overlay) {
   }, 20);
 }
 
+/** Closes add-task overlay and resets its content. */
 function closeAddTaskOverlay() {
   let overlayBg = document.getElementById("task-overlay-background");
   let overlay = document.getElementById("task-overlay");
@@ -158,6 +177,10 @@ function closeAddTaskOverlay() {
   }, 250);
 }
 
+/**
+ * Animates overlay element out.
+ * @param {HTMLElement} overlay
+ */
 function animateOverlayOut(overlay) {
   overlay.classList.remove("is-open");
 }
@@ -180,6 +203,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   dragAndDrop();
 });
 
+/**
+ * Prepares add-task overlay for a specific column.
+ * @param {string} column
+ */
 function prepareAddTaskOverlay(column) {
   window.currentTaskColumn = column;
   addTaskOverlayTemplate();
@@ -189,10 +216,14 @@ function prepareAddTaskOverlay(column) {
   }
   setTimeout(() => {
     mediumActive = false;
-    changePriorityColor("medium")
+    changePriorityColor("medium");
   }, 50);
 }
 
+/**
+ * Opens add-task overlay or redirects on small screens.
+ * @param {string} column
+ */
 function openAddTaskOverlay(column) {
   const params = new URLSearchParams(window.location.search);
   const uid = params.get("uid");
@@ -207,11 +238,12 @@ function openAddTaskOverlay(column) {
   animateOverlayIn(overlay);
 }
 
-// Carryover from board-script (last functions in the file)
+/** Returns all currently selected assigned users. */
 function getSelectedAssignedUsers() {
   return document.querySelectorAll(".Assigned-dropdown-username.bg-grey");
 }
 
+/** Renders assigned user badges in edit overlay. */
 function renderFilteredBadges() {
   const container = document.getElementById("filteredBadgesContainer");
   if (!container) return;
@@ -221,6 +253,11 @@ function renderFilteredBadges() {
   appendBadgeDotsIfNeeded(container, users);
 }
 
+/**
+ * Appends assigned user badges to container.
+ * @param {HTMLElement} container
+ * @param {Array<Element>} users
+ */
 function appendAssignedBadges(container, users) {
   const maxVisible = 3;
   users.slice(0, maxVisible).forEach(user => {
@@ -234,6 +271,11 @@ function appendAssignedBadges(container, users) {
   });
 }
 
+/**
+ * Appends overflow dots if too many assigned users exist.
+ * @param {HTMLElement} container
+ * @param {Array} users
+ */
 function appendBadgeDotsIfNeeded(container, users) {
   if (users.length <= 3) return;
   const dots = document.createElement("span");
@@ -242,12 +284,22 @@ function appendBadgeDotsIfNeeded(container, users) {
   container.appendChild(dots);
 }
 
+/**
+ * Checks if a board card matches search value.
+ * @param {HTMLElement} card
+ * @param {string} search
+ * @returns {boolean}
+ */
 function cardMatchesSearch(card, search) {
   const title = card.dataset.title || "";
   const description = card.dataset.description || "";
   return title.includes(search) || description.includes(search);
 }
 
+/**
+ * Filters board cards based on search input.
+ * @param {string} value
+ */
 function filterBoardCards(value) {
   const search = value.toLowerCase();
   const cards = document.getElementsByClassName("board-card");
@@ -263,6 +315,10 @@ function filterBoardCards(value) {
   noResult(count);
 }
 
+/**
+ * Toggles no-result message based on visible cards.
+ * @param {number} count
+ */
 function noResult(count) {
   let noResults = document.getElementById("no-results");
   if (count === 0) {
@@ -272,36 +328,55 @@ function noResult(count) {
   }
 }
 
+/**
+ * Capitalizes first letter of a string.
+ * @param {string} string
+ * @returns {string}
+ */
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+/**
+ * Renders edit overlay markup for a task.
+ * @param {Object} task
+ */
 function editOverlayTemplate(task) {
-    const subtaskContent = renderSubtaskEdit(task.subtasks);
-    let formContainer = document.getElementById('edit-task-form-container');
-    task.priority === "urgent";
-    const icons = getEditPriorityIcons(task.priority);
-    if (!formContainer) return;
-    if (formContainer) formContainer.innerHTML = editOverlayMarkup(task, icons, subtaskContent);
+  const subtaskContent = renderSubtaskEdit(task.subtasks);
+  let formContainer = document.getElementById('edit-task-form-container');
+  task.priority === "urgent";
+  const icons = getEditPriorityIcons(task.priority);
+  if (!formContainer) return;
+  if (formContainer) formContainer.innerHTML = editOverlayMarkup(task, icons, subtaskContent);
 }
 
+/**
+ * Renders editable subtasks list.
+ * @param {Array} subtasks
+ * @returns {string}
+ */
 function renderSubtaskEdit(subtasks) {
-    if (!subtasks || subtasks.length === 0) return "<ul></ul>";
+  if (!subtasks || subtasks.length === 0) return "<ul></ul>";
 
-    let html = "<ul>";
-    subtasks.forEach((st, i) => {
-        html += subtaskEditItemTemplate(st, i);
-    });
-    html += "</ul>";
+  let html = "<ul>";
+  subtasks.forEach((st, i) => {
+    html += subtaskEditItemTemplate(st, i);
+  });
+  html += "</ul>";
 
-    return html;
+  return html;
 }
 
+/**
+ * Builds detailed card markup for a task.
+ * @param {Object} task
+ * @returns {string}
+ */
 function detailedCardInfoTemplate(task) {
-    const bgColor = getBgColor(task.main);
-    const imgSrc = getPriorityImg(task.priority);
-    const badges = renderBadges(task.assigned);
-    const subtask = renderSubtask(task.subtasks, task.id);
+  const bgColor = getBgColor(task.main);
+  const imgSrc = getPriorityImg(task.priority);
+  const badges = renderBadges(task.assigned);
+  const subtask = renderSubtask(task.subtasks, task.id);
 
-    return detailedCardInfoMarkup(task, bgColor, imgSrc, badges, subtask);
+  return detailedCardInfoMarkup(task, bgColor, imgSrc, badges, subtask);
 }

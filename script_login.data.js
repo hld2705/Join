@@ -15,10 +15,7 @@ if (!firebase.apps.length) {
 
 const FIREBASE_USERS = firebase.database().ref("users");
 
-/**
- * Validates signup inputs, checks if user already exists,
- * and creates a new user in Firebase if not.
- *
+/** Validates signup inputs, checks if user already exists and creates a new user in Firebase if not.
  * @async
  * @returns {Promise<void>}
  */
@@ -35,6 +32,9 @@ window.logIn = async function logIn() {
     forwardingNextPage(firebaseId);
 };
 
+/** Collects and trims signup input values.
+ * @returns {{name: string, email: string, password: string, passwordConfirm: string}}
+ */
 function getSignUpInputValues() {
     return {
         name: document.getElementById("name_sign_up").value.trim(),
@@ -44,6 +44,8 @@ function getSignUpInputValues() {
     };
 }
 
+/** Displays an error indicating that the user already exists.
+ */
 function showUserAlreadyExists() {
     const emailBorder = document.getElementById("email_sign_up");
     const existsMsg = document.getElementById("required-sign_up-email");
@@ -52,12 +54,10 @@ function showUserAlreadyExists() {
     existsMsg.innerHTML = "*User already found!";
 }
 
-/**
- * Creates a new user entry in Firebase and returns its generated id.
- *
+/** Creates a new user entry in Firebase and returns its generated id.
  * @async
  * @param {Object} data
- * @returns {Promise<string>} Firebase user id
+ * @returns {Promise<string>}
  */
 async function createNewUser(data) {
     const newEntry = FIREBASE_USERS.push();
@@ -67,9 +67,7 @@ async function createNewUser(data) {
     return firebaseId;
 }
 
-/**
- * Builds the user object structure for Firebase.
- *
+/** Builds the user object structure for Firebase.
  * @param {string} id
  * @param {Object} data
  * @returns {Object}
@@ -90,18 +88,7 @@ function createNewUserObject(id, data) {
     };
 }
 
-function getInitials(name) {
-    return name
-        .split(" ")
-        .filter(Boolean)
-        .slice(0, 2)
-        .map(word => word.charAt(0).toUpperCase())
-        .join("");
-}
-
-/**
- * Checks if a user with the given email already exists in Firebase.
- *
+/** Checks if a user with the given email already exists in Firebase.
  * @async
  * @param {string} email
  * @returns {Promise<boolean>}
@@ -119,60 +106,7 @@ async function userExistsByEmail(email) {
     return false;
 }
 
-function getRandomColor() {
-    const colors = ["#2A3647", "#29ABE2", "#FF7A00", "#9327FF", "#FC71FF", "#fccc59", "#442c8c", "#fc4444"];
-    return colors[Math.floor(Math.random() * colors.length)];
-}
-
-/**
- * Validates signup input fields.
- *
- * @param {string} name
- * @param {string} email
- * @param {string} password
- * @param {string} passwordConfirm
- * @returns {boolean}
- */
-function signUpValidation(name, email, password, passwordConfirm) {
-    resetSignUpUI();
-    let hasError = false;
-    hasError |= validateName(name);
-    hasError |= validateEmail(email);
-    hasError |= validatePassword(password);
-    hasError |= validatePasswordMatch(password, passwordConfirm);
-
-    return !hasError;
-}
-
-function validateName(name) {
-    if (name) return false;
-    document.getElementById("name_sign_up").classList.add("submit");
-    document.getElementById("required-sign_up-name").classList.add("show");
-    return true;
-}
-
-function validateEmail(email) {
-    if (email && isValidEmail(email)) return false;
-    document.getElementById("email_sign_up").classList.add("submit");
-    document.getElementById("required-sign_up-email").classList.add("show");
-    return true;
-}
-
-function validatePassword(password) {
-    if (password) return false;
-    document.getElementById("password_sign_up").classList.add("submit");
-    document.getElementById("required-sign_up-password").classList.add("show");
-    return true;
-}
-
-function validatePasswordMatch(password, passwordConfirm) {
-    if (!password || password === passwordConfirm) return false;
-    document.getElementById("password_sign_up").classList.add("submit");
-    document.getElementById("confirmation_password_sign_up").classList.add("submit");
-    document.getElementById("required-sign_up-password2").classList.add("show");
-    return true;
-}
-
+/** Initializes live validation for signup inputs. */
 function InputSignUpValidation() {
     const nameInput = document.getElementById("name_sign_up");
     const emailInput = document.getElementById("email_sign_up");
@@ -186,6 +120,7 @@ function InputSignUpValidation() {
 
 document.addEventListener("DOMContentLoaded", InputSignUpValidation);
 
+/** Live validation for signup name input. */
 function validateNameLive() {
     const input = document.getElementById("name_sign_up");
     const msg = document.getElementById("required-sign_up-name");
@@ -195,6 +130,7 @@ function validateNameLive() {
     }
 }
 
+/** Live validation for signup email input. */
 function validateEmailLive() {
     const input = document.getElementById("email_sign_up");
     const msg = document.getElementById("required-sign_up-email");
@@ -204,6 +140,7 @@ function validateEmailLive() {
     }
 }
 
+/** Live validation for signup password input. */
 function validatePasswordLive() {
     const input = document.getElementById("password_sign_up");
     const msg = document.getElementById("required-sign_up-password");
@@ -213,6 +150,7 @@ function validatePasswordLive() {
     }
 }
 
+/** Live validation for password confirmation input. */
 function validatePasswordMatchLive() {
     const pass = document.getElementById("password_sign_up").value;
     const confirm = document.getElementById("confirmation_password_sign_up").value;
@@ -226,11 +164,13 @@ function validatePasswordMatchLive() {
     }
 }
 
+/** Resets all signup input states and messages. */
 function resetSignUpUI() {
     resetSignUpInputs();
     resetSignUpMessages();
 }
 
+/** Resets signup input styles. */
 function resetSignUpInputs() {
     const inputIds = [
         "name_sign_up",
@@ -245,6 +185,7 @@ function resetSignUpInputs() {
     });
 }
 
+/** Hides all signup validation messages. */
 function resetSignUpMessages() {
     const messageIds = [
         "required-sign_up-name",
@@ -252,16 +193,12 @@ function resetSignUpMessages() {
         "required-sign_up-password",
         "required-sign_up-password2"
     ];
-
     messageIds.forEach(id => {
         document.getElementById(id)?.classList.remove("show");
     });
 }
 
-/**
- * Stores the user id locally, shows a confirmation overlay,
- * then redirects to the summary page.
- *
+/** Stores the user id locally, shows a confirmation overlay then redirects to the summary page.
  * @async
  * @param {string} firebaseId
  * @returns {Promise<void>}
@@ -280,14 +217,13 @@ async function forwardingNextPage(firebaseId) {
     window.location = "/summary.html?uid=" + firebaseId;
 }
 
+/** Removes the login error window. */
 window.goBackLogin = function () {
     const errorWindow = document.getElementById("errorWindow");
     if (errorWindow) errorWindow.remove();
 };
 
-/**
- * Handles login submission, validates inputs, and forwards user to summary page on success.
- *
+/** Handles login submission and redirects on success.
  * @async
  * @returns {Promise<void>}
  */
@@ -304,21 +240,24 @@ window.loginUserPushedInfo = async function () {
     setTimeout(() => { window.location = `/summary.html?uid=${user.id}` }, 100);
 };
 
+/**
+ * Shows a login password error message.
+ * @param {string} message
+ */
 function showPasswordError(message) {
     const passError = document.getElementById("required-login-password");
     passError.textContent = message;
     passError.classList.add("show");
 }
 
+/** Hides the login password error message. */
 function hidePasswordError() {
     const passError = document.getElementById("required-login-password");
     passError.classList.remove("show");
     passError.textContent = "";
 }
 
-/**
- * Returns a user by email from Firebase or null if not found.
- *
+/** Returns a user by email from Firebase.
  * @async
  * @param {string} email
  * @returns {Promise<Object|null>}
@@ -326,19 +265,15 @@ function hidePasswordError() {
 async function getUserByEmail(email) {
     let snapshot = await FIREBASE_USERS.get();
     let users = snapshot.val();
-
     for (let id in users) {
         if (users[id].email.toLowerCase() === email.toLowerCase()) {
             return users[id];
         }
     }
-
     return null;
 }
 
-/**
- * Validates login inputs and returns the matching user object on success.
- *
+/** Validates login inputs and returns user on success.
  * @async
  * @param {string} identifier
  * @param {string} password
@@ -358,6 +293,11 @@ async function validateAndFindUser(identifier, password) {
     return user;
 }
 
+/** Checks if a login password was entered.
+ * @param {HTMLInputElement} passInput
+ * @param {string} password
+ * @returns {boolean}
+ */
 function isLoginPasswordCorrect(passInput, password) {
     if (!password) {
         passInput.classList.add("submit");
@@ -367,6 +307,13 @@ function isLoginPasswordCorrect(passInput, password) {
     return true;
 }
 
+/** Checks if login password matches the stored user password.
+ * @param {Object|null} user
+ * @param {string} password
+ * @param {HTMLInputElement} emailInput
+ * @param {HTMLInputElement} passInput
+ * @returns {boolean}
+ */
 function isLoginPasswordMatching(user, password, emailInput, passInput) {
     if (user && user.password === password) return true;
     emailInput.classList.add("submit");
@@ -375,34 +322,31 @@ function isLoginPasswordMatching(user, password, emailInput, passInput) {
     return false;
 }
 
+/** Validates login email identifier.
+ * @param {string} identifier
+ * @param {HTMLInputElement} emailInput
+ * @param {HTMLElement} emailMsg
+ * @returns {boolean}
+ */
 function identifyUser(identifier, emailInput, emailMsg) {
     if (identifier && isValidEmail(identifier)) return true;
-
     emailInput.classList.add("submit");
     emailMsg.textContent = "Please enter a valid email address";
     emailMsg.classList.add("show");
     return false;
 }
 
-function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
+/* Resets login input states and messages.*/
 function resetLoginUI() {
-    [
-        "login_identifier",
-        "password"
-    ].forEach(id =>
+    ["login_identifier", "password"].forEach(id =>
         document.getElementById(id).classList.remove("submit")
     );
-    [
-        "required-login-name",
-        "required-login-password"
-    ].forEach(id =>
+    ["required-login-name", "required-login-password"].forEach(id =>
         document.getElementById(id).classList.remove("show")
     );
 }
 
+/** Logs in as guest and redirects to summary page. */
 window.guestLogIn = function () {
     let isMobile = window.innerWidth < 780;
     sessionStorage.setItem("guest", "true");

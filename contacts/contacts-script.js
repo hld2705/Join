@@ -14,26 +14,22 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const FIREBASE_USERS = firebase.database().ref("users");
 
-/**
- * Fetches all users from Firebase.
- *
+/** Fetches all users from Firebase.
  * @async
  * @returns {Promise<Array<Object>>}
  */
 async function fetchData() {
   let response = await FIREBASE_USERS.once("value")
   let data = response.val();
- return data
-  ? Object.entries(data).map(([key, user]) => ({
-      ...user,
-      id: String(key)
-    }))
-  : [];
+  return data
+    ? Object.entries(data).map(([key, user]) => ({
+        ...user,
+        id: String(key)
+      }))
+    : [];
 }
 
-/**
- * Renders a single contact entry including letter grouping.
- *
+/** Renders a single contact entry including letter grouping.
  * @param {HTMLElement} container
  * @param {Object} user
  * @param {Object} current
@@ -42,14 +38,12 @@ function renderContact(container, user, current) {
   const letter = user.name.charAt(0).toUpperCase();
   if (letter !== current.value) {
     current.value = letter;
-    container.innerHTML += letterSeparatorTemplate(letter);}
+    container.innerHTML += letterSeparatorTemplate(letter);
+  }
   container.innerHTML += contactsLoadTemplate(user);
 }
 
-/**
- * Loads and renders the contact list.
- *
- * @async
+/** Loads and renders the contact list.
  * @returns {Promise<void>}
  */
 async function contactsLoad() {
@@ -65,11 +59,10 @@ async function contactsLoad() {
   const current = { value: "" };
   for (let i = 0; i < users.length; i++) {
     renderContact(container, users[i], current);
-  }}
+  }
+}
 
-/**
- * Opens the contact details view and updates active user state.
- *
+/** Opens the contact details view and updates active user state.
  * @param {string} userId
  */
 function openContactDetailsView(userId) {
@@ -84,9 +77,7 @@ function openContactDetailsView(userId) {
   }
 }
 
-/**
- * Renders contact details for a selected user.
- *
+/** Renders contact details for a selected user.
  * @async
  * @param {string} userId
  * @returns {Promise<void>}
@@ -103,9 +94,7 @@ async function contactsRender(userId) {
   updateResponsiveButtons();
 }
 
-/**
- * Highlights the selected contact in the list.
- *
+/** Highlights the selected contact in the list.
  * @param {string|null} previousId
  * @param {string} newId
  */
@@ -116,33 +105,39 @@ function userHighlight(previousId, newId) {
     prev.style.backgroundColor = "#fff";
     prev.style.color = "black";
     prev.style.borderRadius = "10px";
-  }if (curr) {
+  }
+  if (curr) {
     curr.style.backgroundColor = "#2A3647";
     curr.style.color = "white";
     curr.style.borderRadius = "10px";
   }
 }
 
+/** Toggles button display state. */
 function toggleButton(button, display) {
   if (!button) return;
   button.style.display = display;
 }
 
+/** Updates responsive add/edit button visibility. */
 function updateResponsiveButtons() {
   const addButton = document.getElementById("responsiveaddcontactid");
   const editButton = document.getElementById("responsiveeditcontactid");
   if (window.innerWidth > 900) {
     toggleButton(addButton, "none");
     toggleButton(editButton, "none");
-    return;}
+    return;
+  }
   if (activeUserId) {
     toggleButton(addButton, "none");
     toggleButton(editButton, "block");
   } else {
     toggleButton(addButton, "flex");
     toggleButton(editButton, "none");
-  }}
+  }
+}
 
+/** Opens responsive edit user options overlay. */
 function editUserOptionsResponsive() {
   let userId = activeUserId;
   let responsiveEditContactId = document.getElementById("responsiveeditcontactid");
@@ -150,28 +145,36 @@ function editUserOptionsResponsive() {
   if (window.innerWidth >= 900) {
     responsiveEditContactId.style.display = "none";
   } else {
-    responsiveEditContactId.style.display = "block";}
+    responsiveEditContactId.style.display = "block";
+  }
   document.getElementById("responsiveeditcontact-overlay-container").innerHTML =
     editUserOptionsResponsiveTemplate(userId);
 }
 
+/** Handles outside click closing of edit overlay. */
 document.addEventListener("click", function (e) {
   let overlay = document.getElementById("edit_overlay");
   if (overlay && !e.target.closest("#edit_overlay")) {
-    overlay.remove();}
+    overlay.remove();
+  }
   updateResponsiveButtons();
 });
 
+/** Opens add new contact overlay. */
 function addNewContact() {
   let popUp = document.getElementById("body");
   if (!document.getElementById("closeoverlay")) {
-    popUp.innerHTML += addNewContactTemplate();}
+    popUp.innerHTML += addNewContactTemplate();
+  }
   let contactContainer = document.getElementById('contact-container')
   if (contactContainer) {
     setTimeout(() => {
-      contactContainer.classList.add('is-open')}, 20);}
+      contactContainer.classList.add('is-open')
+    }, 20);
+  }
 }
 
+/** Closes add and edit overlay containers. */
 function closeOverlayContainers() {
   const contact = document.getElementById("contact-container");
   const edit = document.getElementById("edit-main-container");
@@ -179,16 +182,16 @@ function closeOverlayContainers() {
   if (edit) edit.classList.remove("is-open");
 }
 
+/** Closes overlays and removes overlay elements. */
 function closeOverlay() {
   closeOverlayContainers();
   setTimeout(() => {
     document.getElementById("closeoverlay")?.remove();
-    document.getElementById("closediteoverlay")?.remove();}, 250);
+    document.getElementById("closediteoverlay")?.remove();
+  }, 250);
 }
 
-/**
- * Opens the edit user overlay with user data.
- *
+/** Opens the edit user overlay with user data.
  * @async
  * @param {string} userId
  * @returns {Promise<void>}
@@ -203,12 +206,12 @@ async function editUser(userId) {
   document.getElementById("responsiveeditcontact-overlay-container").style.display = "none";
   if (contactContainer) {
     setTimeout(() => {
-      contactContainer.classList.add('is-open')}, 20);}
+      contactContainer.classList.add('is-open')
+    }, 20);
+  }
 }
 
-/**
- * Deletes a user from Firebase and refreshes contact list.
- *
+/** Deletes a user from Firebase and refreshes contact list.
  * @async
  * @param {string} userId
  * @returns {Promise<void>}
@@ -221,9 +224,7 @@ async function deleteUser(userId) {
   contactsLoad();
 }
 
-/**
- * Updates user data in Firebase.
- *
+/** Updates user data in Firebase.
  * @async
  * @param {string} userId
  * @param {string} name
@@ -238,12 +239,12 @@ async function updateUserData(userId, name, email, phone) {
     phone,
     badge: {
       text: getInitials(name),
-      color: getRandomColor()}});
+      color: getRandomColor()
+    }
+  });
 }
 
-/**
- * Saves edited user data and refreshes UI.
- *
+/** Saves edited user data and refreshes UI.
  * @async
  * @param {string} userId
  * @returns {Promise<void>}
@@ -260,6 +261,7 @@ async function saveUser(userId) {
   closeOverlay();
 }
 
+/** Updates displayed contact detail fields. */
 function updateDetailsPanel(user) {
   const nameNode = document.getElementById('detailed_name');
   const emailNode = document.getElementById('detailed_email');
@@ -269,6 +271,7 @@ function updateDetailsPanel(user) {
   if (phoneNode) phoneNode.textContent = user.phone;
 }
 
+/** Returns initials from a full name. */
 function getInitials(fullName) {
   return fullName
     .split(" ")
@@ -278,11 +281,13 @@ function getInitials(fullName) {
     .join("");
 }
 
+/** Returns a random badge color. */
 function getRandomColor() {
   const colors = ["#2A3647", "#29ABE2", "#FF7A00", "#9327FF", "#FC71FF", "#fccc59", "#442c8c", "#fc4444"];
   return colors[Math.floor(Math.random() * colors.length)];
 }
 
+/** Creates a user object for Firebase. */
 function createUserObject(id, name, email, phone) {
   return {
     id,
@@ -296,19 +301,20 @@ function createUserObject(id, name, email, phone) {
   };
 }
 
+/** Saves a new contact to Firebase.
+ * @async
+ * @returns {Promise<string>}
+ */
 async function saveNewContact(name, email, phone) {
   const entry = firebase.database().ref("users").push();
   const userObj = createUserObject(entry.key, name, email, phone);
-
   await entry.set(userObj);
   join.users.push(userObj);
-
   return userObj.id;
 }
 
 /**
  * Creates a new contact and refreshes contact list.
- *
  * @async
  * @returns {Promise<void>}
  */
@@ -327,19 +333,23 @@ async function createContact() {
   await loadData();
 }
 
+/** Shows temporary new user confirmation overlay. */
 async function addedNewUser() {
   document.body.insertAdjacentHTML(
     "beforeend",
-    addedNewUserTemplate());
+    addedNewUserTemplate()
+  );
   const overlay = document.getElementById("new-user-overlay");
   requestAnimationFrame(() => {
-  overlay.classList.add("is-open");});
+    overlay.classList.add("is-open");
+  });
   await new Promise(r => setTimeout(r, 3500));
   overlay.classList.remove("is-open");
   await new Promise(r => setTimeout(r, 300));
   overlay.remove();
 }
 
+/** Updates contact layout based on screen size. */
 function updateContactsLayout() {
   const info = document.getElementById("contactsinfo");
   const left = document.getElementById("responsiveleftsidecontacts");
@@ -353,9 +363,7 @@ function updateContactsLayout() {
   }
 }
 
-/**
- * Re-renders contacts when layout breakpoint changes.
- */
+/** Re-renders contacts when layout breakpoint changes. */
 function reRenderContacts() {
   updateContactsLayout();
   activeUserId = null;
@@ -370,13 +378,14 @@ window.addEventListener("resize", () => {
   const isMobile = window.innerWidth <= 900;
   if (isMobile !== lastIsMobile) {
     lastIsMobile = isMobile;
-    reRenderContacts();}
+    reRenderContacts();
+  }
   updateResponsiveButtons();
 });
 
 window.addEventListener("resize", updateResponsiveButtons);
 window.updateResponsiveButtons = updateResponsiveButtons;
-window.editUserOptionsResponsive = editUserOptionsResponsive
+window.editUserOptionsResponsive = editUserOptionsResponsive;
 window.reRenderContacts = reRenderContacts;
 window.createContact = createContact;
 window.updateDetailsPanel = updateDetailsPanel;
@@ -387,4 +396,3 @@ window.contactsLoad = contactsLoad;
 window.contactsRender = contactsRender;
 window.addNewContact = addNewContact;
 window.closeOverlay = closeOverlay;
-

@@ -1,9 +1,7 @@
- let autoScrollInterval = null;
- let lastTouch = null;
+let autoScrollInterval = null;
+let lastTouch = null;
 
- /**
- * Creates a visual ghost element for touch dragging.
- *
+/** Creates a visual ghost element for touch dragging.
  * @param {HTMLElement} card
  * @param {DOMRect} rect
  * @returns {HTMLElement}
@@ -20,9 +18,7 @@ function createTouchGhost(card, rect) {
   return ghost;
 }
 
-/**
- * Initializes touch drag state variables.
- *
+/** Initializes touch drag state variables.
  * @param {HTMLElement} card
  * @param {Touch} touch
  * @param {DOMRect} rect
@@ -36,10 +32,7 @@ function initTouchDrag(card, touch, rect) {
   touchOffsetY = touch.clientY - rect.top;
 }
 
-/**
- * Initializes touch interaction on a board card.
- * Starts long-press detection to distinguish tap vs drag.
- *
+/** Initializes touch interaction on a board card.
  * @param {TouchEvent} e
  */
 function touchStart(e) {
@@ -53,10 +46,7 @@ function touchStart(e) {
   }, 350);
 }
 
-/**
- * Returns the drop container at the touch position
- * or cleans up landing fields if none is found.
- *
+/** Returns the drop container at the touch position or cleans up if none found.
  * @param {Touch} touch
  * @returns {HTMLElement|null}
  */
@@ -66,9 +56,7 @@ function getContainerOrCleanup(touch) {
   return container;
 }
 
-/**
- * Hides the "no tasks" placeholder inside a container if present.
- *
+/** Hides the no-tasks placeholder inside a container.
  * @param {HTMLElement} container
  */
 function hideNoTasksIfExists(container) {
@@ -76,19 +64,13 @@ function hideNoTasksIfExists(container) {
   if (noTasks) noTasks.style.display = "none";
 }
 
-/**
- * Returns the vertical center position of the touch ghost.
- *
- * @returns {number}
- */
+/** Returns the vertical center position of the touch ghost.*/
 function getGhostCenterY() {
   const rect = touchGhost.getBoundingClientRect();
   return rect.top + rect.height / 2;
 }
 
-/**
- * Inserts a landing field at the end of a container.
- *
+/** Inserts a landing field at the end of a container.
  * @param {HTMLElement} container
  * @param {number} ghostHeight
  */
@@ -99,10 +81,7 @@ function handleInsertAtEnd(container, ghostHeight) {
   );
 }
 
-/**
- * Calculates and displays the correct landing field
- * based on the current ghost position.
- *
+/** Calculates and displays the correct landing field for touch dragging.
  * @param {Touch} touch
  */
 function handleTouchLandingField(touch) {
@@ -118,9 +97,7 @@ function handleTouchLandingField(touch) {
   }
 }
 
-/**
- * Scrolls the board container when dragging near top or bottom edges.
- *
+/** Scrolls the board container when dragging near edges.
  * @param {Touch} touch
  */
 function scrollOnEdge(touch) {
@@ -137,10 +114,7 @@ function scrollOnEdge(touch) {
   }
 }
 
-/**
- * Handles touch move events during dragging.
- * Moves ghost element, updates landing fields and triggers auto-scroll.
- *
+/** Handles touch move events during dragging.
  * @param {TouchEvent} e
  */
 function touchMove(e) {
@@ -158,17 +132,28 @@ function touchMove(e) {
   );
 }
 
+/** Checks whether the touch moved beyond threshold.
+ * @param {Touch} touch
+ * @returns {boolean}
+ */
 function hasTouchMoved(touch) {
   return Math.abs(touch.clientX - touchStartX) > 10 ||
     Math.abs(touch.clientY - touchStartY) > 10;
 }
 
+/** Cancels pending drag start timeout.
+ * @param {boolean} moved
+ */
 function handleDragCancel(moved) {
   if (!moved || !dragTimeout) return;
   clearTimeout(dragTimeout);
   dragTimeout = null;
 }
 
+/** Updates ghost position while dragging.
+ * @param {TouchEvent} e
+ * @param {Touch} touch
+ */
 function handleTouchDragging(e, touch) {
   if (!touchHasMoved) return;
   if (e.cancelable) e.preventDefault();
@@ -176,6 +161,9 @@ function handleTouchDragging(e, touch) {
   touchGhost.style.top = (touch.clientY - touchOffsetY) + "px";
 }
 
+/** Handles tap interaction on a board card.
+ * @param {HTMLElement} card
+ */
 function handleTouchClick(card) {
   const taskId = Number(card.id.replace("card-", ""));
   cleanupTouchDrag();
@@ -186,11 +174,7 @@ function handleTouchClick(card) {
   }, 10);
 }
 
-/**
- * Handles touch end behavior for board cards.
- * - Tap → open task details
- * - Drag → move card between columns
- *
+/** Handles touch end behavior for board cards.
  * @param {TouchEvent} e
  */
 function touchEnd(e) {
@@ -200,17 +184,16 @@ function touchEnd(e) {
   if (!touchHasMoved) {
     e.preventDefault();
     e.stopPropagation();
-    return handleTouchClick(touchDraggingCard);}
+    return handleTouchClick(touchDraggingCard);
+  }
   handleTouchDrop(e);
   if (autoScrollInterval) {
-  clearInterval(autoScrollInterval);
-  autoScrollInterval = null;
-}
+    clearInterval(autoScrollInterval);
+    autoScrollInterval = null;
+  }
 }
 
-/**
- * Handles dropping a dragged card via touch interaction.
- *
+/** Handles dropping a dragged card via touch interaction.
  * @param {TouchEvent} e
  */
 function handleTouchDrop(e) {
@@ -223,9 +206,7 @@ function handleTouchDrop(e) {
   cleanupTouchDrag();
 }
 
-/**
- * Determines the target task container based on touch position.
- *
+/** Determines the target task container based on touch position.
  * @param {Touch} touch
  * @returns {HTMLElement|null}
  */
@@ -240,9 +221,7 @@ function getDropContainer(touch) {
     ?.querySelector(".task-container");
 }
 
-/**
- * Resets all touch-drag related states and cleans up ghost elements.
- */
+/** Resets all touch drag state and removes ghost elements. */
 function cleanupTouchDrag() {
   if (touchGhost) {
     touchGhost.remove();
@@ -255,13 +234,12 @@ function cleanupTouchDrag() {
   touchHasMoved = false;
   updateAllContainers();
   if (autoScrollInterval) {
-  clearInterval(autoScrollInterval);
-  autoScrollInterval = null;}
+    clearInterval(autoScrollInterval);
+    autoScrollInterval = null;
+  }
 }
 
-/**
- * Updates task status based on the container it was dropped into.
- *
+/** Updates task status based on drop container.
  * @param {HTMLElement} card
  * @param {HTMLElement} container
  */
@@ -278,6 +256,10 @@ function updateTaskStatusByContainer(card, container) {
   firebase.database().ref("tasks/" + taskId).update({ status: newStatus });
 }
 
+/** Initializes mouse drag operation.
+ * @param {DragEvent} ev
+ * @param {number} id
+ */
 function startDragging(ev, id) {
   const card = document.getElementById(`card-${id}`);
   originalContainer = card.parentElement;
@@ -287,10 +269,15 @@ function startDragging(ev, id) {
   document.querySelectorAll(".landing-field").forEach(lf => lf.remove());
 }
 
+/** Removes all landing field placeholders. */
 function removeLandingFields() {
   document.querySelectorAll(".landing-field").forEach(lf => lf.remove());
 }
 
+/** Inserts a landing field after a specific card.
+ * @param {HTMLElement} child
+ * @param {number} height
+ */
 function insertLandingFieldAfter(child, height) {
   let lf = child.nextElementSibling;
   if (!lf || !lf.classList.contains("landing-field")) {
@@ -302,6 +289,10 @@ function insertLandingFieldAfter(child, height) {
   lf.style.display = "block";
 }
 
+/** Inserts a landing field at the end of a container.
+ * @param {HTMLElement} container
+ * @param {number} height
+ */
 function insertLandingFieldAtEnd(container, height) {
   let lf = container.querySelector(".landing-field:last-child");
   if (!lf) {
@@ -313,6 +304,12 @@ function insertLandingFieldAtEnd(container, height) {
   lf.style.display = "block";
 }
 
+/** Finds correct insert position for a dragged card.
+ * @param {Array<HTMLElement>} cards
+ * @param {number} y
+ * @param {number} height
+ * @returns {boolean}
+ */
 function findPosition(cards, y, height) {
   for (let card of cards) {
     const rect = card.getBoundingClientRect();
@@ -324,6 +321,9 @@ function findPosition(cards, y, height) {
   return false;
 }
 
+/** Handles drag-over events for mouse dragging.
+ * @param {DragEvent} ev
+ */
 function dragoverHandler(ev) {
   ev.preventDefault();
   removeLandingFields();
@@ -336,23 +336,27 @@ function dragoverHandler(ev) {
     insertLandingFieldAtEnd(ev.currentTarget, draggingCard.offsetHeight);
 }
 
+/** Finalizes mouse drag operation. */
 function onDragEnd() {
   setTimeout(() => {
     isDragging = false;
-    document.querySelectorAll(".board-card.dragging").forEach(c => c.classList.remove("dragging"));
-    document.querySelectorAll(".landing-field").forEach(lf => lf.style.display = "none");
+    document.querySelectorAll(".board-card.dragging")
+      .forEach(c => c.classList.remove("dragging"));
+    document.querySelectorAll(".landing-field")
+      .forEach(lf => lf.style.display = "none");
     updateAllContainers();
   }, 50);
 }
 
+/** Handles drag-enter events on containers.
+ * @param {DragEvent} ev
+ */
 function dragenterHandler(ev) {
   ev.preventDefault();
   ev.currentTarget.classList.add("drag-over");
 }
 
-/**
- * Inserts a card into a container at the current landing field position.
- *
+/** Inserts a card into a container at the landing field position.
  * @param {HTMLElement} card
  * @param {HTMLElement} container
  */
@@ -366,9 +370,7 @@ function moveCardInContainer(card, container) {
   }
 }
 
-/**
- * Updates task status and persists it to Firebase.
- *
+/** Updates task status and persists it to Firebase.
  * @param {HTMLElement} card
  * @param {string} newStatus
  */
@@ -380,6 +382,10 @@ function updateTaskStatus(card, newStatus) {
   firebase.database().ref("tasks/" + taskId).update({ status: newStatus });
 }
 
+/** Moves a dragged card to a new container via mouse interaction.
+ * @param {DragEvent} ev
+ * @param {string} newStatus
+ */
 function moveTo(ev, newStatus) {
   ev.preventDefault();
   const cardId = ev.dataTransfer.getData("text");

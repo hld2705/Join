@@ -33,10 +33,15 @@ function badgeOverlayMobile(overlay, helpIcon, mobileHelp) {
   }
 }
 
+/**
+ * Returns the correct help URL depending on user state.
+ *
+ * @returns {string}
+ */
 function getHelpUrl() {
   const isGuest =
-  sessionStorage.getItem("guest") === "true" ||
-  window.location.search.includes("nonlogin=true");
+    sessionStorage.getItem("guest") === "true" ||
+    window.location.search.includes("nonlogin=true");
   if (isGuest) return "./help.html?nonlogin=true";
   const uid = getUserId();
   return uid ? `./help.html?uid=${uid}` : "./index.html";
@@ -70,12 +75,22 @@ document.addEventListener('click', function (event) {
 document.addEventListener("focus", handleFocus, true);
 document.addEventListener("blur", handleBlur, true);
 
+/**
+ * Adds focus styling to input elements.
+ *
+ * @param {FocusEvent} event
+ */
 function handleFocus(event) {
   const el = event.target;
   if (!isInput(el)) return;
   el.classList.add("bordercolor-blue");
 }
 
+/**
+ * Removes focus styling from input elements.
+ *
+ * @param {FocusEvent} event
+ */
 function handleBlur(event) {
   const el = event.target;
   if (!isInput(el)) return;
@@ -87,8 +102,9 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
- * Retrieves the param from the window location
- * @returns params(uid)
+ * Retrieves the user id from URL params or local storage.
+ *
+ * @returns {string|null}
  */
 function getUserId() {
   const params = new URLSearchParams(window.location.search);
@@ -114,12 +130,18 @@ async function getCurrentUser() {
   return snapshot.val();
 }
 
+/**
+ * Handles window resize events.
+ */
 function handleResize() {
   updateHelpLink();
 }
 
 window.addEventListener("resize", handleResize);
 
+/**
+ * Updates the help link for mobile and desktop views.
+ */
 function updateHelpLink() {
   const helpIcon = document.querySelector(".user-info-help");
   const mobileHelp = document.getElementById("mobile-help-link");
@@ -149,12 +171,22 @@ document.addEventListener('click', function (event) {
 document.addEventListener("focus", handleFocus, true);
 document.addEventListener("blur", handleBlur, true);
 
+/**
+ * Adds focus styling to input elements.
+ *
+ * @param {FocusEvent} event
+ */
 function handleFocus(event) {
   const el = event.target;
   if (!isInput(el)) return;
   el.classList.add("bordercolor-blue");
 }
 
+/**
+ * Removes focus styling from input elements.
+ *
+ * @param {FocusEvent} event
+ */
 function handleBlur(event) {
   const el = event.target;
   if (!isInput(el)) return;
@@ -162,10 +194,11 @@ function handleBlur(event) {
 }
 
 /**
- * Gets the UID from the window location 
- * @returns snapshot = users, value
+ * Fetches the currently logged-in user from Firebase.
+ *
+ * @async
+ * @returns {Promise<Object|null>}
  */
-
 async function getCurrentUser() {
   const uid = getUserId();
   if (!uid) return null;
@@ -210,6 +243,9 @@ function navigate(path) {
   window.location.href = `${path}?uid=${uid}`;
 }
 
+/**
+ * Renders the guest header UI.
+ */
 function renderGuestHeader() {
   const userInfo = document.getElementById("user-info-id");
   if (!userInfo) return;
@@ -218,7 +254,7 @@ function renderGuestHeader() {
 }
 
 /**
- * removes the flagged user guest = true
+ * Removes the guest flag from session storage.
  */
 function LogOut() {
   sessionStorage.removeItem("guest", "true");
@@ -226,14 +262,25 @@ function LogOut() {
 
 window.addEventListener("DOMContentLoaded", initHeader);
 
+/**
+ * Marks the session as non-login.
+ */
 function nonLoginEntry(){
- sessionStorage.setItem ("nonlogin","true");
+  sessionStorage.setItem("nonlogin","true");
 }
 
+/**
+ * Checks whether the session is marked as non-login.
+ *
+ * @returns {boolean}
+ */
 function nonLoginEntryCheck(){
-  return (sessionStorage.getItem("nonlogin") === "true")
+  return (sessionStorage.getItem("nonlogin") === "true");
 }
 
+/**
+ * Initializes the header depending on user or guest state.
+ */
 function initHeader() {
   if(nonLoginEntryCheck()) return;
   const uid = getUserId();

@@ -89,6 +89,9 @@ function signUp() {
   if (headerResp) headerResp.style.display = "none";
 }
 
+/**
+ * Toggles the visibility of the login password input.
+ */
 function showPassword() {
   let input = document.getElementById("password");
   let icon = document.getElementById("login-icon");
@@ -103,6 +106,13 @@ function showPassword() {
   }
 }
 
+/**
+ * Toggles password visibility for multiple inputs and icons.
+ *
+ * @param {HTMLInputElement[]} inputs
+ * @param {HTMLImageElement[]} icons
+ * @param {boolean} show
+ */
 function togglePasswordVisibility(inputs, icons, show) {
   inputs.forEach(input => input.type = show ? "text" : "password");
   icons.forEach(icon => {
@@ -113,6 +123,9 @@ function togglePasswordVisibility(inputs, icons, show) {
   });
 }
 
+/**
+ * Toggles the visibility of signup password and confirmation inputs.
+ */
 function showPasswordSignup() {
   const inputs = [
     document.getElementById("password_sign_up"),
@@ -128,7 +141,9 @@ function showPasswordSignup() {
   togglePasswordVisibility(inputs, icons, show);
 }
 
-
+/**
+ * Marks the session as a non-login entry.
+ */
 function nonLoginEntry(){
-  sessionStorage.setItem ("nonlogin","true");
+  sessionStorage.setItem("nonlogin","true");
 }

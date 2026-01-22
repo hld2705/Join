@@ -92,6 +92,7 @@ function getCategory() {
     return category = categoryPlaceholder !== "Select task category" ? categoryPlaceholder : "";
 }
 
+/** Checks whether required task form fields are filled. */
 function isTaskFormValid() {
     const title = document.getElementById("title-input");
     const date = document.getElementById("date-input");

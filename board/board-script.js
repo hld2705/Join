@@ -13,57 +13,7 @@ let openedCardId = null;
 let selectedPriority = null;
 let dragTimeout = null;
 
-function normalizeSubtasks(subtasks) {
-  return Array.isArray(subtasks)
-    ? subtasks
-    : Object.values(subtasks || []);
-}
-
-function getProgressData(subtasks) {
-  const total = subtasks.length;
-  const done = subtasks.filter(s => s.done).length;
-  return {
-    total,
-    done,
-    percent: total === 0 ? 0 : Math.round((done / total) * 100),
-    hideProgressClass: total === 0 ? "hidden" : ""
-  };
-}
-
-/**
- * Computes all visual data needed to render a task card.
- *
- * @param {Array|Object} subtasks
- * @param {Array<string|Object>} assigned
- * @param {string} main
- * @param {string} priority
- * @returns {Object}
- * Prepared data for board card rendering (progress, badges, colors).
- */
-function getDragAndDropData(subtasks, assigned, main, priority) {
-  const safeSubtasks = normalizeSubtasks(subtasks);
-  const progress = getProgressData(safeSubtasks);
-  return {
-    bgColor: getBgColor(main),
-    imgSrc: getPriorityImg(priority),
-    badges: renderBadges(assigned),
-    main: mainTranslate(main),
-    ...progress
-  };
-  
-}
-
-function mainTranslate(main){
-  if(main === "userstory"){
-   return "User Story"
-  } else if(main === "User Story"){return "User Story"}
-  if(main === "techtask"){
-   return "Technical Task"
-  } else if(main === "Technical Task"){return "Technical Task"}
-}
-
-/**
- * Returns all board column containers.
+/** Returns all board column containers.
  * @returns {Object}
  */
 function getBoardContainers() {
@@ -75,8 +25,7 @@ function getBoardContainers() {
   };
 }
 
-/**
- * Clears all task containers.
+/** Clears all task containers.
  * @param {Object} containers
  */
 function clearContainers(containers) {
@@ -85,8 +34,7 @@ function clearContainers(containers) {
   }
 }
 
-/**
- * Renders a single task into its status container.
+/** Renders a single task into its status container.
  * @param {Object} task
  * @param {Object} containers
  */
@@ -105,9 +53,7 @@ function renderTasketoContainer(task, containers) {
   );
 }
 
-/**
- * Renders all tasks into their respective containers.
- *
+/** Renders all tasks into their respective containers.
  * @param {Object} containers
  */
 function fillContainers(containers) {
@@ -116,6 +62,9 @@ function fillContainers(containers) {
   }
 }
 
+/** Inserts empty state templates into empty containers.
+ * @param {Object} containers
+ */
 function fillEmptyContainers(containers) {
   for (let key in containers) {
     const container = containers[key];
@@ -125,13 +74,7 @@ function fillEmptyContainers(containers) {
   }
 }
 
-/**
- * Fully re-renders the board:
- * - clears containers
- * - renders tasks
- * - fills empty columns
- * - updates placeholders
- */
+/** Fully re-renders the board: clears containers, renders tasks, fills empty columns, updates placeholders */
 async function dragAndDrop() {
   const containers = getBoardContainers();
   clearContainers(containers);
@@ -140,9 +83,7 @@ async function dragAndDrop() {
   updateAllContainers();
 }
 
-/**
- * Resolves a user ID from object or primitive.
- *
+/** Resolves a user ID from object or primitive.
  * @param {string|Object} value
  * @returns {string}
  */
@@ -151,7 +92,6 @@ function getUserId(value) {
 }
 
 /**
- * 
  * @param {Array<string|object} assigned
  * Array of user IDs or user objects assigned to a task.
  * @returns {Array<Object>}
@@ -161,35 +101,56 @@ function getUserId(value) {
  */
 function renderBadges(assigned) {
   if (!assigned || assigned.length === 0) {
-  return [];}
+    return [];
+  }
   let badges = [];
   for (let i = 0; i < assigned.length; i++) {
     let userId = typeof assigned[i] === "object" ? assigned[i].id : assigned[i];
     let user = join.users.find(u => String(u.id) === String(userId));
-    if (!user) {user = users.find(u => String(u.id) === String(userId));}
-    if (typeof user.badge === "string") {badges.push({badge: user.badge,name: user.name,color: user.color,type: "image"});
+    if (!user) {
+      user = users.find(u => String(u.id) === String(userId));
+    }
+    if (typeof user.badge === "string") {
+      badges.push({ badge: user.badge, name: user.name, color: user.color, type: "image" });
     } else if (user.badge && typeof user.badge === "object") {
-      badges.push({badge: user.badge.text || getInitials(user.name),badgeColor: user.badge.color || user.color,name: user.name,color: user.color,type: "text"});
-    }}
+      badges.push({
+        badge: user.badge.text || getInitials(user.name),
+        badgeColor: user.badge.color || user.color,
+        name: user.name,
+        color: user.color,
+        type: "text"
+      });
+    }
+  }
   return badges;
 }
 
+/** Updates empty-state template of a container.
+ * @param {HTMLElement} container
+ */
 function updateContainerTemplate(container) {
   if (!container) return;
   container.querySelectorAll(".notasks-container").forEach(el => el.remove());
   const hasCards = container.querySelectorAll(".board-card").length > 0;
-  if (!hasCards) {container.insertAdjacentHTML("beforeend", noCardsTemplate());}
+  if (!hasCards) {
+    container.insertAdjacentHTML("beforeend", noCardsTemplate());
+  }
 }
 
+/** Updates all board containers empty states. */
 function updateAllContainers() {
   const containers = [
     document.getElementById("todo-container"),
     document.getElementById("in-progress-container"),
     document.getElementById("feedback-container"),
-    document.getElementById("done-container")];
+    document.getElementById("done-container")
+  ];
   containers.forEach(container => updateContainerTemplate(container));
 }
 
+/** Opens detailed card overlay for a task.
+ * @param {number|string} taskId
+ */
 function detailedCardInfo(taskId) {
   openedCardId = taskId;
   const task = tasks.find(t => t.id === taskId);
@@ -197,13 +158,11 @@ function detailedCardInfo(taskId) {
   document.body.insertAdjacentHTML("beforeend", detailedCardInfoTemplate(task));
 }
 
-function getSafeSubtasks(subtasks) {
-  if (!subtasks) return [];
-  return Array.isArray(subtasks)
-    ? subtasks
-    : Object.values(subtasks);
-}
-
+/** Renders subtasks preview for a task card.
+ * @param {Array|Object} subtasks
+ * @param {number|string} taskId
+ * @returns {string}
+ */
 function renderSubtask(subtasks, taskId) {
   const safe = getSafeSubtasks(subtasks);
   if (safe.length === 0) return renderNoSubtasks();
@@ -212,19 +171,15 @@ function renderSubtask(subtasks, taskId) {
   let html = visible
     .map((st, i) => renderSubtaskItem(st, taskId, i))
     .join("");
-  if (remaining > 0)
+  if (remaining > 0) {
     html += renderSubtaskMore(remaining, taskId);
+  }
   return html;
 }
 
-function CutSubtaskText(text, max = 20) {
-  if (text.length > max) {
-    return text.slice(0, max) + "…";
-  } else {
-    return text;
-  }
-}
-
+/** Renders all subtasks inside detail overlay.
+ * @param {number|string} taskId
+ */
 function showAllSubtasks(taskId) {
   const task = tasks.find(t => t.id === taskId);
   if (!task) return;
@@ -237,8 +192,7 @@ function showAllSubtasks(taskId) {
     .join('');
 }
 
-/**
- * Toggles completion state of a subtask and updates board state.
+/** Toggles completion state of a subtask and updates board state.
  * @param {number} taskId
  * @param {number} index
  */
@@ -253,13 +207,10 @@ function toggleSubtask(taskId, index) {
   dragAndDrop();
 }
 
-function getSubtaskProgress(subtasks) {
-  const done = subtasks.filter(s => s.done).length;
-  const total = subtasks.length;
-  const percent = total === 0 ? 0 : Math.round((done / total) * 100);
-  return { done, total, percent };
-}
-
+/** Updates subtask progress display on a board card.
+ * @param {number|string} taskId
+ * @param {Array} subtasks
+ */
 function updateBoardSubtaskProgress(taskId, subtasks) {
   const card = document.getElementById(`card-${taskId}`);
   if (!card) return;
@@ -270,8 +221,7 @@ function updateBoardSubtaskProgress(taskId, subtasks) {
   if (bar) bar.value = percent;
 }
 
-/**
- * Deletes a task from Firebase and updates the board.
+/** Deletes a task from Firebase and updates the board.
  * @param {number} taskId
  */
 function deleteCard(taskId) {
@@ -288,12 +238,7 @@ function deleteCard(taskId) {
   dragAndDrop();
 }
 
-function getBgColor(main) {
-  if (main === "User Story" || main === "userstory") return "#0038FF";
-  if (main === "Technical Task" || main === "techtask") return "#1FD7C1";
-  return "#fff";
-}
-
+/** Resets all priority button styles. */
 function resetPriorityStyles() {
   document.getElementById('urgent').classList.remove("bg-red");
   document.getElementById('medium-input').classList.remove("bg-orange");
@@ -303,48 +248,27 @@ function resetPriorityStyles() {
   document.getElementById('double-down').src = "./assets/low-priority-board.svg";
 }
 
+/** Sets active priority styling.
+ * @param {string} priority
+ */
 function changePriorityColor(priority) {
   resetPriorityStyles();
   selectedPriority = priority;
-  if (priority === "urgent"){
-  document.getElementById('urgent').classList.add("bg-red");
-  document.getElementById('double-arrow').src = "../assets/arrows-up-white.png";}  
-  if (priority === "medium"){
-  document.getElementById('medium-input').classList.add("bg-orange");
-  document.getElementById("equal").src = "../assets/equal-white.svg";} 
+  if (priority === "urgent") {
+    document.getElementById('urgent').classList.add("bg-red");
+    document.getElementById('double-arrow').src = "../assets/arrows-up-white.png";
+  }
+  if (priority === "medium") {
+    document.getElementById('medium-input').classList.add("bg-orange");
+    document.getElementById("equal").src = "../assets/equal-white.svg";
+  }
   if (priority === "low") {
-  document.getElementById('low-input').classList.add("bg-green");
-  document.getElementById("double-down").src = "../assets/double-down-white.svg";} 
+    document.getElementById('low-input').classList.add("bg-green");
+    document.getElementById("double-down").src = "../assets/double-down-white.svg";
+  }
 }
 
-function getEditPriorityIcons(priority) {
-  return {
-    urgent: priority === "urgent"
-      ? "../assets/arrows-up-white.png"
-      : "./assets/urgent-priority-board.svg",
-    medium: priority === "medium"
-      ? "../assets/equal-white.svg"
-      : "./assets/medium-priority-board.svg",
-    low: priority === "low"
-      ? "../assets/double-down-white.svg"
-      : "./assets/low-priority-board.svg",
-  };
-}
-
-function getPriorityImg(priority) {
-  if (priority === "urgent") return "./assets/urgent-priority-board.svg";
-  if (priority === "medium") return "./assets/medium-priority-board.svg";
-  if (priority === "low") return "./assets/low-priority-board.svg";
-  return "";
-}
-
-function getSubtasksImg(isDone) {
-  if (isDone === true) return "./assets/subtask_checked.svg";
-  return "./assets/subtask_empty.svg";
-}
-
-/**
- * Updates an existing task with edited values.
+/** Updates an existing task with edited values.
  * @async
  * @returns {Promise<void>}
  */
@@ -363,17 +287,22 @@ function editTask() {
     .catch(err => console.error("Task update failed:", err));
 }
 
+/** Marks clicked board card as active. */
 document.addEventListener("click", function (e) {
   let card = e.target.closest(".board-card");
   if (card) card.classList.add("card-active");
 });
 
+/** Dynamically loads add-task interaction script. */
 function loadAddTaskInteractions() {
   let script = document.createElement("script");
   script.src = "./add_task/add_task_interactions.js";
   document.body.appendChild(script);
 }
 
+/** Preselects a single assigned user in edit view.
+ * @param {string} userId
+ */
 function preselectSingleUser(userId) {
   const el = document.querySelector(
     `.Assigned-dropdown-username[data-user-id="${userId}"]`
@@ -388,10 +317,11 @@ function preselectSingleUser(userId) {
   }
 }
 
-function getAssignedId(val) {
-  return typeof val === "object" ? String(val.id) : String(val);
-}
-
+/** Preselects all assigned users in edit view.
+ * @async
+ * @param {Array<string|Object>} assigned
+ * @returns {Promise<void>}
+ */
 async function preselectAssignedUsers(assigned) {
   if (!assigned || assigned.length === 0) return;
   await showUserName();

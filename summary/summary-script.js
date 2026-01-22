@@ -1,4 +1,3 @@
-
 const firebaseConfig = {
   apiKey: "AIzaSyDaAKocqkIROo_InISQbRjsoG8z1JCK3g0",
   authDomain: "join-gruppenarbeit-75ecf.firebaseapp.com",
@@ -15,48 +14,29 @@ firebase.initializeApp(firebaseConfig);
 const FIREBASE_USERS = firebase.database().ref("users");
 const FIREBASE_TASK = firebase.database().ref("tasks");
 
-/**
- * Loads all tasks and renders the amount of completed tasks
- * into the summary Done card.
- *
- * @async
- * @returns {Promise<void>}
- */
+/** Loads done tasks and renders the count into the summary card. */
 async function getDoneTasks() {
   await loadData();
-
   const doneTasks = tasks.filter(task => task.status === "done");
   const doneCard = document.getElementById("summary-done");
   if (!doneCard) return;
-
   doneCard.innerHTML = doneTasksTemplate(doneTasks.length);
 }
 
-/**
- * Loads all tasks and renders the amount of urgent tasks
- * into the summary urgent section.
- *
- * @async
- * @returns {Promise<void>}
- */
+/** Loads urgent tasks and renders the urgent summary section. */
 async function getUrgent() {
-    await loadData();
-    const urgentCount = tasks.filter(t => t.priority === "urgent").length;
-    renderUrgent(urgentCount);
+  await loadData();
+  const urgentCount = tasks.filter(t => t.priority === "urgent").length;
+  renderUrgent(urgentCount);
 }
 
+/** Renders the urgent task count. */
 function renderUrgent(count) {
-    const container = document.getElementById("deadline-container");
-    container.innerHTML = urgentTemplate(count);
+  const container = document.getElementById("deadline-container");
+  container.innerHTML = urgentTemplate(count);
 }
 
-/**
- * Determines the next upcoming task deadline and renders it
- * in the summary view.
- *
- * @async
- * @returns {Promise<void>}
- */
+/** Finds and renders the next upcoming task deadline. */
 async function getEndDate() {
   await loadData();
   const next = getNextUpcomingDeadline(tasks);
@@ -64,12 +44,7 @@ async function getEndDate() {
   renderNextDeadline(next.enddate);
 }
 
-/**
- * Finds the task with the nearest future end date.
- *
- * @param {Array<Object>} tasks
- * @returns {Object|null} Task with the closest upcoming deadline
- */
+/** Returns the task with the closest future deadline. */
 function getNextUpcomingDeadline(tasks) {
   if (!Array.isArray(tasks)) return null;
   const now = Date.now();
@@ -85,76 +60,65 @@ function getNextUpcomingDeadline(tasks) {
   return nextTask;
 }
 
+/** Toggles navigation visibility for guest users. */
 function guestLogIn() {
   const fullNav = document.getElementById("togglednone");
   const loginNav = document.getElementById("loginnav");
   const isNonLogin = window.location.search.includes("nonlogin=true");
-
   if (fullNav) fullNav.style.display = isNonLogin ? "none" : "flex";
-
   if (loginNav) {
     loginNav.style.display = isNonLogin ? "flex" : "none";
     loginNav.style.cursor = "default";
   }
 }
 
+/** Renders the next deadline date. */
 function renderNextDeadline(dateString) {
-    const el = document.getElementById("enddate");
-    if (!el) return;
-
-    const formatted = new Date(dateString).toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-    });
-
-    el.innerHTML = nextDeadlineTemplate(formatted);
+  const el = document.getElementById("enddate");
+  if (!el) return;
+  const formatted = new Date(dateString).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+  el.innerHTML = nextDeadlineTemplate(formatted);
 }
 
-/**
- *loader for task-based summary cards.
- */
+/** Loads and renders a summary task card. */
 async function loadTaskSummary(containerId, filterFn, labelHtml) {
-    await loadData();
-    const count = filterFn ? tasks.filter(filterFn).length : tasks.length;
-    renderSummaryCard(containerId, count, labelHtml);
+  await loadData();
+  const count = filterFn ? tasks.filter(filterFn).length : tasks.length;
+  renderSummaryCard(containerId, count, labelHtml);
 }
 
+/** Loads total task count. */
 function getTasksInBoard() {
-    loadTaskSummary(
-        'current-board-tasks',
-        null,
-        'Tasks in <br>Board'
-    );
+  loadTaskSummary('current-board-tasks', null, 'Tasks in <br>Board');
 }
 
+/** Loads in-progress task count. */
 function getTasksInProgress() {
-    loadTaskSummary(
-        'progress-board-tasks',
-        t => t.status === 'inprogress',
-        'Tasks in <br>Progress'
-    );
+  loadTaskSummary('progress-board-tasks', t => t.status === 'inprogress', 'Tasks in <br>Progress');
 }
 
+/** Loads feedback task count. */
 function getFeedbackTasks() {
-    loadTaskSummary(
-        'feedback-board-tasks',
-        t => t.status === 'review',
-        'Awaiting<br>Feedback'
-    );
+  loadTaskSummary('feedback-board-tasks', t => t.status === 'review', 'Awaiting<br>Feedback');
 }
 
+/** Redirects user to board while keeping login state. */
 function redirectToBoard() {
   const params = new URLSearchParams(window.location.search);
   const uid = params.get("uid");
   if (!uid) {
     window.location.href = "/board.html?nonlogin=true";
     return;
-  }else{
+  } else {
     window.location.href = "/board.html?uid=" + uid;
   }
 }
 
+/** Returns greeting text based on current time. */
 function getGreetingByTime() {
   const hours = new Date().getHours();
   if (hours >= 5 && hours < 12) return "Good morning";
@@ -163,13 +127,7 @@ function getGreetingByTime() {
   return "Good night";
 }
 
-/**
- * Updates the greeting text depending on time of day
- * and logged-in or guest user state.
- *
- * @async
- * @returns {Promise<void>}
- */
+/** Updates greeting text depending on user state and time. */
 async function updateGreeting() {
   const greeting = document.querySelector(".greeting span:first-child");
   const userSpan = document.querySelector(".logged-user");
@@ -185,24 +143,20 @@ async function updateGreeting() {
   setGreeting(greeting, userSpan, text, user.name);
 }
 
+/** Sets greeting and username text. */
 function setGreeting(greeting, userSpan, text, name) {
   greeting.textContent = `${text},`;
   userSpan.textContent = name;
   userSpan.style.display = "inline";
 }
 
+/** Hides username and shows fallback greeting. */
 function hideGreeting(greeting, userSpan, text) {
   greeting.textContent = text;
   userSpan.style.display = "none";
 }
 
-/**
- * Fetches the currently logged-in user from Firebase
- * based on the URL parameter.
- *
- * @async
- * @returns {Promise<Object|null>}
- */
+/** Fetches the logged-in user from Firebase. */
 async function getLoggedInUser() {
   const params = new URLSearchParams(window.location.search);
   const uid = params.get("uid");
@@ -233,6 +187,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   showWelcome(content, user, userSpan);
 });
 
+/** Displays the welcome overlay for guest or user login. */
 function showWelcome(content, user) {
   const showGuest = sessionStorage.getItem("guestWelcome");
   const showUser = sessionStorage.getItem("userWelcome");
