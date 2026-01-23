@@ -278,7 +278,6 @@ function switchCategoryPlaceholder(e) {
     dropdownListCategory.classList.remove('open');
     document.getElementById('category-input').classList.remove("borderColorBlue");
     switchArrowIcon();
-    removeRequiredCategory();
   }
 }
 
