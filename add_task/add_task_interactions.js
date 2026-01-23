@@ -21,19 +21,17 @@ function changePriorityColor(priority) {
   resetPriorityStyles();
   selectedPriority = priority;
   if (priority === "urgent") {
-    setPriority('urgent', 'bg-red', 'double-arrow', '../assets/arrows-up-white.png');
+    document.getElementById('urgent').classList.add("bg-red");
+    document.getElementById('double-arrow').src = "../assets/arrows-up-white.png";
   }
   if (priority === "medium") {
-    setPriority('medium-input', 'bg-orange', 'equal', '../assets/equal-white.svg');
+    document.getElementById('medium-input').classList.add("bg-orange");
+    document.getElementById("equal").src = "../assets/equal-white.svg";
   }
   if (priority === "low") {
-    setPriority('low-input', 'bg-green', 'double-down', '../assets/double-down-white.svg');
+    document.getElementById('low-input').classList.add("bg-green");
+    document.getElementById("double-down").src = "../assets/double-down-white.svg";
   }
-}
-
-function setPriority(buttonId, className, iconId, iconSrc) {
-  document.getElementById(buttonId).classList.add(className);
-  document.getElementById(iconId).src = iconSrc;
 }
 
 /**
