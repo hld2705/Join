@@ -348,12 +348,39 @@ function resetLoginUI() {
 
 /** Logs in as guest and redirects to summary page. */
 window.guestLogIn = function () {
-    let isMobile = window.innerWidth < 780;
+    localStorage.removeItem("uid");
     sessionStorage.setItem("guest", "true");
+    let isMobile = window.innerWidth < 780;
     if (isMobile) {
         sessionStorage.setItem("guestWelcome", "true");
     }
-    setTimeout(() => { window.location.href = "./summary.html?nonlogin=true"; }, 100);
+    setTimeout(() => {
+        window.location.href = "./summary.html?nonlogin=true";
+    }, 100);
 };
 
 
+/** Checks if an email address is valid.
+ * @param {string} email
+ * @returns {boolean}
+ */
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+/** Validates signup input fields.
+ * @param {string} name
+ * @param {string} email
+ * @param {string} password
+ * @param {string} passwordConfirm
+ * @returns {boolean}
+ */
+function signUpValidation(name, email, password, passwordConfirm) {
+    resetSignUpUI();
+    let hasError = false;
+    hasError |= validateName(name);
+    hasError |= validateEmail(email);
+    hasError |= validatePassword(password);
+    hasError |= validatePasswordMatch(password, passwordConfirm);
+    return !hasError;
+}

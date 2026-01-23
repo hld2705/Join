@@ -19,31 +19,6 @@ function getRandomColor() {
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
-/** Checks if an email address is valid.
- * @param {string} email
- * @returns {boolean}
- */
-function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-/** Validates signup input fields.
- * @param {string} name
- * @param {string} email
- * @param {string} password
- * @param {string} passwordConfirm
- * @returns {boolean}
- */
-function signUpValidation(name, email, password, passwordConfirm) {
-    resetSignUpUI();
-    let hasError = false;
-    hasError |= validateName(name);
-    hasError |= validateEmail(email);
-    hasError |= validatePassword(password);
-    hasError |= validatePasswordMatch(password, passwordConfirm);
-    return !hasError;
-}
-
 /** Validates the signup name input.
  * @param {string} name
  * @returns {boolean}
