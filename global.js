@@ -97,10 +97,6 @@ function handleBlur(event) {
   el.classList.remove("bordercolor-blue");
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  dynamicUserHeaderBadge();
-});
-
 /**
  * Retrieves the user id from URL params or local storage.
  *
@@ -219,6 +215,7 @@ async function dynamicUserHeaderBadge() {
   const user = await getCurrentUser();
   if (!user || !user.badge) return;
   const userInfo = document.getElementById("user-info-id");
+  if (!userInfo) return;
   if (userInfo.querySelector(".user-info")) return;
   userInfo.insertAdjacentHTML("beforeend", getUserHeaderBadgeTemplate(user));
   updateHelpLink();

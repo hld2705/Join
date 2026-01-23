@@ -348,12 +348,15 @@ function resetLoginUI() {
 
 /** Logs in as guest and redirects to summary page. */
 window.guestLogIn = function () {
-    let isMobile = window.innerWidth < 780;
+    localStorage.removeItem("uid");
     sessionStorage.setItem("guest", "true");
+
+    let isMobile = window.innerWidth < 780;
     if (isMobile) {
         sessionStorage.setItem("guestWelcome", "true");
     }
-    setTimeout(() => { window.location.href = "./summary.html?nonlogin=true"; }, 100);
+
+    setTimeout(() => {
+        window.location.href = "./summary.html?nonlogin=true";
+    }, 100);
 };
-
-

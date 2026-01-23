@@ -141,6 +141,7 @@ function editTask() {
     const update = {};
     for (const key in data) {
         const v = data[key];
+        if (key === "assigned") { update[key] = v; continue; }
         if (key === "main" || v == null || v === "") continue;
         if (key === "assigned" && Array.isArray(v) && !v.length) continue;
         update[key] = v;

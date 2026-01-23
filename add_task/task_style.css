@@ -428,10 +428,13 @@ ul {
 .subtask-text {
     user-select: text;
     cursor: text;
-    display: inline-block;
     line-height: 20px;
     min-height: 20px;
    min-width: 180px; 
+}
+
+.edit-text .subtask-text {
+    display: inline-block;
 }
 
 .subtask-icons,
