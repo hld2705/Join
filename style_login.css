@@ -15,10 +15,12 @@ body {
 #errorWindow {
     display: block;
 }
+
 .eye_open_password{
-    height: 30px;
-    width: 30px;
+    width: 24px;
+    height: 24px;
 }
+
 #required-message {
     position: absolute;
     left: 32%;

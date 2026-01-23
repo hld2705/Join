@@ -14,9 +14,9 @@
     <script src="db.js" type="module"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="script-helper.js" defer></script>
     <script src="script_login.js" defer></script>
-    <script src="script_login.data.js" type="module" defer></script>
-    <script src="script-helper.js" type="module" defer></script>
+    <script src="script_login.data.js" defer></script>
     <link href="./pages/loginsignup.css" rel="stylesheet">
     <link href="style_login.css" rel="stylesheet">
     <script src="script_login_template.js" defer></script>
@@ -44,7 +44,7 @@
                         </p>
 
                         <div class="userinputcustom" id="input_border_login_password"><input class="inputfield"
-                                 id="password" type="password" placeholder="Password" required onclick="showPassword(event)"> 
+                                 id="password" type="password" placeholder="Password" required> 
                                 <img class="login-input-icon" src="assets/icons/lock.svg" id="login-icon">
                             </div>
                         <p class="required-mssg" id="required-login-password">
@@ -104,7 +104,7 @@
 
                         <div class="userinputcustom signup-inputs" id="input_border_sign_up_password">
                             <input class="signupinputfield" id="password_sign_up" type="password"
-                                placeholder="Password" onclick="showPasswordSignup()">
+                                placeholder="Password">
                             <img class="login-input-icon" src="./assets/icons/lock.svg" id="signup-icon1">
                         </div>
                         <p class="required-mssg" id="required-sign_up-password">
@@ -113,7 +113,7 @@
 
                         <div class="userinputcustom signup-inputs" id="input_border_sign_up_password2">
                             <input class="signupinputfield" id="confirmation_password_sign_up" type="password"
-                                placeholder="Confirm Password" onclick="showPasswordSignup()">
+                                placeholder="Confirm Password">
                             <img class="login-input-icon" src="./assets/icons/lock.svg" id="signup-icon2">
                         </div>
                         <p class="required-mssg" id="required-sign_up-password2">

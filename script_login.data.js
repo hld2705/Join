@@ -355,3 +355,5 @@ window.guestLogIn = function () {
     }
     setTimeout(() => { window.location.href = "./summary.html?nonlogin=true"; }, 100);
 };
+
+
