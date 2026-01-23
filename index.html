@@ -49,12 +49,13 @@
                             </div>
                         <p class="required-mssg" id="required-login-password">
                             *Password is required
-                        </p>                          
+                        </p>
                     </div>
 
                     <div class="buttons">
                         <button onclick="loginUserPushedInfo()" class="buttonlogin" id="loginButton">Log in</button>
-                        <button class="buttonguestlogin" href="summary.html" onclick="guestLogIn()" id="guestloginid">Guest Log
+                        <button class="buttonguestlogin" href="summary.html" onclick="guestLogIn()"
+                            id="guestloginid">Guest Log
                             in</button>
                     </div>
                 </div>
@@ -104,7 +105,7 @@
 
                         <div class="userinputcustom signup-inputs" id="input_border_sign_up_password">
                             <input class="signupinputfield" id="password_sign_up" type="password"
-                                placeholder="Password">
+                                placeholder="Password" onclick="showPasswordSignup()">
                             <img class="login-input-icon" src="./assets/icons/lock.svg" id="signup-icon1">
                         </div>
                         <p class="required-mssg" id="required-sign_up-password">
@@ -127,7 +128,8 @@
                     <div class="checkboxandbuttonplacement">
                         <input class="checkboxinput" type="checkbox" id="requiredcheckbox" onclick="toggleButton()"
                             required><span class="accept-text">I accept the <a
-                                style="text-decoration:none; color:rgba(41, 171, 226, 1);" href="./privacy_policy.html?nonlogin=true"></span> Privacy
+                                style="text-decoration:none; color:rgba(41, 171, 226, 1);"
+                                href="./privacy_policy.html?nonlogin=true"></span> Privacy
                         policy</a>
                     </div>
 
