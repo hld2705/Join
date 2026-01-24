@@ -374,6 +374,7 @@ function reRenderContacts() {
   if (edit) edit.style.display = "none";
 }
 
+/**Event listener on resize, constantly checking the inner width of the window */
 window.addEventListener("resize", () => {
   const isMobile = window.innerWidth <= 900;
   if (isMobile !== lastIsMobile) {

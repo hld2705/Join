@@ -61,15 +61,14 @@ function updateHelpLink() {
   mobileUpdateHelpLink(mobileHelp, helpIcon, overlay);
 }
 
+/**Eventlistener needed for closing certain overlays */
 document.addEventListener('click', function (event) {
   const overlay = document.getElementById('badge-overlay');
   if (!overlay) return;
   if (
     !event.target.closest('#badge-overlay') &&
     !event.target.closest('.user-info')
-  ) {
-    overlay.classList.remove('show');
-  }
+  ) {overlay.classList.remove('show');}
 });
 
 document.addEventListener("focus", handleFocus, true);
@@ -152,17 +151,6 @@ function updateHelpLink() {
   link.textContent = "Help";
   overlay?.prepend(link);
 }
-
-document.addEventListener('click', function (event) {
-  const overlay = document.getElementById('badge-overlay');
-  if (!overlay) return;
-  if (
-    !event.target.closest('#badge-overlay') &&
-    !event.target.closest('.user-info')
-  ) {
-    overlay.classList.remove('show');
-  }
-});
 
 document.addEventListener("focus", handleFocus, true);
 document.addEventListener("blur", handleBlur, true);

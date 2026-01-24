@@ -29,6 +29,10 @@ function getUserHeaderBadgeTemplate(user) {
     `;
 }
 
+/**
+ * 
+ * @returns Guest header badge, also with the popup menu upon clicking on it
+ */
 function getGuestHeaderTemplate() {
     return `
         <div class="user-info">

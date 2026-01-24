@@ -39,6 +39,11 @@ async function getToDo() {
   `;
 }
 
+/**
+ * 
+ * @param {string} count 
+ * @returns tasks set as done
+ */
 function doneTasksTemplate(count) {
   return `
     <div class="summary-todo">
@@ -58,6 +63,12 @@ function doneTasksTemplate(count) {
   `;
 }
 
+/**
+ * 
+ * @param {string} greeting 
+ * @param {string} name 
+ * @returns greets the user upon entrance, if logged in by his name, if logged in as a guest with the "Guest" name
+ */
 function welcomeTemplate(greeting, name) {
   return `
     <div style="height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;">
@@ -67,6 +78,11 @@ function welcomeTemplate(greeting, name) {
   `;
 }
 
+/**
+ * 
+ * @param {string} count 
+ * @returns counts the cards set as urgent then returns it in the needed form for summary.html
+ */
 function urgentTemplate(count) {
     return `
         <img src="./assets/urgent-icon.png">
@@ -90,6 +106,11 @@ function renderSummaryCard(containerId, count, labelHtml) {
     `;
 }
 
+/**
+ * 
+ * @param {Array} formattedDate 
+ * @returns returns an formattedDate array for the upcoming deadline, needed for summary.html
+ */
 function nextDeadlineTemplate(formattedDate) {
     return `
         <h1 class="urgent-date-text">${formattedDate}</h1>
