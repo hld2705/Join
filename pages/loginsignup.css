@@ -25,12 +25,15 @@
     background-color: white;
     border-radius: 30px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
-    padding: 70px 152px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 650px;
+    width: 652px;
+    height: 449px;
+    max-height: 70vh;
+    max-width: 90vw;
+    overflow-y: auto;
     box-sizing: border-box;
 }
 
@@ -110,7 +113,6 @@ h1 {
     background-color: rgba(41, 171, 226, 1);
     color: white;
     border-radius: 8px;
-    border-style: solid;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-color: rgba(41, 171, 226, 1);
     transform: scale(1.02);
@@ -267,13 +269,20 @@ h1 {
     background-color: white;
     border-radius: 30px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
-    width: fit-content;
     position: relative;
     height: 630px;
+    max-height: 70vh;
     width: 598px;
+    max-width: 90vw;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    scrollbar-width: none;
+}
+
+.signup::-webkit-scrollbar {
+    display: none;
 }
 
 .signuptitleandarrow {
@@ -313,8 +322,7 @@ h1 {
     justify-content: center;
     align-items: center;
     width: 100%;
-    min-height: 100vh;
-    height: auto;
+    height: 100vh;
     box-sizing: border-box;
 }
 
@@ -456,6 +464,7 @@ button.disabled {
 
     .userinput {
         width: 100%;
+        margin-top: 30px;
     }
 
     .signup {
@@ -522,11 +531,10 @@ button.disabled {
     }
 
     .headerwritingresponsive {
-        margin-bottom: 60px !important;
+        margin-bottom: 40px !important;
     }
 
     .login {
-        height: 56vh !important;
         margin-top: -30px !important;
         margin-bottom: 0px;
     }
@@ -540,7 +548,7 @@ button.disabled {
 
     .buttons {
         gap: 15px;
-        margin-top: -18px;
+        margin-top: 10px;
     }
 
     .signup-inputs {

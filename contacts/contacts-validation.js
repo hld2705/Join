@@ -1,6 +1,5 @@
 /**
  * Validates all input fields when editing an existing user.
- *
  * @returns {boolean} True if all fields are valid
  */
 function validateEditUser() {
