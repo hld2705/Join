@@ -1,7 +1,7 @@
 let originalLoginHTML;
 
-sessionStorage.removeItem("guest","true");
-sessionStorage.removeItem("nonlogin","true");
+sessionStorage.removeItem("guest", "true");
+sessionStorage.removeItem("nonlogin", "true");
 
 document.addEventListener('DOMContentLoaded', () => {
   const loginEl = document.getElementById('login');
@@ -92,6 +92,7 @@ document.getElementById("password").addEventListener("input", handlePasswordInpu
 function togglePassword() {
   let input = document.getElementById("password");
   let icon = document.getElementById("login-icon");
+
   if (input.type === "password") {
     input.type = "text";
     icon.src = "./assets/icons/visibility.svg";
@@ -103,7 +104,12 @@ function togglePassword() {
 
 function handlePasswordInput() {
   let icon = document.getElementById("login-icon");
+  let input = document.getElementById("password");
   icon.src = "./assets/icons/visibility_off.svg";
+  if (!input.value) {
+    input.type = "password";
+    icon.src = "./assets/icons/lock.svg";
+  }
 }
 
 /**
@@ -148,20 +154,23 @@ function toggleSignupPassword() {
  * changes the "eye" icon
  */
 function handleSignupPasswordInput() {
-  const icons = [
-    document.getElementById("signup-icon1"),
-    document.getElementById("signup-icon2")
-  ];
-  icons.forEach(icon => {
-    icon.src = "./assets/icons/visibility_off.svg";
-  });
+  let p1 = document.getElementById("password_sign_up");
+  let p2 = document.getElementById("confirmation_password_sign_up");
+  let i1 = document.getElementById("signup-icon1");
+  let i2 = document.getElementById("signup-icon2");
+  if (!p1.value && !p2.value) {
+    p1.type = p2.type = "password";
+    i1.src = i2.src = "./assets/icons/lock.svg";
+  } else {
+    i1.src = i2.src = "./assets/icons/visibility_off.svg";
+  }
 }
 
 /**
  * Marks the session as a non-login entry.
  */
-function nonLoginEntry(){
-  sessionStorage.setItem("nonlogin","true");
+function nonLoginEntry() {
+  sessionStorage.setItem("nonlogin", "true");
 }
 
 /** Checks if an email address is valid.
@@ -171,5 +180,5 @@ function nonLoginEntry(){
  * -to work properly.
  */
 function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }

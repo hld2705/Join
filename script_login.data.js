@@ -350,24 +350,14 @@ function resetLoginUI() {
 window.guestLogIn = function () {
     localStorage.removeItem("uid");
     sessionStorage.setItem("guest", "true");
-<<<<<<< HEAD
-
-=======
->>>>>>> 917cdc909467855f218d8000fdfcc28b3278ecf1
     let isMobile = window.innerWidth < 780;
     if (isMobile) {
         sessionStorage.setItem("guestWelcome", "true");
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> 917cdc909467855f218d8000fdfcc28b3278ecf1
     setTimeout(() => {
         window.location.href = "./summary.html?nonlogin=true";
     }, 100);
 };
-<<<<<<< HEAD
-=======
 
 
 /** Checks if an email address is valid.
@@ -394,4 +384,3 @@ function signUpValidation(name, email, password, passwordConfirm) {
     hasError |= validatePasswordMatch(password, passwordConfirm);
     return !hasError;
 }
->>>>>>> 917cdc909467855f218d8000fdfcc28b3278ecf1
