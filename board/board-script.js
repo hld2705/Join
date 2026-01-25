@@ -100,27 +100,19 @@ function getUserId(value) {
  * @note if a user ID cannot be resolved, the badge is skipped.
  */
 function renderBadges(assigned) {
-  if (!assigned || assigned.length === 0) {
-    return [];
-  }
+  if (!assigned || assigned.length === 0) return [];
   let badges = [];
   for (let i = 0; i < assigned.length; i++) {
     let userId = typeof assigned[i] === "object" ? assigned[i].id : assigned[i];
-    let user = join.users.find(u => String(u.id) === String(userId));
-    if (!user) {
-      user = users.find(u => String(u.id) === String(userId));
-    }
-    if (typeof user.badge === "string") {
-      badges.push({ badge: user.badge, name: user.name, color: user.color, type: "image" });
-    } else if (user.badge && typeof user.badge === "object") {
+    let user = users.find(u => String(u.id) === String(userId));
+    if (!user) continue;
       badges.push({
-        badge: user.badge.text || getInitials(user.name),
+        badge: user.badge.text || getInitials(user.name), 
         badgeColor: user.badge.color || user.color,
         name: user.name,
         color: user.color,
         type: "text"
       });
-    }
   }
   return badges;
 }

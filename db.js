@@ -51,6 +51,7 @@ async function loadData() {
 
   users = createArrayFromData(usersData);
   tasks = createArrayFromData(tasksData);
+
 }
 
 /**
