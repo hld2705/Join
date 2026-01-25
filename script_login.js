@@ -1,8 +1,10 @@
 let originalLoginHTML;
 
+/**To ensure that the whole system runns as bug free as possible, all storages are being deleted upon entering index.html */
 sessionStorage.removeItem("guest", "true");
 sessionStorage.removeItem("nonlogin", "true");
 
+/**Forces preload of certain functions in orded to keep things running without errors */
 document.addEventListener('DOMContentLoaded', () => {
   const loginEl = document.getElementById('login');
   if (loginEl) originalLoginHTML = loginEl.innerHTML;
@@ -58,6 +60,7 @@ async function loadingScreen() {
   loadingscreen.remove();
 }
 
+/**A timeout on the logo is added for smoother transitions */
 window.addEventListener("load", () => {
   setTimeout(() => {
     document.getElementById("logo").classList.add("main-logo-small");
@@ -83,6 +86,7 @@ function signUp() {
   if (headerResp) headerResp.style.display = "none";
 }
 
+/**Eventlisteners to fire the correct functions in order */
 document.getElementById("login-icon").addEventListener("click", togglePassword);
 document.getElementById("password").addEventListener("input", handlePasswordInput);
 
@@ -102,10 +106,15 @@ function togglePassword() {
   }
 }
 
+/**Changes the very symbol of "lock" to visibility_off i.e. non visible password*/
 function handlePasswordInput() {
   let icon = document.getElementById("login-icon");
   let input = document.getElementById("password");
   icon.src = "./assets/icons/visibility_off.svg";
+  if (!input.value) {
+    input.type = "password";
+    icon.src = "./assets/icons/lock.svg";
+  }
   if (!input.value) {
     input.type = "password";
     icon.src = "./assets/icons/lock.svg";
@@ -129,9 +138,9 @@ function togglePasswordVisibility(inputs, icons, show) {
   });
 }
 
+/**Diffenret eventlisteners to trigger the functions needed for the possibility of viewing once password */
 document.getElementById("signup-icon1").addEventListener("click", toggleSignupPassword);
 document.getElementById("signup-icon2").addEventListener("click", toggleSignupPassword);
-
 document.getElementById("password_sign_up").addEventListener("input", handleSignupPasswordInput);
 document.getElementById("confirmation_password_sign_up").addEventListener("input", handleSignupPasswordInput);
 

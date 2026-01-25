@@ -1,3 +1,4 @@
+/**@returns svg elements added through DOM Template are easier to manipulate, hence this function */
 function checkButtonTemplate() {
     return `
         <div class="assignedTo-check-button-container">
@@ -11,6 +12,7 @@ function checkButtonTemplate() {
     `;
 }
 
+/**@returns The possibility of easier acces to rendered subtasks on add_task.js, the same principle used on board.html */
 function subtaskOutputTemplate(text, i) {
   return `
     <li class="single-subtask" data-subtask-id="${i}">
@@ -22,7 +24,6 @@ function subtaskOutputTemplate(text, i) {
           <img class="edit-icon" src="../assets/edit.png" alt="edit">
           <img class="delete-icon" src="../assets/delete.svg" alt="delete">
         </div>
-        
         <div class="edit-subtask-icons hidden">
           <img id="edit-delete-icon" class="delete-icon" src="../assets/delete.svg" alt="delete">
             <div class="divider"></div>

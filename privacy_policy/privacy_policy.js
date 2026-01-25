@@ -50,6 +50,7 @@ function applyNonLoginUI(isNonLogin, isMobile) {
 document.addEventListener("DOMContentLoaded", handleNonLoginUI);
 window.addEventListener("resize", handleNonLoginUI);
 
+/**To keep bugs away, function added to remove set of flags set upon clicking on privay and legal notice without logging in */
 function removeSessionLogin(){
   sessionStorage.removeItem("nonlogin");
 }

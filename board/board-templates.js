@@ -1,3 +1,6 @@
+/**
+ * @returns the first visual cards on the boards.html, with all of the needed parameters
+ */
 function dragAndDropTemplate(taskId, title, main, description, subtasks, assigned, priority) {
   const data = getDragAndDropData(subtasks, assigned, main, priority);
   return `
@@ -50,6 +53,7 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
   `;
 }
 
+/**@returns When clicking on a card a detailed overview with all of the needed params (most of them reused from dragAndDropTemplate) */
 function detailedCardInfoMarkup(task, bgColor, imgSrc, badges, subtask) {
     return `
     <div class="overlay-cards" id="overlayclose" onclick="closeOverlayCard()">
@@ -125,6 +129,7 @@ function detailedCardInfoMarkup(task, bgColor, imgSrc, badges, subtask) {
     `;
 }
 
+/**@returns that there is indeed no cards in the assigned container */
 function noCardsTemplate() {
     return `<div class="notasks-container">
     <p>No tasks To do<p>
@@ -132,6 +137,7 @@ function noCardsTemplate() {
     `
 }
 
+/**@returns Dedicated function just for subtasksEdit function, needed mostly for keeping the code short and clean*/
 function subtaskEditItemTemplate(st, i) {
     return `
       <li class="single-subtask" data-subtask-id="${i}">
@@ -157,6 +163,7 @@ function subtaskEditItemTemplate(st, i) {
     `;
 }
 
+/**@returns Possibility to edit each added card (params reused) */
 function editOverlayMarkup(task, icons, subtaskContent) {
     return `
 <form novalidate class="task-form">
@@ -290,6 +297,7 @@ function editOverlayMarkup(task, icons, subtaskContent) {
 `;
 }
 
+/**@returns whole of add_task to be displayed as an popup, as suggested from figma, also keeping the code short, a standalone function is needed */
 function addTaskOverlayTemplate() {
     let formContainer = document.getElementById('task-form-container');
     if (!formContainer) return;
@@ -423,6 +431,7 @@ function addTaskOverlayTemplate() {
     }
 }
 
+/**@returns counter of rendered subtasks */
 function renderSubtaskItem(st, taskId, index) {
   return `
         <div class="subtask-item">
@@ -437,6 +446,7 @@ function renderSubtaskItem(st, taskId, index) {
     `;
 }
 
+/** Subtasks edit, to keep the code short, this template was added */ 
 function renderSubtaskMore(count, taskId) {
   return `
     <div class="subtask-more" onclick="showAllSubtasks(${taskId})">
@@ -445,6 +455,7 @@ function renderSubtaskMore(count, taskId) {
   `;
 }
 
+/**@returns No subtasks avaliable, guiding the intuition of the user */
 function renderNoSubtasks() {
   return "<p>Currently no subtasks available</p>";
 }

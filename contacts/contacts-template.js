@@ -1,3 +1,8 @@
+/**
+ * 
+ * @param {Array} user 
+ * @returns the users name on the left side column
+ */
 function contactsLoadTemplate(user) {
   const badgeMarkup = user.badge?.text
     ? `
@@ -24,6 +29,11 @@ function contactsLoadTemplate(user) {
   `;
 }
 
+/**
+ * 
+ * @param {Array} userInfo 
+ * @returns Array of usersInfo, a more detailed overview, name, phonenumber,email...
+ */
 function contactsRenderTemplate(userInfo) {
   const badgeMarkup = userInfo.badge?.text
     ? `
@@ -85,6 +95,7 @@ function contactsRenderTemplate(userInfo) {
   `;
 }
 
+/**@returns Popup upon clicking on "Add New User" */
 function addNewContactTemplate() {
   return `<div class="createnewcontact-overlay" id="closeoverlay" onclick="closeOverlay()">
             <div id="contact-container" class="createnewcontactmaincontainer">
@@ -144,6 +155,11 @@ function addNewContactTemplate() {
           </div>`;
 }
 
+/**
+ * 
+ * @param {Array} user 
+ * @returns The possibility with a custom validation to edit the user info
+ */
 function editUserTemplate(user) {
   const badgeMarkup = user.badge?.text
     ? `
@@ -157,7 +173,6 @@ function editUserTemplate(user) {
           <img alt="${user.name}" src="${user.badge}">
         </div>
       `;
-
   return `<div class="createnewcontact-overlay" id="closediteoverlay" onclick="closeOverlay()">
             <div id="edit-main-container" class="createnewcontactmaincontainer">
               <div class="createnewcontact-table" onclick="event.stopPropagation()">
@@ -170,40 +185,31 @@ function editUserTemplate(user) {
                     <img class="blue-string" src="./assets/Vector 5_rotated.svg">
                   </div>
                 </div>
-
                 <div class="white-right-side">
                   <div class="createnewcontact-close" onclick="closeOverlay()">
                     <img src="assets/close.svg">
                   </div>
-
                   <div class="createnewcontact-inputfield-person-placement">
                     ${badgeMarkup}
-
                     <div class="createnewcontact-inputfield">
                       <div class="createnewcontact-inputfield-icon" id="input_field_edit_name"> 
                         <input id="edit_name" type="text" value="${user.name}"
                           placeholder="Name">
                         <img src="./assets/icons/person.svg">
                       </div>
-
                       <p class="required-mssg" id="required_name_edit_user">*This field is required!</p>
-
                       <div class="createnewcontact-inputfield-icon" id="input_field_edit_email">
                         <input id="edit_email" type="email" value="${user.email}" 
                           placeholder="Email">
                         <img src="./assets/icons/mail.svg">
                       </div>
-
                       <p class="required-mssg" id="required_email_edit_user">*This field is required!</p>
-
                       <div class="createnewcontact-inputfield-icon" id="input_field_edit_phone">
                         <input id="edit_phone" type="tel" value="${user.phone}" 
                           placeholder="Phone">
                         <img src="./assets/icons/call.svg">
                       </div>
-                      
                       <p class="required-mssg" id="required_phone_edit_user">*This field is required!</p>
-
                       <div class="createnewcontact-buttons-placement">
                         <div class="editcontact-button-cancel" onclick="deleteUser('${user.id}')">
                           <p>Delete</p>
@@ -213,7 +219,6 @@ function editUserTemplate(user) {
                           <img class="check-icon" src="./assets/check.svg">
                         </div>
                       </div>
-
                     </div>
                   </div>
                 </div>
@@ -221,6 +226,8 @@ function editUserTemplate(user) {
             </div>
           </div>`;
 }
+
+/**@returns Custom template for the animation, confirmation that a new user has been added */
 function addedNewUserTemplate() {
   return `
     <div id="new-user-overlay" class="addednewuserdiv">
@@ -228,6 +235,7 @@ function addedNewUserTemplate() {
     </div>`;
 }
 
+/**@returns Two buttons needed for the responsive menu, edit and delete */
 function editUserOptionsResponsiveTemplate(userId) {
   return `<div class="contactoptions" id="edit_overlay">
    <div class="iconsresponsiveedit" onclick="editUser('${userId}')">
@@ -241,6 +249,7 @@ function editUserOptionsResponsiveTemplate(userId) {
     </div>`;
 }
 
+/**@returns In order to cleanup the code, a sepparation letter is added through DOM Template */
 function letterSeparatorTemplate(letter) {
   return `
     <div class="letter-separationline-container">
