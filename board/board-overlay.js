@@ -107,7 +107,6 @@ async function initEditOverlayAssigned(task) {
 
 /**
  * Initializes priority UI and state for the edit overlay.
- *
  * @param {Object} task - Task currently being edited
  */
 function initEditOverlayPriority(task) {
