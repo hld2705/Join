@@ -28,7 +28,7 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
             if (b.type === "text") {
               return `
                 <div class="avatar-badge"
-                     style="background-color:${b.badgeColor}; border-color:${b.color}"
+                     style="background-color:${b.badgeColor}; border-color:"white;"
                      title="${b.name}">
                   ${b.badge}
                 </div>
@@ -38,7 +38,7 @@ function dragAndDropTemplate(taskId, title, main, description, subtasks, assigne
                 <img class="badges-img"
                      src="${b.badge}"
                      title="${b.name}"
-                     style="border-color:${b.color}">
+                     style="border-color: white">
               `;
             }
           }).join("")}
@@ -88,7 +88,7 @@ function detailedCardInfoMarkup(task, bgColor, imgSrc, badges, subtask) {
                             <div class="avatar-container">
                                 <div class="badge-name-container">
                                     <div class="avatar-badge"
-                                        style="background-color:${b.badgeColor}; border-color:${b.color}"
+                                        style="background-color:${b.badgeColor}; border-color:white"
                                             title="${b.name}">
                                         ${b.badge}
                                     </div>
@@ -101,7 +101,7 @@ function detailedCardInfoMarkup(task, bgColor, imgSrc, badges, subtask) {
                           } else {
                             return `
                             <div class="badge-name-container">
-                            <img class="badges-img" src="${b.badge}" title="${b.name}" style="border-color:${b.color}">
+                            <img class="badges-img" src="${b.badge}" title="${b.name}" style="border-color: white">
                             <p>${b.name}</p> 
                             </div>
                             `;}}).join('')}

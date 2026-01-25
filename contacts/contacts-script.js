@@ -233,16 +233,20 @@ async function deleteUser(userId) {
  * @returns {Promise<void>}
  */
 async function updateUserData(userId, name, email, phone) {
+  const snap = await FIREBASE_USERS.child(userId).once("value");
+  const user = snap.val();
   await FIREBASE_USERS.child(userId).update({
     name,
     email,
     phone,
     badge: {
       text: getInitials(name),
-      color: getRandomColor()
-    }
+      color: user?.badge?.color || getRandomColor()
+    },
+    color: user?.color || getRandomColor()
   });
 }
+
 
 /** Saves edited user data and refreshes UI.
  * @async
@@ -279,6 +283,15 @@ function getInitials(fullName) {
     .slice(0, 2)
     .map(word => word.charAt(0).toUpperCase())
     .join("");
+}
+
+/**
+ * @param {} user 
+ * @returns Safety so that the edited user doesnt get an already assigned color,chagned.
+ */
+function ensureUserColor(user) {
+  if (user.color) return user.color;
+  return getRandomColor();
 }
 
 /** Returns a random badge color. */
