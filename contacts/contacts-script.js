@@ -309,7 +309,6 @@ async function saveNewContact(name, email, phone) {
   const entry = firebase.database().ref("users").push();
   const userObj = createUserObject(entry.key, name, email, phone);
   await entry.set(userObj);
-  join.users.push(userObj);
   return userObj.id;
 }
 
@@ -330,7 +329,7 @@ async function createContact() {
   closeOverlay();
   await addedNewUser();
   await contactsLoad();
-  await loadData();
+  //await loadData();
 }
 
 /** Shows temporary new user confirmation overlay. */

@@ -195,10 +195,7 @@ document.getElementById("task-overlay-background").addEventListener("click", (e)
  * Initializes board data and renders tasks on page load.
  */
 document.addEventListener('DOMContentLoaded', async () => {
-  await loadData();
-  if (users && users.length > 0) {
-    join.users = users;
-  }
+  await loadData(); /*asdasdas */
   dragAndDrop();
 });
 

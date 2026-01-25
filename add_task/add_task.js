@@ -119,11 +119,13 @@ function setPriorityOnLoad() {
  */
 async function addNewTask() {
   const taskData = getNewTaskInputs();
+
   const newTask = {
     id: Date.now(),
     status: window.currentTaskColumn || "todo",
     ...taskData,
   };
+
   await firebase.database().ref("tasks/" + newTask.id).set(newTask);
   if (window.location.pathname.endsWith("board.html")) {
     tasks.push(newTask);
