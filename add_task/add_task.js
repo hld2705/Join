@@ -117,17 +117,18 @@ function setPriorityOnLoad() {
  *
  * @returns {Promise<void>}
  */
-function addNewTask() {
-    const taskData = getNewTaskInputs();
-    const newTask = {
-        id: Date.now(),
-        status: window.currentTaskColumn || "todo",
-        ...taskData,
-    };
-    return firebase.database().ref('tasks/' + newTask.id).set(newTask)
-        .catch((error) => {
-            console.error('Task wurde nicht weitergeleitet:', error);
-        });
+async function addNewTask() {
+  const taskData = getNewTaskInputs();
+  const newTask = {
+    id: Date.now(),
+    status: window.currentTaskColumn || "todo",
+    ...taskData,
+  };
+  await firebase.database().ref("tasks/" + newTask.id).set(newTask);
+  if (window.location.pathname.endsWith("board.html")) {
+    tasks.push(newTask);
+    dragAndDrop();
+  }
 }
 
 /**

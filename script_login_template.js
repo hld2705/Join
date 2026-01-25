@@ -1,4 +1,3 @@
-
 /**
  * @returns signup confirmation that the user is now succesfully signed in
  */
@@ -15,7 +14,6 @@ function confirmationSignTemplate(){
 }
 
 /**
- * 
  * @returns template loading screen desktop animation
  */
 function loadingScreenDesktopTemplate(){

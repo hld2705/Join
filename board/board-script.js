@@ -13,6 +13,7 @@ let openedCardId = null;
 let selectedPriority = null;
 let dragTimeout = null;
 
+
 /** Returns all board column containers.
  * @returns {Object}
  */

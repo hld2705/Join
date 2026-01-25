@@ -16,7 +16,7 @@ body {
     display: block;
 }
 
-.eye_open_password{
+.eye_open_password {
     width: 24px;
     height: 24px;
 }
@@ -60,7 +60,7 @@ body {
 
     .headerwritingresponsive {
         margin-top: auto;
-               margin-bottom: 50px;
+        margin-bottom: 50px;
     }
 
 
@@ -70,7 +70,7 @@ body {
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
         padding: 10px;
         width: 90vw;
-        height: 60vh;
+        max-height: 60vh;
         margin-top: 30px;
         justify-content: space-around;
     }
