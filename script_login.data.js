@@ -28,6 +28,7 @@ window.logIn = async function logIn() {
         showUserAlreadyExists();
         return;
     }
+    falseLoginPrevention();
     const firebaseId = await createNewUser(data);
     forwardingNextPage(firebaseId);
 };
@@ -228,6 +229,7 @@ window.goBackLogin = function () {
  * @returns {Promise<void>}
  */
 window.loginUserPushedInfo = async function () {
+    sessionStorage.setItem("loggedIn", "true");
     const identifier = document.getElementById("login_identifier").value.trim().toLowerCase();
     const password = document.getElementById("password").value.trim();
     let isMobile = window.innerWidth < 780;
@@ -357,6 +359,7 @@ window.guestLogIn = function () {
     setTimeout(() => {
         window.location.href = "./summary.html?nonlogin=true";
     }, 100);
+    falseLoginPrevention();
 };
 
 

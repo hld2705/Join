@@ -90,3 +90,4 @@ async function setCurrentUser(userId) {
 if (typeof window !== "undefined") {
   window.join = join;
 }
+

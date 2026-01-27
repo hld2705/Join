@@ -10,7 +10,7 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-
+sessionStorage.removeItem("nonlogin", "true");
 const FIREBASE_USERS = firebase.database().ref("users");
 const FIREBASE_TASK = firebase.database().ref("tasks");
 

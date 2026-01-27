@@ -226,6 +226,9 @@ function navigate(path) {
     return;
   }
   window.location.href = `${path}?uid=${uid}`;
+  if(!isGuest && !uid){
+    window.location.relocate = "index.html";
+  }
 }
 
 /**
@@ -243,6 +246,7 @@ function renderGuestHeader() {
  */
 function LogOut() {
   sessionStorage.removeItem("guest", "true");
+  sessionStorage.removeItem("loggedIn", "true");
 }
 
 window.addEventListener("DOMContentLoaded", initHeader);
@@ -252,6 +256,43 @@ window.addEventListener("DOMContentLoaded", initHeader);
  */
 function nonLoginEntry(){
   sessionStorage.setItem("nonlogin","true");
+}
+
+/**
+ * Needed to predefine the pages this function is going to take place, thats why the shortest way was using an eventlistener
+ */
+window.addEventListener("DOMContentLoaded", () => {
+  const protectedPages = ["/privacy_policy.html", "/legal_notice.html", "summary.html", "/help.html", "/contacts.html","/board.html","/add_task.html"];
+  if (!protectedPages.includes(window.location.pathname)) return;
+  falseLoginPrevention();
+});
+
+/**
+ * Logs the user out after trying to manipulate his way into logging in to the page by coping url's beforehand
+ * works in a way that if you do copy a url it will load, but the very next click is going to get you logged out
+ */
+function falseLoginPrevention() {
+  const p = new URLSearchParams(location.search);
+  const path = location.pathname;
+  const hasUid = p.has("uid");
+  const nonLoginParam = p.get("nonlogin") === "true";
+  const loggedIn = sessionStorage.getItem("loggedIn") === "true";
+  const guest = sessionStorage.getItem("guest") === "true";
+  const nonLogin = sessionStorage.getItem("nonlogin") === "true";
+  if ((path.includes("privacy_policy.html") || path.includes("legal_notice.html")) && nonLoginParam)
+    return resetToNonLogin();
+  if (hasUid && !loggedIn && !guest) return location.replace("index.html");
+  if (!nonLogin && !path.endsWith("index.html") && !loggedIn && !guest)
+    location.replace("index.html");
+}
+
+/**
+ * To keep the code short, this helper function was needed
+ */
+function resetToNonLogin() {
+  ["loggedIn", "guest", "nonlogin"].forEach(k => sessionStorage.removeItem(k));
+  localStorage.removeItem("uid");
+  sessionStorage.setItem("nonlogin", "true");
 }
 
 /**
