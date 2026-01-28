@@ -48,7 +48,6 @@ async function loadData() {
   const tasksData = await fetchData('/tasks.json');
   users = createArrayFromData(usersData);
   tasks = createArrayFromData(tasksData);
-
 }
 
 /**

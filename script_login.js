@@ -3,6 +3,7 @@ let originalLoginHTML;
 /**To ensure that the whole system runns as bug free as possible, all storages are being deleted upon entering index.html */
 //sessionStorage.removeItem("guest", "true");
 sessionStorage.removeItem("nonlogin", "true");
+sessionStorage.removeItem("loggedIn", "true");
 
 /**Forces preload of certain functions in orded to keep things running without errors */
 document.addEventListener('DOMContentLoaded', () => {

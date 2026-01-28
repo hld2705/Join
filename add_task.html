@@ -24,14 +24,13 @@
     <script src="./add_task/add_task.state.js" defer></script>
     <script src="./add_task/add_task_interactions.js" defer></script>
     <script src="./add_task/add_task_templates.js"></script>
-    <script src="global.js" defer></script>
     <script src="global-template.js"></script>
     <title>Join</title>
 </head>
 
 <body onload="init()">
     <section class="left-side">
-        <a href="../index.html"><img class="join-logo" src="../assets/logo_white.svg" alt="Join"></a>
+        <a href="../index.html" onclick="LogOut()"><img class="join-logo" src="../assets/logo_white.svg" alt="Join"></a>
         <nav>
             <a href="../summary.html" onclick="event.preventDefault(); navigate('./summary.html')">
                 <img src="../assets/summary.svg">
@@ -77,6 +76,7 @@
         </div>
         <div id="task-form-container"></div>
     </section>
+    <script src="global.js" defer></script>
 </body>
 
 </html>

@@ -68,7 +68,7 @@ document.addEventListener('click', function (event) {
   if (
     !event.target.closest('#badge-overlay') &&
     !event.target.closest('.user-info')
-  ) {overlay.classList.remove('show');}
+  ) { overlay.classList.remove('show'); }
 });
 
 document.addEventListener("focus", handleFocus, true);
@@ -226,7 +226,7 @@ function navigate(path) {
     return;
   }
   window.location.href = `${path}?uid=${uid}`;
-  if(!isGuest && !uid){
+  if (!isGuest && !uid) {
     window.location.relocate = "index.html";
   }
 }
@@ -254,15 +254,15 @@ window.addEventListener("DOMContentLoaded", initHeader);
 /**
  * Marks the session as non-login.
  */
-function nonLoginEntry(){
-  sessionStorage.setItem("nonlogin","true");
+function nonLoginEntry() {
+  sessionStorage.setItem("nonlogin", "true");
 }
 
 /**
  * Needed to predefine the pages this function is going to take place, thats why the shortest way was using an eventlistener
  */
 window.addEventListener("DOMContentLoaded", () => {
-  const protectedPages = ["/privacy_policy.html", "/legal_notice.html", "summary.html", "/help.html", "/contacts.html","/board.html","/add_task.html"];
+  const protectedPages = ["/privacy_policy.html", "/legal_notice.html", "/summary.html", "/help.html", "/contacts.html", "/board.html", "/add_task.html"];
   if (!protectedPages.includes(window.location.pathname)) return;
   falseLoginPrevention();
 });
@@ -278,11 +278,10 @@ function falseLoginPrevention() {
   const nonLoginParam = p.get("nonlogin") === "true";
   const loggedIn = sessionStorage.getItem("loggedIn") === "true";
   const guest = sessionStorage.getItem("guest") === "true";
-  const nonLogin = sessionStorage.getItem("nonlogin") === "true";
-  if ((path.includes("privacy_policy.html") || path.includes("legal_notice.html")) && nonLoginParam)
+  if ((path.includes("privacy_policy.html") || path.includes("legal_notice.html")) && nonLoginParam && !guest)
     return resetToNonLogin();
   if (hasUid && !loggedIn && !guest) return location.replace("index.html");
-  if (!nonLogin && !path.endsWith("index.html") && !loggedIn && !guest)
+  if (!path.endsWith("index.html") && !loggedIn && !guest)
     location.replace("index.html");
 }
 
@@ -300,7 +299,7 @@ function resetToNonLogin() {
  *
  * @returns {boolean}
  */
-function nonLoginEntryCheck(){
+function nonLoginEntryCheck() {
   return (sessionStorage.getItem("nonlogin") === "true");
 }
 
@@ -308,7 +307,7 @@ function nonLoginEntryCheck(){
  * Initializes the header depending on user or guest state.
  */
 function initHeader() {
-  if(nonLoginEntryCheck()) return;
+  if (nonLoginEntryCheck()) return;
   const uid = getUserId();
   const isGuest = !uid && sessionStorage.getItem("guest") === "true";
   if (isGuest) {
