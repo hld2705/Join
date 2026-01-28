@@ -18,6 +18,12 @@
  * forces new values as soon as the resize eventlistener takes place under 900px
  */
 function handleNonLoginUI() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const isGuest = sessionStorage.getItem("guest") === "true";
+    const uid = localStorage.getItem("uid") || urlParams.get("uid");
+    const isLoggedIn = isGuest || !!uid;
+    if (urlParams.get("nonlogin") === "true" && !isLoggedIn) {
+        sessionStorage.setItem("nonlogin", "true");}
     const isNonLogin = sessionStorage.getItem("nonlogin") === "true";
     const isMobile = window.innerWidth < 900;
     applyNonLoginUI(isNonLogin, isMobile);
